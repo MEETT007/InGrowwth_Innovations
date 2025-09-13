@@ -19,7 +19,7 @@ app = Flask(__name__)
 load_dotenv()
 
 # IMPORTANT: In a production environment, set specific origins (e.g., your domain: "https://www.yourdomain.com")
-CORS(app, origins="*")  # Enables Cross-Origin Resource Sharing
+CORS(app, origins="https://in-growwth-innovations-uqml.vercel.app/")  # Enables Cross-Origin Resource Sharing
 
 # --- Email configuration from environment variables ---
 # NOTE: If you are using Gmail, you MUST use a specific "App Password" instead of your regular
