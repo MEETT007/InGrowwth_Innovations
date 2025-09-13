@@ -2,19 +2,15 @@
 <html lang="en">
 
 <head>
-    <!-- Meta -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/company_logo1.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/company_logo1.png">
     <title>Apply | InGrowwth Innovations</title>
 
-    <!-- Tailwind (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Fonts (optional) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
@@ -34,13 +30,11 @@
 
     <header class="bg-white shadow-lg sticky top-0 z-50 rounded-b-xl">
         <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-6 h-20">
-            <!-- Logo -->
             <a href="index.html" class="flex items-center shrink-0">
                 <img src="assets/images/company_logo.png" alt="InGrowwth Innovations Logo"
                     class="h-12 md:h-14 lg:h-16 w-auto" />
             </a>
 
-            <!-- Desktop Nav -->
             <nav class="hidden md:flex items-center space-x-8">
                 <a href="index.html#hero"
                     class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
@@ -86,7 +80,6 @@
                 </a>
             </nav>
 
-            <!-- Mobile button -->
             <button id="mobile-menu-button"
                 class="md:hidden text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2">
                 <i data-lucide="menu" class="w-7 h-7" id="menu-icon"></i>
@@ -94,7 +87,6 @@
             </button>
         </div>
 
-        <!-- Mobile Menu -->
         <div id="mobile-menu" class="md:hidden mt-2 bg-white rounded-xl shadow-xl p-4 mx-4 hidden">
             <nav class="flex flex-col space-y-3">
                 <a href="index.html#hero"
@@ -116,14 +108,10 @@
         </div>
     </header>
 
-    <!-- ===== Main ===== -->
     <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Role Details (auto from ?role=...) -->
         <section class="bg-white rounded-2xl shadow p-6 md:p-8 mb-8 border border-blue-100">
 
-            <!-- Top row: details left, logo right -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                <!-- Left: Job details -->
                 <div>
                     <h1 id="jobTitle" class="text-2xl md:text-3xl font-bold text-blue-800">Role Title</h1>
                     <p class="mt-2 text-slate-800">
@@ -134,7 +122,6 @@
                     </p>
                 </div>
 
-                <!-- Right: Logo (top-right on md+, centered on mobile) -->
                 <div class="flex md:justify-end justify-center items-start">
                     <a href="javascript:void(0)" onclick="history.back()">
                         <img src="assets/images/company_logo.png" alt="InGrowwth Innovations"
@@ -143,7 +130,6 @@
                 </div>
             </div>
 
-            <!-- Below the grid -->
             <div class="mt-6">
                 <h2 class="text-lg md:text-xl font-semibold text-blue-800">Roles & Responsibilities</h2>
                 <ul id="respList" class="mt-3 list-disc pl-6 space-y-2 text-slate-900"></ul>
@@ -155,12 +141,10 @@
             </div>
         </section>
 
-        <!-- Application Form -->
         <section class="bg-white rounded-2xl shadow p-6 md:p-8 border border-blue-100">
             <h2 class="text-xl md:text-2xl font-bold text-blue-900">Application Form</h2>
 
             <form id="applyForm" class="mt-5 space-y-5" novalidate>
-                <!-- Names -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label for="firstName" class="required block text-sm font-medium text-slate-900">First
@@ -180,7 +164,6 @@
                     </div>
                 </div>
 
-                <!-- Email + Phone -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label for="email" class="required block text-sm font-medium text-slate-900">Email</label>
@@ -198,7 +181,6 @@
                     </div>
                 </div>
 
-                <!-- Work Experience + Applying For (select) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label for="workExp" class="required block text-sm font-medium text-slate-900">Work
@@ -214,8 +196,8 @@
                         <label for="applyingFor" class="required block text-sm font-medium text-slate-900">Applying
                             For</label>
                         <select id="applyingFor" name="applyingFor" class="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50
-                           focus:bg-white focus:border-blue-500 focus:ring-1
-                           focus:ring-blue-200 focus:outline-none px-4 py-3">
+                               focus:bg-white focus:border-blue-500 focus:ring-1
+                               focus:ring-blue-200 focus:outline-none px-4 py-3">
                             <option value="">-- Select --</option>
                             <option value="Full-Stack Developer">Full-Stack Developer</option>
                             <option value="Cloud Solutions Architect">Cloud Solutions Architect</option>
@@ -226,7 +208,6 @@
                     </div>
                 </div>
 
-                <!-- Links -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label for="github" class="required block text-sm font-medium text-slate-900">GitHub
@@ -247,7 +228,6 @@
                     </div>
                 </div>
 
-                <!-- Resume -->
                 <div>
                     <label class="required block text-sm font-medium text-slate-900">Resume (PDF/DOC, max 5MB)</label>
                     <div class="mt-2 flex items-center gap-3">
@@ -261,16 +241,14 @@
                     <p class="mt-1 text-xs text-red-600 hidden" data-error="resume"></p>
                 </div>
 
-                <!-- Short Intro (optional) -->
                 <div>
                     <label for="intro" class="block text-sm font-medium text-slate-900">Short Intro (Optional)</label>
                     <textarea id="intro" name="intro" rows="4" class="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50
-                           focus:bg-white focus:border-blue-500 focus:ring-1
-                           focus:ring-blue-200 focus:outline-none px-4 py-3"
+                               focus:bg-white focus:border-blue-500 focus:ring-1
+                               focus:ring-blue-200 focus:outline-none px-4 py-3"
                         placeholder="Tell us about yourself (optional)"></textarea>
                 </div>
 
-                <!-- Submit (centered) -->
                 <div class="flex justify-center">
                     <button id="submitBtn" type="submit"
                         class="px-8 py-3 rounded-xl font-semibold text-white bg-blue-600 hover:bg-blue-700 active:bg-blue-800 transition">
@@ -281,7 +259,6 @@
         </section>
     </main>
 
-    <!-- ===== Popup Modal ===== -->
     <div id="modal" class="fixed inset-0 bg-black/50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
             <h3 id="modalTitle" class="text-xl font-bold text-slate-900">Title</h3>
@@ -292,13 +269,10 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8 rounded-t-3xl shadow-inner">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10 text-center md:text-left">
             <div class="col-span-full md:col-span-1 lg:col-span-1 flex flex-col items-center md:items-start">
                 <div class="flex items-center mb-4">
-                    <!--<i data-lucide="trending-up" class="w-8 h-8 text-blue-400 mr-3 transform rotate-6"></i>
-                                    <!-- Logo -->
                     <a href="#hero" class="flex items-center shrink-0">
                         <img src="assets/images/company_logo2.png" alt="InGrowwth Innovations Logo"
                             class="h-36 md:h-20 lg:h-20 w-auto" />
@@ -412,11 +386,10 @@
         lucide.createIcons();
     </script>
 
-    <!-- ===== Page Script (role render + validation + UX) ===== -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // ---------- Config ----------
-            const BACKEND_URL = window.BACKEND_URL || 'https://your-backend.example.com'; // change to your endpoint
+            const BACKEND_URL = window.BACKEND_URL || 'http://127.0.0.1:5000'; // change to your endpoint
             const FETCH_TIMEOUT_MS = 12000; // 12s timeout
 
             // ---------- Roles data ----------
@@ -502,7 +475,6 @@
                     ],
                 },
             };
-
             // ---------- Helper functions ----------
             const $ = (sel, root = document) => root.querySelector(sel);
             const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
@@ -862,11 +834,8 @@
 
         });
     </script>
-
 </body>
-
 </html>
-
 <!--<!DOCTYPE html>
 <html lang="en">
 <head>

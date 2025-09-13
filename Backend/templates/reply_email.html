@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Confirmation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background-color: #e6f0ff; /* A slightly more vibrant blue */
+            color: #ffffff;
+            padding: 20px 30px; /* Adjusted padding */
+            text-align: left; /* Align content to the left */
+            display: flex; /* Use flexbox for logo and text alignment */
+            align-items: center; /* Vertically align items */
+        }
+        .header img {
+            max-width: 240px; /* Slightly larger logo */
+            height: auto;
+            display: block;
+            margin-right: 20px; /* Space between logo and text */
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 600;
+        }
+        .content {
+            padding: 30px;
+            line-height: 1.7;
+        }
+        .content h1 {
+            color: #1e40af;
+            font-size: 28px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e7ff;
+            padding-bottom: 10px;
+        }
+        .content p {
+            margin: 0 0 16px;
+        }
+        .info-card {
+            background-color: #f7f9fc;
+            border: 1px solid #d1d5db;
+            border-left: 4px solid #3b82f6; /* A subtle accent color */
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .info-card strong {
+            color: #1e40af;
+        }
+        .footer {
+            background-color: #111827;
+            color: #9ca3af;
+            text-align: center;
+            padding: 24px;
+            font-size: 13px;
+        }
+        .footer a {
+            color: #60a5fa; /* A brighter blue for links */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer a:hover {
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="cid:company_logo" alt="InGrowwth Innovations Logo">
+            <!-- <h2>InGrowwth Innovations</h2> -->
+        </div>
+        <div class="content">
+            <h1>Application Received! 🎉</h1>
+            <p>Hello <strong>{first_name} {last_name}</strong>,</p>
+            <p>Thank you for your interest in joining our team! We've successfully received your application for the <strong>{role_name}</strong> role.</p>
+
+            <div class="info-card">
+                <p>We're thrilled you're considering a career with us! Our hiring team will now carefully review your profile and experience to see if it's a match for this position.</p>
+            </div>
+
+            <p>If your qualifications align with our needs, we will contact you directly to discuss the next steps in our hiring process.</p>
+
+            <p>In the meantime, feel free to explore our website to learn more about our company culture and the innovative projects we're working on.</p>
+
+            <p>We appreciate your patience and wish you the best!</p>
+            
+            <p style="margin-top: 30px;">Best regards,</p>
+            <p style="font-weight: bold; color: #1e40af;">The InGrowwth Innovations Team</p>
+        </div>
+        <div class="footer">
+            &copy; 2025 InGrowwth Innovations. All rights reserved.<br>
+            <a href="https://your-website.com">www.ingrowwthinnovations.in</a>
+        </div>
+    </div>
+</body>
+</html>
