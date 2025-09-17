@@ -18,6 +18,19 @@
             overflow-x: hidden;
         }
 
+        /* For header */
+        .nav-link {
+            @apply text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group;
+        }
+
+        .nav-link span {
+            @apply absolute left-0 bottom-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full;
+        }
+
+        .mobile-link {
+            @apply block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition duration-300;
+        }
+
         /* Custom Font */
         body {
             font-family: 'Inter', sans-serif;
@@ -258,21 +271,6 @@
             </nav>
         </div>
     </header>
-
-    <!-- Tailwind Custom Styles -->
-    <style>
-        .nav-link {
-            @apply text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group;
-        }
-
-        .nav-link span {
-            @apply absolute left-0 bottom-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full;
-        }
-
-        .mobile-link {
-            @apply block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition duration-300;
-        }
-    </style>
 
     <main>
         <section id="hero"

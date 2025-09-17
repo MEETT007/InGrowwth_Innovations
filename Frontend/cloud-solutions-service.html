@@ -17,6 +17,19 @@
             font-family: 'Inter', sans-serif;
         }
 
+        /* For header */
+        .nav-link {
+            @apply text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group;
+        }
+
+        .nav-link span {
+            @apply absolute left-0 bottom-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full;
+        }
+
+        .mobile-link {
+            @apply block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition duration-300;
+        }
+
         /* Custom Animations */
         @keyframes fadeInFromBottom {
             from {
@@ -190,13 +203,16 @@
 
 <body class="font-inter antialiased text-gray-800 bg-gray-50">
 
-    <header class="bg-white shadow-lg py-4 px-4 sm:px-6 lg:px-8 sticky top-0 z-50 rounded-b-xl">
+    <header class="bg-white shadow-lg py-3 px-4 sm:px-6 lg:px-8 sticky top-0 z-50 rounded-b-xl">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center">
-                <i data-lucide="trending-up" class="w-9 h-9 text-blue-600 mr-2 transform rotate-6"></i>
-                <span class="text-3xl font-extrabold text-gray-900 tracking-tight">InGrowwth Innovations</span>
-            </div>
-            <nav class="hidden md:flex space-x-8">
+            <!-- Logo -->
+            <a href="index.html#hero" class="flex items-center shrink-0">
+                <img src="assets/images/company_logo.png" alt="InGrowwth Innovations Logo"
+                    class="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain" />
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden lg:flex space-x-6 xl:space-x-8">
                 <a href="index.html#hero"
                     class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
                     Home
@@ -238,7 +254,9 @@
                         class="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
                 </a>
             </nav>
-            <div class="md:hidden">
+
+            <!-- Mobile Menu Button -->
+            <div class="lg:hidden">
                 <button id="mobile-menu-button"
                     class="text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2">
                     <i data-lucide="menu" class="w-7 h-7" id="menu-icon"></i>
@@ -246,7 +264,9 @@
                 </button>
             </div>
         </div>
-        <div id="mobile-menu" class="md:hidden mt-4 bg-white rounded-xl shadow-xl p-4 mx-auto max-w-md hidden">
+
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="lg:hidden mt-3 bg-white rounded-xl shadow-xl p-4 mx-auto max-w-md hidden">
             <nav class="flex flex-col space-y-3">
                 <a href="index.html#hero"
                     class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition duration-300 mobile-menu-link">Home</a>
@@ -294,8 +314,8 @@
                         </div>
                     </div>
                     <div class="mt-12 lg:mt-0 animate-fade-in-up delay-200 hidden lg:block">
-                        <img src="https://placehold.co/700x500/E0F2F7/2C3E50?text=Cloud+Solutions+Illustration"
-                            alt="Cloud Solutions Illustration" class="w-full h-auto object-cover" />
+                        <img src="assets/images/Services/Cloud/Cloud.png" alt="Cloud Solutions Illustration"
+                            class="w-full h-auto object-cover" />
                     </div>
                 </div>
             </div>
