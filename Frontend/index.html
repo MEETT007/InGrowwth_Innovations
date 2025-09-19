@@ -218,11 +218,23 @@
                 height: 60px;
             }
         }
+
         /* Safety: remove any inline/tailwind width classes on the image in HTML (w-16 h-16).
            Make sure your HTML uses:
            <a class="whatsapp-fab" ...><img class="whatsapp-logo" src="..."></a>
         */
-        
+
+        /* Mobile menu animation */
+        #mobile-menu {
+            transform: translateY(-15px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        #mobile-menu.open {
+            transform: translateY(0);
+            opacity: 1;
+        }
     </style>
 
 </head>
@@ -237,8 +249,8 @@
                     class="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain" />
             </a>
 
-            <!-- Desktop Navigation -->
-            <nav id="desktop-nav" class="hidden md:flex space-x-6 xl:space-x-8">
+            <!-- Desktop Navigation (only on xl and above) -->
+            <nav class="hidden xl:flex space-x-6 xl:space-x-8">
                 <a href="#hero" class="nav-link">Home</a>
                 <a href="#about" class="nav-link">About Us</a>
                 <a href="#services" class="nav-link">Services</a>
@@ -248,8 +260,8 @@
                 <a href="#contact" class="nav-link">Contact</a>
             </nav>
 
-            <!-- Toggle Button (always rendered, hidden only on wide screens) -->
-            <div class="md:hidden">
+            <!-- Mobile Menu Button (shows on <= lg) -->
+            <div class="xl:hidden">
                 <button id="mobile-menu-button"
                     class="text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2">
                     <i data-lucide="menu" class="w-7 h-7" id="menu-icon"></i>
@@ -259,7 +271,8 @@
         </div>
 
         <!-- Mobile Navigation -->
-        <div id="mobile-menu" class="hidden mt-3 bg-sky-100 rounded-xl shadow-xl p-4 mx-auto max-w-md">
+        <div id="mobile-menu"
+            class="xl:hidden mt-3 bg-sky-100/90 backdrop-blur-md rounded-xl shadow-xl p-4 w-full hidden">
             <nav class="flex flex-col space-y-3">
                 <a href="#hero" class="mobile-link">Home</a>
                 <a href="#about" class="mobile-link">About Us</a>
@@ -1294,6 +1307,7 @@
 
         mobileMenuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('open');
             menuIcon.classList.toggle('hidden');
             closeIcon.classList.toggle('hidden');
         });
@@ -1302,6 +1316,7 @@
         mobileMenuLinks.forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
+                mobileMenu.classList.toggle('open');
                 menuIcon.classList.remove('hidden');
                 closeIcon.classList.add('hidden');
             });
