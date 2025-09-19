@@ -7,7 +7,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/company_logo1.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/company_logo1.png">
-    <title>Sankalp Library — Project</title>
+    <title>QuickChat — Project</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -63,7 +63,6 @@
 
         .img-card {
             flex: 1 1 calc(50% - 0.5rem);
-            /* center image inside card */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -76,6 +75,8 @@
             min-height: 320px;
             max-height: 520px;
             box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+
+            /* ensure images are centered and never overflow */
             position: relative;
         }
 
@@ -84,16 +85,16 @@
             box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
         }
 
+        /* IMAGE: keep full image visible (no cropping), scale down to fit */
         .img-card img {
             display: block;
+            /* allow natural sizing but constrain to card box */
             max-width: 100%;
             max-height: 100%;
             width: auto;
             height: auto;
             object-fit: contain;
-            /* fallback */
-            transform: none;
-            /* remove forced zoom that caused cropping */
+            transform-origin: center;
             will-change: auto;
             user-select: none;
             -webkit-user-drag: none;
@@ -375,10 +376,10 @@
 
 
     <main class="container mx-auto px-6 py-12">
-        <h2 class="text-3xl font-bold text-center text-blue-700 mb-6">Sankalp Library</h2>
-        <p class="text-center max-w-2xl mx-auto mb-12">Sankalp Library is a cross-platform Flutter app that makes it
-            easy to discover, reserve, and borrow books, manage memberships, and book desks. With offline support,
-            notifications, and an admin dashboard, it’s designed for both library users and administrators.</p>
+        <h2 class="text-3xl font-bold text-center text-blue-700 mb-6">QuickChat</h2>
+        <p class="text-center max-w-2xl mx-auto mb-12">A real-time chatting app built with Flutter and Firebase,
+            featuring secure authentication, instant messaging, and media
+            sharing. It ensures smooth, fast, and scalable communication with a modern UI.</p>
 
         <div class="project-slider mb-12" aria-roledescription="carousel">
             <button class="arrow left" aria-label="Previous image" id="prevSlide" type="button">
@@ -419,16 +420,18 @@
                     </div>
                     <div class="card-body">
                         <ul>
-                            <li>Browse & search catalog (filters, tags, availability)</li>
-                            <li>Book reservations & desk/seat booking with QR check-in</li>
-                            <li>Borrow/renew/return workflow, membership & payments</li>
-                            <li>Offline reading list, push/email notifications</li>
-                            <li>Admin dashboard for inventory, members & reports</li>
+                            <li>Real-time one-to-one and group chat</li>
+                            <li>Secure authentication (Email/Google/Phone)</li>
+                            <li>Media sharing (images, videos, documents)</li>
+                            <li>Message status (sent, delivered, read receipts)</li>
+                            <li>Push notifications for new messages</li>
+                            <li>User profiles with editable info & avatars</li>
                         </ul>
                         <div class="mt-4 flex flex-wrap gap-2">
-                            <span class="tag-pill">Library</span>
-                            <span class="tag-pill">Reservations</span>
-                            <span class="tag-pill">Membership</span>
+                            <span class="tag-pill">Chat</span>
+                            <span class="tag-pill">Authentication</span>
+                            <span class="tag-pill">Media Sharing</span>
+                            <span class="tag-pill">Profiles</span>
                         </div>
                     </div>
                 </article>
@@ -450,7 +453,7 @@
                             <li>Backend: Firebase Cloud Functions (serverless APIs)</li>
                             <li>DB: Firestore + Firebase Storage for assets</li>
                             <li>Auth & Push: Firebase Authentication + FCM notifications</li>
-                            <li>Payments: Razorpay / Stripe integration</li>
+                            <li>Messaging: Firebase Realtime Database</li>
                             <li>Hosting & Infra: Firebase Hosting / Google Cloud</li>
                         </ul>
                         <div class="mt-4 flex flex-wrap gap-2">
@@ -633,14 +636,16 @@
             if (!slidesEl) return;
 
             const rawImages = [
-                'assets/images/Library/Library_01.png',
-                'assets/images/Library/Library_02.png',
-                'assets/images/Library/Library_03.png',
-                'assets/images/Library/Library_04.png',
-                'assets/images/Library/Library_05.png',
-                'assets/images/Library/Library_06.png',
-                'assets/images/Library/Library_07.png',
-                'assets/images/Library/Library_08.png'
+                'assets/images/Quickchat/quick-chat.png',
+                'assets/images/Quickchat/quick-chat-2.png',
+                'assets/images/Quickchat/quick-chat-3.png',
+                'assets/images/Quickchat/quick-chat-4.png',
+                'assets/images/Quickchat/quick-chat-5.png',
+                'assets/images/Quickchat/quick-chat-6.png',
+                'assets/images/Quickchat/quick-chat-7.png',
+                'assets/images/Quickchat/quick-chat-8.png',
+                'assets/images/Quickchat/quick-chat-9.png',
+                'assets/images/Quickchat/quick-chat-10.png'
             ];
 
             let slides = [];
