@@ -67,11 +67,12 @@
             transform: scale(1.02);
         }
 
+        /* Arrows */
         .project-slider .arrow {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.97);
             border: 1px solid rgba(15, 23, 42, 0.06);
             width: 44px;
             height: 44px;
@@ -80,32 +81,60 @@
             border-radius: 999px;
             cursor: pointer;
             box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-            z-index: 10;
+            z-index: 50;
         }
 
         .project-slider .arrow.left {
-            left: -20px;
+            left: -40px;
         }
 
         .project-slider .arrow.right {
-            right: -20px;
+            right: -40px;
         }
 
-        @media (max-width:1024px) {
+        /* Tablet view adjustments */
+        @media (max-width:1024px) and (min-width:769px) {
             .project-slider img {
-                max-width: 900px;
-                max-height: 460px;
+                max-width: 100%;
+                height: auto;
+                max-height: none;
+                object-fit: contain;
+            }
+
+            .project-slider .arrow.left {
+                left: -40px;
+            }
+
+            .project-slider .arrow.right {
+                right: -40px;
             }
         }
 
+        /* Mobile view adjustments */
         @media (max-width:768px) {
             .project-slider img {
                 max-width: 100%;
-                max-height: 360px;
+                height: auto;
+                max-height: none;
+                object-fit: contain;
             }
 
             .project-slider .arrow {
-                display: none;
+                width: 38px;
+                height: 38px;
+            }
+
+            .project-slider .arrow.left {
+                left: -25px;
+            }
+
+            .project-slider .arrow.right {
+                right: -25px;
+            }
+
+            .project-slider .arrow svg {
+                width: 16px;
+                height: 16px;
             }
 
             .project-slider {
@@ -124,18 +153,14 @@
 
         .highlight-card {
             background: rgba(255, 255, 255, 0.7);
-            /* semi-transparent */
             border-radius: 1rem;
             border: 1px solid rgba(203, 213, 225, 0.45);
             padding: 1.75rem;
             box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
             transition: transform .25s ease, box-shadow .25s ease;
             backdrop-filter: blur(10px);
-            /* frosted glass */
             -webkit-backdrop-filter: blur(10px);
-            /* Safari */
             color: #1f2937;
-            /* dark gray text for better contrast */
         }
 
         .highlight-card:hover {
@@ -143,8 +168,6 @@
             box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
         }
 
-
-        /* header and body layout */
         .card-header {
             display: flex;
             align-items: center;
@@ -152,28 +175,22 @@
             margin-bottom: 0.75rem;
         }
 
-        /* Reduce left padding so list aligns more to the left (closer to the card border) */
         .card-body {
             position: relative;
             padding-left: 1rem;
-            /* small interior padding from card edge */
         }
 
-        /* Use native disc markers and adjust marker positioning */
         .card-body ul {
             list-style: disc;
             list-style-position: outside;
             margin: 0;
             padding-left: 1.15rem;
-            /* keep this small so bullet sits near text */
             line-height: 1.7;
             color: #374151;
         }
 
-        /* color marker (modern browsers) */
         .card-body ul li::marker {
             color: #1D4ED8;
-            /* blue-700 */
             font-size: 1.3rem;
         }
 
@@ -181,7 +198,6 @@
             margin-top: 0.75rem;
         }
 
-        /* Tag pill style */
         .tag-pill {
             display: inline-block;
             background: rgba(59, 130, 246, 0.06);
@@ -192,7 +208,6 @@
             font-size: 0.85rem;
         }
 
-        /* mobile adjustments: reduce indent so list doesn't appear far right */
         @media (max-width: 768px) {
             .project-highlights {
                 margin-top: 1.25rem;
@@ -206,6 +221,7 @@
                 padding-left: 0.95rem;
             }
         }
+
 
         /* If you want the list to line up exactly under the title text (not the icon),
            use this helper to create a small indent equal to the icon+gap. Uncomment if needed.
