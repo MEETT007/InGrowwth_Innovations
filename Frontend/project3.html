@@ -4,8 +4,6 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/company_logo1.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/company_logo1.png">
     <title>Sankalp Library — Project</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -37,9 +35,9 @@
             display: none;
         }
 
+        /* Slide area */
         .project-slider .slide {
             flex: 0 0 96%;
-            /* slightly narrower so there's natural margin */
             scroll-snap-align: center;
             display: flex;
             justify-content: center;
@@ -60,9 +58,6 @@
             padding: 0 10px;
         }
 
-        /*
-     * IMAGE CARD
-     */
         .img-card {
             flex: 1 1 calc(50% - 0.5rem);
             display: flex;
@@ -89,22 +84,20 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            border-radius: 0;
             transform-origin: center;
             transform: scale(1.04);
             will-change: transform;
+            user-select: none;
+            -webkit-user-drag: none;
+            cursor: default;
         }
 
-        .img-card img:focus,
-        .img-card img:active {
-            outline: none;
-        }
-
+        /* Arrow (default desktop placement) */
         .project-slider .arrow {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             border: 1px solid rgba(15, 23, 42, 0.06);
             width: 44px;
             height: 44px;
@@ -113,7 +106,13 @@
             border-radius: 999px;
             cursor: pointer;
             box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-            z-index: 10;
+            z-index: 20;
+            transition: transform .12s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .project-slider .arrow:active {
+            transform: translateY(-50%) scale(.98);
         }
 
         .project-slider .arrow.left {
@@ -124,6 +123,7 @@
             right: -20px;
         }
 
+        /* Responsive sizes */
         @media (max-width:1200px) {
             .img-card {
                 min-height: 300px;
@@ -152,6 +152,37 @@
             .project-slider .slide {
                 flex: 0 0 98%;
             }
+
+            .project-slider {
+                max-width: 100%;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            /* arrows are visible on mobile — position them inside the slider so they don't hang outside page */
+            .project-slider .arrow {
+                width: 44px;
+                height: 44px;
+                top: 50%;
+                /* place inside container near edges */
+                left: 8px;
+                right: 8px;
+            }
+
+            .project-slider .arrow.left {
+                left: 12px;
+                right: auto;
+            }
+
+            .project-slider .arrow.right {
+                right: 12px;
+                left: auto;
+            }
+
+            /* slight translucency so they don't hide content */
+            .project-slider .arrow {
+                background: rgba(255, 255, 255, 0.95);
+            }
         }
 
         @media (max-width:768px) {
@@ -159,26 +190,9 @@
                 padding: 0;
             }
 
-            .two-up {
-                flex-direction: column;
-                width: 100%;
-                padding: 0 12px;
-                gap: 12px;
-            }
-
             .img-card {
                 min-height: 200px;
                 max-height: 360px;
-            }
-
-            .project-slider .arrow {
-                display: none;
-            }
-
-            .project-slider {
-                max-width: 100%;
-                padding-left: 1rem;
-                padding-right: 1rem;
             }
         }
 
@@ -194,15 +208,13 @@
             box-shadow: 0 6px 16px rgba(15, 23, 42, 0.04);
         }
 
-        /* PROJECT HIGHLIGHTS
-       Make both cards equal height using flex column + make card-body grow */
+        /* Project highlights & other styles left unchanged from original */
         .project-highlights {
             max-width: 72rem;
             margin: 2.5rem auto;
             padding: 0 1rem;
         }
 
-        /* highlight-card now a column flex container so header stays at top and body fills height */
         .highlight-card {
             display: flex;
             flex-direction: column;
@@ -215,7 +227,6 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             color: #1f2937;
-            /* ensure cards align and have same min height on wide screens */
             min-height: 260px;
         }
 
@@ -232,7 +243,6 @@
             flex-shrink: 0;
         }
 
-        /* card-body will take remaining vertical space so both cards match height */
         .card-body {
             position: relative;
             padding-left: 1rem;
@@ -269,17 +279,18 @@
 </head>
 
 <body class="text-gray-800 text-lg leading-relaxed">
-
     <header class="bg-white shadow-lg sticky top-0 z-50 rounded-b-xl">
         <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-6 h-20">
             <!-- Logo -->
             <a href="index.html" class="flex items-center shrink-0">
+                <!-- responsive heights so logo scales nicely on all screens -->
                 <img src="assets/images/company_logo.png" alt="InGrowwth Innovations Logo"
-                    class="h-12 md:h-14 lg:h-16 w-auto" />
+                    class="h-8 sm:h-10 md:h-12 lg:h-16 w-auto max-w-full object-contain" />
             </a>
 
-            <!-- Desktop Nav -->
-            <nav class="hidden md:flex items-center space-x-8">
+            <!-- Desktop Nav: only visible on LARGE screens and up (>=lg).
+             This fixes the cramped tablet layout by showing hamburger there instead. -->
+            <nav class="hidden lg:flex items-center space-x-8">
                 <a href="index.html#hero"
                     class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
                     Home
@@ -324,16 +335,16 @@
                 </a>
             </nav>
 
-            <!-- Mobile button -->
+            <!-- Mobile/Hamburger button — now hidden only on lg and above, visible on md and smaller -->
             <button id="mobile-menu-button"
-                class="md:hidden text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2">
+                class="lg:hidden text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2">
                 <i data-lucide="menu" class="w-7 h-7" id="menu-icon"></i>
                 <i data-lucide="x" class="w-7 h-7 hidden" id="close-icon"></i>
             </button>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden mt-2 bg-white rounded-xl shadow-xl p-4 mx-4 hidden">
+        <!-- Mobile Menu (unchanged) -->
+        <div id="mobile-menu" class="lg:hidden mt-2 bg-white rounded-xl shadow-xl p-4 mx-4 hidden">
             <nav class="flex flex-col space-y-3">
                 <a href="index.html#hero"
                     class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Home</a>
@@ -354,13 +365,12 @@
         </div>
     </header>
 
+
     <main class="container mx-auto px-6 py-12">
         <h2 class="text-3xl font-bold text-center text-blue-700 mb-6">Sankalp Library</h2>
         <p class="text-center max-w-2xl mx-auto mb-12">Sankalp Library is a cross-platform Flutter app that makes it
-            easy to discover,
-            reserve, and borrow books, manage memberships, and book desks. With offline support, notifications, and an
-            admin
-            dashboard, it’s designed for both library users and administrators.</p>
+            easy to discover, reserve, and borrow books, manage memberships, and book desks. With offline support,
+            notifications, and an admin dashboard, it’s designed for both library users and administrators.</p>
 
         <div class="project-slider mb-12" aria-roledescription="carousel">
             <button class="arrow left" aria-label="Previous image" id="prevSlide" type="button">
@@ -384,11 +394,9 @@
             <div class="text-center mb-6">
                 <h3 class="text-2xl md:text-3xl font-extrabold text-blue-700">Project Highlights</h3>
                 <p class="text-gray-600 max-w-2xl mx-auto mt-3">Key functionality and technologies used in this project
-                    — clean,
-                    secure and production-ready.</p>
+                    — clean, secure and production-ready.</p>
             </div>
 
-            <!-- items-stretch is ok; cards themselves now ensure equal height -->
             <div class="flex flex-col md:flex-row items-stretch gap-6 justify-center">
                 <article class="highlight-card flex-1">
                     <div class="card-header">
@@ -401,7 +409,6 @@
                         </div>
                         <h4 class="text-xl font-semibold text-blue-700">Functionality</h4>
                     </div>
-
                     <div class="card-body">
                         <ul>
                             <li>Browse & search catalog (filters, tags, availability)</li>
@@ -410,7 +417,6 @@
                             <li>Offline reading list, push/email notifications</li>
                             <li>Admin dashboard for inventory, members & reports</li>
                         </ul>
-
                         <div class="mt-4 flex flex-wrap gap-2">
                             <span class="tag-pill">Library</span>
                             <span class="tag-pill">Reservations</span>
@@ -430,7 +436,6 @@
                         </div>
                         <h4 class="text-xl font-semibold text-blue-700">Technology</h4>
                     </div>
-
                     <div class="card-body">
                         <ul>
                             <li>Frontend: Flutter (cross-platform, Android & iOS)</li>
@@ -440,7 +445,6 @@
                             <li>Payments: Razorpay / Stripe integration</li>
                             <li>Hosting & Infra: Firebase Hosting / Google Cloud</li>
                         </ul>
-
                         <div class="mt-4 flex flex-wrap gap-2">
                             <span class="tag-pill"
                                 style="background:rgba(99,102,241,0.06); color:#4338ca; border-color: rgba(99,102,241,0.12)">Flutter</span>
@@ -462,16 +466,15 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8 rounded-t-3xl shadow-inner">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10 text-center md:text-left">
+
+            <!-- Logo + Intro -->
             <div class="col-span-full md:col-span-1 lg:col-span-1 flex flex-col items-center md:items-start">
                 <div class="flex items-center mb-4">
-                    <!--<i data-lucide="trending-up" class="w-8 h-8 text-blue-400 mr-3 transform rotate-6"></i>
-                                    <!-- Logo -->
                     <a href="#hero" class="flex items-center shrink-0">
                         <img src="assets/images/company_logo2.png" alt="InGrowwth Innovations Logo"
-                            class="h-36 md:h-20 lg:h-20 w-auto" />
+                            class="h-20 sm:h-24 md:h-20 lg:h-20 w-auto max-w-full object-contain" />
                     </a>
                 </div>
                 <p class="text-gray-400 leading-relaxed mb-4 text-center md:text-left">
@@ -494,55 +497,69 @@
                 </div>
             </div>
 
-            <div>
+            <!-- Quick Links -->
+            <div class="col-span-full md:col-span-1 lg:col-span-1">
                 <h3 class="text-xl font-semibold text-white mb-6">Quick Links</h3>
                 <ul class="space-y-3">
-                    <li><a href="#hero" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
-                    <li><a href="#about" class="text-gray-400 hover:text-white transition duration-300">About Us</a>
+                    <li><a href="index.html#hero"
+                            class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                    <li><a href="index.html#about" class="text-gray-400 hover:text-white transition duration-300">About
+                            Us</a>
                     </li>
-                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Services</a>
+                    <li><a href="index.html#services"
+                            class="text-gray-400 hover:text-white transition duration-300">Services</a>
                     </li>
-                    <li><a href="#portfolio"
+                    <li><a href="index.html#portfolio"
                             class="text-gray-400 hover:text-white transition duration-300">Portfolio</a>
                     </li>
-                    <li><a href="#testimonials"
+                    <li><a href="index.html#testimonials"
                             class="text-gray-400 hover:text-white transition duration-300">Testimonials</a></li>
-                    <li><a href="#careers" class="text-gray-400 hover:text-white transition duration-300">Careers</a>
+                    <li><a href="index.html#careers"
+                            class="text-gray-400 hover:text-white transition duration-300">Careers</a>
                     </li>
-                    <li><a href="#contact" class="text-gray-400 hover:text-white transition duration-300">Contact</a>
+                    <li><a href="index.html#contact"
+                            class="text-gray-400 hover:text-white transition duration-300">Contact</a>
                     </li>
                 </ul>
             </div>
 
-            <div class="hidden lg:block">
+            <!-- Our Services (now always visible) -->
+            <div class="col-span-full md:col-span-1 lg:col-span-1">
                 <h3 class="text-xl font-semibold text-white mb-6">Our Services</h3>
                 <ul class="space-y-3">
-                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Web
+                    <li><a href="web-development-service.html"
+                            class="text-gray-400 hover:text-white transition duration-300">Web
                             Development</a></li>
-                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Mobile App
+                    <li><a href="mobile-application-service.html"
+                            class="text-gray-400 hover:text-white transition duration-300">Mobile App
                             Development</a></li>
-                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Cloud
+                    <li><a href="cloud-solutions-service.html"
+                            class="text-gray-400 hover:text-white transition duration-300">Cloud
                             Solutions</a></li>
-                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">AI & Machine
+                    <li><a href="ai-ml-services.html" class="text-gray-400 hover:text-white transition duration-300">AI
+                            & Machine
                             Learning</a></li>
-                    <li><a href="#services"
+                    <li><a href="cybersecurity-services.html"
                             class="text-gray-400 hover:text-white transition duration-300">Cybersecurity</a>
                     </li>
-                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Data
+                    <li><a href="data-analytics-services.html"
+                            class="text-gray-400 hover:text-white transition duration-300">Data
                             Analytics</a></li>
-                    </li>
-                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">UI/UX &
-                            Product Design</a></li>
-                    </li>
-                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Blockchain
+                    <li><a href="ui-ux-product-design-service.html"
+                            class="text-gray-400 hover:text-white transition duration-300">UI/UX &
+                            Product
+                            Design</a></li>
+                    <li><a href="blockchain-services.html"
+                            class="text-gray-400 hover:text-white transition duration-300">Blockchain
                             Solutions</a></li>
+                    <li><a href="erp-services.html" class="text-gray-400 hover:text-white transition duration-300">ERP
+                            Solutions</a>
                     </li>
-                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">ERP
-                            Solutions</a></li>
                 </ul>
             </div>
 
-            <div>
+            <!-- Contact Info -->
+            <div class="col-span-full md:col-span-1 lg:col-span-1">
                 <h3 class="text-xl font-semibold text-white mb-6">Contact Info</h3>
                 <ul class="space-y-3">
                     <li class="flex items-center md:justify-start justify-center">
@@ -551,22 +568,23 @@
                     </li>
                     <li class="flex items-center md:justify-start justify-center">
                         <i data-lucide="phone" class="w-5 h-5 text-blue-400 mr-3 flex-shrink-0"></i>
-                        <a href="tel:+1234567890" class="text-gray-400 hover:text-white transition duration-300">+91
+                        <a href="tel:+918200229099" class="text-gray-400 hover:text-white transition duration-300">+91
                             8200229099</a>
                     </li>
                     <li class="flex items-center md:justify-start justify-center">
                         <i data-lucide="mail" class="w-5 h-5 text-blue-400 mr-3 flex-shrink-0"></i>
-                        <a href="mailto:info@ingrowwthinnovations.com"
+                        <a href="mailto:info@ingrowwthinnovations.in"
                             class="text-gray-400 hover:text-white transition duration-300">info@ingrowwthinnovations.in</a>
                     </li>
                 </ul>
             </div>
         </div>
 
+        <!-- Bottom -->
         <div class="border-t border-gray-700 mt-10 pt-8 text-center">
             <p class="text-gray-500 text-sm mb-4">
-                &copy; <span id="current-year"></span> InGrowwth Innovations. All rights reserved. Designed with <span
-                    class="text-red-500">&hearts;</span> for modern businesses.
+                &copy; <span id="current-year"></span> InGrowwth Innovations. All rights reserved. Designed with
+                <span class="text-red-500">&hearts;</span> for modern businesses.
             </p>
             <div class="flex justify-center space-x-6">
                 <a href="Privacy-Policy.html" class="text-gray-400 hover:text-white transition duration-300">Privacy
@@ -578,13 +596,13 @@
         </div>
     </footer>
 
-    <script>
-        lucide.createIcons();
-    </script>
+
+    <script> lucide.createIcons(); </script>
 
     <script>
         if (typeof lucide !== 'undefined') lucide.createIcons();
 
+        // mobile menu toggle - unchanged
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const menuIcon = document.getElementById('menu-icon');
         const closeIcon = document.getElementById('close-icon');
@@ -617,11 +635,17 @@
                 'assets/images/Library/Library_08.png'
             ];
 
+            let slides = [];
+            let current = 0;
+            let mode = null; // 'single' or 'pairs'
+
+            function isSingleMode() { return window.innerWidth <= 900; }
+
             function createImgCard(src, alt, isPlaceholder = false) {
                 const card = document.createElement('div');
                 card.className = 'img-card' + (isPlaceholder ? ' placeholder' : '');
                 if (isPlaceholder) {
-                    card.textContent = 'No second image';
+                    card.textContent = 'No image';
                 } else {
                     const img = document.createElement('img');
                     img.src = src;
@@ -633,27 +657,46 @@
                 return card;
             }
 
-            slidesEl.innerHTML = '';
-            for (let i = 0; i < rawImages.length; i += 2) {
-                const leftSrc = rawImages[i];
-                const rightSrc = rawImages[i + 1];
+            function renderSlides() {
+                const wantSingle = isSingleMode();
+                const newMode = wantSingle ? 'single' : 'pairs';
+                if (newMode === mode) return;
+                mode = newMode;
+                slidesEl.innerHTML = '';
 
-                const slide = document.createElement('div');
-                slide.className = 'slide';
-                slide.setAttribute('role', 'listitem');
+                if (mode === 'single') {
+                    rawImages.forEach((src, idx) => {
+                        const slide = document.createElement('div');
+                        slide.className = 'slide';
+                        slide.setAttribute('role', 'listitem');
+                        const singleWrapper = document.createElement('div');
+                        singleWrapper.className = 'two-up';
+                        singleWrapper.appendChild(createImgCard(src, `Screenshot ${idx + 1}`));
+                        slide.appendChild(singleWrapper);
+                        slidesEl.appendChild(slide);
+                    });
+                } else {
+                    for (let i = 0; i < rawImages.length; i += 2) {
+                        const leftSrc = rawImages[i];
+                        const rightSrc = rawImages[i + 1];
+                        const slide = document.createElement('div');
+                        slide.className = 'slide';
+                        slide.setAttribute('role', 'listitem');
+                        const twoUp = document.createElement('div');
+                        twoUp.className = 'two-up';
+                        twoUp.appendChild(createImgCard(leftSrc, `Screenshot ${i + 1}`));
+                        if (rightSrc) twoUp.appendChild(createImgCard(rightSrc, `Screenshot ${i + 2}`));
+                        else twoUp.appendChild(createImgCard('', '', true));
+                        slide.appendChild(twoUp);
+                        slidesEl.appendChild(slide);
+                    }
+                }
 
-                const twoUp = document.createElement('div');
-                twoUp.className = 'two-up';
-
-                twoUp.appendChild(createImgCard(leftSrc, `Screenshot ${i + 1}`));
-                if (rightSrc) twoUp.appendChild(createImgCard(rightSrc, `Screenshot ${i + 2}`));
-                else twoUp.appendChild(createImgCard('', '', true));
-
-                slide.appendChild(twoUp);
-                slidesEl.appendChild(slide);
+                slides = Array.from(slidesEl.querySelectorAll('.slide'));
+                current = 0;
+                updateArrows(0);
+                setTimeout(() => scrollToIndex(0), 50);
             }
-
-            const slides = Array.from(slidesEl.querySelectorAll('.slide'));
 
             function scrollToIndex(i) {
                 const index = Math.max(0, Math.min(i, slides.length - 1));
@@ -662,6 +705,7 @@
                     const left = target.offsetLeft - (slidesEl.clientWidth - target.clientWidth) / 2;
                     slidesEl.scrollTo({ left, behavior: 'smooth' });
                     updateArrows(index);
+                    current = index;
                 }
             }
 
@@ -687,7 +731,7 @@
             let scrollTimer = null;
             slidesEl.addEventListener('scroll', () => {
                 if (scrollTimer) clearTimeout(scrollTimer);
-                scrollTimer = setTimeout(() => scrollToIndex(currentIndex()), 120);
+                scrollTimer = setTimeout(() => { scrollToIndex(currentIndex()); }, 120);
             });
 
             function updateArrows(idx = currentIndex()) {
@@ -695,8 +739,18 @@
                 if (nextBtn) nextBtn.style.visibility = idx === slides.length - 1 ? 'hidden' : 'visible';
             }
 
-            window.addEventListener('load', () => { scrollToIndex(0); updateArrows(0); });
-            window.addEventListener('resize', () => updateArrows());
+            function debounce(fn, delay) {
+                let t = null;
+                return function (...args) {
+                    if (t) clearTimeout(t);
+                    t = setTimeout(() => fn.apply(this, args), delay);
+                };
+            }
+
+            const onResize = debounce(() => { renderSlides(); updateArrows(currentIndex()); }, 220);
+            window.addEventListener('resize', onResize);
+
+            window.addEventListener('load', () => { renderSlides(); updateArrows(0); });
         })();
     </script>
 </body>

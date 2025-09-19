@@ -445,10 +445,10 @@
                     Our UI/UX & Product Design Process
                 </h2>
 
-                <div class="card-container lg:grid-cols-3 lg:gap-8">
+                <div class="card-container grid gap-12 lg:grid-cols-3 lg:gap-8">
                     <div class="relative animate-fade-in-up delay-100">
                         <div
-                            class="absolute -top-6 -left-6 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
+                            class="absolute -top-6 -left-3 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
                             <i data-lucide="cog" class="w-12 h-12"></i>
                         </div>
                         <div
@@ -463,7 +463,7 @@
 
                     <div class="relative animate-fade-in-up delay-200">
                         <div
-                            class="absolute -top-6 -left-6 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
+                            class="absolute -top-6 -left-3 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
                             <i data-lucide="git-fork" class="w-12 h-12"></i>
                         </div>
                         <div
@@ -479,7 +479,7 @@
 
                     <div class="relative animate-fade-in-up delay-300">
                         <div
-                            class="absolute -top-6 -left-6 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
+                            class="absolute -top-6 -left-3 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
                             <i data-lucide="figma" class="w-12 h-12"></i>
                         </div>
                         <div
@@ -494,7 +494,7 @@
 
                     <div class="relative animate-fade-in-up delay-400">
                         <div
-                            class="absolute -top-6 -left-6 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
+                            class="absolute -top-6 -left-3 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
                             <i data-lucide="code" class="w-12 h-12"></i>
                         </div>
                         <div
@@ -509,7 +509,7 @@
 
                     <div class="relative animate-fade-in-up delay-500">
                         <div
-                            class="absolute -top-6 -left-6 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
+                            class="absolute -top-6 -left-3 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
                             <i data-lucide="bug" class="w-12 h-12"></i>
                         </div>
                         <div
@@ -524,7 +524,7 @@
 
                     <div class="relative animate-fade-in-up delay-600">
                         <div
-                            class="absolute -top-6 -left-6 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
+                            class="absolute -top-6 -left-3 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
                             <i data-lucide="rocket" class="w-12 h-12"></i>
                         </div>
                         <div
@@ -679,13 +679,13 @@
         </section>
 
         <section
-            class="bg-blue-700 py-20 rounded-3xl mx-4 sm:mx-6 lg:mx-8 -mt-16 relative z-20 shadow-2xl animate-fade-in-up delay-200">
+            class="bg-blue-700 py-20 rounded-3xl mx-4 sm:mx-6 lg:mx-8 -mt-4 sm:-mt-2 lg:-mt-16 relative z-20 shadow-2xl animate-fade-in-up delay-200">
             <div class="max-w-5xl mx-auto text-center text-white px-4 sm:px-6 lg:px-8">
                 <h2 class="text-4xl sm:text-5xl font-extrabold mb-6 leading-tight">
-                    Ready to Design Your Next Great Product?
+                    Ready to Transform Your Business?
                 </h2>
                 <p class="text-xl opacity-90 mb-10">
-                    Let's create a memorable and effective digital experience that connects with your users.
+                    Let's discuss your next big idea and how InGrowwth Innovations can bring it to life.
                 </p>
                 <a href="#contact"
                     class="inline-flex items-center justify-center px-10 py-5 border border-white text-lg font-semibold rounded-full shadow-lg text-white hover:bg-white hover:text-blue-700 transition duration-300 ease-in-out transform hover:scale-105">
@@ -694,91 +694,124 @@
             </div>
         </section>
 
+        <!-- Updated responsive contact section (Tailwind only) -->
         <section id="contact" class="py-20 sm:py-32 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 text-center mb-6 animate-fade-in-up">
+                <h2
+                    class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 text-center mb-6 animate-fade-in-up">
                     Get In <span class="text-blue-600">Touch</span>
                 </h2>
-                <p class="text-xl text-gray-700 text-center mb-16 max-w-3xl mx-auto animate-fade-in-up delay-100">
+
+                <p
+                    class="text-base sm:text-lg md:text-xl text-gray-700 text-center mb-16 max-w-3xl mx-auto animate-fade-in-up delay-100">
                     We're eager to hear about your project and explore how InGrowwth Innovations can help you achieve
-                    your digital ambitions.
+                    your
+                    digital ambitions.
                 </p>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <div
-                        class="bg-gradient-to-br from-blue-600 to-indigo-700 text-white p-10 rounded-3xl shadow-xl flex flex-col justify-between transform hover:-translate-y-2 transition duration-500 ease-in-out animate-fade-in-up delay-200">
+
+                <!-- grid: single column on small, 2-cols on lg -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12">
+                    <!-- contact card -->
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 text-white 
+                                     p-6 sm:p-8 md:p-10 rounded-2xl md:rounded-3xl shadow-xl 
+                                     flex flex-col justify-between transform hover:-translate-y-2 
+                                     transition duration-500 ease-in-out break-words">
+
                         <div>
-                            <h3 class="text-3xl font-bold mb-8">Reach Out to Us</h3>
-                            <div class="space-y-8">
-                                <div class="flex items-center">
-                                    <i data-lucide="mail" class="w-7 h-7 mr-4 flex-shrink-0"></i>
-                                    <a href="mailto:info@ingrowwthinnovations.com"
-                                        class="text-xl hover:underline">info@ingrowwthinnovations.com</a>
+                            <h3 class="text-2xl sm:text-3xl font-bold mb-6">Reach Out to Us</h3>
+
+                            <div class="space-y-6 sm:space-y-8">
+                                <!-- Email -->
+                                <div class="flex items-start sm:items-center">
+                                    <i data-lucide="mail"
+                                        class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mr-3 sm:mr-4 flex-shrink-0"></i>
+                                    <a href="mailto:info@ingrowwthinnovations.in" class="text-sm sm:text-base md:text-lg hover:underline 
+                                              break-words whitespace-normal leading-snug max-w-[90%]">
+                                        info@ingrowwthinnovations.in
+                                    </a>
                                 </div>
-                                <div class="flex items-center">
-                                    <i data-lucide="phone" class="w-7 h-7 mr-4 flex-shrink-0"></i>
-                                    <a href="tel:+918200229099" class="text-xl hover:underline">+91 8200229099</a>
+
+                                <!-- Phone -->
+                                <div class="flex items-start sm:items-center">
+                                    <i data-lucide="phone"
+                                        class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mr-3 sm:mr-4 flex-shrink-0"></i>
+                                    <a href="tel:+918200229099"
+                                        class="text-sm sm:text-base md:text-lg hover:underline break-words max-w-[90%]">
+                                        +91 8200229099
+                                    </a>
                                 </div>
+
+                                <!-- Address -->
                                 <div class="flex items-start">
-                                    <i data-lucide="map-pin" class="w-7 h-7 mr-4 flex-shrink-0 mt-1"></i>
-                                    <p class="text-xl">
-                                        123 Tech Innovation Park, <br />
-                                        Digital Avenue, Suite 400, <br />
-                                        Future City, FC 98765, <br />
-                                        Global Nation
+                                    <i data-lucide="map-pin"
+                                        class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mr-3 sm:mr-4 flex-shrink-0 mt-1"></i>
+                                    <p
+                                        class="text-sm sm:text-base md:text-lg leading-snug break-words whitespace-normal max-w-[90%]">
+                                        A-102 Oscar Hills, Hanspura, <br />
+                                        Naroda-Dahegam Highway, <br />
+                                        Ahmedabad - 382330 <br />
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-12">
-                            <h3 class="text-2xl font-bold mb-6">Connect With Us</h3>
-                            <div class="flex space-x-8">
+
+                        <div class="mt-8 sm:mt-10">
+                            <h3 class="text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6">Connect With Us</h3>
+                            <div class="flex space-x-4 sm:space-x-6">
                                 <a href="#"
-                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-125">
-                                    <i data-lucide="linkedin" class="w-9 h-9"></i>
+                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-110">
+                                    <i data-lucide="linkedin" class="w-5 h-5 sm:w-7 sm:h-7"></i>
                                 </a>
                                 <a href="#"
-                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-125">
-                                    <i data-lucide="twitter" class="w-9 h-9"></i>
+                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-110">
+                                    <i data-lucide="twitter" class="w-5 h-5 sm:w-7 sm:h-7"></i>
                                 </a>
                                 <a href="#"
-                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-125">
-                                    <i data-lucide="github" class="w-9 h-9"></i>
+                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-110">
+                                    <i data-lucide="github" class="w-5 h-5 sm:w-7 sm:h-7"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
 
+                    <!-- form card -->
                     <div
-                        class="bg-gray-50 p-10 rounded-3xl shadow-xl transform hover:-translate-y-2 transition duration-500 ease-in-out animate-fade-in-up delay-300">
-                        <form id="contactForm" class="space-y-7">
+                        class="bg-gray-50 p-5 sm:p-8 md:p-10 rounded-2xl md:rounded-3xl shadow-xl transform hover:-translate-y-2 transition duration-500 ease-in-out animate-fade-in-up delay-300">
+                        <form id="contactForm" class="space-y-5 sm:space-y-6">
                             <div>
-                                <label for="name" class="block text-lg font-medium text-gray-700 mb-2">Name</label>
+                                <label for="name"
+                                    class="block text-base sm:text-lg font-medium text-gray-700 mb-2">Name</label>
                                 <input type="text" id="name" name="name"
-                                    class="mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-lg transition duration-300 bg-white"
+                                    class="mt-1 block w-full px-4 sm:px-5 py-3 sm:py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base md:text-lg transition duration-300 bg-white"
                                     placeholder="Your Full Name" />
                             </div>
+
                             <div>
-                                <label for="email" class="block text-lg font-medium text-gray-700 mb-2">Email</label>
+                                <label for="email"
+                                    class="block text-base sm:text-lg font-medium text-gray-700 mb-2">Email</label>
                                 <input type="email" id="email" name="email"
-                                    class="mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-lg transition duration-300 bg-white"
+                                    class="mt-1 block w-full px-4 sm:px-5 py-3 sm:py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base md:text-lg transition duration-300 bg-white"
                                     placeholder="you@example.com" />
                             </div>
+
                             <div>
                                 <label for="subject"
-                                    class="block text-lg font-medium text-gray-700 mb-2">Subject</label>
+                                    class="block text-base sm:text-lg font-medium text-gray-700 mb-2">Subject</label>
                                 <input type="text" id="subject" name="subject"
-                                    class="mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-lg transition duration-300 bg-white"
+                                    class="mt-1 block w-full px-4 sm:px-5 py-3 sm:py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base md:text-lg transition duration-300 bg-white"
                                     placeholder="Project Inquiry, Partnership, etc." />
                             </div>
+
                             <div>
                                 <label for="message"
-                                    class="block text-lg font-medium text-gray-700 mb-2">Message</label>
-                                <textarea id="message" name="message" rows="6"
-                                    class="mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-lg transition duration-300 bg-white"
+                                    class="block text-base sm:text-lg font-medium text-gray-700 mb-2">Message</label>
+                                <textarea id="message" name="message" rows="5"
+                                    class="mt-1 block w-full px-4 sm:px-5 py-3 sm:py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base md:text-lg transition duration-300 bg-white"
                                     placeholder="Tell us about your project or query in detail..."></textarea>
                             </div>
+
                             <button type="submit"
-                                class="w-full inline-flex items-center justify-center px-8 py-4 border border-transparent text-xl font-semibold rounded-full shadow-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
+                                class="w-full inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 border border-transparent text-base sm:text-lg md:text-xl font-semibold rounded-full shadow-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
                                 Send Your Message
                             </button>
                         </form>
