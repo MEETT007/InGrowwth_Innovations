@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/company_logo1.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/company_logo1.png">
+    <title>EasyFarm Hub - Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Page background */
+        body {
+            background: linear-gradient(180deg, #f3f9ff 0%, #87b9fb 100%);
+        }
+
+        /* Slider container */
+        .project-slider {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 1rem;
+        }
+
+        .project-slider .slides {
+            display: flex;
+            gap: 1.25rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 10px 0;
+            scrollbar-width: none;
+        }
+
+        .project-slider .slides::-webkit-scrollbar {
+            display: none;
+        }
+
+        .project-slider .slide {
+            flex: 0 0 100%;
+            scroll-snap-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px 0;
+            box-sizing: border-box;
+        }
+
+        .project-slider img {
+            display: block;
+            max-width: 1100px;
+            max-height: 520px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+            transition: transform .35s ease;
+            background: white;
+            padding: 8px;
+        }
+
+        .project-slider .slide:hover img {
+            transform: scale(1.02);
+        }
+
+        .project-slider .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(15, 23, 42, 0.06);
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+            z-index: 10;
+        }
+
+        .project-slider .arrow.left {
+            left: -20px;
+        }
+
+        .project-slider .arrow.right {
+            right: -20px;
+        }
+
+        @media (max-width:1024px) {
+            .project-slider img {
+                max-width: 900px;
+                max-height: 460px;
+            }
+        }
+
+        @media (max-width:768px) {
+            .project-slider img {
+                max-width: 100%;
+                max-height: 360px;
+            }
+
+            .project-slider .arrow {
+                display: none;
+            }
+
+            .project-slider {
+                max-width: 100%;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+
+        /* ===== Project Highlights cards ===== */
+        .project-highlights {
+            max-width: 72rem;
+            margin: 2.5rem auto;
+            padding: 0 1rem;
+        }
+
+        .highlight-card {
+            background: rgba(255, 255, 255, 0.7);
+            /* semi-transparent */
+            border-radius: 1rem;
+            border: 1px solid rgba(203, 213, 225, 0.45);
+            padding: 1.75rem;
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+            transition: transform .25s ease, box-shadow .25s ease;
+            backdrop-filter: blur(10px);
+            /* frosted glass */
+            -webkit-backdrop-filter: blur(10px);
+            /* Safari */
+            color: #1f2937;
+            /* dark gray text for better contrast */
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+        }
+
+
+        /* header and body layout */
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Reduce left padding so list aligns more to the left (closer to the card border) */
+        .card-body {
+            position: relative;
+            padding-left: 1rem;
+            /* small interior padding from card edge */
+        }
+
+        /* Use native disc markers and adjust marker positioning */
+        .card-body ul {
+            list-style: disc;
+            list-style-position: outside;
+            margin: 0;
+            padding-left: 1.15rem;
+            /* keep this small so bullet sits near text */
+            line-height: 1.7;
+            color: #374151;
+        }
+
+        /* color marker (modern browsers) */
+        .card-body ul li::marker {
+            color: #1D4ED8;
+            /* blue-700 */
+            font-size: 1.3rem;
+        }
+
+        .card-body ul>li {
+            margin-top: 0.75rem;
+        }
+
+        /* Tag pill style */
+        .tag-pill {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.06);
+            color: #1e40af;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid rgba(59, 130, 246, 0.12);
+            font-size: 0.85rem;
+        }
+
+        /* mobile adjustments: reduce indent so list doesn't appear far right */
+        @media (max-width: 768px) {
+            .project-highlights {
+                margin-top: 1.25rem;
+            }
+
+            .card-body {
+                padding-left: 0.9rem;
+            }
+
+            .card-body ul {
+                padding-left: 0.95rem;
+            }
+        }
+
+        /* If you want the list to line up exactly under the title text (not the icon),
+           use this helper to create a small indent equal to the icon+gap. Uncomment if needed.
+        .card-body.align-to-title {
+            padding-left: calc(3rem + 0.5rem);
+        }
+        */
+    </style>
+</head>
+
+<body class="text-gray-800 text-lg leading-relaxed">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50 rounded-b-xl">
+        <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-6 h-20">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center shrink-0">
+                <img src="assets/images/company_logo.png" alt="InGrowwth Innovations Logo"
+                    class="h-12 md:h-14 lg:h-16 w-auto" />
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="index.html#hero"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Home
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#about"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    About Us
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#services"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Services
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#portfolio"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Portfolio
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#testimonials"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Testimonials
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#careers"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Careers
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#contact"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Contact
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </nav>
+
+            <!-- Mobile button -->
+            <button id="mobile-menu-button"
+                class="md:hidden text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2">
+                <i data-lucide="menu" class="w-7 h-7" id="menu-icon"></i>
+                <i data-lucide="x" class="w-7 h-7 hidden" id="close-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden mt-2 bg-white rounded-xl shadow-xl p-4 mx-4 hidden">
+            <nav class="flex flex-col space-y-3">
+                <a href="index.html#hero"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Home</a>
+                <a href="index.html#about"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">About
+                    Us</a>
+                <a href="index.html#services"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Services</a>
+                <a href="index.html#portfolio"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Portfolio</a>
+                <a href="index.html#testimonials"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Testimonials</a>
+                <a href="index.html#careers"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Careers</a>
+                <a href="index.html#contact"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="container mx-auto px-6 py-12">
+        <h2 class="text-3xl font-bold text-center text-blue-700 mb-6">EasyFarm Hub</h2>
+        <p class="text-center max-w-2xl mx-auto mb-12">
+            A digital hub for farmers that provides organic farming technologies, government schemes, and product
+            management with
+            bilingual (English/Gujarati) support.
+        </p>
+
+        <!-- Slider -->
+        <div class="project-slider mb-12">
+            <button class="arrow left" aria-label="Previous image" id="prevSlide" type="button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+
+            <div class="slides" id="projectSlides" tabindex="0" role="list">
+                <div class="slide" role="listitem">
+                    <img src="assets/images/SensAI/After Signup.png" alt="Screenshot 1" loading="lazy"
+                        onerror="this.onerror=null;this.src='https://placehold.co/1100x520/CCCCCC/333333?text=No+Image';" />
+                </div>
+                <div class="slide" role="listitem">
+                    <img src="assets/images/SensAI/Home2.png" alt="Screenshot 2" loading="lazy"
+                        onerror="this.onerror=null;this.src='https://placehold.co/1100x520/CCCCCC/333333?text=No+Image';" />
+                </div>
+                <div class="slide" role="listitem">
+                    <img src="assets/images/SensAI/Industry.png" alt="Screenshot 3" loading="lazy"
+                        onerror="this.onerror=null;this.src='https://placehold.co/1100x520/CCCCCC/333333?text=No+Image';" />
+                </div>
+                <div class="slide" role="listitem">
+                    <img src="assets/images/SensAI/Industry2.png" alt="Screenshot 1" loading="lazy"
+                        onerror="this.onerror=null;this.src='https://placehold.co/1100x520/CCCCCC/333333?text=No+Image';" />
+                </div>
+                <div class="slide" role="listitem">
+                    <img src="assets/images/SensAI/Cover.png" alt="Screenshot 2" loading="lazy"
+                        onerror="this.onerror=null;this.src='https://placehold.co/1100x520/CCCCCC/333333?text=No+Image';" />
+                </div>
+                <div class="slide" role="listitem">
+                    <img src="assets/images/SensAI/Cover2.png" alt="Screenshot 3" loading="lazy"
+                        onerror="this.onerror=null;this.src='https://placehold.co/1100x520/CCCCCC/333333?text=No+Image';" />
+                </div>
+                <div class="slide" role="listitem">
+                    <img src="assets/images/SensAI/Mock.png" alt="Screenshot 1" loading="lazy"
+                        onerror="this.onerror=null;this.src='https://placehold.co/1100x520/CCCCCC/333333?text=No+Image';" />
+                </div>
+                <div class="slide" role="listitem">
+                    <img src="assets/images/SensAI/Mock2.png" alt="Screenshot 2" loading="lazy"
+                        onerror="this.onerror=null;this.src='https://placehold.co/1100x520/CCCCCC/333333?text=No+Image';" />
+                </div>
+                <div class="slide" role="listitem">
+                    <img src="assets/images/SensAI/Mock3.png" alt="Screenshot 3" loading="lazy"
+                        onerror="this.onerror=null;this.src='https://placehold.co/1100x520/CCCCCC/333333?text=No+Image';" />
+                </div>
+                <div class="slide" role="listitem">
+                    <img src="assets/images/SensAI/Mock4.png" alt="Screenshot 2" loading="lazy"
+                        onerror="this.onerror=null;this.src='https://placehold.co/1100x520/CCCCCC/333333?text=No+Image';" />
+                </div>
+                <div class="slide" role="listitem">
+                    <img src="assets/images/SensAI/Resume.png" alt="Screenshot 3" loading="lazy"
+                        onerror="this.onerror=null;this.src='https://placehold.co/1100x520/CCCCCC/333333?text=No+Image';" />
+                </div>
+            </div>
+
+            <button class="arrow right" aria-label="Next image" id="nextSlide" type="button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M9 6l6 6-6 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Highlights -->
+        <section class="project-highlights">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl md:text-3xl font-extrabold text-blue-700">Project Highlights</h3>
+                <p class="text-gray-600 max-w-2xl mx-auto mt-3">Key functionality and technologies used in this
+                    project
+                    — clean, secure and production-ready.</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-stretch gap-6 justify-center">
+                <!-- Functionality -->
+                <article class="highlight-card flex-1">
+                    <div class="card-header">
+                        <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-600" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12l2 2 4-4M7 20h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v11a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-blue-700">Functionality</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <ul>
+                            <li>User and admin login system</li>
+                            <li>User registration with multi-language support (English/Gujarati)</li>
+                            <li>Admin can add and manage products</li>
+                            <li>Admin can publish organic farming technologies</li>
+                            <li>Admin can share new government schemes</li>
+                        </ul>
+
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="tag-pill">Login</span>
+                            <span class="tag-pill">Farming</span>
+                            <span class="tag-pill">Multi-Language</span>
+                            <span class="tag-pill">Schemes</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Technology -->
+                <article class="highlight-card flex-1">
+                    <div class="card-header">
+                        <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-600" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 8v4l3 3m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-blue-700">Technology</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <ul>
+                            <li>Frontend: HTML, CSS, Bootstrap, JavaScript</li>
+                            <li>Backend: PHP (server-side logic)</li>
+                            <li>Database: MySQL</li>
+                            <li>Language Support: English ↔ Gujarati toggle</li>
+                            <li>Hosting & Infra: Localhost / Web server (e.g., XAMPP, Apache)</li>
+                        </ul>
+
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="tag-pill"
+                                style="background:rgba(99,102,241,0.06); color:#4338ca; border-color: rgba(99,102,241,0.12)">HTML</span>
+                            <span class="tag-pill"
+                                style="background:rgba(99,102,241,0.06); color:#4338ca; border-color: rgba(99,102,241,0.12)">CSS</span>
+                            <span class="tag-pill"
+                                style="background:rgba(99,102,241,0.06); color:#4338ca; border-color: rgba(99,102,241,0.12)">JavaScript</span>
+                            <span class="tag-pill"
+                                style="background:rgba(99,102,241,0.06); color:#4338ca; border-color: rgba(99,102,241,0.12)">PHP</span>
+                            <span class="tag-pill"
+                                style="background:rgba(99,102,241,0.06); color:#4338ca; border-color: rgba(99,102,241,0.12)">MySQL</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <div class="text-center mt-8">
+            <a href="projects.html" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">← Back to
+                all
+                projects</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8 rounded-t-3xl shadow-inner">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10 text-center md:text-left">
+            <div class="col-span-full md:col-span-1 lg:col-span-1 flex flex-col items-center md:items-start">
+                <div class="flex items-center mb-4">
+                    <!--<i data-lucide="trending-up" class="w-8 h-8 text-blue-400 mr-3 transform rotate-6"></i>
+                                    <!-- Logo -->
+                    <a href="#hero" class="flex items-center shrink-0">
+                        <img src="assets/images/company_logo2.png" alt="InGrowwth Innovations Logo"
+                            class="h-36 md:h-20 lg:h-20 w-auto" />
+                    </a>
+                </div>
+                <p class="text-gray-400 leading-relaxed mb-4 text-center md:text-left">
+                    Innovating for a brighter digital future. We are committed to delivering excellence and driving
+                    success for businesses worldwide.
+                </p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#"
+                        class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-125">
+                        <i data-lucide="linkedin" class="w-7 h-7"></i>
+                    </a>
+                    <a href="#"
+                        class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-125">
+                        <i data-lucide="twitter" class="w-7 h-7"></i>
+                    </a>
+                    <a href="#"
+                        class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-125">
+                        <i data-lucide="github" class="w-7 h-7"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-semibold text-white mb-6">Quick Links</h3>
+                <ul class="space-y-3">
+                    <li><a href="#hero" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                    <li><a href="#about" class="text-gray-400 hover:text-white transition duration-300">About Us</a>
+                    </li>
+                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Services</a>
+                    </li>
+                    <li><a href="#portfolio"
+                            class="text-gray-400 hover:text-white transition duration-300">Portfolio</a>
+                    </li>
+                    <li><a href="#testimonials"
+                            class="text-gray-400 hover:text-white transition duration-300">Testimonials</a></li>
+                    <li><a href="#careers" class="text-gray-400 hover:text-white transition duration-300">Careers</a>
+                    </li>
+                    <li><a href="#contact" class="text-gray-400 hover:text-white transition duration-300">Contact</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="hidden lg:block">
+                <h3 class="text-xl font-semibold text-white mb-6">Our Services</h3>
+                <ul class="space-y-3">
+                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Web
+                            Development</a></li>
+                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Mobile App
+                            Development</a></li>
+                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Cloud
+                            Solutions</a></li>
+                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">AI & Machine
+                            Learning</a></li>
+                    <li><a href="#services"
+                            class="text-gray-400 hover:text-white transition duration-300">Cybersecurity</a>
+                    </li>
+                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Data
+                            Analytics</a></li>
+                    </li>
+                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">UI/UX &
+                            Product Design</a></li>
+                    </li>
+                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">Blockchain
+                            Solutions</a></li>
+                    </li>
+                    <li><a href="#services" class="text-gray-400 hover:text-white transition duration-300">ERP
+                            Solutions</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-semibold text-white mb-6">Contact Info</h3>
+                <ul class="space-y-3">
+                    <li class="flex items-center md:justify-start justify-center">
+                        <i data-lucide="map-pin" class="w-5 h-5 text-blue-400 mr-3 flex-shrink-0"></i>
+                        <p class="text-gray-400">A-102 Oscar Hills, Hanspura, Ahmedabad</p>
+                    </li>
+                    <li class="flex items-center md:justify-start justify-center">
+                        <i data-lucide="phone" class="w-5 h-5 text-blue-400 mr-3 flex-shrink-0"></i>
+                        <a href="tel:+1234567890" class="text-gray-400 hover:text-white transition duration-300">+91
+                            8200229099</a>
+                    </li>
+                    <li class="flex items-center md:justify-start justify-center">
+                        <i data-lucide="mail" class="w-5 h-5 text-blue-400 mr-3 flex-shrink-0"></i>
+                        <a href="mailto:info@ingrowwthinnovations.com"
+                            class="text-gray-400 hover:text-white transition duration-300">info@ingrowwthinnovations.in</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-700 mt-10 pt-8 text-center">
+            <p class="text-gray-500 text-sm mb-4">
+                &copy; <span id="current-year"></span> InGrowwth Innovations. All rights reserved. Designed with <span
+                    class="text-red-500">&hearts;</span> for modern businesses.
+            </p>
+            <div class="flex justify-center space-x-6">
+                <a href="Privacy-Policy.html" class="text-gray-400 hover:text-white transition duration-300">Privacy
+                    Policy</a>
+                <span class="text-gray-600">|</span>
+                <a href="term-of-services.html" class="text-gray-400 hover:text-white transition duration-300">Terms of
+                    Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+    <!-- Inline JS -->
+    <script>
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', () => {
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu) mobileMenu.classList.toggle('hidden');
+                if (menuIcon) menuIcon.classList.toggle('hidden');
+                if (closeIcon) closeIcon.classList.toggle('hidden');
+            });
+        }
+
+        const yearEl = document.getElementById('current-year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+        (function () {
+            const slidesEl = document.getElementById('projectSlides');
+            const prevBtn = document.getElementById('prevSlide');
+            const nextBtn = document.getElementById('nextSlide');
+            if (!slidesEl) return;
+
+            const slides = Array.from(slidesEl.querySelectorAll('.slide'));
+
+            function scrollToIndex(i) {
+                const index = Math.max(0, Math.min(i, slides.length - 1));
+                const target = slides[index];
+                if (target) {
+                    const left = target.offsetLeft - (slidesEl.clientWidth - target.clientWidth) / 2;
+                    slidesEl.scrollTo({ left, behavior: 'smooth' });
+                    updateArrows(index);
+                }
+            }
+
+            function currentIndex() {
+                const center = slidesEl.scrollLeft + slidesEl.clientWidth / 2;
+                let closest = 0, minDist = Infinity;
+                slides.forEach((s, idx) => {
+                    const slideCenter = s.offsetLeft + s.clientWidth / 2;
+                    const dist = Math.abs(center - slideCenter);
+                    if (dist < minDist) { minDist = dist; closest = idx; }
+                });
+                return closest;
+            }
+
+            if (prevBtn) prevBtn.addEventListener('click', () => scrollToIndex(currentIndex() - 1));
+            if (nextBtn) nextBtn.addEventListener('click', () => scrollToIndex(currentIndex() + 1));
+
+            slidesEl.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') { e.preventDefault(); scrollToIndex(currentIndex() - 1); }
+                if (e.key === 'ArrowRight') { e.preventDefault(); scrollToIndex(currentIndex() + 1); }
+            });
+
+            let scrollTimer = null;
+            slidesEl.addEventListener('scroll', () => {
+                if (scrollTimer) clearTimeout(scrollTimer);
+                scrollTimer = setTimeout(() => scrollToIndex(currentIndex()), 120);
+            });
+
+            function updateArrows(idx = currentIndex()) {
+                if (prevBtn) prevBtn.style.visibility = idx === 0 ? 'hidden' : 'visible';
+                if (nextBtn) nextBtn.style.visibility = idx === slides.length - 1 ? 'hidden' : 'visible';
+            }
+
+            window.addEventListener('load', () => { scrollToIndex(0); updateArrows(0); });
+            window.addEventListener('resize', () => updateArrows());
+        })();
+    </script>
+</body>
+
+</html>
