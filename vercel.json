@@ -1,4 +1,9 @@
 {
+    "functions": {
+        "api/**": {
+            "excludeFiles": "{.venv,Backend/logs,Backend/resumes,Backend/site.db,Backend/__pycache__,**/*.pyc}/**"
+        }
+    },
     "rewrites": [
         {
             "source": "/api/(.*)",
