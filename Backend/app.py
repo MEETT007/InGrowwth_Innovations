@@ -202,7 +202,7 @@ def add_cors_headers(response):
 
 # ---------- Database ----------
 # ---------- Database ----------
-database_url = os.getenv("DATABASE_URL")
+database_url = os.getenv("DATABASE_URL") or os.getenv("POSTGRES_URL") or os.getenv("POSTGRES_PRISMA_URL")
 if database_url and database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
 
