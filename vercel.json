@@ -2,19 +2,19 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "/Backend/app.py"
+            "destination": "/api/index.py"
         },
         {
             "source": "/submit_contact",
-            "destination": "/Backend/app.py"
+            "destination": "/api/index.py"
         },
         {
             "source": "/submit_application",
-            "destination": "/Backend/app.py"
+            "destination": "/api/index.py"
         },
         {
             "source": "/ping",
-            "destination": "/Backend/app.py"
+            "destination": "/api/index.py"
         },
         {
             "source": "/",
