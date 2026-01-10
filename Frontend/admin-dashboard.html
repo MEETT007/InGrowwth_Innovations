@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InGrowwth Workspace</title>
+
+    <!-- Config & Auth -->
+    <script src="assets/js/apiConfig.js"></script>
+    <script src="assets/js/adminAuth.js"></script>
+
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js for subtle graphs if needed -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7', // Brand Color
+                            700: '#0369a1',
+                            900: '#0c4a6e',
+                        },
+                        dark: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                        'slide-in': 'slideIn 0.3s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateX(-20px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar-glass {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(to right, rgba(14, 165, 233, 0.15), transparent);
+            border-left: 3px solid #0ea5e9;
+            color: #0ea5e9;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 99px;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-slate-50 h-screen flex overflow-hidden text-slate-800 antialiased selection:bg-primary-100 selection:text-primary-900">
+
+    <!-- Sidebar -->
+    <aside
+        class="w-72 sidebar-glass text-white flex flex-col shadow-2xl z-30 hidden md:flex transition-all duration-300">
+        <!-- Brand -->
+        <div class="h-20 flex items-center px-8 border-b border-white/5">
+            <div class="flex items-center gap-3 group cursor-pointer">
+                <div
+                    class="bg-gradient-to-br from-primary-500 to-primary-600 p-2 rounded-xl shadow-lg shadow-primary-500/20 group-hover:scale-105 transition-transform duration-300">
+                    <i data-lucide="layout-grid" class="w-5 h-5 text-white"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-lg tracking-tight block leading-none">InGrowwth</span>
+                    <span class="text-[10px] text-slate-400 font-medium tracking-widest uppercase">Workspace</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nav -->
+        <nav class="flex-1 px-4 py-8 space-y-2 overflow-y-auto custom-scrollbar">
+            <p class="px-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Platform</p>
+
+            <button onclick="switchTab('contacts')" id="nav-contacts"
+                class="nav-item w-full flex items-center gap-3.5 px-4 py-3 text-sm font-medium text-slate-400 rounded-r-xl transition-all duration-200 hover:text-white hover:bg-white/5">
+                <i data-lucide="inbox" class="w-5 h-5"></i>
+                <span>Inquiries</span>
+                <span id="badge-contacts"
+                    class="ml-auto bg-primary-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full hidden">0</span>
+            </button>
+
+            <button onclick="switchTab('careers')" id="nav-careers"
+                class="nav-item w-full flex items-center gap-3.5 px-4 py-3 text-sm font-medium text-slate-400 rounded-r-xl transition-all duration-200 hover:text-white hover:bg-white/5">
+                <i data-lucide="users" class="w-5 h-5"></i>
+                <span>Applications</span>
+                <span id="badge-careers"
+                    class="ml-auto bg-primary-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full hidden">0</span>
+            </button>
+
+            <!-- Super Admin Section -->
+            <div id="admin-section" class="hidden">
+                <div class="my-6 border-t border-white/5 mx-4"></div>
+                <p
+                    class="px-4 text-[11px] font-bold text-amber-500/80 uppercase tracking-wider mb-2 flex items-center gap-2">
+                    <i data-lucide="shield" class="w-3 h-3"></i> Super Admin
+                </p>
+
+                <button onclick="switchTab('users')" id="nav-users"
+                    class="nav-item w-full flex items-center gap-3.5 px-4 py-3 text-sm font-medium text-slate-400 rounded-r-xl transition-all duration-200 hover:text-amber-400 hover:bg-amber-500/10">
+                    <i data-lucide="user-cog" class="w-5 h-5"></i>
+                    <span>Access Control</span>
+                </button>
+            </div>
+
+            <div class="mt-auto pt-8">
+                <button onclick="switchTab('profile')" id="nav-profile"
+                    class="nav-item w-full flex items-center gap-3.5 px-4 py-3 text-sm font-medium text-slate-400 rounded-r-xl transition-all duration-200 hover:text-white hover:bg-white/5">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                    <span>Settings & Profile</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- User Profile Card -->
+        <div class="p-4 border-t border-white/5 bg-black/20">
+            <div class="flex items-center gap-3 px-2">
+                <div class="relative">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary-500 to-indigo-600 flex items-center justify-center text-sm font-bold text-white shadow-lg"
+                        id="userInitials">AD</div>
+                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-slate-900 rounded-full">
+                    </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-bold text-white truncate" id="userDisplay">Admin User</p>
+                    <p class="text-xs text-slate-400 truncate" id="userRole">Administrator</p>
+                </div>
+                <button id="logoutBtn"
+                    class="p-2 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+                    <i data-lucide="log-out" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col h-full overflow-hidden relative bg-[#f8fafc]">
+
+        <!-- Mobile Header -->
+        <header
+            class="h-16 bg-white/80 backdrop-blur border-b flex items-center justify-between px-4 md:hidden z-20 sticky top-0">
+            <div class="flex items-center gap-2">
+                <div class="bg-primary-600 p-1.5 rounded-lg">
+                    <i data-lucide="layout-grid" class="w-5 h-5 text-white"></i>
+                </div>
+                <span class="font-bold text-lg text-slate-800">InGrowwth</span>
+            </div>
+            <button class="p-2 text-slate-600 active:bg-slate-100 rounded-lg" onclick="toggleSidebar()">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </header>
+
+        <!-- Dynamic Content Area -->
+        <main class="flex-1 overflow-auto p-4 md:p-8 md:px-12 relative custom-scrollbar">
+
+            <!-- Page Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 animate-fade-in-up">
+                <div>
+                    <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight" id="pageTitle">Overview</h1>
+                    <p class="text-slate-500 mt-2 font-medium flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
+                        <span id="pageDesc">Real-time platform insights</span>
+                    </p>
+                </div>
+
+                <div class="flex items-center gap-3 bg-white p-1.5 rounded-xl border border-slate-200 shadow-sm"
+                    id="headerActions">
+                    <!-- Actions injected here -->
+                    <button
+                        class="px-4 py-2 text-sm font-semibold text-slate-600 bg-slate-50 rounded-lg disabled:opacity-50">Loading...</button>
+                </div>
+            </div>
+
+            <!-- Stats Row (Visible on Contacts/Careers) -->
+            <div id="stats-row" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 hidden animate-fade-in-up"
+                style="animation-delay: 0.1s;">
+                <!-- Stat 1 -->
+                <div
+                    class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm shadow-slate-200/50 flex items-start justify-between group hover:shadow-md transition">
+                    <div>
+                        <p class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">Total count</p>
+                        <h3 class="text-3xl font-bold text-slate-900" id="stat-total">--</h3>
+                    </div>
+                    <div
+                        class="p-3 bg-primary-50 text-primary-600 rounded-xl group-hover:scale-110 transition-transform">
+                        <i data-lucide="layers" class="w-6 h-6"></i>
+                    </div>
+                </div>
+                <!-- Stat 2 (Mock) -->
+                <div
+                    class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm shadow-slate-200/50 flex items-start justify-between group hover:shadow-md transition">
+                    <div>
+                        <p class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">This Week</p>
+                        <h3 class="text-3xl font-bold text-slate-900">12</h3>
+                    </div>
+                    <div class="p-3 bg-green-50 text-green-600 rounded-xl group-hover:scale-110 transition-transform">
+                        <i data-lucide="trending-up" class="w-6 h-6"></i>
+                    </div>
+                </div>
+                <!-- Stat 3 (Mock) -->
+                <div
+                    class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm shadow-slate-200/50 flex items-start justify-between group hover:shadow-md transition">
+                    <div>
+                        <p class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">Pending Action</p>
+                        <h3 class="text-3xl font-bold text-slate-900">0</h3>
+                    </div>
+                    <div class="p-3 bg-amber-50 text-amber-600 rounded-xl group-hover:scale-110 transition-transform">
+                        <i data-lucide="clock" class="w-6 h-6"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENT VIEWS -->
+
+            <!-- V1: Contacts -->
+            <div id="view-contacts" class="view-section hidden animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="p-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Status
+                                    </th>
+                                    <th class="p-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Sender
+                                        Details</th>
+                                    <th class="p-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Subject
+                                    </th>
+                                    <th class="p-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Preview
+                                    </th>
+                                    <th
+                                        class="p-5 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">
+                                        Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contactsTableBody" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination & Footer -->
+                    <div class="p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
+                        <p class="text-sm text-slate-500">Showing page <span id="contactPageDisplay"
+                                class="font-bold text-slate-900">1</span></p>
+                        <div class="flex gap-2">
+                            <button id="prevBtn" onclick="loadContacts(currentPage - 1)" class="btn-icon"><i
+                                    data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                            <button id="nextBtn" onclick="loadContacts(currentPage + 1)" class="btn-icon"><i
+                                    data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- V2: Careers -->
+            <div id="view-careers" class="view-section hidden animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="p-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Candidate
+                                    </th>
+                                    <th class="p-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Role
+                                        Applied</th>
+                                    <th class="p-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Experience
+                                    </th>
+                                    <th class="p-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Socials
+                                    </th>
+                                    <th
+                                        class="p-5 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="careersTableBody" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
+                        <p class="text-sm text-slate-500">Showing page <span id="careerPageDisplay"
+                                class="font-bold text-slate-900">1</span></p>
+                        <div class="flex gap-2">
+                            <button id="prevCareerBtn" onclick="loadCareers(currentCareerPage - 1)" class="btn-icon"><i
+                                    data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                            <button id="nextCareerBtn" onclick="loadCareers(currentCareerPage + 1)" class="btn-icon"><i
+                                    data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- V3: Users (Super Admin) -->
+            <div id="view-users" class="view-section hidden animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="usersGrid">
+                    <!-- Users injected as cards here for better visuals -->
+                </div>
+            </div>
+
+            <!-- V4: Profile -->
+            <div id="view-profile" class="view-section hidden animate-fade-in-up max-w-3xl mx-auto"
+                style="animation-delay: 0.2s;">
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
+                    <div class="h-32 bg-gradient-to-r from-primary-500 to-indigo-600"></div>
+                    <div class="px-8 pb-8">
+                        <div class="relative flex justify-between items-end -mt-12 mb-8">
+                            <div class="w-24 h-24 rounded-2xl bg-white p-1 shadow-xl">
+                                <div class="w-full h-full bg-slate-800 rounded-xl flex items-center justify-center text-3xl font-bold text-white shadow-inner"
+                                    id="profileInitials">AD</div>
+                            </div>
+                            <span
+                                class="px-4 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold border border-green-200">Active
+                                Session</span>
+                        </div>
+
+                        <form id="profileForm" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label class="text-sm font-semibold text-slate-700">Username</label>
+                                    <input type="text" id="prof-username" disabled
+                                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-500 font-medium">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-sm font-semibold text-slate-700">Role</label>
+                                    <input type="text" value="System Administrator" disabled
+                                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-500 font-medium">
+                                </div>
+                                <div class="space-y-2 md:col-span-2">
+                                    <label class="text-sm font-semibold text-slate-700">Full Name</label>
+                                    <input type="text" id="prof-fullname"
+                                        class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-medium focus:ring-2 focus:ring-primary-500 focus:border-transparent transition shadow-sm"
+                                        placeholder="e.g. John Doe">
+                                </div>
+                            </div>
+                            <div class="pt-4 border-t border-slate-100 flex justify-end">
+                                <button type="submit" id="saveProfileBtn"
+                                    class="bg-primary-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-primary-700 transition shadow-lg shadow-primary-500/30 flex items-center gap-2">
+                                    <i data-lucide="save" class="w-4 h-4"></i> Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Create User Modal -->
+    <div id="createUserModal"
+        class="hidden fixed inset-0 bg-slate-900/40 z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl animate-fade-in-up overflow-hidden">
+            <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <h3 class="font-bold text-lg text-slate-800">Add Team Member</h3>
+                <button onclick="toggleModal('createUserModal')"
+                    class="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-200 transition"><i
+                        data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <form id="createUserForm" class="p-6 space-y-5">
+                <div class="space-y-2">
+                    <label class="block text-sm font-bold text-slate-700">Username</label>
+                    <div class="relative">
+                        <i data-lucide="user" class="w-5 h-5 absolute left-3 top-2.5 text-slate-400"></i>
+                        <input type="text" name="username" required
+                            class="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition font-medium">
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-bold text-slate-700">Password</label>
+                    <div class="relative">
+                        <i data-lucide="lock" class="w-5 h-5 absolute left-3 top-2.5 text-slate-400"></i>
+                        <input type="password" name="password" required
+                            class="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition font-medium">
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-bold text-slate-700">Full Name</label>
+                    <div class="relative">
+                        <i data-lucide="smile" class="w-5 h-5 absolute left-3 top-2.5 text-slate-400"></i>
+                        <input type="text" name="fullName"
+                            class="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition font-medium">
+                    </div>
+                </div>
+                <button type="submit"
+                    class="w-full py-3 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition shadow-lg shadow-primary-500/25 mt-2">Create
+                    Account</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- Logic -->
+    <script>
+        const API_BASE = (window.API_BASE_URL !== undefined) ? window.API_BASE_URL : "";
+        let currentPage = 1, currentCareerPage = 1;
+
+        // Init
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check auth
+            try {
+                const res = await fetch(`${API_BASE}/api/me`, { credentials: 'include' });
+                const json = await res.json();
+                if (json.success && json.user) {
+                    setupUser(json.user);
+                    // Load initial data
+                    loadContacts(1);
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('Authentication check failed', 'error');
+            }
+        });
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+
+            // Icons based on type
+            const icon = type === 'success' ? 'check-circle' : 'alert-circle';
+            const bgClass = type === 'success' ? 'bg-emerald-600' : 'bg-rose-600';
+
+            toast.className = `flex items-center gap-3 px-5 py-4 rounded-xl shadow-xl shadow-slate-200/50 text-white transform transition-all duration-500 translate-x-10 opacity-0 ${bgClass} pointer-events-auto min-w-[300px] border border-white/10`;
+            toast.innerHTML = `
+                <div class="p-1.5 bg-white/20 rounded-lg">
+                    <i data-lucide="${icon}" class="w-5 h-5 text-white"></i>
+                </div>
+                <div class="flex-1">
+                    <h4 class="font-bold text-sm">${type === 'success' ? 'Success' : 'Error'}</h4>
+                    <p class="text-xs text-white/90 font-medium">${message}</p>
+                </div>
+            `;
+
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            // Animate in
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-x-10', 'opacity-0');
+            });
+
+            // Remove after 3s
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-x-10');
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        function setupUser(user) {
+            document.getElementById('userDisplay').textContent = user.full_name || user.username;
+            const initials = user.full_name ? user.full_name.match(/\b\w/g).join('').substring(0, 2) : user.username.substring(0, 2);
+            document.getElementById('userInitials').textContent = initials.toUpperCase();
+            document.getElementById('profileInitials').textContent = initials.toUpperCase();
+            document.getElementById('userRole').textContent = user.role || 'Admin';
+
+            // Forms
+            document.getElementById('prof-username').value = user.username;
+            document.getElementById('prof-fullname').value = user.full_name || '';
+
+            if (user.username === 'MeetCEO') {
+                document.getElementById('admin-section').classList.remove('hidden');
+            }
+        }
+
+        function switchTab(tab) {
+            // 1. Hide all views
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+
+            // 2. Nav State
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active', 'text-white', 'bg-white/5'));
+            const activeNav = document.getElementById(`nav-${tab}`);
+            if (activeNav) activeNav.classList.add('active');
+
+            // 3. Show View & Headers
+            document.getElementById(`view-${tab}`).classList.remove('hidden');
+
+            const config = {
+                'contacts': { title: 'Inquiries', desc: 'Manage incoming messages', stats: true },
+                'careers': { title: 'Applications', desc: 'Track candidate flow', stats: true },
+                'users': { title: 'Access Control', desc: 'Manage system administrators', stats: false },
+                'profile': { title: 'Your Profile', desc: 'Update account details', stats: false }
+            };
+
+            document.getElementById('pageTitle').textContent = config[tab].title;
+            document.getElementById('pageDesc').textContent = config[tab].desc;
+
+            const statsRow = document.getElementById('stats-row');
+            if (config[tab].stats) statsRow.classList.remove('hidden'); else statsRow.classList.add('hidden');
+
+            // 4. Actions
+            updateHeaderActions(tab);
+
+            // 5. Data Load
+            if (tab === 'contacts') loadContacts(currentPage);
+            if (tab === 'careers') loadCareers(currentCareerPage);
+            if (tab === 'users') loadUsers();
+
+            // Mobile sidebar auto-close
+            if (window.innerWidth < 768) toggleSidebar(false);
+
+            lucide.createIcons();
+        }
+
+        function updateHeaderActions(tab) {
+            const container = document.getElementById('headerActions');
+            container.innerHTML = '';
+
+            const refreshBtn = (fn) => `
+                <button onclick="${fn}" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-primary-600 bg-transparent hover:bg-slate-50 rounded-lg transition flex items-center gap-2">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i> <span class="hidden md:inline">Refresh</span>
+                </button>
+            `;
+
+            if (tab === 'contacts') container.innerHTML = refreshBtn('loadContacts(currentPage)');
+            if (tab === 'careers') container.innerHTML = refreshBtn('loadCareers(currentCareerPage)');
+            if (tab === 'users') container.innerHTML = `
+                ${refreshBtn('loadUsers()')}
+                <div class="w-px h-6 bg-slate-200 mx-1"></div>
+                <button onclick="toggleModal('createUserModal')" class="px-4 py-2 text-sm font-bold text-white bg-primary-600 hover:bg-primary-700 rounded-lg shadow-lg shadow-primary-500/30 flex items-center gap-2 transition transform active:scale-95">
+                    <i data-lucide="plus" class="w-4 h-4"></i> New User
+                </button>
+            `;
+        }
+
+        // --- Data Loading ---
+
+        async function loadContacts(page) {
+            fetchData(`${API_BASE}/api/admin/contacts?page=${page}&limit=10`, (data, meta) => {
+                currentPage = meta.page;
+                updateStats(meta.total);
+                document.getElementById('contactPageDisplay').textContent = meta.page;
+
+                const tbody = document.getElementById('contactsTableBody');
+                if (data.length === 0) {
+                    tbody.innerHTML = emptyState(5); return;
+                }
+
+                tbody.innerHTML = data.map(item => `
+                    <tr class="group hover:bg-primary-50/50 transition duration-150 border-b border-slate-50 cursor-default">
+                        <td class="p-5 w-24">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800">New</span>
+                        </td>
+                        <td class="p-5">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
+                                    ${item.name.charAt(0).toUpperCase()}
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-bold text-slate-900">${safe(item.name)}</div>
+                                    <div class="text-xs text-slate-500">${safe(item.email)}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="p-5">
+                            <div class="text-sm text-slate-700 font-medium">${safe(item.subject)}</div>
+                        </td>
+                        <td class="p-5">
+                            <div class="text-sm text-slate-500 max-w-xs truncate">${safe(item.message)}</div>
+                        </td>
+                        <td class="p-5 text-right">
+                             <div class="text-xs font-bold text-slate-400">${new Date(item.date_submitted).toLocaleDateString()}</div>
+                        </td>
+                    </tr>
+                `).join('');
+
+                // update badge
+                document.getElementById('badge-contacts').textContent = meta.total;
+                document.getElementById('badge-contacts').classList.remove('hidden');
+
+            }, 'contactsTableBody', 5);
+        }
+
+        async function loadCareers(page) {
+            fetchData(`${API_BASE}/api/admin/careers?page=${page}&limit=10`, (data, meta) => {
+                currentCareerPage = meta.page;
+                updateStats(meta.total);
+                document.getElementById('careerPageDisplay').textContent = meta.page;
+
+                const tbody = document.getElementById('careersTableBody');
+                if (data.length === 0) {
+                    tbody.innerHTML = emptyState(5); return;
+                }
+
+                tbody.innerHTML = data.map(item => `
+                    <tr class="group hover:bg-primary-50/50 transition duration-150 border-b border-slate-50">
+                        <td class="p-5">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 font-bold">
+                                    ${item.first_name.charAt(0).toUpperCase()}
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-bold text-slate-900">${safe(item.first_name)} ${safe(item.last_name)}</div>
+                                    <div class="text-xs text-slate-500">${safe(item.email)}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="p-5">
+                            <span class="px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700 shadow-sm">
+                                ${safe(item.applying_for)}
+                            </span>
+                        </td>
+                        <td class="p-5 text-sm text-slate-600 font-medium">${safe(item.work_exp)}</td>
+                        <td class="p-5 flex gap-2">
+                             ${item.linkedin_link ? `<a href="${safe(item.linkedin_link)}" target="_blank" class="p-2 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition"><i data-lucide="linkedin" class="w-4 h-4"></i></a>` : ''}
+                             ${item.github_link ? `<a href="${safe(item.github_link)}" target="_blank" class="p-2 text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition"><i data-lucide="github" class="w-4 h-4"></i></a>` : ''}
+                        </td>
+                        <td class="p-5 text-right">
+                            <a href="${API_BASE}/api/admin/resume/${encodeURIComponent(item.resume_filename)}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 text-white text-xs font-bold rounded-lg hover:bg-slate-700 transition shadow-lg shadow-slate-900/10">
+                                <i data-lucide="download" class="w-3 h-3"></i> Resume
+                            </a>
+                        </td>
+                    </tr>
+                `).join('');
+
+                // update badge
+                document.getElementById('badge-careers').textContent = meta.total;
+                document.getElementById('badge-careers').classList.remove('hidden');
+
+            }, 'careersTableBody', 5);
+        }
+
+        async function loadUsers() {
+            const container = document.getElementById('usersGrid');
+            container.innerHTML = `<div class="col-span-3 text-center py-20"><i data-lucide="loader" class="animate-spin w-8 h-8 text-primary-500 inline"></i></div>`;
+            lucide.createIcons();
+
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/users`, { credentials: 'include' });
+                const json = await res.json();
+                if (!json.success) throw new Error(json.message);
+
+                if (json.data.length === 0) {
+                    container.innerHTML = `<p class="col-span-3 text-center text-slate-400">No users found.</p>`; return;
+                }
+
+                container.innerHTML = json.data.map(u => `
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition group">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center text-xl font-bold text-slate-600 group-hover:from-primary-500 group-hover:to-indigo-600 group-hover:text-white transition-all duration-300">
+                                ${u.username.charAt(0).toUpperCase()}
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-primary-50 text-primary-700">
+                                ${safe(u.role)}
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-1">${safe(u.username)}</h3>
+                        <p class="text-sm text-slate-500 mb-6 font-medium">${safe(u.full_name || 'No full name')}</p>
+                        
+                        <div class="border-t border-slate-50 pt-4 flex justify-between items-center text-xs">
+                            <div class="text-slate-400">
+                                <span class="block text-[10px] uppercase font-bold tracking-wider mb-0.5 text-slate-300">Last Login</span>
+                                ${u.last_login ? new Date(u.last_login).toLocaleDateString() : 'Never'}
+                            </div>
+                             <div class="text-slate-400 text-right">
+                                <span class="block text-[10px] uppercase font-bold tracking-wider mb-0.5 text-slate-300">Creator</span>
+                                ${safe(u.created_by || 'System')}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                lucide.createIcons();
+
+            } catch (e) {
+                container.innerHTML = `Error: ${e.message}`;
+            }
+        }
+
+        // --- Helpers ---
+        async function fetchData(url, onSuccess, tableId, cols) {
+            const tbody = document.getElementById(tableId);
+            tbody.innerHTML = `<tr><td colspan="${cols}" class="p-20 text-center"><i data-lucide="loader" class="animate-spin w-8 h-8 text-primary-500 inline"></i></td></tr>`;
+            lucide.createIcons();
+
+            try {
+                const res = await fetch(url, { credentials: 'include' });
+                const json = await res.json();
+                if (json.success) onSuccess(json.data, json.meta);
+                else throw new Error(json.message);
+            } catch (e) {
+                tbody.innerHTML = emptyState(cols, 'Failed to load data.');
+            }
+            lucide.createIcons();
+        }
+
+        function updateStats(total) {
+            document.getElementById('stat-total').textContent = total;
+            // animate number? maybe later
+        }
+
+        function toggleModal(id) {
+            const el = document.getElementById(id);
+            if (el.classList.contains('hidden')) el.classList.remove('hidden');
+            else {
+                el.classList.add('hidden');
+                document.getElementById('createUserForm').reset();
+            }
+        }
+
+        function toggleSidebar(forceState) {
+            const sidebar = document.querySelector('aside');
+            if (forceState !== undefined) {
+                if (forceState) sidebar.classList.remove('hidden'); else sidebar.classList.add('hidden');
+            } else {
+                sidebar.classList.toggle('hidden');
+                sidebar.classList.toggle('absolute');
+                sidebar.classList.toggle('h-full');
+            }
+        }
+
+        function emptyState(cols, msg = 'No records found') {
+            return `<tr><td colspan="${cols}" class="p-20 text-center flex flex-col items-center justify-center">
+                <div class="bg-slate-50 p-4 rounded-full mb-3"><i data-lucide="inbox" class="w-8 h-8 text-slate-300"></i></div>
+                <p class="text-slate-500 font-medium">${msg}</p>
+            </td></tr>`;
+        }
+
+        function safe(str) { return (str || '').replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+
+        // CSS for button util
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .btn-icon { @apply p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition disabled:opacity-30 disabled:cursor-not-allowed; }
+        `;
+        document.head.appendChild(style);
+
+        // Re-attach forms listeners (same logic as before)
+        document.getElementById('createUserForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            // (Reuse logic from previous step, omitted for brevity as it's identical functionally)
+            // Implementing compact version here:
+            const data = Object.fromEntries(new FormData(e.target));
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/users`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data), credentials: 'include'
+                });
+                const json = await res.json();
+                if (json.success) { toggleModal('createUserModal'); loadUsers(); showToast('User account created successfully!'); }
+                else showToast(json.message, 'error');
+            } catch (err) { showToast('Failed to create user', 'error'); }
+        });
+
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/profile`, {
+                    method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ full_name: document.getElementById('prof-fullname').value }), credentials: 'include'
+                });
+                const json = await res.json();
+                if (json.success) showToast('Profile changes saved successfully');
+                else showToast(json.message, 'error');
+            } catch (e) { showToast('Connection error', 'error'); }
+        });
+
+    </script>
+</body>
+
+</html>

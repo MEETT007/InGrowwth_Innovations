@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Home -->
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Main pages -->
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/about</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/services</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/contact</loc>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Services -->
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/ai-ml-services</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/blockchain-services</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/cloud-solutions-service</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/cybersecurity-services</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/data-analytics-services</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/erp-services</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/mobile-application-service</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/ui-ux-product-design-service</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/web-development-service</loc>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Projects -->
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/projects</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/project1</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/project2</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/project3</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/project4</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/project5</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/project6</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/project7</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/project8</loc>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Policies -->
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/privacy-policy</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/term-of-services</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.ingrowwthinnovations.in/job-description</loc>
+    <priority>0.5</priority>
+  </url>
+
+</urlset>

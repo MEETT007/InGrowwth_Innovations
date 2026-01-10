@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>QuickChat - A Chatting App | InGrowwth Innovations</title>
+    <meta name="description" content="QuickChat — real-time Flutter chat app with Firebase for secure and fast messaging, media sharing and presence.">
+    <link rel="canonical" href="https://www.ingrowwthinnovations.in/project5.html">
+
+    <!-- Favicons & PWA manifest (paths are relative to the HTML file) -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest"> -->
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp preview) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="QuickChat - A Chatting App | InGrowwth Innovations">
+    <meta property="og:description"
+        content="Real-time chat built with Flutter and Firebase for instant messaging, media sharing and secure communication.">
+    <meta property="og:site_name" content="InGrowwth Innovations">
+    <meta property="og:url" content="https://www.ingrowwthinnovations.in/project5.html">
+    <!-- Recommended image: 1200x630 for best preview -->
+    <meta property="og:image" content="https://www.ingrowwthinnovations.in/assets/images/company_new_logo1.png">
+    <meta property="og:image:alt" content="InGrowwth Innovations logo">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="QuickChat - A Chatting App | InGrowwth Innovations">
+    <meta name="twitter:description"
+        content="Flutter + Firebase chat app with real-time messaging and media sharing features.">
+    <meta name="twitter:image" content="https://www.ingrowwthinnovations.in/assets/images/company_new_logo1.png">
+    <!-- If you have a Twitter handle -->
+    <!-- <meta name="twitter:site" content="@yourhandle"> -->
+
+    <!-- Styles / Fonts / Scripts -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            background: linear-gradient(180deg, #f3f9ff 0%, #87b9fb 100%);
+        }
+
+        .project-slider {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 1rem;
+        }
+
+        .project-slider .slides {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 6px 0;
+            scrollbar-width: none;
+        }
+
+        .project-slider .slides::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Slide area */
+        .project-slider .slide {
+            flex: 0 0 96%;
+            scroll-snap-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            box-sizing: border-box;
+            gap: 1rem;
+        }
+
+        .two-up {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            max-width: 1100px;
+            align-items: stretch;
+            justify-content: space-between;
+            box-sizing: border-box;
+            padding: 0 10px;
+        }
+
+        .img-card {
+            flex: 1 1 calc(50% - 0.5rem);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            overflow: hidden;
+            padding: 0;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform .22s ease, box-shadow .22s ease;
+            min-height: 320px;
+            max-height: 520px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+
+            /* ensure images are centered and never overflow */
+            position: relative;
+        }
+
+        .project-slider .slide:hover .img-card {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+        }
+
+        /* IMAGE: keep full image visible (no cropping), scale down to fit */
+        .img-card img {
+            display: block;
+            /* allow natural sizing but constrain to card box */
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            transform-origin: center;
+            will-change: auto;
+            user-select: none;
+            -webkit-user-drag: none;
+            cursor: default;
+        }
+
+        /* Arrow (default desktop placement) */
+        .project-slider .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(15, 23, 42, 0.06);
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+            z-index: 20;
+            transition: transform .12s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .project-slider .arrow:active {
+            transform: translateY(-50%) scale(.98);
+        }
+
+        .project-slider .arrow.left {
+            left: -20px;
+        }
+
+        .project-slider .arrow.right {
+            right: -20px;
+        }
+
+        /* Responsive sizes */
+        @media (max-width:1200px) {
+            .img-card {
+                min-height: 300px;
+                max-height: 440px;
+            }
+
+            .two-up {
+                max-width: 950px;
+            }
+
+            .project-slider .slide {
+                flex: 0 0 97%;
+            }
+        }
+
+        @media (max-width:900px) {
+            .img-card {
+                min-height: 260px;
+            }
+
+            .two-up {
+                gap: 0.75rem;
+                padding: 0 8px;
+            }
+
+            .project-slider .slide {
+                flex: 0 0 98%;
+            }
+
+            .project-slider {
+                max-width: 100%;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            /* arrows are visible on mobile — position them inside the slider so they don't hang outside page */
+            .project-slider .arrow {
+                width: 44px;
+                height: 44px;
+                top: 50%;
+                /* place inside container near edges */
+                left: 8px;
+                right: 8px;
+            }
+
+            .project-slider .arrow.left {
+                left: 12px;
+                right: auto;
+            }
+
+            .project-slider .arrow.right {
+                right: 12px;
+                left: auto;
+            }
+
+            /* slight translucency so they don't hide content */
+            .project-slider .arrow {
+                background: rgba(255, 255, 255, 0.95);
+            }
+        }
+
+        @media (max-width:768px) {
+            .project-slider .slide {
+                padding: 0;
+            }
+
+            .img-card {
+                min-height: 200px;
+                max-height: 360px;
+            }
+        }
+
+        .img-card.placeholder {
+            background: linear-gradient(90deg, rgba(243, 246, 255, 1), rgba(235, 244, 255, 1));
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+            font-size: 0.95rem;
+            min-height: 180px;
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.04);
+        }
+
+        /* Project highlights & other styles left unchanged from original */
+        .project-highlights {
+            max-width: 72rem;
+            margin: 2.5rem auto;
+            padding: 0 1rem;
+        }
+
+        .highlight-card {
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 1rem;
+            border: 1px solid rgba(203, 213, 225, 0.45);
+            padding: 1.75rem;
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+            transition: transform .25s ease, box-shadow .25s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #1f2937;
+            min-height: 260px;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: .75rem;
+            flex-shrink: 0;
+        }
+
+        .card-body {
+            position: relative;
+            padding-left: 1rem;
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-body ul {
+            list-style: disc;
+            list-style-position: outside;
+            margin: 0;
+            padding-left: 1.15rem;
+            line-height: 1.7;
+            color: #374151;
+        }
+
+        .card-body ul li::marker {
+            color: #1D4ED8;
+            font-size: 1.3rem;
+        }
+
+        .tag-pill {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.06);
+            color: #1e40af;
+            padding: .35rem .75rem;
+            border-radius: 999px;
+            border: 1px solid rgba(59, 130, 246, 0.12);
+            font-size: .85rem;
+        }
+
+        /* -------------------------
+       Footer — responsive styles
+       ------------------------- */
+
+        /* Base footer container */
+        footer {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* make sure grid children can shrink (prevents overflow) */
+        footer .min-w-0 {
+            min-width: 0;
+        }
+
+        /* Footer layout — adapt columns at breakpoints
+       1 column on xs, 2 on sm, 3 on md, 4 on lg */
+        footer .grid {
+            gap: 2rem;
+        }
+
+        /* Heading styles */
+        footer h3 {
+            margin: 0 0 .5rem 0;
+            line-height: 1.1;
+            font-size: 1.25rem;
+            /* ~20px */
+            font-weight: 600;
+        }
+
+        footer .intro-text {
+            font-size: 0.95rem;
+            /* ~17.5px */
+            line-height: 1.6;
+            /* more readable */
+            color: #9ca3af;
+        }
+
+        /* Link, list and text sizing */
+        footer p,
+        footer a,
+        footer li {
+            color: #9ca3af;
+            /* tailwind gray-400 */
+            font-size: 1rem;
+            /* match email size */
+        }
+
+        /* Contact icons alignment */
+        footer .flex-shrink-0 {
+            flex-shrink: 0;
+        }
+
+        /* Email single-line: keep on one line but allow small horizontal scroll if needed */
+        .footer-email {
+            white-space: nowrap;
+            /* force single line */
+            display: inline-block;
+            text-decoration: none;
+            /* remove underline */
+            font-size: 1rem;
+            /* bigger size (~16px) */
+            color: #9ca3af;
+            /* gray-400 */
+            overflow: visible;
+            /* show full text */
+        }
+
+        .footer-email:hover {
+            color: #ffffff;
+            /* white on hover */
+        }
+
+        /* wrapper that allows email to stay single-line without breaking layout */
+        footer .overflow-x-auto {
+            max-width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* small thin scrollbar on platforms that support it */
+        footer .overflow-x-auto::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        footer .overflow-x-auto::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.18);
+            border-radius: 999px;
+        }
+
+        /* bottom area layout */
+        footer .bottom-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* ensure no overlap of long words or URLs */
+        footer ul li {
+            word-wrap: break-word;
+        }
+
+        /* small-screen typography & spacing adjustments */
+        @media (max-width: 420px) {
+
+            footer p,
+            footer a,
+            footer li {
+                font-size: 13px;
+            }
+
+            footer .w-6.h-6 {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        /* medium screens: show services column (if you used md:block hidden) */
+        @media (min-width: 768px) {
+            /* nothing needed — content already visible by HTML classes (md:block) */
+        }
+
+        /* tweak padding in footer for smaller screens */
+        @media (max-width: 640px) {
+            footer {
+                padding-top: 0.75rem;
+                padding-bottom: 1rem;
+            }
+        }
+
+        /* Accessibility: focus styles for keyboard users */
+        footer a:focus {
+            outline: 2px dashed rgba(99, 102, 241, 0.75);
+            outline-offset: 3px;
+        }
+
+        /* Small utility to hide the '|' on tiny widths */
+        @media (max-width: 480px) {
+            footer .bottom-links span {
+                display: none;
+            }
+        }
+
+        /*remove focus*/
+        a:focus {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body class="text-gray-800 text-lg leading-relaxed">
+    <header class="bg-white shadow-lg sticky top-0 z-50 rounded-b-xl">
+        <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-6 h-20">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center shrink-0">
+                <img src="assets/images/company_logo.png" alt="InGrowwth Innovations Logo"
+                    class="h-12 md:h-14 lg:h-16 w-auto" />
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="index.html#hero"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Home
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#about"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    About Us
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#services"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Services
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#portfolio"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Portfolio
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#testimonials"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Testimonials
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#careers"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Careers
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#contact"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Contact
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </nav>
+
+            <!-- Mobile button -->
+            <button id="mobile-menu-button"
+                class="md:hidden text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2">
+                <i data-lucide="menu" class="w-7 h-7" id="menu-icon"></i>
+                <i data-lucide="x" class="w-7 h-7 hidden" id="close-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden mt-2 bg-white rounded-xl shadow-xl p-4 mx-4 hidden">
+            <nav class="flex flex-col space-y-3">
+                <a href="index.html#hero"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Home</a>
+                <a href="index.html#about"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">About
+                    Us</a>
+                <a href="index.html#services"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Services</a>
+                <a href="index.html#portfolio"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Portfolio</a>
+                <a href="index.html#testimonials"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Testimonials</a>
+                <a href="index.html#careers"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Careers</a>
+                <a href="index.html#contact"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <h2 class="text-3xl font-bold text-center text-blue-700 mb-6">QuickChat - A Chatting App</h2>
+        <p class="text-center max-w-2xl mx-auto mb-12">A real-time chatting app built with Flutter and Firebase,
+            featuring secure authentication, instant messaging, and media
+            sharing. It ensures smooth, fast, and scalable communication with a modern UI.</p>
+
+        <div class="project-slider mb-12" aria-roledescription="carousel">
+            <button class="arrow left" aria-label="Previous image" id="prevSlide" type="button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+
+            <div class="slides" id="projectSlides" tabindex="0" role="list">
+                <!-- slides created by JS -->
+            </div>
+
+            <button class="arrow right" aria-label="Next image" id="nextSlide" type="button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M9 6l6 6-6 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+
+        <section class="project-highlights">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl md:text-3xl font-extrabold text-blue-700">Project Highlights</h3>
+                <p class="text-gray-600 max-w-2xl mx-auto mt-3">Key functionality and technologies used in this project
+                    — clean, secure and production-ready.</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-stretch gap-6 justify-center">
+                <article class="highlight-card flex-1">
+                    <div class="card-header">
+                        <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-600" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12l2 2 4-4M7 20h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v11a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-blue-700">Functionality</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Real-time one-to-one and group chat</li>
+                            <li>Secure authentication (Email/Google/Phone)</li>
+                            <li>Media sharing (images, videos, documents)</li>
+                            <li>Message status (sent, delivered, read receipts)</li>
+                            <li>Push notifications for new messages</li>
+                            <li>User profiles with editable info & avatars</li>
+                        </ul>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="tag-pill">Chat</span>
+                            <span class="tag-pill">Authentication</span>
+                            <span class="tag-pill">Media Sharing</span>
+                            <span class="tag-pill">Profiles</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="highlight-card flex-1">
+                    <div class="card-header">
+                        <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-600" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 8v4l3 3m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-blue-700">Technology</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Frontend: Flutter (cross-platform, Android & iOS)</li>
+                            <li>Backend: Firebase Cloud Functions (serverless APIs)</li>
+                            <li>DB: Firestore + Firebase Storage for assets</li>
+                            <li>Auth & Push: Firebase Authentication + FCM notifications</li>
+                            <li>Messaging: Firebase Realtime Database</li>
+                            <li>Hosting & Infra: Firebase Hosting / Google Cloud</li>
+                        </ul>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="tag-pill"
+                                style="background:rgba(99,102,241,0.06); color:#4338ca; border-color: rgba(99,102,241,0.12)">Flutter</span>
+                            <span class="tag-pill"
+                                style="background:rgba(99,102,241,0.06); color:#4338ca; border-color: rgba(99,102,241,0.12)">Firebase</span>
+                            <span class="tag-pill"
+                                style="background:rgba(99,102,241,0.06); color:#4338ca; border-color: rgba(99,102,241,0.12)">Firestore</span>
+                            <span class="tag-pill"
+                                style="background:rgba(99,102,241,0.06); color:#4338ca; border-color: rgba(99,102,241,0.12)">FCM</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <div class="text-center mt-8">
+            <a href="projects.html" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">← Back to all
+                projects</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-10 px-4 sm:px-6 lg:px-8 rounded-t-3xl shadow-inner">
+        <div class="max-w-7xl mx-auto">
+            <!-- Responsive grid: 1 -> 2 -> 3 -> 4 columns -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-center md:text-left">
+
+                <!-- Logo + Intro -->
+                <div class="min-w-0 flex flex-col items-center md:items-start">
+                    <a href="#hero" class="flex items-center mb-4 shrink-0">
+                        <img src="assets/images/company_logo2.png" alt="InGrowwth Innovations Logo"
+                            class="h-20 sm:h-24 md:h-20 lg:h-20 w-auto max-w-full object-contain" />
+                    </a>
+
+                    <p class="intro-text">
+                        Innovating for a brighter digital future. We are committed to delivering excellence and driving
+                        success for businesses worldwide.
+                    </p>
+
+                    <br>
+                    <br>
+                    <div class="flex space-x-4 mt-3">
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/company/ingrowwth-innovations/" target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="linkedin" class="w-6 h-6"></i>
+                        </a>
+
+                        <!-- Twitter -->
+                        <a href="https://x.com/InGrowwTech?t=8MiL8-rVH3gbCI-JO2WH_Q&s=09" target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="twitter" class="w-6 h-6"></i>
+                        </a>
+
+                        <!-- GitHub 
+                        <a href="#"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="github" class="w-6 h-6"></i>
+                        </a>-->
+
+                        <!-- Instagram -->
+                        <a href="https://www.instagram.com/ingrowwth_innovations?igsh=MW1sbXR6OW53Z2Q4cA=="
+                            target="_blank" rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="instagram" class="w-6 h-6"></i>
+                        </a>
+
+                        <!-- Facebook -->
+                        <a href="https://www.facebook.com/share/1BN77ZSTUs/" target="_blank" rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="facebook" class="w-6 h-6"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="min-w-0">
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm sm:text-base">
+                        <li><a href="index.html#hero" class="hover:text-white transition duration-200">Home</a></li>
+                        <li><a href="index.html#about" class="hover:text-white transition duration-200">About Us</a>
+                        </li>
+                        <li><a href="index.html#services" class="hover:text-white transition duration-200">Services</a>
+                        </li>
+                        <li><a href="index.html#portfolio"
+                                class="hover:text-white transition duration-200">Portfolio</a>
+                        </li>
+                        <li><a href="index.html#testimonials"
+                                class="hover:text-white transition duration-200">Testimonials</a></li>
+                        <li><a href="index.html#careers" class="hover:text-white transition duration-200">Careers</a>
+                        </li>
+                        <li><a href="index.html#contact" class="hover:text-white transition duration-200">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Our Services (visible from md up) -->
+                <div class="min-w-0 md:block hidden">
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-4">Our Services</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm sm:text-base">
+                        <li><a href="web-development-service.html" class="hover:text-white transition duration-200">Web
+                                Development</a></li>
+                        <li><a href="mobile-application-service.html"
+                                class="hover:text-white transition duration-200">Mobile App Development</a></li>
+                        <li><a href="cloud-solutions-service.html"
+                                class="hover:text-white transition duration-200">Cloud
+                                Solutions</a></li>
+                        <li><a href="ai-ml-services.html" class="hover:text-white transition duration-200">AI & Machine
+                                Learning</a></li>
+                        <li><a href="cybersecurity-services.html"
+                                class="hover:text-white transition duration-200">Cybersecurity</a></li>
+                        <li><a href="data-analytics-services.html" class="hover:text-white transition duration-200">Data
+                                Analytics</a></li>
+                        <li><a href="ui-ux-product-design-service.html"
+                                class="hover:text-white transition duration-200">UI/UX & Product Design</a></li>
+                        <li><a href="blockchain-services.html"
+                                class="hover:text-white transition duration-200">Blockchain
+                                Solutions</a></li>
+                        <li><a href="erp-services.html" class="hover:text-white transition duration-200">ERP
+                                Solutions</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="min-w-0">
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-4">Contact Info</h3>
+                    <ul class="space-y-3 text-sm sm:text-base">
+                        <li class="flex items-start md:justify-start justify-center gap-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-blue-400 flex-shrink-0 mt-1"></i>
+                            <p class="text-gray-400">A-102 Oscar Hills, Hanspura, Ahmedabad</p>
+                        </li>
+
+                        <li class="flex items-center md:justify-start justify-center gap-3">
+                            <i data-lucide="phone" class="w-5 h-5 text-blue-400 flex-shrink-0"></i>
+                            <a href="tel:+918200229099"
+                                class="text-gray-400 hover:text-white transition duration-200">+91
+                                8200229099</a>
+                        </li>
+
+                        <!-- Email: single-line, safe overflow -->
+                        <li class="flex items-center md:justify-start justify-center gap-3">
+                            <i data-lucide="mail" class="w-5 h-5 text-blue-400 flex-shrink-0"></i>
+                            <a href="mailto:info@ingrowwthinnovations.in" class="footer-email">
+                                info@ingrowwthinnovations.in
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom -->
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+                <p class="text-gray-500 text-sm mb-3">
+                    &copy; <span id="current-year"></span> InGrowwth Innovations. All rights reserved. Designed with
+                    <span class="text-red-500">&hearts;</span> for modern businesses.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
+                    <a href="Privacy-Policy.html" class="text-gray-400 hover:text-white transition duration-200">Privacy
+                        Policy</a>
+                    <span class="text-gray-600 hidden sm:inline">|</span>
+                    <a href="term-of-services.html" class="text-gray-400 hover:text-white transition duration-200">Terms
+                        of
+                        Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script> lucide.createIcons(); </script>
+
+    <script>
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+
+        // mobile menu toggle - unchanged
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', () => {
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu) mobileMenu.classList.toggle('hidden');
+                if (menuIcon) menuIcon.classList.toggle('hidden');
+                if (closeIcon) closeIcon.classList.toggle('hidden');
+            });
+        }
+
+        const yearEl = document.getElementById('current-year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+        (function () {
+            const slidesEl = document.getElementById('projectSlides');
+            const prevBtn = document.getElementById('prevSlide');
+            const nextBtn = document.getElementById('nextSlide');
+            if (!slidesEl) return;
+
+            const rawImages = [
+                'assets/images/Quickchat/quick-chat.png',
+                'assets/images/Quickchat/quick-chat-2.png',
+                'assets/images/Quickchat/quick-chat-3.png',
+                'assets/images/Quickchat/quick-chat-4.png',
+                'assets/images/Quickchat/quick-chat-5.png',
+                'assets/images/Quickchat/quick-chat-6.png',
+                'assets/images/Quickchat/quick-chat-7.png',
+                'assets/images/Quickchat/quick-chat-8.png',
+                'assets/images/Quickchat/quick-chat-9.png',
+                'assets/images/Quickchat/quick-chat-10.png'
+            ];
+
+            let slides = [];
+            let current = 0;
+            let mode = null; // 'single' or 'pairs'
+
+            function isSingleMode() { return window.innerWidth <= 900; }
+
+            function createImgCard(src, alt, isPlaceholder = false) {
+                const card = document.createElement('div');
+                card.className = 'img-card' + (isPlaceholder ? ' placeholder' : '');
+                if (isPlaceholder) {
+                    card.textContent = 'No image';
+                } else {
+                    const img = document.createElement('img');
+                    img.src = src;
+                    img.alt = alt || '';
+                    img.loading = 'lazy';
+                    img.onerror = function () { this.onerror = null; this.src = 'https://placehold.co/900x600/CCCCCC/333333?text=No+Image'; };
+                    card.appendChild(img);
+                }
+                return card;
+            }
+
+            function renderSlides() {
+                const wantSingle = isSingleMode();
+                const newMode = wantSingle ? 'single' : 'pairs';
+                if (newMode === mode) return;
+                mode = newMode;
+                slidesEl.innerHTML = '';
+
+                if (mode === 'single') {
+                    rawImages.forEach((src, idx) => {
+                        const slide = document.createElement('div');
+                        slide.className = 'slide';
+                        slide.setAttribute('role', 'listitem');
+                        const singleWrapper = document.createElement('div');
+                        singleWrapper.className = 'two-up';
+                        singleWrapper.appendChild(createImgCard(src, `Screenshot ${idx + 1}`));
+                        slide.appendChild(singleWrapper);
+                        slidesEl.appendChild(slide);
+                    });
+                } else {
+                    for (let i = 0; i < rawImages.length; i += 2) {
+                        const leftSrc = rawImages[i];
+                        const rightSrc = rawImages[i + 1];
+                        const slide = document.createElement('div');
+                        slide.className = 'slide';
+                        slide.setAttribute('role', 'listitem');
+                        const twoUp = document.createElement('div');
+                        twoUp.className = 'two-up';
+                        twoUp.appendChild(createImgCard(leftSrc, `Screenshot ${i + 1}`));
+                        if (rightSrc) twoUp.appendChild(createImgCard(rightSrc, `Screenshot ${i + 2}`));
+                        else twoUp.appendChild(createImgCard('', '', true));
+                        slide.appendChild(twoUp);
+                        slidesEl.appendChild(slide);
+                    }
+                }
+
+                slides = Array.from(slidesEl.querySelectorAll('.slide'));
+                current = 0;
+                updateArrows(0);
+                setTimeout(() => scrollToIndex(0), 50);
+            }
+
+            function scrollToIndex(i) {
+                const index = Math.max(0, Math.min(i, slides.length - 1));
+                const target = slides[index];
+                if (target) {
+                    const left = target.offsetLeft - (slidesEl.clientWidth - target.clientWidth) / 2;
+                    slidesEl.scrollTo({ left, behavior: 'smooth' });
+                    updateArrows(index);
+                    current = index;
+                }
+            }
+
+            function currentIndex() {
+                const center = slidesEl.scrollLeft + slidesEl.clientWidth / 2;
+                let closest = 0, minDist = Infinity;
+                slides.forEach((s, idx) => {
+                    const slideCenter = s.offsetLeft + s.clientWidth / 2;
+                    const dist = Math.abs(center - slideCenter);
+                    if (dist < minDist) { minDist = dist; closest = idx; }
+                });
+                return closest;
+            }
+
+            if (prevBtn) prevBtn.addEventListener('click', () => scrollToIndex(currentIndex() - 1));
+            if (nextBtn) nextBtn.addEventListener('click', () => scrollToIndex(currentIndex() + 1));
+
+            slidesEl.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') { e.preventDefault(); scrollToIndex(currentIndex() - 1); }
+                if (e.key === 'ArrowRight') { e.preventDefault(); scrollToIndex(currentIndex() + 1); }
+            });
+
+            let scrollTimer = null;
+            slidesEl.addEventListener('scroll', () => {
+                if (scrollTimer) clearTimeout(scrollTimer);
+                scrollTimer = setTimeout(() => { scrollToIndex(currentIndex()); }, 120);
+            });
+
+            function updateArrows(idx = currentIndex()) {
+                if (prevBtn) prevBtn.style.visibility = idx === 0 ? 'hidden' : 'visible';
+                if (nextBtn) nextBtn.style.visibility = idx === slides.length - 1 ? 'hidden' : 'visible';
+            }
+
+            function debounce(fn, delay) {
+                let t = null;
+                return function (...args) {
+                    if (t) clearTimeout(t);
+                    t = setTimeout(() => fn.apply(this, args), delay);
+                };
+            }
+
+            const onResize = debounce(() => { renderSlides(); updateArrows(currentIndex()); }, 220);
+            window.addEventListener('resize', onResize);
+
+            window.addEventListener('load', () => { renderSlides(); updateArrows(0); });
+        })();
+    </script>
+</body>
+
+</html>

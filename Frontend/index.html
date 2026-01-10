@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>InGrowwth Innovations - Innovative IT Services</title>
+    <meta name="description"
+        content="InGrowwth Innovations offers bespoke IT solutions: cloud, AI/ML, cybersecurity, data analytics, web and mobile app development to drive business growth.">
+    <link rel="canonical" href="https://www.ingrowwthinnovations.in/">
+
+    <!-- Favicons & PWA manifest (paths are relative to the HTML file) -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest"> -->
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp preview) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="InGrowwth Innovations - Innovative IT Services">
+    <meta property="og:description"
+        content="InGrowwth Innovations — Innovative IT services: cloud, AI/ML, cybersecurity, data analytics and more.">
+    <meta property="og:site_name" content="InGrowwth Innovations">
+    <meta property="og:url" content="https://www.ingrowwthinnovations.in/">
+    <!-- Recommended image: 1200x630 for best preview -->
+    <meta property="og:image" content="https://www.ingrowwthinnovations.in/assets/images/company_new_logo1.png">
+    <meta property="og:image:alt" content="InGrowwth Innovations logo">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="InGrowwth Innovations - Innovative IT Services">
+    <meta name="twitter:description"
+        content="AI/ML, cloud, cybersecurity, data analytics — build modern solutions with InGrowwth Innovations.">
+    <meta name="twitter:image" content="https://www.ingrowwthinnovations.in/assets/images/company_new_logo1.png">
+    <!-- If you have a Twitter handle -->
+    <!-- <meta name="twitter:site" content="@yourhandle"> -->
+
+    <!-- Styles / Fonts / Scripts -->
+    <script src="assets/js/apiConfig.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        /* For header */
+        .nav-link {
+            @apply text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group;
+        }
+
+        .nav-link span {
+            @apply absolute left-0 bottom-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full;
+        }
+
+        .mobile-link {
+            @apply block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition duration-300;
+        }
+
+        /* Custom Font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom Animations */
+        @keyframes fadeInFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInFromBottom 0.6s ease-out forwards;
+            opacity: 0;
+            /* Start invisible */
+        }
+
+        @keyframes bounceOnce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            20% {
+                transform: translateY(-8px);
+            }
+
+            40% {
+                transform: translateY(0);
+            }
+
+            60% {
+                transform: translateY(-4px);
+            }
+
+            80% {
+                transform: translateY(0);
+            }
+        }
+
+        .animate-bounce-once {
+            animation: bounceOnce 1.5s ease-out 0.5s 1;
+            /* Play once after 0.5s delay */
+        }
+
+        /* Custom Utility for Text Shadow */
+        .text-shadow-lg {
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Ensure smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Delay for sequential animations */
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-400 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-500 {
+            animation-delay: 0.5s;
+        }
+
+        .delay-600 {
+            animation-delay: 0.6s;
+        }
+
+        .delay-700 {
+            animation-delay: 0.7s;
+        }
+
+        .delay-800 {
+            animation-delay: 0.8s;
+        }
+
+        .delay-900 {
+            animation-delay: 0.9s;
+        }
+
+        .delay-1000 {
+            animation-delay: 1.0s;
+        }
+
+        .delay-1100 {
+            animation-delay: 1.1s;
+        }
+
+        /* --------------------
+           WhatsApp FAB: responsive & consistent
+           -------------------- */
+
+        /* Ensure the anchor is positioned (you already have a fixed anchor, keep whatsapp-fab on <a>) */
+        .whatsapp-fab {
+            position: fixed;
+            z-index: 9999;
+            right: 2rem;
+            /* desktop default */
+            bottom: 2rem;
+            /* desktop default */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform .18s ease, bottom .18s ease, right .18s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .whatsapp-logo {
+            width: clamp(48px, 8vw, 72px);
+            height: clamp(48px, 8vw, 72px);
+            display: block;
+            object-fit: contain;
+            border-radius: 9999px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Very small phones */
+        @media (max-width: 420px) {
+            .whatsapp-fab {
+                right: 0.8rem;
+                bottom: 0.9rem;
+            }
+
+            .whatsapp-logo {
+                width: clamp(40px, 12vw, 64px);
+                height: clamp(40px, 12vw, 64px);
+            }
+        }
+
+        /* Small / larger phones */
+        @media (min-width: 421px) and (max-width: 640px) {
+            .whatsapp-fab {
+                right: 1rem;
+                bottom: 1rem;
+            }
+
+            .whatsapp-logo {
+                width: clamp(52px, 11vw, 68px);
+                height: clamp(52px, 11vw, 68px);
+            }
+        }
+
+        /* Tablets */
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .whatsapp-fab {
+                right: 1.25rem;
+                bottom: 1.5rem;
+            }
+
+            .whatsapp-logo {
+                width: clamp(60px, 8vw, 80px);
+                height: clamp(60px, 8vw, 80px);
+            }
+        }
+
+        /* Desktop */
+        @media (min-width: 1025px) {
+            .whatsapp-fab {
+                right: 2rem;
+                bottom: 2rem;
+            }
+
+            .whatsapp-logo {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        /* -------------------------
+       Footer — responsive styles
+       ------------------------- */
+
+        /* Base footer container */
+        footer {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* make sure grid children can shrink (prevents overflow) */
+        footer .min-w-0 {
+            min-width: 0;
+        }
+
+        /* Footer layout — adapt columns at breakpoints
+       1 column on xs, 2 on sm, 3 on md, 4 on lg */
+        footer .grid {
+            gap: 2rem;
+        }
+
+        /* Heading styles */
+        footer h3 {
+            margin: 0 0 .5rem 0;
+            line-height: 1.1;
+            font-size: 1.25rem;
+            /* ~20px */
+            font-weight: 600;
+        }
+
+        footer .intro-text {
+            font-size: 0.95rem;
+            /* ~17.5px */
+            line-height: 1.6;
+            /* more readable */
+            color: #9ca3af;
+        }
+
+        /* Link, list and text sizing */
+        footer p,
+        footer a,
+        footer li {
+            color: #9ca3af;
+            /* tailwind gray-400 */
+            font-size: 0.95rem;
+            /* match email size */
+        }
+
+        /* Contact icons alignment */
+        footer .flex-shrink-0 {
+            flex-shrink: 0;
+        }
+
+        /* Email single-line: keep on one line but allow small horizontal scroll if needed */
+        .footer-email {
+            white-space: nowrap;
+            /* force single line */
+            display: inline-block;
+            text-decoration: none;
+            /* remove underline */
+            font-size: 0.95rem;
+            /* bigger size (~16px) */
+            color: #9ca3af;
+            /* gray-400 */
+            overflow: visible;
+            /* show full text */
+        }
+
+        .footer-email:hover {
+            color: #ffffff;
+            /* white on hover */
+        }
+
+        /* wrapper that allows email to stay single-line without breaking layout */
+        footer .overflow-x-auto {
+            max-width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* small thin scrollbar on platforms that support it */
+        footer .overflow-x-auto::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        footer .overflow-x-auto::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.18);
+            border-radius: 999px;
+        }
+
+        /* bottom area layout */
+        footer .bottom-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* ensure no overlap of long words or URLs */
+        footer ul li {
+            word-wrap: break-word;
+        }
+
+        /* small-screen typography & spacing adjustments */
+        @media (max-width: 420px) {
+
+            footer p,
+            footer a,
+            footer li {
+                font-size: 13px;
+            }
+
+            footer .w-6.h-6 {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        /* medium screens: show services column (if you used md:block hidden) */
+        @media (min-width: 768px) {
+            /* nothing needed — content already visible by HTML classes (md:block) */
+        }
+
+        /* tweak padding in footer for smaller screens */
+        @media (max-width: 640px) {
+            footer {
+                padding-top: 0.75rem;
+                padding-bottom: 1rem;
+            }
+        }
+
+        /* Accessibility: focus styles for keyboard users */
+        footer a:focus {
+            outline: 2px dashed rgba(99, 102, 241, 0.75);
+            outline-offset: 3px;
+        }
+
+        /* Small utility to hide the '|' on tiny widths */
+        @media (max-width: 480px) {
+            footer .bottom-links span {
+                display: none;
+            }
+        }
+
+        /*remove focus*/
+        a:focus {
+            outline: none;
+        }
+    </style>
+
+</head>
+
+<body class="font-inter antialiased text-gray-800 bg-gray-50">
+
+    <header class="bg-white shadow-lg sticky top-0 z-50 rounded-b-xl">
+        <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-6 h-20">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center shrink-0">
+                <img src="assets/images/company_logo.png" alt="InGrowwth Innovations Logo"
+                    class="h-12 md:h-14 lg:h-16 w-auto" />
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="index.html#hero"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Home
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#about"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    About Us
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#services"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Services
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#portfolio"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Portfolio
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#testimonials"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Testimonials
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#careers"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Careers
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#contact"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Contact
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </nav>
+
+            <!-- Mobile button -->
+            <button id="mobile-menu-button"
+                class="md:hidden text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2">
+                <i data-lucide="menu" class="w-7 h-7" id="menu-icon"></i>
+                <i data-lucide="x" class="w-7 h-7 hidden" id="close-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden mt-2 bg-white rounded-xl shadow-xl p-4 mx-4 hidden">
+            <nav class="flex flex-col space-y-3">
+                <a href="index.html#hero"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Home</a>
+                <a href="index.html#about"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">About
+                    Us</a>
+                <a href="index.html#services"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Services</a>
+                <a href="index.html#portfolio"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Portfolio</a>
+                <a href="index.html#testimonials"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Testimonials</a>
+                <a href="index.html#careers"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Careers</a>
+                <a href="index.html#contact"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero"
+            class="relative bg-gradient-to-br from-blue-700 to-indigo-900 text-white py-24 md:py-40 overflow-hidden rounded-b-3xl shadow-2xl">
+            <div class="absolute inset-0 opacity-10">
+                <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                    <defs>
+                        <pattern id="pattern-circles" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+                            <circle cx="2" cy="2" r="1.5" fill="rgba(255,255,255,0.1)" />
+                        </pattern>
+                    </defs>
+                    <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-circles)" />
+                </svg>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                <h1
+                    class="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight mb-8 text-shadow-lg animate-fade-in-up">
+                    Future-Proof Your Business <br /> with <span class="text-blue-300">Innovative IT</span>
+                </h1>
+                <p class="text-xl sm:text-2xl mb-12 max-w-4xl mx-auto opacity-90 animate-fade-in delay-200">
+                    InGrowwth Innovations is a leading IT solutions provider, dedicated to crafting bespoke software,
+                    robust cloud infrastructure, and intelligent digital strategies that drive unparalleled growth.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center space-y-5 sm:space-y-0 sm:space-x-6">
+                    <a href="#services"
+                        class="inline-flex items-center justify-center px-10 py-5 border border-transparent text-lg font-semibold rounded-full shadow-xl text-blue-800 bg-white hover:bg-blue-100 transition duration-300 ease-in-out transform hover:scale-105 animate-bounce-once">
+                        Explore Services <i data-lucide="arrow-right" class="ml-3 w-6 h-6"></i>
+                    </a>
+                    <a href="#contact"
+                        class="inline-flex items-center justify-center px-10 py-5 border-2 border-white text-lg font-semibold rounded-full shadow-xl text-white hover:bg-white hover:text-blue-800 transition duration-300 ease-in-out transform hover:scale-105">
+                        Get a Free Consultation
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 sm:py-32 bg-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+
+                    <div class="mb-12 lg:mb-0 relative block animate-fade-in-up">
+                        <!-- Bigger Straight Video -->
+                        <video autoplay muted loop playsinline controls
+                            class="rounded-3xl shadow-2xl w-full h-[220px] sm:h-[300px] md:h-[460px] lg:h-[500px] object-cover transition duration-500 ease-in-out">
+                            <source src="assets/videos/about-us.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+
+                        <!-- Experience Badge -->
+                        <div
+                            class="absolute -bottom-10 sm:-bottom-16 left-1/2 transform -translate-x-1/2 bg-blue-100 px-4 py-3 sm:p-6 rounded-2xl shadow-xl transition duration-500 ease-in-out text-center">
+                            <i data-lucide="cube" class="w-8 sm:w-12 h-8 sm:h-12 text-blue-600 mb-2"></i>
+                            <p class="text-base sm:text-lg font-semibold text-gray-800">5+ Years Experience</p>
+                        </div>
+                    </div>
+
+                    <!-- Text column with extra spacing under badge -->
+                    <div class="animate-fade-in-up delay-100 mt-16 md:mt-24 lg:mt-0">
+                        <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
+                            Driving Innovation, <br /> Building <span class="text-blue-600">Digital Futures</span>
+                        </h2>
+                        <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                            At InGrowwth Innovations, we are more than just a technology company; we are your strategic
+                            partners in navigating the digital landscape. With a decade of expertise, we empower
+                            businesses to achieve their full potential through cutting-edge software and visionary IT
+                            strategies.
+                        </p>
+                        <p class="text-lg text-gray-700 mb-8 leading-relaxed border-l-4 border-blue-500 pl-4 italic">
+                            "Our commitment is to deliver not just solutions, but measurable value and sustainable
+                            growth for every client we serve."
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-10">
+                            <div class="flex items-start">
+                                <i data-lucide="award"
+                                    class="w-9 h-9 text-blue-600 flex-shrink-0 mt-1 mr-4 bg-blue-100 p-2 rounded-full shadow-md"></i>
+                                <div>
+                                    <h3 class="text-2xl font-semibold text-gray-900 mb-1">Expert Team</h3>
+                                    <p class="text-gray-600">A collective of seasoned architects, developers, and
+                                        consultants.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i data-lucide="lightbulb"
+                                    class="w-9 h-9 text-blue-600 flex-shrink-0 mt-1 mr-4 bg-blue-100 p-2 rounded-full shadow-md"></i>
+                                <div>
+                                    <h3 class="text-2xl font-semibold text-gray-900 mb-1">Innovative Solutions</h3>
+                                    <p class="text-gray-600">Pioneering creative and effective solutions for complex
+                                        challenges.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i data-lucide="user-check"
+                                    class="w-9 h-9 text-blue-600 flex-shrink-0 mt-1 mr-4 bg-blue-100 p-2 rounded-full shadow-md"></i>
+                                <div>
+                                    <h3 class="text-2xl font-semibold text-gray-900 mb-1">Client-Centric Approach</h3>
+                                    <p class="text-gray-600">Your vision and success are the core of our every endeavor.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i data-lucide="trending-up"
+                                    class="w-9 h-9 text-blue-600 flex-shrink-0 mt-1 mr-4 bg-blue-100 p-2 rounded-full shadow-md"></i>
+                                <div>
+                                    <h3 class="text-2xl font-semibold text-gray-900 mb-1">Growth Driven</h3>
+                                    <p class="text-gray-600">Solutions designed to scale and evolve with your business.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-24 text-center">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-16 animate-fade-in-up">
+                        Meet Our <span class="text-blue-600">Leadership Team</span>
+                    </h2>
+
+                    <!-- Use grid-cols-1 on mobile, grid-cols-2 on medium, grid-cols-3 on large -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
+
+                        <!-- CEO -->
+                        <div class="flex flex-col items-center animate-fade-in-up delay-100">
+                            <img src="assets/images/Meet-CEO.png" alt="Meet - CEO"
+                                class="w-48 h-48 rounded-full object-cover shadow-lg mb-6 border-4 border-blue-200 transform hover:scale-105 transition duration-300"
+                                onerror="this.onerror=null;this.src='https://placehold.co/200x200/ADD8E6/2C3E50?text=CEO';" />
+                            <h3 class="text-2xl font-bold text-gray-900">Meet Trivedi</h3>
+                            <p class="text-blue-600 font-semibold text-lg">Chief Executive Officer</p>
+                            <p class="text-gray-600 text-center mt-2">Visionary leader guiding our strategic direction
+                                and growth.</p>
+                        </div>
+
+                        <!-- CTO -->
+                        <div class="flex flex-col items-center animate-fade-in-up delay-200">
+                            <img src="assets/images/Darshan-CTO.png" alt="Darshan - CTO"
+                                class="w-48 h-48 rounded-full object-cover shadow-lg mb-6 border-4 border-blue-200 transform hover:scale-105 transition duration-300"
+                                onerror="this.onerror=null;this.src='https://placehold.co/200x200/B0E0E6/2C3E50?text=CTO';" />
+                            <h3 class="text-2xl font-bold text-gray-900">Darshan Dalwadi</h3>
+                            <p class="text-blue-600 font-semibold text-lg">Chief Technology Officer</p>
+                            <p class="text-gray-600 text-center mt-2">Driving technological innovation and overseeing
+                                product
+                                development.</p>
+                        </div>
+
+                        <!-- COO -->
+                        <div class="flex flex-col items-center animate-fade-in-up delay-300">
+                            <img src="assets/images/Saurav-COO.png" alt="Saurav - COO"
+                                class="w-48 h-48 rounded-full object-cover shadow-lg mb-6 border-4 border-blue-200 transform hover:scale-105 transition duration-300"
+                                onerror="this.onerror=null;this.src='https://placehold.co/200x200/87CEEB/2C3E50?text=COO';" />
+                            <h3 class="text-2xl font-bold text-gray-900">Saurav Patel</h3>
+                            <p class="text-blue-600 font-semibold text-lg">Chief Operating Officer</p>
+                            <p class="text-gray-600 text-center mt-2">Scaling operations and fueling innovation.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="company-stats" class="bg-gradient-to-r from-[#1E3A8A] via-[#3B82F6] to-[#60A5FA] text-white py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-y-12 sm:gap-y-8 lg:gap-x-12">
+                    <div class="flex flex-col items-center lg:col-span-1">
+                        <p class="text-4xl sm:text-5xl lg:text-7xl font-extrabold" data-count="2012">2025</p>
+                        <p class="text-base sm:text-lg text-white opacity-80 mt-1 text-center">Established Since</p>
+                    </div>
+
+                    <div class="flex flex-col items-center lg:col-span-1">
+                        <p class="text-4xl sm:text-5xl lg:text-7xl font-extrabold"><span class="counter"
+                                data-target="10">0</span>+</p>
+                        <p class="text-base sm:text-lg text-white opacity-80 mt-1 text-center">Tech Experts</p>
+                    </div>
+
+                    <div class="flex flex-col items-center lg:col-span-1">
+                        <p class="text-4xl sm:text-5xl lg:text-7xl font-extrabold">24*7</p>
+                        <p class="text-base sm:text-lg text-white opacity-80 mt-1 text-center">Support</p>
+                    </div>
+
+                    <div class="flex flex-col items-center lg:col-span-1">
+                        <p class="text-4xl sm:text-5xl lg:text-7xl font-extrabold"><span class="counter"
+                                data-target="96">0</span>%</p>
+                        <p class="text-base sm:text-lg text-white opacity-80 mt-1 text-center">Happy Clients</p>
+                    </div>
+
+                    <div class="flex flex-col items-center lg:col-span-1">
+                        <p class="text-4xl sm:text-5xl lg:text-7xl font-extrabold"><span class="counter"
+                                data-target="90">0</span>%</p>
+                        <p class="text-base sm:text-lg text-white opacity-80 mt-1 text-center">Client Retention</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="py-20 sm:py-32 bg-gradient-to-br from-blue-50 to-indigo-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-6 animate-fade-in-up">
+                    Our Core <span class="text-blue-700">Expertise</span>
+                </h2>
+                <p class="text-xl text-gray-700 mb-16 max-w-3xl mx-auto animate-fade-in-up delay-100">
+                    We provide a comprehensive suite of IT services, leveraging the latest technologies to empower your
+                    business and drive digital transformation.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform hover:scale-105 transition duration-500 ease-in-out group border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-100">
+                        <div
+                            class="p-5 bg-blue-100 rounded-full mb-7 group-hover:bg-blue-600 group-hover:text-white transition duration-500 shadow-md group-hover:shadow-lg">
+                            <i data-lucide="monitor"
+                                class="w-9 h-9 text-blue-500 group-hover:text-white transition duration-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Web Development</h3>
+                        <p class="text-gray-600 text-lg">Crafting responsive and dynamic web applications using modern
+                            frameworks and robust backend solutions.</p>
+                        <a href="web-development-service.html"
+                            class="mt-6 text-blue-600 font-semibold flex items-center group-hover:text-blue-800 transition duration-300">
+                            Learn More <i data-lucide="arrow-right"
+                                class="ml-2 w-5 h-5 group-hover:translate-x-1 transition duration-300"></i>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform hover:scale-105 transition duration-500 ease-in-out group border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-200">
+                        <div
+                            class="p-5 bg-blue-100 rounded-full mb-7 group-hover:bg-blue-600 group-hover:text-white transition duration-500 shadow-md group-hover:shadow-lg">
+                            <i data-lucide="smartphone"
+                                class="w-9 h-9 text-green-500 group-hover:text-white transition duration-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Mobile App Development</h3>
+                        <p class="text-gray-600 text-lg">Building intuitive and high-performance mobile apps for iOS and
+                            Android, ensuring seamless user experiences.</p>
+                        <a href="mobile-application-service.html"
+                            class="mt-6 text-blue-600 font-semibold flex items-center group-hover:text-blue-800 transition duration-300">
+                            Learn More <i data-lucide="arrow-right"
+                                class="ml-2 w-5 h-5 group-hover:translate-x-1 transition duration-300"></i>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform hover:scale-105 transition duration-500 ease-in-out group border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-300">
+                        <div
+                            class="p-5 bg-blue-100 rounded-full mb-7 group-hover:bg-blue-600 group-hover:text-white transition duration-500 shadow-md group-hover:shadow-lg">
+                            <i data-lucide="cloud"
+                                class="w-9 h-9 text-purple-500 group-hover:text-white transition duration-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Cloud Solutions</h3>
+                        <p class="text-gray-600 text-lg">Implementing scalable cloud infrastructure and services on AWS,
+                            Azure, or GCP for optimal business operations.</p>
+                        <a href="cloud-solutions-service.html"
+                            class="mt-6 text-blue-600 font-semibold flex items-center group-hover:text-blue-800 transition duration-300">
+                            Learn More <i data-lucide="arrow-right"
+                                class="ml-2 w-5 h-5 group-hover:translate-x-1 transition duration-300"></i>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform hover:scale-105 transition duration-500 ease-in-out group border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-400">
+                        <div
+                            class="p-5 bg-blue-100 rounded-full mb-7 group-hover:bg-blue-600 group-hover:text-white transition duration-500 shadow-md group-hover:shadow-lg">
+                            <i data-lucide="brain"
+                                class="w-9 h-9 text-red-500 group-hover:text-white transition duration-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">AI & Machine Learning</h3>
+                        <p class="text-gray-600 text-lg">Developing intelligent solutions to automate processes, predict
+                            trends, and gain deep insights from data.</p>
+                        <a href="ai-ml-services.html"
+                            class="mt-6 text-blue-600 font-semibold flex items-center group-hover:text-blue-800 transition duration-300">
+                            Learn More <i data-lucide="arrow-right"
+                                class="ml-2 w-5 h-5 group-hover:translate-x-1 transition duration-300"></i>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform hover:scale-105 transition duration-500 ease-in-out group border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-500">
+                        <div
+                            class="p-5 bg-blue-100 rounded-full mb-7 group-hover:bg-blue-600 group-hover:text-white transition duration-500 shadow-md group-hover:shadow-lg">
+                            <i data-lucide="shield"
+                                class="w-9 h-9 text-yellow-500 group-hover:text-white transition duration-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Cybersecurity Consulting</h3>
+                        <p class="text-gray-600 text-lg">Protecting your digital assets with comprehensive security
+                            strategies, threat detection, and compliance.</p>
+                        <a href="cybersecurity-services.html"
+                            class="mt-6 text-blue-600 font-semibold flex items-center group-hover:text-blue-800 transition duration-300">
+                            Learn More <i data-lucide="arrow-right"
+                                class="ml-2 w-5 h-5 group-hover:translate-x-1 transition duration-300"></i>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform hover:scale-105 transition duration-500 ease-in-out group border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-600">
+                        <div
+                            class="p-5 bg-blue-100 rounded-full mb-7 group-hover:bg-blue-600 group-hover:text-white transition duration-500 shadow-md group-hover:shadow-lg">
+                            <i data-lucide="database"
+                                class="w-9 h-9 text-teal-500 group-hover:text-white transition duration-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Data Analytics</h3>
+                        <p class="text-gray-600 text-lg">Transforming raw data into actionable insights and compelling
+                            visualizations for strategic decision-making.</p>
+                        <a href="data-analytics-services.html"
+                            class="mt-6 text-blue-600 font-semibold flex items-center group-hover:text-blue-800 transition duration-300">
+                            Learn More <i data-lucide="arrow-right"
+                                class="ml-2 w-5 h-5 group-hover:translate-x-1 transition duration-300"></i>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform hover:scale-105 transition duration-500 ease-in-out group border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-600">
+                        <div
+                            class="p-5 bg-blue-100 rounded-full mb-7 group-hover:bg-blue-600 group-hover:text-white transition duration-500 shadow-md group-hover:shadow-lg">
+                            <i data-lucide="palette"
+                                class="w-9 h-9 text-pink-500 group-hover:text-white transition duration-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">UI/UX & Product Design</h3>
+                        <p class="text-gray-600 text-lg">Designing intuitive interfaces and seamless experiences that
+                            enhance usability,
+                            engagement, and product success.</p>
+                        <a href="ui-ux-product-design-service.html"
+                            class="mt-6 text-blue-600 font-semibold flex items-center group-hover:text-blue-800 transition duration-300">
+                            Learn More <i data-lucide="arrow-right"
+                                class="ml-2 w-5 h-5 group-hover:translate-x-1 transition duration-300"></i>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform hover:scale-105 transition duration-500 ease-in-out group border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-600">
+                        <div
+                            class="p-5 bg-blue-100 rounded-full mb-7 group-hover:bg-blue-600 group-hover:text-white transition duration-500 shadow-md group-hover:shadow-lg">
+                            <i data-lucide="boxes"
+                                class="w-9 h-9 text-black-500 group-hover:text-white transition duration-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Blockchain Solutions</h3>
+                        <p class="text-gray-600 text-lg">Building secure, transparent, and decentralized systems that
+                            drive trust,
+                            traceability, and innovation across industries.</p>
+                        <a href="blockchain-services.html"
+                            class="mt-6 text-blue-600 font-semibold flex items-center group-hover:text-blue-800 transition duration-300">
+                            Learn More <i data-lucide="arrow-right"
+                                class="ml-2 w-5 h-5 group-hover:translate-x-1 transition duration-300"></i>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform hover:scale-105 transition duration-500 ease-in-out group border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-600">
+                        <div
+                            class="p-5 bg-blue-100 rounded-full mb-7 group-hover:bg-blue-600 group-hover:text-white transition duration-500 shadow-md group-hover:shadow-lg">
+                            <i data-lucide="layers"
+                                class="w-9 h-9 text-orange-500 group-hover:text-white transition duration-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">ERP Solutions</h3>
+                        <p class="text-gray-600 text-lg">Streamlining business operations through integrated platforms
+                            that unify processes,
+                            data, and workflows for greater efficiency and scalability.</p>
+                        <a href="erp-services.html"
+                            class="mt-6 text-blue-600 font-semibold flex items-center group-hover:text-blue-800 transition duration-300">
+                            Learn More <i data-lucide="arrow-right"
+                                class="ml-2 w-5 h-5 group-hover:translate-x-1 transition duration-300"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="py-20 sm:py-32 bg-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-6 animate-fade-in-up">
+                    Our Showcase: <span class="text-blue-600">Impactful Projects</span>
+                </h2>
+                <p class="text-xl text-gray-700 mb-16 max-w-3xl mx-auto animate-fade-in-up delay-100">
+                    Discover how InGrowwth Innovations has helped businesses achieve their goals through innovative and
+                    expertly crafted digital solutions.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+
+                    <!-- card-1 -->
+                    <a href="project1.html" class="block">
+                        <div
+                            class="bg-white rounded-3xl shadow-xl overflow-hidden group transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300 animate-fade-in-up">
+                            <div class="relative overflow-hidden">
+                                <img src="assets/images/SensAI/logo.png" alt="SensAI"
+                                    class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
+                                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/E0F2F7/2C3E50?text=Project+1';" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-500 flex items-end p-6">
+                                    <h3 class="text-white text-2xl font-bold">SENSAI</h3>
+                                </div>
+                            </div>
+                            <div class="p-8 text-left">
+                                <h3 class="text-xl font-bold text-gray-900 mb-3">SENSAI</h3>
+                                <p class="text-gray-600 mb-5">AI-powered platform helping students with career insights,
+                                    resumes, and interviews.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Web
+                                        Development</span>
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">UI/UX</span>
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">React</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- card-2 -->
+                    <a href="project2.html" class="block">
+                        <div
+                            class="bg-white rounded-3xl shadow-xl overflow-hidden group transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-100">
+                            <div class="relative overflow-hidden">
+                                <img src="assets/images/EasyFarmhub/easy-logo.png" alt="EasyFarm Hub"
+                                    class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
+                                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/B3E0FF/FFFFFF?text=Project+2';" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-500 flex items-end p-6">
+                                    <h3 class="text-white text-2xl font-bold">Easy Farm Hub</h3>
+                                </div>
+                            </div>
+                            <div class="p-8 text-left">
+                                <h3 class="text-xl font-bold text-gray-900 mb-3">Easy Farm Hub</h3>
+                                <p class="text-gray-600 mb-5">Platform helping farmers with organic farming, schemes,
+                                    and product management.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Mobile
+                                        App</span>
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Fintech</span>
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Security</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- card-3 -->
+                    <a href="project3.html" class="block">
+                        <div
+                            class="bg-white rounded-3xl shadow-xl overflow-hidden group transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-200">
+                            <div class="relative overflow-hidden">
+                                <img src="assets/images/Library/Sankalp-logo.png" alt="Sankalp Library App"
+                                    class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
+                                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFDDC1/FFFFFF?text=Project+3';" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-500 flex items-end p-6">
+                                    <h3 class="text-white text-2xl font-bold">Sankalp Library App</h3>
+                                </div>
+                            </div>
+                            <div class="p-8 text-left">
+                                <h3 class="text-xl font-bold text-gray-900 mb-3">Sankalp Library App</h3>
+                                <p class="text-gray-600 mb-5">A lightweight Flutter app to discover, reserve, and borrow
+                                    books with offline support.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Flutter</span>
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Firebase</span>
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Firestore</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- card-4 -->
+                    <a href="project4.html" class="block">
+                        <div
+                            class="bg-white rounded-3xl shadow-xl overflow-hidden group transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-300">
+                            <div class="relative overflow-hidden">
+                                <img src="assets/images/Constraction/AB.png" alt="Ahmedabad Builders"
+                                    class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
+                                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/D4E6F1/FFFFFF?text=Project+4';" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-500 flex items-end p-6">
+                                    <h3 class="text-white text-2xl font-bold">Ahmedabad Builders</h3>
+                                </div>
+                            </div>
+                            <div class="p-8 text-left">
+                                <h3 class="text-xl font-bold text-gray-900 mb-3">Ahmedabad Builders</h3>
+                                <p class="text-gray-600 mb-5">Your trusted partner for all residential and commercial
+                                    construction needs in Ahmedabad.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">CRM</span>
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Enterprise
+                                        Software</span>
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Cloud</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- card-5 -->
+                    <a href="project5.html" class="block">
+                        <div
+                            class="bg-white rounded-3xl shadow-xl overflow-hidden group transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-400">
+                            <div class="relative overflow-hidden">
+                                <img src="assets/images/Quickchat/quickchat-logo.png" alt="QuickChat - A Chatting App"
+                                    class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
+                                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCE0F0/FFFFFF?text=Project+5';" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-500 flex items-end p-6">
+                                    <h3 class="text-white text-2xl font-bold">QuickChat - A Chatting App</h3>
+                                </div>
+                            </div>
+                            <div class="p-8 text-left">
+                                <h3 class="text-xl font-bold text-gray-900 mb-3">QuickChat - A Chatting App</h3>
+                                <p class="text-gray-600 mb-5">Real-time Flutter chat for chatting & media sharing using
+                                    Firebase
+                                    with secure, fast messaging.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Flutter</span>
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Firebase</span>
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Real-time
+                                        Chat</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- card-6 -->
+                    <a href="project6.html" class="block">
+                        <div
+                            class="bg-white rounded-3xl shadow-xl overflow-hidden group transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-500">
+                            <div class="relative overflow-hidden">
+                                <img src="assets/images/Smart-Irrigation/logo.png"
+                                    alt="Healthcare Data Analytics Dashboard"
+                                    class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
+                                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/ADD8E6/FFFFFF?text=Project+6';" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-500 flex items-end p-6">
+                                    <h3 class="text-white text-2xl font-bold">Smart Irrigation System</h3>
+                                </div>
+                            </div>
+                            <div class="p-8 text-left">
+                                <h3 class="text-xl font-bold text-gray-900 mb-3">Smart Irrigation System</h3>
+                                <p class="text-gray-600 mb-5">A smart irrigation system that predict crop and give
+                                    real-time
+                                    soil and weather data.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Crop-prediction</span>
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Farming</span>
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">IoT</span>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                </a>
+
+                <div class="mt-20">
+                    <a href="projects.html"
+                        class="inline-flex items-center justify-center px-10 py-5 border border-transparent text-lg font-semibold rounded-full shadow-xl text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
+                        View All Projects <i data-lucide="chevron-right" class="ml-3 w-6 h-6"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="py-20 sm:py-32 bg-gradient-to-br from-blue-50 to-indigo-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-6 animate-fade-in-up">
+                    What Our <span class="text-blue-700">Clients Say</span>
+                </h2>
+                <p class="text-xl text-gray-700 mb-16 max-w-3xl mx-auto animate-fade-in-up delay-100">
+                    Hear directly from our satisfied clients about their experience working with InGrowwth Innovations
+                    and the value we've delivered.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-8 flex flex-col items-center text-center transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300 animate-fade-in-up">
+                        <img src="assets/images/testimonials/Paras.png" alt="Paras Pandya"
+                            class="w-24 h-24 rounded-full object-cover mb-6 border-4 border-blue-200 shadow-md"
+                            onerror="this.onerror=null;this.src='https://placehold.co/100x100/AEC6CF/FFFFFF?text=JD';" />
+                        <div class="flex mb-4">
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        </div>
+                        <p class="text-gray-700 italic mb-6 text-lg leading-relaxed">"Our experience with InGrowwth
+                            Innovations was exceptional. They delivered our complex web application on time and exceeded
+                            our expectations in terms of quality and performance. Their team is truly top-notch!"</p>
+                        <p class="font-bold text-gray-900 text-xl">Paras Pandya</p>
+                        <p class="text-md text-gray-500">Founder, Vishwas Times</p>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-8 flex flex-col items-center text-center transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-100">
+                        <img src="assets/images/testimonials/KRV.png" alt="Kuldeepsinh Vagela"
+                            class="w-24 h-24 rounded-full object-cover mb-6 border-4 border-blue-200 shadow-md"
+                            onerror="this.onerror=null;this.src='https://placehold.co/100x100/B3E0FF/FFFFFF?text=JS';" />
+                        <div class="flex mb-4">
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        </div>
+                        <p class="text-gray-700 italic mb-6 text-lg leading-relaxed">"The team at InGrowwth Innovations
+                            transformed our mobile strategy. Their expertise in app development is truly remarkable, and
+                            the final product is a game-changer for our business. Highly recommended!"</p>
+                        <p class="font-bold text-gray-900 text-xl">Kuldeepsinh Vagela</p>
+                        <p class="text-md text-gray-500">Owner, Sankalp Library</p>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-8 flex flex-col items-center text-center transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-200">
+                        <img src="assets/images/testimonials/Sanjay_X.png" alt="Sandeep Mishra"
+                            class="w-24 h-24 rounded-full object-cover mb-6 border-4 border-blue-200 shadow-md"
+                            onerror="this.onerror=null;this.src='https://placehold.co/100x100/FFDDC1/FFFFFF?text=SM';" />
+                        <div class="flex mb-4">
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        </div>
+                        <p class="text-gray-700 italic mb-6 text-lg leading-relaxed">"We highly recommend InGrowwth
+                            Innovations for their cloud consulting services. They helped us migrate seamlessly to the
+                            cloud, significantly improving our operational efficiency and reducing costs."</p>
+                        <p class="font-bold text-gray-900 text-xl">Sanjay Mishra</p>
+                        <p class="text-md text-gray-500">CTO, Cloud Innovations</p>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-8 flex flex-col items-center text-center transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300 animate-fade-in-up delay-300">
+                        <img src="assets/images/testimonials/Thomas_Testimonal.png" alt="Michael Brown"
+                            class="w-24 h-24 rounded-full object-cover mb-6 border-4 border-blue-200 shadow-md"
+                            onerror="this.onerror=null;this.src='https://placehold.co/100x100/D4E6F1/FFFFFF?text=MB';" />
+                        <div class="flex mb-4">
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                        </div>
+                        <p class="text-gray-700 italic mb-6 text-lg leading-relaxed">"The cybersecurity audit performed
+                            by InGrowwth Innovations was thorough and insightful. They identified critical
+                            vulnerabilities and provided actionable recommendations that greatly enhanced our security
+                            posture."</p>
+                        <p class="font-bold text-gray-900 text-xl">Thomas Gensen </p>
+                        <p class="text-md text-gray-500">Founder, Gensen Software</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="careers" class="py-20 sm:py-32 bg-gradient-to-br from-blue-50 to-indigo-100 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-6 animate-fade-in-up">
+                    Join Our <span class="text-blue-600">Dynamic Team</span>
+                </h2>
+                <p class="text-xl text-gray-700 mb-16 max-w-3xl mx-auto animate-fade-in-up delay-100">
+                    At InGrowwth Innovations, we foster a culture of innovation, collaboration, and continuous learning.
+                    Explore our open positions and embark on a rewarding career journey with us.
+                </p>
+
+                <div class="mb-20">
+                    <h3 class="text-3xl font-extrabold text-gray-900 mb-10 animate-fade-in-up delay-200">Why Choose a
+                        Career at InGrowwth Innovations?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div
+                            class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center animate-fade-in-up delay-300">
+                            <i data-lucide="calendar-check" class="w-12 h-12 text-blue-600 mb-4"></i>
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">5-Day Working Week</h4>
+                            <p class="text-gray-600">Enjoy your weekends with a balanced work-life schedule.</p>
+                        </div>
+                        <div
+                            class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center animate-fade-in-up delay-400">
+                            <i data-lucide="clock" class="w-12 h-12 text-green-600 mb-4"></i>
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Flexible Timings</h4>
+                            <p class="text-gray-600">Adapt your work hours to fit your personal commitments.</p>
+                        </div>
+                        <div
+                            class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center animate-fade-in-up delay-500">
+                            <i data-lucide="graduation-cap" class="w-12 h-12 text-purple-600 mb-4"></i>
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Continuous Learning & Growth</h4>
+                            <p class="text-gray-600">Access to training, certifications, and mentorship programs.</p>
+                        </div>
+                        <div
+                            class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center animate-fade-in-up delay-600">
+                            <i data-lucide="smile" class="w-12 h-12 text-yellow-600 mb-4"></i>
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Vibrant Culture</h4>
+                            <p class="text-gray-600">Collaborative, inclusive, and supportive work environment.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="text-3xl font-extrabold text-gray-900 mb-10 animate-fade-in-up delay-700">Current Openings
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-8 transform hover:scale-105 transition duration-300 ease-in-out animate-fade-in-up delay-800">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Full-Stack Developer</h3>
+                        <p class="text-blue-600 font-semibold mb-4">Location: Ahmedabad, Gujarat</p>
+                        <p class="text-gray-600 mb-6">
+                            We're looking for an experienced Full-Stack Developer to lead the design and implementation
+                            of scalable web applications. Proficiency in Node.js, React, and cloud platforms is a plus.
+                        </p>
+                        <a href="job_description.html?role=full-stack-developer"
+                            class="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 transition duration-300">
+                            Apply Now <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-8 transform hover:scale-105 transition duration-300 ease-in-out animate-fade-in-up delay-900">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Cloud Solutions Architect</h3>
+                        <p class="text-blue-600 font-semibold mb-4">Location: Ahmedabad, Gujarat</p>
+                        <p class="text-gray-600 mb-6">
+                            Design and implement robust, secure, and scalable cloud solutions for our enterprise
+                            clients. Expertise in AWS, Azure, or GCP is essential.
+                        </p>
+                        <a href="job_description.html?role=cloud-solutions-architect"
+                            class="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 transition duration-300">
+                            Apply Now <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-8 transform hover:scale-105 transition duration-300 ease-in-out animate-fade-in-up delay-1000">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">UI/UX Designer</h3>
+                        <p class="text-blue-600 font-semibold mb-4">Location: Ahmedabad, Gujarat</p>
+                        <p class="text-gray-600 mb-6">
+                            Create intuitive and visually stunning user interfaces for our mobile applications. Strong
+                            portfolio and experience with Figma/Sketch required.
+                        </p>
+                        <a href="job_description.html?role=ui-ux-designer"
+                            class="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 transition duration-300">
+                            Apply Now <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
+                        </a>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-8 transform hover:scale-105 transition duration-300 ease-in-out animate-fade-in-up delay-1100">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Data Scientist (AI/ML)</h3>
+                        <p class="text-blue-600 font-semibold mb-4">Location: Ahmedabad, Gujarat</p>
+                        <p class="text-gray-600 mb-6">
+                            Develop and deploy machine learning models to solve complex business problems and extract
+                            valuable insights from large datasets.
+                        </p>
+                        <a href="job_description.html?role=data-scientist"
+                            class="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 transition duration-300">
+                            Apply Now <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- <div class="mt-20">
+                    <a href="#contact"
+                        class="inline-flex items-center justify-center px-10 py-5 border border-transparent text-lg font-semibold rounded-full shadow-xl text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
+                        View All Openings <i data-lucide="chevron-right" class="ml-3 w-6 h-6"></i>
+                    </a>
+                </div> -->
+            </div>
+        </section>
+
+        <section
+            class="bg-blue-700 py-20 rounded-3xl mx-4 sm:mx-6 lg:mx-8 -mt-4 sm:-mt-2 lg:-mt-16 relative z-20 shadow-2xl animate-fade-in-up delay-200">
+            <div class="max-w-5xl mx-auto text-center text-white px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl sm:text-5xl font-extrabold mb-6 leading-tight">
+                    Ready to Transform Your Business?
+                </h2>
+                <p class="text-xl opacity-90 mb-10">
+                    Let's discuss your next big idea and how InGrowwth Innovations can bring it to life.
+                </p>
+                <a href="#contact"
+                    class="inline-flex items-center justify-center px-10 py-5 border border-white text-lg font-semibold rounded-full shadow-lg text-white hover:bg-white hover:text-blue-700 transition duration-300 ease-in-out transform hover:scale-105">
+                    Start Your Project Today <i data-lucide="zap" class="ml-3 w-6 h-6"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Updated responsive contact section (Tailwind only) -->
+        <section id="contact" class="py-20 sm:py-32 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2
+                    class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 text-center mb-6 animate-fade-in-up">
+                    Get In <span class="text-blue-600">Touch</span>
+                </h2>
+
+                <p
+                    class="text-base sm:text-lg md:text-xl text-gray-700 text-center mb-16 max-w-3xl mx-auto animate-fade-in-up delay-100">
+                    We're eager to hear about your project and explore how InGrowwth Innovations can help you achieve
+                    your
+                    digital ambitions.
+                </p>
+
+                <!-- grid: single column on small, 2-cols on lg -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12">
+                    <!-- contact card -->
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 text-white 
+                             p-6 sm:p-8 md:p-10 rounded-2xl md:rounded-3xl shadow-xl 
+                             flex flex-col justify-between transform hover:-translate-y-2 
+                             transition duration-500 ease-in-out break-words">
+
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-bold mb-6">Reach Out to Us</h3>
+
+                            <div class="space-y-6 sm:space-y-8">
+                                <!-- Email -->
+                                <div class="flex items-start sm:items-center">
+                                    <i data-lucide="mail"
+                                        class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mr-3 sm:mr-4 flex-shrink-0"></i>
+                                    <a href="mailto:info@ingrowwthinnovations.in" class="text-sm sm:text-base md:text-lg hover:underline 
+                                      break-words whitespace-normal leading-snug max-w-[90%]">
+                                        info@ingrowwthinnovations.in
+                                    </a>
+                                </div>
+
+                                <!-- Phone -->
+                                <div class="flex items-start sm:items-center">
+                                    <i data-lucide="phone"
+                                        class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mr-3 sm:mr-4 flex-shrink-0"></i>
+                                    <a href="tel:+918200229099"
+                                        class="text-sm sm:text-base md:text-lg hover:underline break-words max-w-[90%]">
+                                        +91 8200229099
+                                    </a>
+                                </div>
+
+                                <!-- Address -->
+                                <div class="flex items-start">
+                                    <i data-lucide="map-pin"
+                                        class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mr-3 sm:mr-4 flex-shrink-0 mt-1"></i>
+                                    <p
+                                        class="text-sm sm:text-base md:text-lg leading-snug break-words whitespace-normal max-w-[90%]">
+                                        A-102 Oscar Hills, Hanspura, <br />
+                                        Naroda-Dahegam Highway, <br />
+                                        Ahmedabad - 382330 <br />
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 sm:mt-10">
+                            <h3 class="text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6">Connect With Us</h3>
+                            <div class="flex space-x-4 sm:space-x-6">
+                                <!--linkedin-->
+                                <a href="https://www.linkedin.com/company/ingrowwth-innovations/" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-110 focus:outline-none">
+                                    <i data-lucide="linkedin" class="w-5 h-5 sm:w-7 sm:h-7"></i>
+                                </a>
+
+                                <!--twitter-->
+                                <a href="https://x.com/InGrowwTech?t=8MiL8-rVH3gbCI-JO2WH_Q&s=09" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-110 focus:outline-none">
+                                    <i data-lucide="twitter" class="w-5 h-5 sm:w-7 sm:h-7"></i>
+                                </a>
+
+                                <!-- GitHub 
+                                <a href="#"
+                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-110 focus:outline-none">
+                                    <i data-lucide="github" class="w-5 h-5 sm:w-7 sm:h-7"></i>
+                                </a> -->
+
+                                <!--instagram-->
+                                <a href="https://www.instagram.com/ingrowwth_innovations?igsh=MW1sbXR6OW53Z2Q4cA=="
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-110 focus:outline-none">
+                                    <i data-lucide="instagram" class="w-5 h-5 sm:w-7 sm:h-7"></i>
+                                </a>
+
+                                <!--facebook-->
+                                <a href="https://www.facebook.com/share/1BN77ZSTUs/" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-110 focus:outline-none">
+                                    <i data-lucide="facebook" class="w-5 h-5 sm:w-7 sm:h-7"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- form card -->
+                    <div
+                        class="bg-gray-50 p-5 sm:p-8 md:p-10 rounded-2xl md:rounded-3xl shadow-xl transform hover:-translate-y-2 transition duration-500 ease-in-out animate-fade-in-up delay-300">
+                        <form id="contactForm" class="space-y-5 sm:space-y-6">
+                            <div>
+                                <label for="name"
+                                    class="block text-base sm:text-lg font-medium text-gray-700 mb-2">Name</label>
+                                <input type="text" id="name" name="name"
+                                    class="mt-1 block w-full px-4 sm:px-5 py-3 sm:py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base md:text-lg transition duration-300 bg-white"
+                                    placeholder="Your Full Name" />
+                            </div>
+
+                            <div>
+                                <label for="email"
+                                    class="block text-base sm:text-lg font-medium text-gray-700 mb-2">Email</label>
+                                <input type="email" id="email" name="email"
+                                    class="mt-1 block w-full px-4 sm:px-5 py-3 sm:py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base md:text-lg transition duration-300 bg-white"
+                                    placeholder="you@example.com" />
+                            </div>
+
+                            <div>
+                                <label for="subject"
+                                    class="block text-base sm:text-lg font-medium text-gray-700 mb-2">Subject</label>
+                                <input type="text" id="subject" name="subject"
+                                    class="mt-1 block w-full px-4 sm:px-5 py-3 sm:py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base md:text-lg transition duration-300 bg-white"
+                                    placeholder="Project Inquiry, Partnership, etc." />
+                            </div>
+
+                            <div>
+                                <label for="message"
+                                    class="block text-base sm:text-lg font-medium text-gray-700 mb-2">Message</label>
+                                <textarea id="message" name="message" rows="5"
+                                    class="mt-1 block w-full px-4 sm:px-5 py-3 sm:py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base md:text-lg transition duration-300 bg-white"
+                                    placeholder="Tell us about your project or query in detail..."></textarea>
+                            </div>
+
+                            <button type="submit"
+                                class="w-full inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 border border-transparent text-base sm:text-lg md:text-xl font-semibold rounded-full shadow-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
+                                Send Your Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Custom Popup Modal (replace existing modal HTML with this) -->
+    <div id="customPopupOverlay" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-[10000]">
+        <div id="customPopup" role="dialog" aria-modal="true" aria-labelledby="customPopupTitle"
+            class="w-full max-w-xl bg-white rounded-2xl shadow-2xl p-6 md:p-8 transform transition-all duration-200 scale-95 opacity-0 mx-4">
+            <div>
+                <h3 id="customPopupTitle" class="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">Title</h3>
+                <p id="customPopupMessage" class="mt-3 text-sm md:text-base text-gray-600 leading-relaxed">
+                    Message
+                </p>
+            </div>
+
+            <!-- Actions: single centered button (blue) -->
+            <div class="mt-6 flex justify-end">
+                <button id="customPopupOk"
+                    class="px-5 py-2 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <a href="https://wa.me/918200229099?text=Hello,%20I'm%20interested%20in%20your%20IT%20services." target="_blank"
+        class="fixed bottom-8 right-8 text-white rounded-full shadow-lg z-[9999] transition-all duration-300 hover:scale-110 flex items-center justify-center whatsapp-fab"
+        aria-label="Chat on WhatsApp">
+        <img src="assets/images/whatsapp.png" alt="WhatsApp Logo" class="whatsapp-logo">
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-10 px-4 sm:px-6 lg:px-8 rounded-t-3xl shadow-inner">
+        <div class="max-w-7xl mx-auto">
+            <!-- Responsive grid: 1 -> 2 -> 3 -> 4 columns -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-center md:text-left">
+
+                <!-- Logo + Intro -->
+                <div class="min-w-0 flex flex-col items-center md:items-start">
+                    <a href="#hero" class="flex items-center mb-4 shrink-0">
+                        <img src="assets/images/company_logo2.png" alt="InGrowwth Innovations Logo"
+                            class="h-20 sm:h-24 md:h-20 lg:h-20 w-auto max-w-full object-contain" />
+                    </a>
+
+                    <p class="intro-text">
+                        Innovating for a brighter digital future. We are committed to delivering excellence and driving
+                        success for businesses worldwide.
+                    </p>
+                    <br>
+                    <div class="flex space-x-4 mt-3">
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/company/ingrowwth-innovations/" target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="linkedin" class="w-6 h-6"></i>
+                        </a>
+
+                        <!-- Twitter -->
+                        <a href="https://x.com/InGrowwTech?t=8MiL8-rVH3gbCI-JO2WH_Q&s=09" target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="twitter" class="w-6 h-6"></i>
+                        </a>
+
+                        <!-- GitHub 
+                        <a href="#"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="github" class="w-6 h-6"></i>
+                        </a>-->
+
+                        <!-- Instagram -->
+                        <a href="https://www.instagram.com/ingrowwth_innovations?igsh=MW1sbXR6OW53Z2Q4cA=="
+                            target="_blank" rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="instagram" class="w-6 h-6"></i>
+                        </a>
+
+                        <!-- Facebook -->
+                        <a href="https://www.facebook.com/share/1BN77ZSTUs/" target="_blank" rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="facebook" class="w-6 h-6"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+                <!-- Quick Links -->
+                <div class="min-w-0">
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm sm:text-base">
+                        <li><a href="index.html#hero" class="hover:text-white transition duration-200">Home</a></li>
+                        <li><a href="index.html#about" class="hover:text-white transition duration-200">About Us</a>
+                        </li>
+                        <li><a href="index.html#services" class="hover:text-white transition duration-200">Services</a>
+                        </li>
+                        <li><a href="index.html#portfolio"
+                                class="hover:text-white transition duration-200">Portfolio</a>
+                        </li>
+                        <li><a href="index.html#testimonials"
+                                class="hover:text-white transition duration-200">Testimonials</a></li>
+                        <li><a href="index.html#careers" class="hover:text-white transition duration-200">Careers</a>
+                        </li>
+                        <li><a href="index.html#contact" class="hover:text-white transition duration-200">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Our Services (visible from md up) -->
+                <div class="min-w-0 md:block hidden">
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-4">Our Services</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm sm:text-base">
+                        <li><a href="web-development-service.html" class="hover:text-white transition duration-200">Web
+                                Development</a></li>
+                        <li><a href="mobile-application-service.html"
+                                class="hover:text-white transition duration-200">Mobile App Development</a></li>
+                        <li><a href="cloud-solutions-service.html"
+                                class="hover:text-white transition duration-200">Cloud
+                                Solutions</a></li>
+                        <li><a href="ai-ml-services.html" class="hover:text-white transition duration-200">AI & Machine
+                                Learning</a></li>
+                        <li><a href="cybersecurity-services.html"
+                                class="hover:text-white transition duration-200">Cybersecurity</a></li>
+                        <li><a href="data-analytics-services.html" class="hover:text-white transition duration-200">Data
+                                Analytics</a></li>
+                        <li><a href="ui-ux-product-design-service.html"
+                                class="hover:text-white transition duration-200">UI/UX & Product Design</a></li>
+                        <li><a href="blockchain-services.html"
+                                class="hover:text-white transition duration-200">Blockchain
+                                Solutions</a></li>
+                        <li><a href="erp-services.html" class="hover:text-white transition duration-200">ERP
+                                Solutions</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="min-w-0">
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-4">Contact Info</h3>
+                    <ul class="space-y-3 text-sm sm:text-base">
+                        <li class="flex items-start md:justify-start justify-center gap-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-blue-400 flex-shrink-0 mt-1"></i>
+                            <p class="text-gray-400">A-102 Oscar Hills, Hanspura, Ahmedabad</p>
+                        </li>
+
+                        <li class="flex items-center md:justify-start justify-center gap-3">
+                            <i data-lucide="phone" class="w-5 h-5 text-blue-400 flex-shrink-0"></i>
+                            <a href="tel:+918200229099"
+                                class="text-gray-400 hover:text-white transition duration-200">+91
+                                8200229099</a>
+                        </li>
+
+                        <!-- Email: single-line, safe overflow -->
+                        <li class="flex items-center md:justify-start justify-center gap-3">
+                            <i data-lucide="mail" class="w-5 h-5 text-blue-400 flex-shrink-0"></i>
+                            <a href="mailto:info@ingrowwthinnovations.in" class="footer-email">
+                                info@ingrowwthinnovations.in
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom -->
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+                <p class="text-gray-500 text-sm mb-3">
+                    &copy; <span id="current-year"></span> InGrowwth Innovations. All rights reserved. Designed with
+                    <span class="text-red-500">&hearts;</span> for modern businesses.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
+                    <a href="Privacy-Policy.html" class="text-gray-400 hover:text-white transition duration-200">Privacy
+                        Policy</a>
+                    <span class="text-gray-600 hidden sm:inline">|</span>
+                    <a href="term-of-services.html" class="text-gray-400 hover:text-white transition duration-200">Terms
+                        of
+                        Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            });
+        });
+
+        // Intersection Observer for Scroll Animations
+        const sections = document.querySelectorAll('section');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Check if the element already has the animation class to prevent re-triggering
+                    if (!entry.target.classList.contains('animate-fade-in-up')) {
+                        entry.target.classList.add('animate-fade-in-up');
+                        // Apply delays to direct children if they have delay classes
+                        entry.target.querySelectorAll('[class*="delay-"]').forEach(child => {
+                            const delayClass = Array.from(child.classList).find(cls => cls.startsWith('delay-'));
+                            if (delayClass) {
+                                const delayValue = parseInt(delayClass.replace('delay-', '')) / 1000; // Convert ms to s
+                                child.style.animationDelay = `${delayValue}s`;
+                            }
+                        });
+                    }
+                }
+            });
+        }, { threshold: 0.1 }); // Trigger when 10% of the section is visible
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Fix for Lucide icons not rendering initially on some elements
+        window.onload = () => {
+            lucide.createIcons();
+        };
+
+        // Fallback for image loading errors (still good to keep for other images)
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.onerror = function () {
+                    this.src = 'https://placehold.co/600x400/CCCCCC/333333?text=Image+Error';
+                };
+            });
+        });
+
+        // Contact Form Submission (connects to backend)
+        const contactForm = document.getElementById('contactForm');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const name = document.getElementById('name')?.value.trim() || '';
+                const email = document.getElementById('email')?.value.trim() || '';
+                const subject = document.getElementById('subject')?.value.trim() || '';
+                const message = document.getElementById('message')?.value.trim() || '';
+
+                // Client-side validation
+                if (!name || !email || !subject || !message) {
+                    showPopup('Missing fields', 'Please fill in all fields.', { type: 'error' });
+                    return;
+                }
+
+                if (!email.includes('@') || !email.includes('.')) {
+                    showPopup('Invalid email', 'Please enter a valid email address.', { type: 'error' });
+                    return;
+                }
+
+                const submitButton = contactForm.querySelector('button[type="submit"]');
+                if (submitButton) {
+                    submitButton.textContent = 'Sending...';
+                    submitButton.disabled = true;
+                }
+
+                try {
+                    const apiBase = window.API_BASE_URL || "";
+
+                    const response = await fetch(`${apiBase}/submit_contact`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, email, subject, message }),
+                    });
+
+                    let result = {};
+                    try { result = await response.json(); } catch (e) { /* ignore parse error */ }
+
+                    if (response.ok && result.success) {
+                        showPopup('Message Sent', result.message || 'Your message was sent successfully.', { type: 'success' });
+                        contactForm.reset();
+                    } else {
+                        const errorMsg = result.message || 'Something went wrong. Please try again.';
+                        showPopup('Error', errorMsg, { type: 'error' });
+                    }
+                } catch (error) {
+                    console.error('Network or server error:', error);
+                    showPopup('Network Error', 'Could not connect to the server. Please ensure the backend is running and reachable.', { type: 'error' });
+                } finally {
+                    if (submitButton) {
+                        submitButton.textContent = 'Send Your Message';
+                        submitButton.disabled = false;
+                    }
+                }
+            });
+        }
+
+        /* ----------------------
+           Popup helper functions
+           ---------------------- */
+        const popupOverlay = document.getElementById('customPopupOverlay');
+        const popup = document.getElementById('customPopup');
+        const popupTitle = document.getElementById('customPopupTitle');
+        const popupMessage = document.getElementById('customPopupMessage');
+        const popupOk = document.getElementById('customPopupOk');
+
+        // safe no-op if elements missing
+        function safe(el, fn) { if (el) try { fn(); } catch (e) { console.error(e); } }
+
+        function openPopup() {
+            if (!popupOverlay || !popup) return;
+            // show overlay (overlay has `flex` in classes so it's centered)
+            popupOverlay.classList.remove('hidden');
+            // prevent background scroll
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+            // animate in
+            requestAnimationFrame(() => {
+                popup.classList.remove('scale-95', 'opacity-0');
+                popup.classList.add('scale-100', 'opacity-100');
+            });
+            // allow closing by clicking outside or Esc (optional)
+            popupOverlay.addEventListener('click', overlayClickHandler);
+            document.addEventListener('keydown', escapeHandler);
+        }
+
+        function closePopup() {
+            if (!popupOverlay || !popup) return;
+            // animate out
+            popup.classList.remove('scale-100', 'opacity-100');
+            popup.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                popupOverlay.classList.add('hidden');
+                // restore scrolling
+                document.documentElement.style.overflow = '';
+                document.body.style.overflow = '';
+            }, 180);
+            popupOverlay.removeEventListener('click', overlayClickHandler);
+            document.removeEventListener('keydown', escapeHandler);
+        }
+
+        function overlayClickHandler(e) {
+            if (e.target === popupOverlay) closePopup();
+        }
+        function escapeHandler(e) {
+            if (e.key === 'Escape') closePopup();
+        }
+
+        // OK button closes modal
+        safe(popupOk, () => popupOk.addEventListener('click', closePopup));
+
+        // showPopup(title, message, options = {})
+        function showPopup(title, message, options = {}) {
+            // fallback to alert if modal not present
+            if (!popupTitle || !popupMessage || !popup) {
+                return alert(message || title || 'Notice');
+            }
+
+            popupTitle.textContent = title || 'Notice';
+            popupMessage.textContent = message || '';
+
+            // button color: keep it blue for consistent look; you can expand this later
+            safe(popupOk, () => {
+                popupOk.classList.remove('bg-green-600', 'bg-red-600', 'bg-blue-600');
+                popupOk.classList.add('bg-blue-600');
+            });
+
+            openPopup();
+        }
+
+        // --- Number Animation Script ---
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = document.querySelectorAll('.counter');
+                    counters.forEach(counter => {
+                        const target = +counter.dataset.target;
+                        const originalText = counter.parentNode.textContent;
+                        const suffix = originalText.replace(/\d+/g, '').trim(); // Get the +, % or other characters
+                        const duration = 2000; // Animation duration in milliseconds
+                        const increment = target / duration;
+
+                        let startTimestamp = null;
+
+                        const step = (timestamp) => {
+                            if (!startTimestamp) startTimestamp = timestamp;
+                            const progress = timestamp - startTimestamp;
+                            const currentCount = Math.floor(increment * progress);
+
+                            if (currentCount < target) {
+                                counter.textContent = currentCount;
+                                window.requestAnimationFrame(step);
+                            } else {
+                                counter.textContent = target;
+                            }
+                        };
+
+                        window.requestAnimationFrame(step);
+                    });
+
+                    // Stop observing after the animation has run
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.5 // Trigger when 50% of the section is visible
+        });
+
+        // Only observe the stats section
+        const statsSection = document.getElementById('company-stats');
+        if (statsSection) {
+            counterObserver.observe(statsSection);
+        }
+    </script>
+</body>
+
+</html>

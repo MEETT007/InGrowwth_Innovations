@@ -1,0 +1,24 @@
+{
+    "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "/Backend/app.py"
+        },
+        {
+            "source": "/submit_contact",
+            "destination": "/Backend/app.py"
+        },
+        {
+            "source": "/submit_application",
+            "destination": "/Backend/app.py"
+        },
+        {
+            "source": "/ping",
+            "destination": "/Backend/app.py"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/Frontend/$1"
+        }
+    ]
+}

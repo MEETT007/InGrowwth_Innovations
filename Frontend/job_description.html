@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Careers at InGrowwth Innovations</title>
+    <meta name="description"
+        content="Explore career opportunities at InGrowwth Innovations. Join our team in AI, cloud, web and mobile development, and shape the future of technology.">
+    <link rel="canonical" href="https://www.ingrowwthinnovations.in/job_description.html">
+
+    <!-- Favicons & PWA manifest (paths are relative to the HTML file) -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest"> -->
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp preview) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Careers at InGrowwth Innovations">
+    <meta property="og:description"
+        content="We’re hiring! Explore job openings in AI/ML, cloud, web and mobile development. Build your career with InGrowwth Innovations.">
+    <meta property="og:site_name" content="InGrowwth Innovations">
+    <meta property="og:url" content="https://www.ingrowwthinnovations.in/job_description.html">
+    <!-- Recommended image: 1200x630 for best preview -->
+    <meta property="og:image" content="https://www.ingrowwthinnovations.in/assets/images/company_new_logo1.png">
+    <meta property="og:image:alt" content="InGrowwth Innovations logo">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Careers at InGrowwth Innovations">
+    <meta name="twitter:description"
+        content="Discover job opportunities at InGrowwth Innovations. Work on AI/ML, cloud, cybersecurity, and mobile development projects.">
+    <meta name="twitter:image" content="https://www.ingrowwthinnovations.in/assets/images/company_new_logo1.png">
+    <!-- If you have a Twitter handle -->
+    <!-- <meta name="twitter:site" content="@yourhandle"> -->
+
+    <!-- Styles / Fonts / Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="assets/js/apiConfig.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+        }
+
+        /* For header */
+        .nav-link {
+            @apply text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group;
+        }
+
+        .nav-link span {
+            @apply absolute left-0 bottom-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full;
+        }
+
+        .mobile-link {
+            @apply block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition duration-300;
+        }
+
+        /* Red asterisk for all required labels */
+        label.required::after {
+            content: " *";
+            color: #ef4444;
+        }
+
+        /* -------------------------
+       Footer — responsive styles
+       ------------------------- */
+
+        /* Base footer container */
+        footer {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* make sure grid children can shrink (prevents overflow) */
+        footer .min-w-0 {
+            min-width: 0;
+        }
+
+        /* Footer layout — adapt columns at breakpoints
+       1 column on xs, 2 on sm, 3 on md, 4 on lg */
+        footer .grid {
+            gap: 2rem;
+        }
+
+        /* Heading styles */
+        footer h3 {
+            margin: 0 0 .5rem 0;
+            line-height: 1.1;
+            font-size: 1.25rem;
+            /* ~20px */
+            font-weight: 600;
+        }
+
+        footer .intro-text {
+            font-size: 0.95rem;
+            /* ~17.5px */
+            line-height: 1.6;
+            /* more readable */
+            color: #9ca3af;
+        }
+
+        /* Link, list and text sizing */
+        footer p,
+        footer a,
+        footer li {
+            color: #9ca3af;
+            /* tailwind gray-400 */
+            font-size: 0.95rem;
+            /* match email size */
+        }
+
+        /* Contact icons alignment */
+        footer .flex-shrink-0 {
+            flex-shrink: 0;
+        }
+
+        /* Email single-line: keep on one line but allow small horizontal scroll if needed */
+        .footer-email {
+            white-space: nowrap;
+            /* force single line */
+            display: inline-block;
+            text-decoration: none;
+            /* remove underline */
+            font-size: 0.95rem;
+            /* bigger size (~16px) */
+            color: #9ca3af;
+            /* gray-400 */
+            overflow: visible;
+            /* show full text */
+        }
+
+        .footer-email:hover {
+            color: #ffffff;
+            /* white on hover */
+        }
+
+        /* wrapper that allows email to stay single-line without breaking layout */
+        footer .overflow-x-auto {
+            max-width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* small thin scrollbar on platforms that support it */
+        footer .overflow-x-auto::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        footer .overflow-x-auto::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.18);
+            border-radius: 999px;
+        }
+
+        /* bottom area layout */
+        footer .bottom-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* ensure no overlap of long words or URLs */
+        footer ul li {
+            word-wrap: break-word;
+        }
+
+        /* small-screen typography & spacing adjustments */
+        @media (max-width: 420px) {
+
+            footer p,
+            footer a,
+            footer li {
+                font-size: 13px;
+            }
+
+            footer .w-6.h-6 {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        /* medium screens: show services column (if you used md:block hidden) */
+        @media (min-width: 768px) {
+            /* nothing needed — content already visible by HTML classes (md:block) */
+        }
+
+        /* tweak padding in footer for smaller screens */
+        @media (max-width: 640px) {
+            footer {
+                padding-top: 0.75rem;
+                padding-bottom: 1rem;
+            }
+        }
+
+        /* Accessibility: focus styles for keyboard users */
+        footer a:focus {
+            outline: 2px dashed rgba(99, 102, 241, 0.75);
+            outline-offset: 3px;
+        }
+
+        /* Small utility to hide the '|' on tiny widths */
+        @media (max-width: 480px) {
+            footer .bottom-links span {
+                display: none;
+            }
+        }
+
+        /*remove focus*/
+        a:focus {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-blue-50 to-white min-h-screen">
+
+    <header class="bg-white shadow-lg sticky top-0 z-50 rounded-b-xl">
+        <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-6 h-20">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center shrink-0">
+                <img src="assets/images/company_logo.png" alt="InGrowwth Innovations Logo"
+                    class="h-12 md:h-14 lg:h-16 w-auto" />
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="index.html#hero"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Home
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#about"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    About Us
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#services"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Services
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#portfolio"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Portfolio
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#testimonials"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Testimonials
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#careers"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Careers
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#contact"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Contact
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </nav>
+
+            <!-- Mobile button -->
+            <button id="mobile-menu-button"
+                class="md:hidden text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2">
+                <i data-lucide="menu" class="w-7 h-7" id="menu-icon"></i>
+                <i data-lucide="x" class="w-7 h-7 hidden" id="close-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden mt-2 bg-white rounded-xl shadow-xl p-4 mx-4 hidden">
+            <nav class="flex flex-col space-y-3">
+                <a href="index.html#hero" class="mobile-link">Home</a>
+                <a href="index.html#about" class="mobile-link">About Us</a>
+                <a href="index.html#services" class="mobile-link">Services</a>
+                <a href="index.html#portfolio" class="mobile-link">Portfolio</a>
+                <a href="index.html#testimonials" class="mobile-link">Testimonials</a>
+                <a href="index.html#careers" class="mobile-link">Careers</a>
+                <a href="index.html#contact" class="mobile-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <section class="bg-white rounded-2xl shadow p-6 md:p-8 mb-8 border border-blue-100">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                <div>
+                    <h1 id="jobTitle" class="text-2xl md:text-3xl font-bold text-blue-800">Role Title</h1>
+                    <p class="mt-2 text-slate-800">
+                        <span class="font-semibold text-slate-900">Experience:</span> 6 months – 1 year
+                    </p>
+                    <p class="text-slate-800">
+                        <span class="font-semibold text-slate-900">Location:</span> Ahmedabad, Gujarat
+                    </p>
+                </div>
+
+                <!-- Logo hidden on small screens, shown from md and above -->
+                <div class="hidden md:flex md:justify-end items-start">
+                    <a href="javascript:void(0)" onclick="history.back()">
+                        <img src="assets/images/company_logo.png" alt="InGrowwth Innovations"
+                            class="w-30 sm:w-36 md:w-48 lg:w-56 max-w-full object-contain cursor-pointer" />
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <h2 class="text-lg md:text-xl font-semibold text-blue-800">Roles & Responsibilities</h2>
+                <ul id="respList" class="mt-3 list-disc pl-6 space-y-2 text-slate-900"></ul>
+            </div>
+
+            <div class="mt-6">
+                <h2 class="text-lg md:text-xl font-semibold text-blue-800">Qualifications Required</h2>
+                <ul id="qualificationsList" class="mt-3 list-disc pl-6 space-y-2 text-slate-900"></ul>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow p-6 md:p-8 border border-blue-100">
+            <h2 class="text-xl md:text-2xl font-bold text-blue-900">Application Form</h2>
+
+            <form id="applyForm" class="mt-5 space-y-5" novalidate>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="firstName" class="required block text-sm font-medium text-slate-900">First
+                            Name</label>
+                        <input id="firstName" name="firstName" type="text" class="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50
+                          focus:bg-white focus:border-blue-500 focus:ring-1
+                          focus:ring-blue-200 focus:outline-none px-4 py-3" placeholder="Your first name">
+                        <p class="mt-1 text-xs text-red-600 hidden" data-error="firstName"></p>
+                    </div>
+                    <div>
+                        <label for="lastName" class="required block text-sm font-medium text-slate-900">Last
+                            Name</label>
+                        <input id="lastName" name="lastName" type="text" class="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50
+                          focus:bg-white focus:border-blue-500 focus:ring-1
+                          focus:ring-blue-200 focus:outline-none px-4 py-3" placeholder="Your last name">
+                        <p class="mt-1 text-xs text-red-600 hidden" data-error="lastName"></p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="email" class="required block text-sm font-medium text-slate-900">Email</label>
+                        <input id="email" name="email" type="email" class="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50
+                          focus:bg-white focus:border-blue-500 focus:ring-1
+                          focus:ring-blue-200 focus:outline-none px-4 py-3" placeholder="you@example.com">
+                        <p class="mt-1 text-xs text-red-600 hidden" data-error="email"></p>
+                    </div>
+                    <div>
+                        <label for="phone" class="required block text-sm font-medium text-slate-900">Contact No.</label>
+                        <input id="phone" name="phone" type="tel" class="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50
+                          focus:bg-white focus:border-blue-500 focus:ring-1
+                          focus:ring-blue-200 focus:outline-none px-4 py-3" placeholder="Ex: 9876543210">
+                        <p class="mt-1 text-xs text-red-600 hidden" data-error="phone"></p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="workExp" class="required block text-sm font-medium text-slate-900">Work
+                            Experience</label>
+                        <input id="workExp" name="workExp" type="text" class="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50
+                          focus:bg-white focus:border-blue-500 focus:ring-1
+                          focus:ring-blue-200 focus:outline-none px-4 py-3"
+                            placeholder="e.g., Fresher, 6 months, 1 year, 2–3 years">
+                        <p class="mt-1 text-xs text-red-600 hidden" data-error="workExp"></p>
+                    </div>
+
+                    <div>
+                        <label for="applyingFor" class="required block text-sm font-medium text-slate-900">
+                            Applying For
+                        </label>
+                        <div class="relative mt-2">
+                            <select id="applyingFor" name="applyingFor" class="w-full appearance-none rounded-xl border border-slate-300 bg-slate-50
+                                 focus:bg-white focus:border-blue-500 focus:ring-1
+                                 focus:ring-blue-200 focus:outline-none px-4 py-3 pr-10">
+                                <option value="">-- Select --</option>
+                                <option value="Full-Stack Developer">Full-Stack Developer</option>
+                                <option value="Cloud Solutions Architect">Cloud Solutions Architect</option>
+                                <option value="UI/UX Designer">UI/UX Designer</option>
+                                <option value="Data Scientist (AI/ML)">Data Scientist (AI/ML)</option>
+                            </select>
+
+                            <!-- Custom Arrow Icon -->
+                            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-600" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="mt-1 text-xs text-red-600 hidden" data-error="applyingFor"></p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="github" class="required block text-sm font-medium text-slate-900">GitHub
+                            Link</label>
+                        <input id="github" name="github" type="url" class="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50
+                          focus:bg-white focus:border-blue-500 focus:ring-1
+                          focus:ring-blue-200 focus:outline-none px-4 py-3" placeholder="https://github.com/username">
+                        <p class="mt-1 text-xs text-red-600 hidden" data-error="github"></p>
+                    </div>
+                    <div>
+                        <label for="linkedin" class="required block text-sm font-medium text-slate-900">LinkedIn Profile
+                            Link</label>
+                        <input id="linkedin" name="linkedin" type="url" class="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50
+                          focus:bg-white focus:border-blue-500 focus:ring-1
+                          focus:ring-blue-200 focus:outline-none px-4 py-3"
+                            placeholder="https://www.linkedin.com/in/username">
+                        <p class="mt-1 text-xs text-red-600 hidden" data-error="linkedin"></p>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="required block text-sm font-medium text-slate-900">Resume (PDF/DOC, max 5MB)</label>
+                    <div class="mt-2 flex items-center gap-3">
+                        <input id="resume" name="resume" type="file" accept=".pdf,.doc,.docx" class="hidden">
+                        <button type="button" id="resumeBtn"
+                            class="px-4 py-2 rounded-lg border border-blue-200 bg-white hover:bg-blue-50 active:scale-[.99] transition text-slate-900">
+                            Upload your CV
+                        </button>
+                        <span id="resumeName" class="text-sm text-slate-700">No file chosen</span>
+                    </div>
+                    <p class="mt-1 text-xs text-red-600 hidden" data-error="resume"></p>
+                </div>
+
+                <div>
+                    <label for="intro" class="block text-sm font-medium text-slate-900">Short Intro (Optional)</label>
+                    <textarea id="intro" name="intro" rows="4" class="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50
+                               focus:bg-white focus:border-blue-500 focus:ring-1
+                               focus:ring-blue-200 focus:outline-none px-4 py-3"
+                        placeholder="Tell us about yourself (optional)"></textarea>
+                </div>
+
+                <div class="flex justify-center">
+                    <button id="submitBtn" type="submit"
+                        class="px-8 py-3 rounded-xl font-semibold text-white bg-blue-600 hover:bg-blue-700 active:bg-blue-800 transition">
+                        I'm lucky
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <div id="modal" class="fixed inset-0 bg-black/50 flex items-center justify-center p-4 hidden">
+        <div role="dialog" aria-modal="true" aria-labelledby="modalTitle"
+            class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
+            <h3 id="modalTitle" class="text-xl font-bold text-slate-900">Title</h3>
+            <p id="modalMsg" class="mt-2 text-slate-800">Message…</p>
+            <div class="mt-6 flex justify-end gap-3">
+                <button id="modalOk" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-10 px-4 sm:px-6 lg:px-8 rounded-t-3xl shadow-inner">
+        <div class="max-w-7xl mx-auto">
+            <!-- Responsive grid: 1 -> 2 -> 3 -> 4 columns -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-center md:text-left">
+
+                <!-- Logo + Intro -->
+                <div class="min-w-0 flex flex-col items-center md:items-start">
+                    <a href="#hero" class="flex items-center mb-4 shrink-0">
+                        <img src="assets/images/company_logo2.png" alt="InGrowwth Innovations Logo"
+                            class="h-20 sm:h-24 md:h-20 lg:h-20 w-auto max-w-full object-contain" />
+                    </a>
+
+                    <p class="intro-text">
+                        Innovating for a brighter digital future. We are committed to delivering excellence and driving
+                        success for businesses worldwide.
+                    </p>
+
+                    <br>
+                    <div class="flex space-x-4 mt-3">
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/company/ingrowwth-innovations/" target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="linkedin" class="w-6 h-6"></i>
+                        </a>
+
+                        <!-- Twitter -->
+                        <a href="https://x.com/InGrowwTech?t=8MiL8-rVH3gbCI-JO2WH_Q&s=09" target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="twitter" class="w-6 h-6"></i>
+                        </a>
+
+                        <!-- GitHub 
+                        <a href="#"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="github" class="w-6 h-6"></i>
+                        </a>-->
+
+                        <!-- Instagram -->
+                        <a href="https://www.instagram.com/ingrowwth_innovations?igsh=MW1sbXR6OW53Z2Q4cA=="
+                            target="_blank" rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="instagram" class="w-6 h-6"></i>
+                        </a>
+
+                        <!-- Facebook -->
+                        <a href="https://www.facebook.com/share/1BN77ZSTUs/" target="_blank" rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="facebook" class="w-6 h-6"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="min-w-0">
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm sm:text-base">
+                        <li><a href="index.html#hero" class="hover:text-white transition duration-200">Home</a></li>
+                        <li><a href="index.html#about" class="hover:text-white transition duration-200">About Us</a>
+                        </li>
+                        <li><a href="index.html#services" class="hover:text-white transition duration-200">Services</a>
+                        </li>
+                        <li><a href="index.html#portfolio"
+                                class="hover:text-white transition duration-200">Portfolio</a>
+                        </li>
+                        <li><a href="index.html#testimonials"
+                                class="hover:text-white transition duration-200">Testimonials</a></li>
+                        <li><a href="index.html#careers" class="hover:text-white transition duration-200">Careers</a>
+                        </li>
+                        <li><a href="index.html#contact" class="hover:text-white transition duration-200">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Our Services (visible from md up) -->
+                <div class="min-w-0 md:block hidden">
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-4">Our Services</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm sm:text-base">
+                        <li><a href="web-development-service.html" class="hover:text-white transition duration-200">Web
+                                Development</a></li>
+                        <li><a href="mobile-application-service.html"
+                                class="hover:text-white transition duration-200">Mobile App Development</a></li>
+                        <li><a href="cloud-solutions-service.html"
+                                class="hover:text-white transition duration-200">Cloud
+                                Solutions</a></li>
+                        <li><a href="ai-ml-services.html" class="hover:text-white transition duration-200">AI & Machine
+                                Learning</a></li>
+                        <li><a href="cybersecurity-services.html"
+                                class="hover:text-white transition duration-200">Cybersecurity</a></li>
+                        <li><a href="data-analytics-services.html" class="hover:text-white transition duration-200">Data
+                                Analytics</a></li>
+                        <li><a href="ui-ux-product-design-service.html"
+                                class="hover:text-white transition duration-200">UI/UX & Product Design</a></li>
+                        <li><a href="blockchain-services.html"
+                                class="hover:text-white transition duration-200">Blockchain
+                                Solutions</a></li>
+                        <li><a href="erp-services.html" class="hover:text-white transition duration-200">ERP
+                                Solutions</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="min-w-0">
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-4">Contact Info</h3>
+                    <ul class="space-y-3 text-sm sm:text-base">
+                        <li class="flex items-start md:justify-start justify-center gap-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-blue-400 flex-shrink-0 mt-1"></i>
+                            <p class="text-gray-400">A-102 Oscar Hills, Hanspura, Ahmedabad</p>
+                        </li>
+
+                        <li class="flex items-center md:justify-start justify-center gap-3">
+                            <i data-lucide="phone" class="w-5 h-5 text-blue-400 flex-shrink-0"></i>
+                            <a href="tel:+918200229099"
+                                class="text-gray-400 hover:text-white transition duration-200">+91
+                                8200229099</a>
+                        </li>
+
+                        <!-- Email: single-line, safe overflow -->
+                        <li class="flex items-center md:justify-start justify-center gap-3">
+                            <i data-lucide="mail" class="w-5 h-5 text-blue-400 flex-shrink-0"></i>
+                            <a href="mailto:info@ingrowwthinnovations.in" class="footer-email">
+                                info@ingrowwthinnovations.in
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom -->
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+                <p class="text-gray-500 text-sm mb-3">
+                    &copy; <span id="current-year"></span> InGrowwth Innovations. All rights reserved. Designed with
+                    <span class="text-red-500">&hearts;</span> for modern businesses.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
+                    <a href="Privacy-Policy.html" class="text-gray-400 hover:text-white transition duration-200">Privacy
+                        Policy</a>
+                    <span class="text-gray-600 hidden sm:inline">|</span>
+                    <a href="term-of-services.html" class="text-gray-400 hover:text-white transition duration-200">Terms
+                        of
+                        Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+    <script>
+        // ---------- Small helpers ----------
+        const $ = (sel, root = document) => root.querySelector(sel);
+        const safeGet = id => document.getElementById(id);
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                menuIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            });
+        }
+
+        // Close mobile menu when a link is clicked
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // ---------- Config ----------
+            // If you prefer a specific backend URL, set window.BACKEND_URL before this script runs.
+            const BACKEND_URL = window.API_BASE_URL || 'https://ingrowwth-innovations-nbih.onrender.com/'; // change to your endpoint in production
+            const FETCH_TIMEOUT_MS = 12000; // 12s timeout
+
+            // ---------- Roles data (kept unchanged) ----------
+            const ROLES = {
+                "full-stack-developer": {
+                    title: "Full-Stack Developer",
+                    responsibilities: [
+                        "Design, develop, and maintain responsive and user-friendly web applications.",
+                        "Develop functional databases, servers, and APIs.",
+                        "Troubleshoot and debug complex issues on both the front-end and back-end.",
+                        "Collaborate with product managers and designers to transform wireframes and mockups into functional code.",
+                        "Implement security protocols and optimize applications for maximum speed and scalability.",
+                        "Stay up-to-date with emerging technologies and industry best practices."
+                    ],
+                    qualifications: [
+                        "Bachelor's or Master's degree in Computer Science, Information Technology, or a related field.",
+                        "Minimum 6 months to 1 year of professional experience as a Full-Stack Developer or in a similar role.",
+                        "Strong proficiency in front-end technologies like HTML, CSS, and JavaScript, with experience in frameworks such as React, Angular, or Vue.js.",
+                        "Experience with back-end languages like Node.js, Python, or PHP.",
+                        "Familiarity with database technologies (e.g., MySQL, MongoDB, PostgreSQL).",
+                        "Experience with version control systems like Git.",
+                        "Strong problem-solving, communication, and collaboration skills."
+                    ],
+                },
+                "cloud-solutions-architect": {
+                    title: "Cloud Solutions Architect",
+                    responsibilities: [
+                        "Design and implement end-to-end cloud solutions on platforms like AWS, Azure, or Google Cloud.",
+                        "Translate technical requirements into robust and scalable cloud architecture diagrams and technical documentation.",
+                        "Manage and monitor the cloud environment to optimize performance and security.",
+                        "Collaborate with development and IT teams to ensure successful migration and deployment of applications to the cloud.",
+                        "Vet and select suitable cloud providers and third-party services.",
+                        "Define best practices and establish governance policies for cloud usage within the organization."
+                    ],
+                    skills: [
+                        "Bachelor's or Master's degree in Computer Science or a related field.",
+                        "Minimum 6 months to 1 year of professional experience in designing and deploying cloud solutions.",
+                        "Expertise with one or more major cloud platforms (AWS, Azure, or GCP).",
+                        "Strong knowledge of cloud infrastructure, security, and data migration.",
+                        "Relevant industry certifications (e.g., AWS Certified Solutions Architect, Microsoft Certified: Azure Solutions Architect Expert) are highly preferred.",
+                        "Excellent problem-solving skills and the ability to work in a fast-paced environment."
+                    ],
+                },
+                "ui-ux-designer": {
+                    title: "UI/UX Designer",
+                    responsibilities: [
+                        "Conduct user research and analyze feedback to inform design decisions.",
+                        "Create user flows, wireframes, and sitemaps to visualize design concepts.",
+                        "Develop high-fidelity mockups and interactive prototypes for mobile and web.",
+                        "Design and maintain visual style guides, ensuring consistency across all products.",
+                        "Collaborate with developers and product managers to ensure designs are technically feasible and align with business goals.",
+                        "Perform usability testing to identify and resolve design issues."
+                    ],
+                    skills: [
+                        "Proven experience as a UI/UX Designer with a strong portfolio showcasing your work.",
+                        "Minimum 6 months to 1 year of professional experience in a similar role.",
+                        "Proficiency with design and prototyping tools such as Figma, Sketch, or Adobe XD.",
+                        "Strong understanding of user-centered design principles, responsive design, and mobile-first design.",
+                        "Knowledge of front-end languages (HTML, CSS) to communicate effectively with developers.",
+                        "Excellent communication skills and the ability to present design concepts to stakeholders."
+                    ],
+                },
+                "data-scientist": {
+                    title: "Data Scientist (AI/ML)",
+                    responsibilities: [
+                        "Collect, clean, and analyze large, complex datasets to identify patterns and trends.",
+                        "Develop and deploy machine learning models and predictive algorithms to solve business problems.",
+                        "Use statistical techniques to validate findings and ensure accuracy.",
+                        "Transform raw data into compelling visualizations and reports for technical and non-technical audiences.",
+                        "Collaborate with cross-functional teams to identify new opportunities for applying data science solutions.",
+                        "Stay current with the latest advancements in AI, machine learning, and data science."
+                    ],
+                    skills: [
+                        "Master's or PhD in Computer Science, Statistics, Mathematics, or a related quantitative field.",
+                        "Minimum 6 months to 1 year of professional experience in a data science or machine learning role.",
+                        "Strong proficiency in programming languages like Python or R.",
+                        "Experience with machine learning frameworks such as TensorFlow, PyTorch, or Scikit-learn.",
+                        "Solid understanding of statistical modeling, data mining, and machine learning techniques.",
+                        "Experience with data manipulation and analysis tools (e.g., SQL, Pandas, NumPy).",
+                        "Excellent problem-solving skills and the ability to communicate complex data insights clearly."
+                    ],
+                },
+            };
+
+            // ---------- Helper functions ----------
+            function showError(name, msg) {
+                const el = document.querySelector(`[data-error="${name}"]`);
+                if (el) {
+                    el.textContent = msg;
+                    el.classList.remove('hidden');
+                }
+            }
+            function hideError(name) {
+                const el = document.querySelector(`[data-error="${name}"]`);
+                if (el) {
+                    el.textContent = '';
+                    el.classList.add('hidden');
+                }
+            }
+
+            function normalizePhone(raw) {
+                if (!raw) return '';
+                let p = String(raw).replace(/[^\d]/g, '');
+                if (p.length === 12 && p.startsWith('91')) p = p.slice(2);
+                if (p.length > 10) p = p.slice(-10);
+                return p;
+            }
+            function normalizeUrl(u) {
+                if (!u) return '';
+                let s = u.trim();
+                if (!/^https?:\/\//i.test(s)) s = 'https://' + s;
+                return s;
+            }
+
+            // ---------- Render role from URL ----------
+            (function renderRole() {
+                try {
+                    const params = new URLSearchParams(location.search);
+                    const key = params.get('role');
+                    if (!key || !ROLES[key]) {
+                        // fallback: redirect to careers if invalid
+                        // keep behavior unchanged
+                        return;
+                    }
+
+                    const role = ROLES[key];
+                    document.title = `Apply – ${role.title} | InGrowwth Innovations`;
+                    const jobTitleEl = safeGet('jobTitle');
+                    if (jobTitleEl) jobTitleEl.textContent = role.title;
+
+                    const respList = safeGet('respList');
+                    const qualificationsList = safeGet('qualificationsList');
+
+                    if (respList) {
+                        respList.innerHTML = '';
+                        if (Array.isArray(role.responsibilities)) {
+                            role.responsibilities.forEach(text => {
+                                const li = document.createElement('li');
+                                li.textContent = text;
+                                respList.appendChild(li);
+                            });
+                        }
+                    }
+
+                    if (qualificationsList) {
+                        qualificationsList.innerHTML = '';
+                        const quals = Array.isArray(role.qualifications) && role.qualifications.length > 0
+                            ? role.qualifications
+                            : (Array.isArray(role.skills) ? role.skills : []);
+                        quals.forEach(text => {
+                            const li = document.createElement('li');
+                            li.textContent = text;
+                            qualificationsList.appendChild(li);
+                        });
+                    }
+
+                    const applyingForEl = safeGet('applyingFor');
+                    if (applyingForEl) {
+                        const want = role.title.toLowerCase();
+                        let matched = false;
+                        for (const opt of applyingForEl.options) {
+                            if ((opt.value || '').toLowerCase() === want || (opt.text || '').toLowerCase() === want) {
+                                applyingForEl.value = opt.value;
+                                matched = true;
+                                break;
+                            }
+                        }
+                        if (!matched) applyingForEl.selectedIndex = 0;
+                    }
+                } catch (err) {
+                    console.error('renderRole error', err);
+                }
+            })();
+
+            // ---------- Resume upload UX ----------
+            const resumeInput = safeGet('resume');
+            const resumeBtn = safeGet('resumeBtn');
+            const resumeName = safeGet('resumeName');
+
+            if (resumeBtn && resumeInput) {
+                resumeBtn.addEventListener('click', () => resumeInput.click());
+                resumeInput.addEventListener('change', () => {
+                    const f = resumeInput.files && resumeInput.files[0];
+                    resumeName.textContent = f ? f.name : 'No file chosen';
+                });
+            }
+
+            // ---------- Mark required labels ----------
+            (function markRequiredLabels() {
+                const requiredIds = [
+                    "firstName", "lastName", "email", "phone", "workExp", "applyingFor", "github", "linkedin", "resume"
+                ];
+                requiredIds.forEach(id => {
+                    const input = safeGet(id);
+                    if (!input) return;
+                    let label = document.querySelector(`label[for="${id}"]`);
+                    if (!label) {
+                        const wrapper = input.closest('div');
+                        if (wrapper) label = wrapper.querySelector('label');
+                    }
+                    if (label && !label.classList.contains('required')) label.classList.add('required');
+                });
+            })();
+
+            // ---------- Validation utilities ----------
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+            const phoneRegex = /^[6-9]\d{9}$/;
+            const urlRegex = /^https?:\/\/[^\s]+$/i;
+
+            function expOk(s) {
+                if (!s) return false;
+                const v = s.trim();
+                const patterns = [
+                    /^(fresher|fresh|entry[-\s]?level|0(\s*(months?|yrs?|years?))?)$/i,
+                    /^\d+(\.\d+)?\s*(months?|m|yrs?|years?)$/i,
+                    /^\d+\s*[-–]\s*\d+\s*(months?|m|yrs?|years?)$/i,
+                    /^\d+(\.\d+)?\s*(years?|yrs?)$/i
+                ];
+                return patterns.some(re => re.test(v));
+            }
+
+            function trimSetValue(id, v) {
+                const el = safeGet(id);
+                if (el) el.value = v;
+            }
+
+            function validateForm() {
+                let ok = true;
+                const firstNameEl = safeGet('firstName');
+                const lastNameEl = safeGet('lastName');
+                const emailEl = safeGet('email');
+                const phoneEl = safeGet('phone');
+                const workExpEl = safeGet('workExp');
+                const applyingForEl = safeGet('applyingFor');
+                const githubEl = safeGet('github');
+                const linkedinEl = safeGet('linkedin');
+
+                const firstName = (firstNameEl?.value || '').trim().replace(/\s+/g, ' ');
+                const lastName = (lastNameEl?.value || '').trim().replace(/\s+/g, ' ');
+                let email = (emailEl?.value || '').trim();
+                let phone = normalizePhone((phoneEl?.value || '').trim());
+                let workExp = (workExpEl?.value || '').trim();
+                let applyingFor = (applyingForEl?.value || '').trim();
+                let github = (githubEl?.value || '').trim();
+                let linkedin = (linkedinEl?.value || '').trim();
+                const resumeFile = resumeInput?.files?.[0] || null;
+
+                // reflect cleaned values back
+                trimSetValue('firstName', firstName);
+                trimSetValue('lastName', lastName);
+                trimSetValue('phone', phone);
+
+                if (github && !/^https?:\/\//i.test(github)) { github = normalizeUrl(github); trimSetValue('github', github); }
+                if (linkedin && !/^https?:\/\//i.test(linkedin)) { linkedin = normalizeUrl(linkedin); trimSetValue('linkedin', linkedin); }
+
+                // names
+                if (!firstName) { showError('firstName', 'First name is required.'); ok = false; } else hideError('firstName');
+                if (!lastName) { showError('lastName', 'Last name is required.'); ok = false; } else hideError('lastName');
+
+                // email
+                if (!email) { showError('email', 'Email is required.'); ok = false; }
+                else if (!emailRegex.test(email)) { showError('email', 'Enter a valid email (e.g., name@domain.com).'); ok = false; }
+                else hideError('email');
+
+                // phone
+                if (!phone) { showError('phone', 'Contact number is required.'); ok = false; }
+                else if (!phoneRegex.test(phone)) { showError('phone', 'Enter a valid 10-digit mobile (starts 6–9).'); ok = false; }
+                else hideError('phone');
+
+                // workExp
+                if (!workExp) { showError('workExp', 'Work experience is required.'); ok = false; }
+                else if (!expOk(workExp)) { showError('workExp', "Use formats like 'Fresher', '6 months', '1 year', or '2-3 years'."); ok = false; }
+                else hideError('workExp');
+
+                // applyingFor must match one of ROLES titles
+                const allowedTitles = new Set(Object.values(ROLES).map(r => r.title.toLowerCase()));
+                if (!applyingFor) { showError('applyingFor', 'Please choose a role.'); ok = false; }
+                else if (!allowedTitles.has(applyingFor.toLowerCase())) { showError('applyingFor', 'Pick a role from the list.'); ok = false; }
+                else hideError('applyingFor');
+
+                // github/linkedin
+                if (!github) { showError('github', 'GitHub link is required.'); ok = false; }
+                else if (!urlRegex.test(github)) { showError('github', 'URL must start with http(s)://'); ok = false; }
+                else hideError('github');
+
+                if (!linkedin) { showError('linkedin', 'LinkedIn link is required.'); ok = false; }
+                else if (!urlRegex.test(linkedin)) { showError('linkedin', 'URL must start with http(s)://'); ok = false; }
+                else hideError('linkedin');
+
+                // resume
+                if (!resumeFile) {
+                    showError('resume', 'Please upload your resume (PDF/DOC/DOCX, max 5MB).'); ok = false;
+                } else {
+                    const allowed = [
+                        'application/pdf',
+                        'application/msword',
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                    ];
+                    if (!allowed.includes(resumeFile.type)) {
+                        showError('resume', 'Allowed types: PDF, DOC, DOCX.'); ok = false;
+                    } else if (resumeFile.size > 5 * 1024 * 1024) {
+                        showError('resume', 'File too large. Max 5MB.'); ok = false;
+                    } else hideError('resume');
+                }
+
+                return {
+                    ok,
+                    payload: {
+                        firstName, lastName, email, phone, workExp, applyingFor, github, linkedin,
+                        intro: (safeGet('intro')?.value || '').trim(),
+                        resumeFile
+                    }
+                };
+            }
+
+            // ---------- Modal helpers ----------
+            const modal = safeGet('modal');
+            const modalTitle = safeGet('modalTitle');
+            const modalMsg = safeGet('modalMsg');
+            const modalOk = safeGet('modalOk');
+
+            function openModal(title, msg, onOk = null) {
+                if (!modal) {
+                    alert(`${title}\n\n${msg}`);
+                    if (typeof onOk === 'function') onOk();
+                    return;
+                }
+                modalTitle && (modalTitle.textContent = title);
+                modalMsg && (modalMsg.textContent = msg);
+                modal.classList.remove('hidden');
+
+                // focus OK button for accessibility
+                modalOk && modalOk.focus();
+
+                const handler = () => {
+                    modal.classList.add('hidden');
+                    modalOk.removeEventListener('click', handler);
+                    if (typeof onOk === 'function') onOk();
+                };
+                modalOk && modalOk.addEventListener('click', handler);
+            }
+
+            // ---------- Submit handling ----------
+            const form = safeGet('applyForm');
+            const submitBtn = safeGet('submitBtn');
+
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    // visual state
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.setAttribute('aria-busy', 'true');
+                    }
+
+                    const { ok, payload } = validateForm();
+                    if (!ok) {
+                        openModal('Please fix the form', 'Some fields are missing or invalid. Please correct them and try again.');
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.removeAttribute('aria-busy');
+                        }
+                        return;
+                    }
+
+                    // Prepare FormData to send resume file
+                    const formData = new FormData();
+                    formData.append('firstName', payload.firstName);
+                    formData.append('lastName', payload.lastName);
+                    formData.append('email', payload.email);
+                    formData.append('phone', payload.phone);
+                    formData.append('workExp', payload.workExp);
+                    formData.append('applyingFor', payload.applyingFor);
+                    formData.append('github', payload.github);
+                    formData.append('linkedin', payload.linkedin);
+                    formData.append('intro', payload.intro);
+                    formData.append('resume', payload.resumeFile);
+
+                    // Debug - let developer see the endpoint in console
+                    console.info('Submitting form to', `${BACKEND_URL.replace(/\/$/, '')}/submit_application`);
+
+                    // send to backend with timeout
+                    const controller = new AbortController();
+                    const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+
+                    try {
+                        const resp = await fetch(`${BACKEND_URL.replace(/\/$/, '')}/submit_application`, {
+                            method: 'POST',
+                            body: formData,
+                            signal: controller.signal
+                        });
+
+                        clearTimeout(timer);
+
+                        console.info('HTTP status', resp.status, 'ok?', resp.ok);
+
+                        // handle non-JSON safely
+                        let data = null;
+                        try {
+                            data = await resp.json();
+                            console.info('Server returned JSON:', data);
+                        } catch (parseErr) {
+                            const text = await resp.text().catch(() => '');
+                            console.warn('Response not JSON:', text);
+                            // treat non-JSON as error
+                            throw new Error(text || `Server returned status ${resp.status}`);
+                        }
+
+                        if (resp.ok && data && (data.success === true || data.status === 'ok')) {
+                            // IMPORTANT: Show a clear, explicit success message to the user
+                            openModal('Application submitted', data.message || 'Application submitted successfully!', () => {
+                                // optional redirect back to index/careers page:
+                                location.href = 'index.html';
+                            });
+                            form.reset();
+                            if (resumeName) resumeName.textContent = 'No file chosen';
+                        } else {
+                            openModal('Submission failed', data?.message || 'Server returned an error. Please try again later.');
+                        }
+                    } catch (err) {
+                        if (err.name === 'AbortError') {
+                            openModal('Request timeout', 'Server took too long to respond. Please try again.');
+                        } else {
+                            console.error('Submit error', err);
+                            // If you want to show guaranteed success even if server fails (not recommended),
+                            // you could show success here — but we show a clear error instead:
+                            openModal('Network or server error', err.message || 'Could not connect to the server.');
+                        }
+                    } finally {
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.removeAttribute('aria-busy');
+                        }
+                    }
+                });
+            }
+
+            // Close modal on Escape
+            document.addEventListener('keydown', (ev) => {
+                if (ev.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+                    modal.classList.add('hidden');
+                }
+            });
+
+            // Set copyright year
+            const yearEl = safeGet('current-year');
+            if (yearEl) yearEl.textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+
+</html>

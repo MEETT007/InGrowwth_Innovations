@@ -1,0 +1,1066 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Our Projects | InGrowwth Innovations</title>
+    <meta name="description" content="Explore case studies & projects from InGrowwth Innovations — web, mobile, AI and cloud solutions delivered to real clients.">
+    <link rel="canonical" href="https://www.ingrowwthinnovations.in/projects.html">
+
+    <!-- Favicons & PWA manifest (paths are relative to the HTML file) -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest"> -->
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp preview) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Our Projects | InGrowwth Innovations">
+    <meta property="og:description"
+        content="Selected projects showcasing our work in web, mobile, AI/ML, and cloud solutions.">
+    <meta property="og:site_name" content="InGrowwth Innovations">
+    <meta property="og:url" content="https://www.ingrowwthinnovations.in/projects.html">
+    <!-- Recommended image: 1200x630 for best preview -->
+    <meta property="og:image" content="https://www.ingrowwthinnovations.in/assets/images/company_new_logo1.png">
+    <meta property="og:image:alt" content="InGrowwth Innovations logo">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Our Projects | InGrowwth Innovations">
+    <meta name="twitter:description"
+        content="Case studies and project highlights across industries and technologies.">
+    <meta name="twitter:image" content="https://www.ingrowwthinnovations.in/assets/images/company_new_logo1.png">
+    <!-- If you have a Twitter handle -->
+    <!-- <meta name="twitter:site" content="@yourhandle"> -->
+
+    <!-- Styles / Fonts / Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        /* remove default body margin */
+        body {
+            margin: 0;
+        }
+
+        /* optional: subtle focus ring for the floating button */
+        .floating-logo:focus {
+            outline: 3px solid rgba(59, 130, 246, 0.25);
+            outline-offset: 4px;
+        }
+
+        /* --------------------
+           WhatsApp FAB: responsive & consistent
+           -------------------- */
+
+        /* Ensure the anchor is positioned (you already have a fixed anchor, keep whatsapp-fab on <a>) */
+        .whatsapp-fab {
+            position: fixed;
+            z-index: 9999;
+            right: 2rem;
+            /* desktop default */
+            bottom: 2rem;
+            /* desktop default */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform .18s ease, bottom .18s ease, right .18s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .whatsapp-logo {
+            width: clamp(48px, 8vw, 72px);
+            height: clamp(48px, 8vw, 72px);
+            display: block;
+            object-fit: contain;
+            border-radius: 9999px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Very small phones */
+        @media (max-width: 420px) {
+            .whatsapp-fab {
+                right: 0.8rem;
+                bottom: 0.9rem;
+            }
+
+            .whatsapp-logo {
+                width: clamp(40px, 12vw, 64px);
+                height: clamp(40px, 12vw, 64px);
+            }
+        }
+
+        /* Small / larger phones */
+        @media (min-width: 421px) and (max-width: 640px) {
+            .whatsapp-fab {
+                right: 1rem;
+                bottom: 1rem;
+            }
+
+            .whatsapp-logo {
+                width: clamp(52px, 11vw, 68px);
+                height: clamp(52px, 11vw, 68px);
+            }
+        }
+
+        /* Tablets */
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .whatsapp-fab {
+                right: 1.25rem;
+                bottom: 1.5rem;
+            }
+
+            .whatsapp-logo {
+                width: clamp(60px, 8vw, 80px);
+                height: clamp(60px, 8vw, 80px);
+            }
+        }
+
+        /* Desktop */
+        @media (min-width: 1025px) {
+            .whatsapp-fab {
+                right: 2rem;
+                bottom: 2rem;
+            }
+
+            .whatsapp-logo {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+
+        /* -------------------------
+       Footer — responsive styles
+       ------------------------- */
+
+        /* Base footer container */
+        footer {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* make sure grid children can shrink (prevents overflow) */
+        footer .min-w-0 {
+            min-width: 0;
+        }
+
+        /* Footer layout — adapt columns at breakpoints
+       1 column on xs, 2 on sm, 3 on md, 4 on lg */
+        footer .grid {
+            gap: 2rem;
+        }
+
+        /* Heading styles */
+        footer h3 {
+            margin: 0 0 .5rem 0;
+            line-height: 1.1;
+            font-size: 1.25rem;
+            /* ~20px */
+            font-weight: 600;
+        }
+
+        footer .intro-text {
+            font-size: 0.95rem;
+            /* ~17.5px */
+            line-height: 1.6;
+            /* more readable */
+            color: #9ca3af;
+        }
+
+        /* Link, list and text sizing */
+        footer p,
+        footer a,
+        footer li {
+            color: #9ca3af;
+            /* tailwind gray-400 */
+            font-size: 1rem;
+            /* match email size */
+        }
+
+        /* Contact icons alignment */
+        footer .flex-shrink-0 {
+            flex-shrink: 0;
+        }
+
+        /* Email single-line: keep on one line but allow small horizontal scroll if needed */
+        .footer-email {
+            white-space: nowrap;
+            /* force single line */
+            display: inline-block;
+            text-decoration: none;
+            /* remove underline */
+            font-size: 1rem;
+            /* bigger size (~16px) */
+            color: #9ca3af;
+            /* gray-400 */
+            overflow: visible;
+            /* show full text */
+        }
+
+        .footer-email:hover {
+            color: #ffffff;
+            /* white on hover */
+        }
+
+        /* wrapper that allows email to stay single-line without breaking layout */
+        footer .overflow-x-auto {
+            max-width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* small thin scrollbar on platforms that support it */
+        footer .overflow-x-auto::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        footer .overflow-x-auto::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.18);
+            border-radius: 999px;
+        }
+
+        /* bottom area layout */
+        footer .bottom-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* ensure no overlap of long words or URLs */
+        footer ul li {
+            word-wrap: break-word;
+        }
+
+        /* small-screen typography & spacing adjustments */
+        @media (max-width: 420px) {
+
+            footer p,
+            footer a,
+            footer li {
+                font-size: 13px;
+            }
+
+            footer .w-6.h-6 {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        /* medium screens: show services column (if you used md:block hidden) */
+        @media (min-width: 768px) {
+            /* nothing needed — content already visible by HTML classes (md:block) */
+        }
+
+        /* tweak padding in footer for smaller screens */
+        @media (max-width: 640px) {
+            footer {
+                padding-top: 0.75rem;
+                padding-bottom: 1rem;
+            }
+        }
+
+        /* Accessibility: focus styles for keyboard users */
+        footer a:focus {
+            outline: 2px dashed rgba(99, 102, 241, 0.75);
+            outline-offset: 3px;
+        }
+
+        /* Small utility to hide the '|' on tiny widths */
+        @media (max-width: 480px) {
+            footer .bottom-links span {
+                display: none;
+            }
+        }
+
+        /*remove focus*/
+        a:focus {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-900 antialiased">
+
+    <!--Header-->
+    <header class="bg-white shadow-lg sticky top-0 z-50 rounded-b-xl">
+        <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-6 h-20">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center shrink-0">
+                <img src="assets/images/company_logo.png" alt="InGrowwth Innovations Logo"
+                    class="h-12 md:h-14 lg:h-16 w-auto" />
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="index.html#hero"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Home
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#about"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    About Us
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#services"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Services
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#portfolio"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Portfolio
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#testimonials"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Testimonials
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#careers"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Careers
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#contact"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Contact
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </nav>
+
+            <!-- Mobile button -->
+            <button id="mobile-menu-button"
+                class="md:hidden text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2">
+                <i data-lucide="menu" class="w-7 h-7" id="menu-icon"></i>
+                <i data-lucide="x" class="w-7 h-7 hidden" id="close-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden mt-2 bg-white rounded-xl shadow-xl p-4 mx-4 hidden">
+            <nav class="flex flex-col space-y-3">
+                <a href="index.html#hero"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Home</a>
+                <a href="index.html#about"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">About
+                    Us</a>
+                <a href="index.html#services"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Services</a>
+                <a href="index.html#portfolio"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Portfolio</a>
+                <a href="index.html#testimonials"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Testimonials</a>
+                <a href="index.html#careers"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Careers</a>
+                <a href="index.html#contact"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== NEW: Case-study / Hero style section (left text, right illustration) ===== -->
+    <section id="case-study" class="relative bg-gradient-to-b from-blue-50 via-blue-100 overflow-hidden">
+        <style>
+            @keyframes floatY {
+                0% {
+                    transform: translateY(0) rotate(-0.2deg);
+                }
+
+                50% {
+                    transform: translateY(-14px) rotate(0.2deg);
+                }
+
+                100% {
+                    transform: translateY(0) rotate(-0.2deg);
+                }
+            }
+
+            .animate-floatY {
+                animation: floatY 6s ease-in-out infinite;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .animate-floatY {
+                    animation: none !important;
+                }
+            }
+        </style>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                <!-- Left: text -->
+                <div class="order-2 lg:order-1">
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-blue-600 leading-snug max-w-2xl">
+                        InGrowwth Case Studies:
+                        <br class="hidden lg:inline" />
+                        Proven Solutions for Your Business
+                    </h1>
+
+                    <p class="mt-6 text-gray-600 max-w-xl text-base leading-relaxed">
+                        We deliver custom software development services for your unique needs. Our case
+                        studies highlight how we achieve measurable results using modern software, strong
+                        UX and scalable architectures.
+                    </p>
+
+                    <!-- Single, larger button -->
+                    <div class="mt-10">
+                        <a href="index.html#contact"
+                            class="inline-flex items-center px-8 py-4 rounded-full bg-blue-600 text-white text-lg font-bold shadow-lg hover:bg-blue-700 transition">
+                            Talk to us
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: illustration -->
+                <div class="order-1 lg:order-2 flex justify-center lg:justify-end">
+                    <div class="w-full flex items-center justify-center">
+                        <img src="assets/images/illustration.png" alt="Case study illustration"
+                            class="w-full max-w-3xl object-contain animate-floatY" loading="lazy"
+                            onerror="this.onerror=null; this.style.opacity=0.6; this.src='https://placehold.co/1000x700/EFF6FF/4A5568?text=Illustration+Not+Found';" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </section>
+
+    <!-- Projects section with soft pale-blue gradient background -->
+    <section id="portfolio"
+        class="pt-20 sm:pt-24 pb-20 sm:pb-28 bg-gradient-to-b from-blue-50 via-blue-100 to-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- Projects grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Card 1 -->
+                <a href="project1.html" class="block">
+                    <article
+                        class="bg-white rounded-3xl shadow-xl overflow-hidden group transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300">
+                        <div class="relative overflow-hidden">
+                            <img src="assets/images/SensAI/logo.png" alt="E-commerce Platform Redesign"
+                                class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
+                                loading="lazy" decoding="async"
+                                onerror="this.onerror=null;this.src='https://placehold.co/600x400/E0F2F7/2C3E50?text=Project+1';" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500 flex items-end p-6">
+                                <h3 class="text-white text-2xl font-bold">SENSAI</h3>
+                            </div>
+                        </div>
+                        <div class="p-8 text-left">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">SENSAI</h3>
+                            <p class="text-gray-600 mb-5">AI-powered platform helping students with career insights,
+                                smart resumes, and interviews.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span
+                                    class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Web
+                                    Development</span>
+                                <span
+                                    class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">UI/UX</span>
+                                <span
+                                    class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">React</span>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+                <!-- Card 2 -->
+                <a href="project2.html" class="block">
+                    <article
+                        class="bg-white rounded-3xl shadow-xl overflow-hidden group transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300">
+                        <div class="relative overflow-hidden">
+                            <img src="assets/images/EasyFarmhub/easy-logo.png" alt="Mobile Banking App"
+                                class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
+                                loading="lazy" decoding="async"
+                                onerror="this.onerror=null;this.src='https://placehold.co/600x400/B3E0FF/FFFFFF?text=Project+2';" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500 flex items-end p-6">
+                                <h3 class="text-white text-2xl font-bold">Easy Farm Hub</h3>
+                            </div>
+                        </div>
+                        <div class="p-8 text-left">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Easy Farm Hub</h3>
+                            <p class="text-gray-600 mb-5">Platform helping farmers with organic farming, schemes, and
+                                product management.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span
+                                    class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Mobile
+                                    App</span>
+                                <span
+                                    class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Fintech</span>
+                                <span
+                                    class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Security</span>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+                <!-- Card 3 -->
+                <a href="project3.html" class="block">
+                    <article
+                        class="bg-white rounded-3xl shadow-xl overflow-hidden group transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300">
+                        <div class="relative overflow-hidden">
+                            <img src="assets/images/Library/Sankalp-logo.png" alt="Sankalp Library App"
+                                class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
+                                loading="lazy" decoding="async"
+                                onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFDDC1/FFFFFF?text=Project+3';" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500 flex items-end p-6">
+                                <h3 class="text-white text-2xl font-bold">Sankalp Library App</h3>
+                            </div>
+                        </div>
+                        <div class="p-8 text-left">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Sankalp Library App</h3>
+                            <p class="text-gray-600 mb-5">A lightweight Flutter app to discover, reserve, and borrow
+                                books with offline support.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span
+                                    class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Flutter</span>
+                                <span
+                                    class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Firebase</span>
+                                <span
+                                    class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Firestore</span>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+                <!-- Card 4 -->
+                <a href="project4.html" class="block">
+                    <article
+                        class="bg-white rounded-3xl shadow-xl overflow-hidden group transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300">
+                        <div class="relative overflow-hidden">
+                            <img src="assets/images/Constraction/AB.png" alt="Enterprise CRM System"
+                                class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
+                                loading="lazy" decoding="async"
+                                onerror="this.onerror=null;this.src='https://placehold.co/600x400/D4E6F1/FFFFFF?text=Project+4';" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500 flex items-end p-6">
+                                <h3 class="text-white text-2xl font-bold">Ahmedabad Builders</h3>
+                            </div>
+                        </div>
+                        <div class="p-8 text-left">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Ahmedabad Builders</h3>
+                            <p class="text-gray-600 mb-5">Your trusted partner for all residential and commercial
+                                construction needs in Ahmedabad.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span
+                                    class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">CRM</span>
+                                <span
+                                    class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Enterprise</span>
+                                <span
+                                    class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Cloud</span>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+                <!-- Card 5 -->
+                <a href="project5.html"
+                    class="bg-white rounded-3xl shadow-xl overflow-hidden group transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300">
+                    <div class="relative overflow-hidden">
+                        <img src="assets/images/Quickchat/quickchat-logo.png" alt="Healthcare Data Analytics Dashboard"
+                            class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
+                            loading="lazy" decoding="async"
+                            onerror="this.onerror=null;this.src='https://placehold.co/600x400/AFF8E6/FFFFFF?text=Project+5';" />
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500 flex items-end p-6">
+                            <h3 class="text-white text-2xl font-bold">QuickChat - A Chatting App</h3>
+                        </div>
+                    </div>
+                    <div class="p-8 text-left">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">QuickChat - A Chatting App</h3>
+                        <p class="text-gray-600 mb-5">Real-time Flutter chat for chatting & media sharing using
+                            Firebase
+                            with secure, fast messaging.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Flutter</span>
+                            <span
+                                class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Firebase</span>
+                            <span
+                                class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Real-time
+                                Chat</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card 6 -->
+                <a href="project6.html"
+                    class="bg-white rounded-3xl shadow-xl overflow-hidden group transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300">
+                    <div class="relative overflow-hidden">
+                        <img src="assets/images/Smart-Irrigation/logo.png" alt="Healthcare Data Analytics Dashboard"
+                            class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
+                            loading="lazy" decoding="async"
+                            onerror="this.onerror=null;this.src='https://placehold.co/600x400/AFF8E6/FFFFFF?text=Project+5';" />
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500 flex items-end p-6">
+                            <h3 class="text-white text-2xl font-bold">Smart Irrigation System</h3>
+                        </div>
+                    </div>
+                    <div class="p-8 text-left">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Smart Irrigation System</h3>
+                        <p class="text-gray-600 mb-5">A smart irrigation system that automates watering and suggests
+                            suitable crops using real-time soil and weather data.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Crop-prediction</span>
+                            <span
+                                class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Farming</span>
+                            <span
+                                class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">IoT</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card 7 -->
+                <a href="project7.html"
+                    class="bg-white rounded-3xl shadow-xl overflow-hidden group transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300">
+                    <div class="relative overflow-hidden">
+                        <img src="assets/images/Sport-culb/logo.png" alt="Healthcare Data Analytics Dashboard"
+                            class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
+                            loading="lazy" decoding="async"
+                            onerror="this.onerror=null;this.src='https://placehold.co/600x400/AFF8E6/FFFFFF?text=Project+5';" />
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500 flex items-end p-6">
+                            <h3 class="text-white text-2xl font-bold">Adventure Sports Culb</h3>
+                        </div>
+                    </div>
+                    <div class="p-8 text-left">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Adventure Sports Culb</h3>
+                        <p class="text-gray-600 mb-5">Adventure Sports Culb offers world-class indoor and outdoor
+                            facilities designed for all age groups.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Sports</span>
+                            <span
+                                class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Swim
+                                + Gym</span>
+                            <span
+                                class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Fitness</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card 8 -->
+                <a href="project8.html"
+                    class="bg-white rounded-3xl shadow-xl overflow-hidden group transform hover:scale-105 transition duration-500 ease-in-out border border-gray-100 hover:border-blue-300">
+                    <div class="relative overflow-hidden">
+                        <img src="assets/images/Crunchy/logo.png" alt="Healthcare Data Analytics Dashboard"
+                            class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500"
+                            loading="lazy" decoding="async"
+                            onerror="this.onerror=null;this.src='https://placehold.co/600x400/AFF8E6/FFFFFF?text=Project+5';" />
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500 flex items-end p-6">
+                            <h3 class="text-white text-2xl font-bold">Crunchy - A Coffee App</h3>
+                        </div>
+                    </div>
+                    <div class="p-8 text-left">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Crunchy - A Coffee App</h3>
+                        <p class="text-gray-600 mb-5">The Coffee App lets users order, favorite, and enjoy fast delivery
+                            with a personalized, convenient experience.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Flutter</span>
+                            <span
+                                class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Firebase</span>
+                            <span
+                                class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full shadow-sm">Coffee
+                                Delivery</span>
+                        </div>
+                    </div>
+                </a>
+                <!-- repeat more as you had... -->
+            </div> <!-- /grid -->
+        </div> <!-- /container -->
+    </section>
+
+    <a href="https://wa.me/918200229099?text=Hello,%20I'm%20interested%20in%20your%20IT%20services." target="_blank"
+        class="fixed bottom-8 right-8 text-white rounded-full shadow-lg z-10 transition-all duration-300 hover:scale-110 flex items-center justify-center"
+        aria-label="Chat on WhatsApp">
+        <img src="assets/images/whatsapp.png" alt="WhatsApp Logo" class="w-14 h-14">
+    </a>
+
+    <!-- Footer -->
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-10 px-4 sm:px-6 lg:px-8 rounded-t-3xl shadow-inner">
+        <div class="max-w-7xl mx-auto">
+            <!-- Responsive grid: 1 -> 2 -> 3 -> 4 columns -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-center md:text-left">
+
+                <!-- Logo + Intro -->
+                <div class="min-w-0 flex flex-col items-center md:items-start">
+                    <a href="#hero" class="flex items-center mb-4 shrink-0">
+                        <img src="assets/images/company_logo2.png" alt="InGrowwth Innovations Logo"
+                            class="h-20 sm:h-24 md:h-20 lg:h-20 w-auto max-w-full object-contain" />
+                    </a>
+
+                    <p class="intro-text">
+                        Innovating for a brighter digital future. We are committed to delivering excellence and driving
+                        success for businesses worldwide.
+                    </p>
+
+                    <br>
+                    <br>
+                    <div class="flex space-x-4 mt-3">
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/company/ingrowwth-innovations/" target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="linkedin" class="w-6 h-6"></i>
+                        </a>
+
+                        <!-- Twitter -->
+                        <a href="https://x.com/InGrowwTech?t=8MiL8-rVH3gbCI-JO2WH_Q&s=09" target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="twitter" class="w-6 h-6"></i>
+                        </a>
+
+                        <!-- GitHub 
+                        <a href="#"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="github" class="w-6 h-6"></i>
+                        </a>-->
+
+                        <!-- Instagram -->
+                        <a href="https://www.instagram.com/ingrowwth_innovations?igsh=MW1sbXR6OW53Z2Q4cA=="
+                            target="_blank" rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="instagram" class="w-6 h-6"></i>
+                        </a>
+
+                        <!-- Facebook -->
+                        <a href="https://www.facebook.com/share/1BN77ZSTUs/" target="_blank" rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="facebook" class="w-6 h-6"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="min-w-0">
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm sm:text-base">
+                        <li><a href="index.html#hero" class="hover:text-white transition duration-200">Home</a></li>
+                        <li><a href="index.html#about" class="hover:text-white transition duration-200">About Us</a>
+                        </li>
+                        <li><a href="index.html#services" class="hover:text-white transition duration-200">Services</a>
+                        </li>
+                        <li><a href="index.html#portfolio"
+                                class="hover:text-white transition duration-200">Portfolio</a>
+                        </li>
+                        <li><a href="index.html#testimonials"
+                                class="hover:text-white transition duration-200">Testimonials</a></li>
+                        <li><a href="index.html#careers" class="hover:text-white transition duration-200">Careers</a>
+                        </li>
+                        <li><a href="index.html#contact" class="hover:text-white transition duration-200">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Our Services (visible from md up) -->
+                <div class="min-w-0 md:block hidden">
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-4">Our Services</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm sm:text-base">
+                        <li><a href="web-development-service.html" class="hover:text-white transition duration-200">Web
+                                Development</a></li>
+                        <li><a href="mobile-application-service.html"
+                                class="hover:text-white transition duration-200">Mobile App Development</a></li>
+                        <li><a href="cloud-solutions-service.html"
+                                class="hover:text-white transition duration-200">Cloud
+                                Solutions</a></li>
+                        <li><a href="ai-ml-services.html" class="hover:text-white transition duration-200">AI & Machine
+                                Learning</a></li>
+                        <li><a href="cybersecurity-services.html"
+                                class="hover:text-white transition duration-200">Cybersecurity</a></li>
+                        <li><a href="data-analytics-services.html" class="hover:text-white transition duration-200">Data
+                                Analytics</a></li>
+                        <li><a href="ui-ux-product-design-service.html"
+                                class="hover:text-white transition duration-200">UI/UX & Product Design</a></li>
+                        <li><a href="blockchain-services.html"
+                                class="hover:text-white transition duration-200">Blockchain
+                                Solutions</a></li>
+                        <li><a href="erp-services.html" class="hover:text-white transition duration-200">ERP
+                                Solutions</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="min-w-0">
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-4">Contact Info</h3>
+                    <ul class="space-y-3 text-sm sm:text-base">
+                        <li class="flex items-start md:justify-start justify-center gap-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-blue-400 flex-shrink-0 mt-1"></i>
+                            <p class="text-gray-400">A-102 Oscar Hills, Hanspura, Ahmedabad</p>
+                        </li>
+
+                        <li class="flex items-center md:justify-start justify-center gap-3">
+                            <i data-lucide="phone" class="w-5 h-5 text-blue-400 flex-shrink-0"></i>
+                            <a href="tel:+918200229099"
+                                class="text-gray-400 hover:text-white transition duration-200">+91
+                                8200229099</a>
+                        </li>
+
+                        <!-- Email: single-line, safe overflow -->
+                        <li class="flex items-center md:justify-start justify-center gap-3">
+                            <i data-lucide="mail" class="w-5 h-5 text-blue-400 flex-shrink-0"></i>
+                            <a href="mailto:info@ingrowwthinnovations.in" class="footer-email">
+                                info@ingrowwthinnovations.in
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom -->
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+                <p class="text-gray-500 text-sm mb-3">
+                    &copy; <span id="current-year"></span> InGrowwth Innovations. All rights reserved. Designed with
+                    <span class="text-red-500">&hearts;</span> for modern businesses.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
+                    <a href="Privacy-Policy.html" class="text-gray-400 hover:text-white transition duration-200">Privacy
+                        Policy</a>
+                    <span class="text-gray-600 hidden sm:inline">|</span>
+                    <a href="term-of-services.html" class="text-gray-400 hover:text-white transition duration-200">Terms
+                        of
+                        Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+    <!-- ===== Combined page script (mobile menu, lucide, animations, fallbacks, contact handler, floating logo) ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ---------- Safe helpers ----------
+            const $ = (sel, root = document) => root.querySelector(sel);
+            const $$ = (sel, root = document) => Array.from((root || document).querySelectorAll(sel));
+            const safeGet = (id) => document.getElementById(id);
+
+            // ---------- Lucide icons (safe init) ----------
+            try {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            } catch (e) {
+                console.warn('lucide init skipped', e);
+            }
+
+            // ---------- Mobile menu toggle ----------
+            const mobileMenuButton = safeGet('mobile-menu-button');
+            const mobileMenu = safeGet('mobile-menu');
+            const menuIcon = safeGet('menu-icon');
+            const closeIcon = safeGet('close-icon');
+            const mobileMenuLinks = $$('.mobile-menu-link');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    if (menuIcon) menuIcon.classList.toggle('hidden');
+                    if (closeIcon) closeIcon.classList.toggle('hidden');
+                });
+            }
+
+            if (mobileMenuLinks.length) {
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (mobileMenu) mobileMenu.classList.add('hidden');
+                        if (menuIcon) menuIcon.classList.remove('hidden');
+                        if (closeIcon) closeIcon.classList.add('hidden');
+                    });
+                });
+            }
+
+            // ---------- Intersection Observer for scroll animations ----------
+            try {
+                const sections = $$('section');
+                if (sections.length) {
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                if (!entry.target.classList.contains('animate-fade-in-up')) {
+                                    entry.target.classList.add('animate-fade-in-up');
+
+                                    // apply delay-* child classes (delay-100, delay-200... where numbers are ms)
+                                    entry.target.querySelectorAll('[class*="delay-"]').forEach(child => {
+                                        const delayClass = Array.from(child.classList).find(cls => cls.startsWith('delay-'));
+                                        if (delayClass) {
+                                            const val = delayClass.replace('delay-', '').replace('ms', '');
+                                            const n = parseInt(val, 10);
+                                            if (!Number.isNaN(n)) child.style.animationDelay = `${n / 1000}s`;
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }, { threshold: 0.1 });
+
+                    sections.forEach(s => observer.observe(s));
+                }
+            } catch (err) {
+                console.warn('IntersectionObserver not available or failed', err);
+            }
+
+            // ---------- Set current year in footer if element exists ----------
+            const yearEl = safeGet('current-year');
+            if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+            // ---------- Image onerror fallback (generic) ----------
+            (function installImageFallback() {
+                const imgs = $$('img');
+                if (!imgs.length) return;
+                imgs.forEach(img => {
+                    if (img.dataset.fallbackInstalled === '1') return;
+                    img.dataset.fallbackInstalled = '1';
+                    img.addEventListener('error', function () {
+                        if (this.dataset._triedFallback) return;
+                        this.dataset._triedFallback = '1';
+                        this.src = 'https://placehold.co/600x400/CCCCCC/333333?text=Image+Not+Available';
+                    });
+                });
+            })();
+
+            // ---------- Re-init lucide icons after load (redundant-safe) ----------
+            window.addEventListener('load', () => {
+                try {
+                    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+                } catch (e) { /* ignore */ }
+            });
+
+            // ---------- Floating logo behavior (if present) ----------
+            (function floatingLogoHandler() {
+                const floating = safeGet('floatingLogo');
+                if (!floating) return;
+                floating.addEventListener('click', (e) => {
+                    if (history.length > 1) {
+                        e.preventDefault();
+                        history.back();
+                    }
+                });
+                floating.addEventListener('keydown', (e) => {
+                    if ((e.key === 'Enter' || e.key === ' ') && history.length > 1) {
+                        e.preventDefault();
+                        history.back();
+                    }
+                });
+            })();
+
+            // ---------- Optional: Contact form handler (only if form exists) ----------
+            (function contactFormHandler() {
+                const contactForm = safeGet('contactForm');
+                if (!contactForm) return;
+
+                const submitBtn = contactForm.querySelector('button[type="submit"]') || null;
+                const BACKEND_URL = window.BACKEND_URL || 'http://127.0.0.1:5000'; // change if needed
+
+                contactForm.addEventListener('submit', async (ev) => {
+                    ev.preventDefault();
+
+                    // Simple client-side validation (lightweight)
+                    const formData = new FormData(contactForm);
+                    const name = (formData.get('name') || '').toString().trim();
+                    const email = (formData.get('email') || '').toString().trim();
+                    const message = (formData.get('message') || '').toString().trim();
+
+                    if (!name || !email || !message) {
+                        alert('Please fill in all required fields.');
+                        return;
+                    }
+
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        const originalText = submitBtn.textContent;
+                        submitBtn.textContent = 'Sending...';
+
+                        try {
+                            const controller = new AbortController();
+                            const timeout = setTimeout(() => controller.abort(), 12000);
+
+                            const resp = await fetch(`${BACKEND_URL.replace(/\/$/, '')}/submit_contact`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ name, email, message }),
+                                signal: controller.signal
+                            });
+                            clearTimeout(timeout);
+
+                            let data = {};
+                            try { data = await resp.json(); } catch (e) { /* ignore */ }
+
+                            if (resp.ok) {
+                                alert((data && data.message) ? data.message : 'Message sent successfully.');
+                                contactForm.reset();
+                            } else {
+                                alert((data && data.message) ? data.message : `Server error (${resp.status}).`);
+                            }
+                        } catch (err) {
+                            console.error('Contact submit error', err);
+                            alert('Could not connect to the server. Please try again later.');
+                        } finally {
+                            if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalText; }
+                        }
+                    }
+                });
+            })();
+            // ---------- Responsive footer logo auto-scale ----------
+            (function logoAutoScale() {
+                const logo = document.querySelector('.footer-logo');
+                if (!logo) return;
+
+                function updateScale() {
+                    const w = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+
+                    // tweak scale multipliers to taste
+                    let scale = 1;
+                    if (w < 420) scale = 1.3;           // small phones
+                    else if (w < 768) scale = 1.35;   // large phones / small tablets
+                    else if (w < 1024) scale = 1.0;  // tablets / iPads
+                    else scale = 1.0;                // desktops
+
+                    document.documentElement.style.setProperty('--footer-logo-scale', scale.toFixed(2));
+                }
+
+                updateScale();
+                let t;
+                window.addEventListener('resize', () => {
+                    clearTimeout(t);
+                    t = setTimeout(updateScale, 120);
+                });
+            })();
+        }); // DOMContentLoaded
+    </script>
+
+</body>
+
+</html>

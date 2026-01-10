@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal | InGrowwth Innovations</title>
+
+    <!-- Config -->
+    <script src="assets/js/apiConfig.js"></script>
+
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-900 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Background Elements -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div
+            class="absolute -top-24 -left-24 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob">
+        </div>
+        <div
+            class="absolute -bottom-24 -right-24 w-96 h-96 bg-indigo-600 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000">
+        </div>
+    </div>
+
+    <!-- Login Card -->
+    <div
+        class="relative bg-slate-800 border border-slate-700 w-full max-w-md p-8 rounded-2xl shadow-2xl backdrop-blur-sm">
+
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600/10 mb-4">
+                <i data-lucide="shield-check" class="w-8 h-8 text-blue-500"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-white tracking-tight">Admin Portal</h1>
+            <p class="text-slate-400 text-sm mt-2">Secure access for authorized personnel only</p>
+        </div>
+
+        <!-- Form -->
+        <form id="loginForm" class="space-y-6">
+
+            <!-- Username -->
+            <div>
+                <label for="username" class="block text-sm font-medium text-slate-300 mb-2">Username</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i data-lucide="user" class="h-5 w-5 text-slate-500"></i>
+                    </div>
+                    <input type="text" id="username"
+                        class="block w-full pl-10 pr-3 py-2.5 bg-slate-900 border border-slate-700 rounded-lg text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        placeholder="Enter your username" required>
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div>
+                <label for="password" class="block text-sm font-medium text-slate-300 mb-2">Password</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i data-lucide="lock" class="h-5 w-5 text-slate-500"></i>
+                    </div>
+                    <input type="password" id="password"
+                        class="block w-full pl-10 pr-3 py-2.5 bg-slate-900 border border-slate-700 rounded-lg text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        placeholder="••••••••" required>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMsg"
+                class="hidden flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
+                <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
+                <span id="errorText">Invalid credentials</span>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submitBtn"
+                class="w-full flex justify-center items-center py-3 px-4 rounded-lg text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-blue-500 transition-all shadow-lg shadow-blue-600/20">
+                Sign In
+            </button>
+        </form>
+
+        <div class="mt-8 text-center">
+            <p class="text-xs text-slate-500">&copy; <span id="year"></span> InGrowwth Innovations. All rights reserved.
+            </p>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        // Init Lucide icons
+        lucide.createIcons();
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        const loginForm = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorMsg = document.getElementById('errorMsg');
+        const errorText = document.getElementById('errorText');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Reset UI
+            errorMsg.classList.add('hidden');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Verifying...
+            `;
+
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            try {
+                // Ensure API Config is loaded, else fallback
+                const apiBase = (window.API_BASE_URL !== undefined) ? window.API_BASE_URL : "";
+
+                console.log("Attempting login to:", apiBase);
+
+                const response = await fetch(`${apiBase}/api/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password }),
+                    credentials: 'include'
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    // Success animation or direct redirect
+                    submitBtn.textContent = 'Success!';
+                    submitBtn.classList.remove('bg-blue-600');
+                    submitBtn.classList.add('bg-green-600');
+                    setTimeout(() => {
+                        window.location.href = 'admin-dashboard.html';
+                    }, 500);
+                } else {
+                    throw new Error(result.message || 'Invalid username or password');
+                }
+            } catch (error) {
+                console.error(error);
+                errorText.textContent = error.message.includes('fetch') ? 'Network error. Is the backend running?' : error.message;
+                errorMsg.classList.remove('hidden');
+
+                // Shake animation
+                loginForm.classList.add('animate-shake');
+                setTimeout(() => loginForm.classList.remove('animate-shake'), 500);
+
+            } finally {
+                if (submitBtn.textContent !== 'Success!') {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Sign In";
+                }
+            }
+        });
+
+        // Add shake animation style
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+                20%, 40%, 60%, 80% { transform: translateX(4px); }
+            }
+            .animate-shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+        `;
+        document.head.appendChild(style);
+
+    </script>
+</body>
+
+</html>

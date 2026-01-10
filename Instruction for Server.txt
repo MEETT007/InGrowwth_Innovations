@@ -1,0 +1,87 @@
+# Backend & Server Instructions
+
+This document provides deep technical details for managing the Python/Flask backend of InGrowwth Innovations.
+
+## 🔧 Environment Variables (.env)
+The backend relies on these variables. Ensure they are set in your `.env` file (locally) or Vercel Environment Variables (production).
+
+| Variable | Description | Example |
+| :--- | :--- | :--- |
+| `SECRET_KEY` | Encrypts session data. | `super-secret-key-123` |
+| `DATABASE_URL` | PostgreSQL connection string. If omitted, defaults to local `site.db` (SQLite). | `postgres://user:pass@host:5432/db` |
+| `SENDER_EMAIL` | Gmail address for sending notifications. | `notifications@ingrowwth.in` |
+| `SENDER_PASSWORD` | App Password (Not login password) for Gmail. | `abcd efgh ijkl mnop` |
+| `FIREBASE_SA_BASE64` | Base64-encoded Service Account JSON for Firebase (Storage/Firestore). | *(Long Base64 String)* |
+| `CORS_ALLOWED_ORIGINS` | Comma-separated list of allowed frontend domains. | `https://ingrowwth.in,http://localhost:5500` |
+
+---
+
+## 👥 Admin User Management
+The system uses a role-based access control (RBAC) system.
+
+### Creating the First Super Admin (MeetCEO)
+When moving to a new database (like Vercel Postgres), the `employee` table will be empty. You must create the first user manually or via script.
+
+**Method 1: Python Shell (Local or Remote Connection)**
+1.  Configure your local `.env` to point `DATABASE_URL` to your production DB.
+2.  Run:
+    ```python
+    from app import app, db, Employee
+    with app.app_context():
+        # Create tables first
+        db.create_all()
+        # Create Super Admin
+        admin = Employee(username="MeetCEO", role="admin", full_name="Super Admin")
+        admin.set_password("TargetPassword123")
+        db.session.add(admin)
+        db.session.commit()
+    print("Super Admin created.")
+    ```
+
+### Adding New Admins
+Once "MeetCEO" exists:
+1.  Login to `/admin-login.html` as `MeetCEO`.
+2.  Go to the **User Management** tab.
+3.  Click "Create New Admin".
+*Note: Only the Super Admin can create other admins.*
+
+---
+
+## 🗄 Database Management
+
+### Local SQLite (`site.db`)
+*   Located in `Backend/site.db`.
+*   **Viewing Data:** Use a tool like *DB Browser for SQLite*.
+*   **Resetting:** Simply delete `site.db` and restart the flask app. It will recreate empty tables.
+
+### Production PostgreSQL
+*   Tables are created automatically on first run (`db.create_all()` in `app.py`).
+*   **Migration:** If you add new columns to models, you should use a migration tool (like Flask-Migrate) or manually execute SQL `ALTER TABLE` commands, as `db.create_all()` does **not** update existing tables.
+
+---
+
+## ☁ Firebase Integration
+The backend uses Firebase for two optional but recommended features:
+1.  **Resume Storage:** Uploads career application PDFs to Firebase Storage buckets.
+2.  **Firestore Backup:** Mirrors contact/career submissions to a NoSQL database for redundancy.
+
+**Setup:**
+1.  Place your `serviceAccountKey.json` in the root.
+2.  **Local:** Point `FIREBASE_SERVICE_ACCOUNT` path to it in `.env`.
+3.  **Vercel:** Convert it to Base64 and set `FIREBASE_SA_BASE64`.
+
+---
+
+## 🛠 Troubleshooting Common Issues
+
+**1. "Method Not Allowed" (CORS Error)**
+*   Check `CORS_ALLOWED_ORIGINS` in `.env`.
+*   Ensure your frontend is sending the `Origin` header (browsers do this automatically).
+
+**2. "OperationalError: no such table"**
+*   The database tables haven't been created.
+*   Run the app locally once, or trigger a deployment on Vercel (the code now auto-creates tables on cold start).
+
+**3. "413 Request Entity Too Large"**
+*   The uploaded file (Resume) exceeds 5MB.
+*   This limit is enforced in `app.py`.

@@ -1,0 +1,33 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/services", "destination": "/services.html" },
+    { "source": "/contact", "destination": "/contact.html" },
+
+    { "source": "/ai-ml-services", "destination": "/ai-ml-services.html" },
+    { "source": "/blockchain-services", "destination": "/blockchain-services.html" },
+    { "source": "/cloud-solutions-service", "destination": "/cloud-solutions-service.html" },
+    { "source": "/cybersecurity-services", "destination": "/cybersecurity-services.html" },
+    { "source": "/data-analytics-services", "destination": "/data-analytics-services.html" },
+    { "source": "/erp-services", "destination": "/erp-services.html" },
+    { "source": "/mobile-application-service", "destination": "/mobile-application-service.html" },
+    { "source": "/ui-ux-product-design-service", "destination": "/ui-ux-product-design-service.html" },
+    { "source": "/web-development-service", "destination": "/web-development-service.html" },
+
+    { "source": "/projects", "destination": "/projects.html" },
+    { "source": "/project1", "destination": "/project1.html" },
+    { "source": "/project2", "destination": "/project2.html" },
+    { "source": "/project3", "destination": "/project3.html" },
+    { "source": "/project4", "destination": "/project4.html" },
+    { "source": "/project5", "destination": "/project5.html" },
+    { "source": "/project6", "destination": "/project6.html" },
+    { "source": "/project7", "destination": "/project7.html" },
+    { "source": "/project8", "destination": "/project8.html" },
+
+    { "source": "/privacy-policy", "destination": "/Privacy-Policy.html" },
+    { "source": "/term-of-services", "destination": "/term-of-services.html" },
+    { "source": "/job-description", "destination": "/job_description.html" }
+  ]
+}

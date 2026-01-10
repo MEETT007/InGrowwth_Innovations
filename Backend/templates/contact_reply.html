@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Contact Request Received</title>
+    <style>
+        /* --- Layout & type --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* --- Header --- */
+        .header {
+            background-color: #e6f0ff;
+            padding: 20px 30px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+
+        .header img.logo {
+            max-width: 220px;
+            height: auto;
+            display: block;
+            margin-right: 20px;
+        }
+
+        /* --- Content --- */
+        .content {
+            padding: 30px;
+            line-height: 1.7;
+        }
+
+        .content h1 {
+            color: #1e40af;
+            font-size: 28px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e7ff;
+            padding-bottom: 10px;
+        }
+
+        .content p {
+            margin: 0 0 12px;
+        }
+
+        .info-card {
+            background-color: #f7f9fc;
+            border: 1px solid #d1d5db;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-card strong {
+            color: #1e40af;
+        }
+
+        /* --- Submission details table --- */
+        .submission-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 20px;
+        }
+
+        .submission-table td {
+            padding: 8px 6px;
+            vertical-align: top;
+            font-size: 14px;
+            border-bottom: 1px solid #eef2f7;
+        }
+
+        .label {
+            color: #6b7280;
+            width: 120px;
+            font-weight: 600;
+        }
+
+        .value {
+            color: #111827;
+        }
+
+        /* --- Image --- */
+        .form-image {
+            display: block;
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 12px;
+            border: 1px solid #e6eefc;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background-color: #111827;
+            color: #9ca3af;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+        }
+
+        .footer a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        /* Small/mobile adjustments */
+        @media screen and (max-width: 420px) {
+            .container {
+                margin: 10px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 16px;
+            }
+
+            .header img.logo {
+                max-width: 160px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <!-- Backend should embed logo as CID 'company_logo' -->
+            <!-- Example HTML usage: <img src="cid:company_logo" alt="InGrowwth Innovations Logo" class="logo"> -->
+            <img src="cid:company_logo" alt="InGrowwth Innovations Logo" class="logo">
+        </div>
+
+        <div class="content">
+            <h1>Thanks for getting in touch! ✉️</h1>
+
+            <p>Hello <strong>{{ name }}</strong>,</p>
+
+            <p>We received your message submitted via our contact form. Below are the details you provided — our team
+                will review and get back to you as soon as possible.</p>
+
+            <div class="info-card" role="note" aria-label="response time note">
+                <p><strong>Quick note:</strong> If your request requires a timely response, we aim to reply within 24–48
+                    hours (business days).</p>
+            </div>
+
+            <table class="submission-table" role="presentation" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class="label">Name</td>
+                    <td class="value">{{ name }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Email</td>
+                    <td class="value"><a href="mailto:{{ email }}">{{ email }}</a></td>
+                </tr>
+                <!-- <tr>
+                    <td class="label">Phone</td>
+                    <td class="value">{{ phone or '—' }}</td>
+                </tr> -->
+                <tr>
+                    <td class="label">Subject</td>
+                    <td class="value">{{ subject or '—' }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Message</td>
+                    <td class="value">{{ message or '—' }}</td>
+                </tr>
+            </table>
+
+            <!-- Inline contact form photo (optional): embed using CID 'contact_form_image' from backend
+            <p style="margin-top:12px; margin-bottom:6px;"><strong>Attached contact form photo:</strong></p>
+            <!-- If no image is provided, many mail clients will simply show a broken image placeholder; your backend can omit this tag when no image exists. 
+            <img src="cid:contact_form_image" alt="Submitted contact form" class="form-image"> -->
+
+            <p style="margin-top: 20px;">If you need anything else, just reply to this email and we'll help.</p>
+
+            <p style="margin-top: 28px;">Best regards,</p>
+            <p style="font-weight: bold; color: #1e40af;">The InGrowwth Innovations Team</p>
+        </div>
+
+        <div class="footer">
+            &copy; 2025 InGrowwth Innovations. All rights reserved.<br>
+            <a href="https://ingrowwthinnovations.in">www.ingrowwthinnovations.in</a>
+        </div>
+    </div>
+</body>
+
+</html>

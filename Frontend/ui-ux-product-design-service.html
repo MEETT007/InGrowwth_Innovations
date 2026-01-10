@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>UI/UX Design Services | InGrowwth Innovations</title>
+    <meta name="description" content="Engaging UI/UX design focusing on usability, branding, customer experience.">
+    <link rel="canonical" href="https://www.ingrowwthinnovations.in/ui-ux-product-design-service.html">
+    
+    <!-- Favicons & PWA manifest (paths are relative to the HTML file) -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest"> -->
+    <meta name="theme-color" content="#ffffff">
+    
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp preview) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="UI/UX Design Services | InGrowwth Innovations">
+    <meta property="og:description"
+        content="Research-driven UX, interactive prototypes and visual design to create delightful product experiences.">
+    <meta property="og:site_name" content="InGrowwth Innovations">
+    <meta property="og:url" content="https://www.ingrowwthinnovations.in/ui-ux-product-design-service.html">
+    <!-- Recommended image: 1200x630 for best preview -->
+    <meta property="og:image" content="https://www.ingrowwthinnovations.in/assets/images/company_new_logo1.png">
+    <meta property="og:image:alt" content="InGrowwth Innovations logo">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="UI/UX Design Services | InGrowwth Innovations">
+    <meta name="twitter:description"
+        content="Research-led product design, wireframes and user testing to deliver usable and beautiful interfaces.">
+    <meta name="twitter:image" content="https://www.ingrowwthinnovations.in/assets/images/company_new_logo1.png">
+    <!-- If you have a Twitter handle -->
+    <!-- <meta name="twitter:site" content="@yourhandle"> -->
+    
+    <!-- Styles / Fonts / Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        /* Custom Font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* For header */
+        .nav-link {
+            @apply text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group;
+        }
+
+        .nav-link span {
+            @apply absolute left-0 bottom-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full;
+        }
+
+        .mobile-link {
+            @apply block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition duration-300;
+        }
+
+        /* Custom Animations */
+        @keyframes fadeInFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInFromBottom 0.6s ease-out forwards;
+            opacity: 0;
+            /* Start invisible */
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .animate-slide-in-left {
+            animation: slideInFromLeft 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-slide-in-right {
+            animation: slideInFromRight 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-fade-in {
+            animation: fadeInFromBottom 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes bounceOnce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            20% {
+                transform: translateY(-8px);
+            }
+
+            40% {
+                transform: translateY(0);
+            }
+
+            60% {
+                transform: translateY(-4px);
+            }
+
+            80% {
+                transform: translateY(0);
+            }
+        }
+
+        .animate-bounce-once {
+            animation: bounceOnce 1.5s ease-out 0.5s 1;
+            /* Play once after 0.5s delay */
+        }
+
+        /* Custom Utility for Text Shadow */
+        .text-shadow-lg {
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Ensure smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Delay for sequential animations */
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-400 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-500 {
+            animation-delay: 0.5s;
+        }
+
+        .delay-600 {
+            animation-delay: 0.6s;
+        }
+
+        .delay-700 {
+            animation-delay: 0.7s;
+        }
+
+        .delay-800 {
+            animation-delay: 0.8s;
+        }
+
+        .delay-900 {
+            animation-delay: 0.9s;
+        }
+
+        .delay-1000 {
+            animation-delay: 1.0s;
+        }
+
+        .delay-1100 {
+            animation-delay: 1.1s;
+        }
+
+        /* New styles for rectangular cards and display */
+        .rectangular-card {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            height: auto;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        @media (min-width: 1024px) {
+            .card-container {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .process-step-row-2 {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+                margin-top: 2rem;
+            }
+        }
+
+        /* -------------------------
+       Footer — responsive styles
+       ------------------------- */
+
+        /* Base footer container */
+        footer {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* make sure grid children can shrink (prevents overflow) */
+        footer .min-w-0 {
+            min-width: 0;
+        }
+
+        /* Footer layout — adapt columns at breakpoints
+       1 column on xs, 2 on sm, 3 on md, 4 on lg */
+        footer .grid {
+            gap: 2rem;
+        }
+
+        /* Heading styles */
+        footer h3 {
+            margin: 0 0 .5rem 0;
+            line-height: 1.1;
+            font-size: 1.25rem;
+            /* ~20px */
+            font-weight: 600;
+        }
+
+        footer .intro-text {
+            font-size: 0.95rem;
+            /* ~17.5px */
+            line-height: 1.6;
+            /* more readable */
+            color: #9ca3af;
+        }
+
+        /* Link, list and text sizing */
+        footer p,
+        footer a,
+        footer li {
+            color: #9ca3af;
+            /* tailwind gray-400 */
+            font-size: 0.95rem;
+            /* match email size */
+        }
+
+        /* Contact icons alignment */
+        footer .flex-shrink-0 {
+            flex-shrink: 0;
+        }
+
+        /* Email single-line: keep on one line but allow small horizontal scroll if needed */
+        .footer-email {
+            white-space: nowrap;
+            /* force single line */
+            display: inline-block;
+            text-decoration: none;
+            /* remove underline */
+            font-size: 0.95rem;
+            /* bigger size (~16px) */
+            color: #9ca3af;
+            /* gray-400 */
+            overflow: visible;
+            /* show full text */
+        }
+
+        .footer-email:hover {
+            color: #ffffff;
+            /* white on hover */
+        }
+
+        /* wrapper that allows email to stay single-line without breaking layout */
+        footer .overflow-x-auto {
+            max-width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* small thin scrollbar on platforms that support it */
+        footer .overflow-x-auto::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        footer .overflow-x-auto::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.18);
+            border-radius: 999px;
+        }
+
+        /* bottom area layout */
+        footer .bottom-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* ensure no overlap of long words or URLs */
+        footer ul li {
+            word-wrap: break-word;
+        }
+
+        /* small-screen typography & spacing adjustments */
+        @media (max-width: 420px) {
+
+            footer p,
+            footer a,
+            footer li {
+                font-size: 13px;
+            }
+
+            footer .w-6.h-6 {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        /* medium screens: show services column (if you used md:block hidden) */
+        @media (min-width: 768px) {
+            /* nothing needed — content already visible by HTML classes (md:block) */
+        }
+
+        /* tweak padding in footer for smaller screens */
+        @media (max-width: 640px) {
+            footer {
+                padding-top: 0.75rem;
+                padding-bottom: 1rem;
+            }
+        }
+
+        /* Accessibility: focus styles for keyboard users */
+        footer a:focus {
+            outline: 2px dashed rgba(99, 102, 241, 0.75);
+            outline-offset: 3px;
+        }
+
+        /* Small utility to hide the '|' on tiny widths */
+        @media (max-width: 480px) {
+            footer .bottom-links span {
+                display: none;
+            }
+        }
+
+        /*remove focus*/
+        a:focus {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body class="font-inter antialiased text-gray-800 bg-gray-50">
+
+    <header class="bg-white shadow-lg sticky top-0 z-50 rounded-b-xl">
+        <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-6 h-20">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center shrink-0">
+                <img src="assets/images/company_logo.png" alt="InGrowwth Innovations Logo"
+                    class="h-12 md:h-14 lg:h-16 w-auto" />
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="index.html#hero"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Home
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#about"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    About Us
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#services"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Services
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#portfolio"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Portfolio
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#testimonials"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Testimonials
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#careers"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Careers
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="index.html#contact"
+                    class="text-gray-600 hover:text-blue-700 font-medium transition duration-300 relative group">
+                    Contact
+                    <span
+                        class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </nav>
+
+            <!-- Mobile button -->
+            <button id="mobile-menu-button"
+                class="md:hidden text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2">
+                <i data-lucide="menu" class="w-7 h-7" id="menu-icon"></i>
+                <i data-lucide="x" class="w-7 h-7 hidden" id="close-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden mt-2 bg-white rounded-xl shadow-xl p-4 mx-4 hidden">
+            <nav class="flex flex-col space-y-3">
+                <a href="index.html#hero"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Home</a>
+                <a href="index.html#about"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">About
+                    Us</a>
+                <a href="index.html#services"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Services</a>
+                <a href="index.html#portfolio"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Portfolio</a>
+                <a href="index.html#testimonials"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Testimonials</a>
+                <a href="index.html#careers"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Careers</a>
+                <a href="index.html#contact"
+                    class="block text-gray-800 hover:bg-blue-50 hover:text-blue-600 py-2 px-3 rounded-lg transition mobile-menu-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="services-page-hero" class="relative bg-white py-12 md:py-20 overflow-hidden shadow-2xl">
+            <!--py-24 md:py-40 to py-12 md:py-20 for remove extra space & 
+                        remove that buttom rounded layout rounded-b-3xl -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center lg:text-left relative z-10">
+                <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+                    <div class="animate-fade-in-up">
+                        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight mb-8 text-gray-900">
+                            UI/UX & Product Design Services
+                        </h1>
+                        <p class="text-xl sm:text-2xl mb-12 max-w-2xl mx-auto lg:mx-0 text-gray-600">
+                            Create digital experiences that delight users and drive business success. Our expert
+                            designers craft intuitive, beautiful, and user-centric interfaces and products that solve
+                            real problems and stand out in the market.
+                        </p>
+                        <div
+                            class="flex flex-col sm:flex-row justify-center lg:justify-start space-y-5 sm:space-y-0 sm:space-x-6">
+                            <a href="#contact"
+                                class="inline-flex items-center justify-center px-10 py-5 border border-transparent text-lg font-semibold rounded-full shadow-xl text-white bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105 animate-bounce-once">
+                                Let's Get Started
+                            </a>
+                            <a href="#contact"
+                                class="inline-flex items-center justify-center px-10 py-5 border-2 border-blue-600 text-lg font-semibold rounded-full shadow-xl text-blue-600 hover:bg-blue-100 transition duration-300 ease-in-out transform hover:scale-105">
+                                Discuss Your Project
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mt-12 lg:mt-0 animate-fade-in-up delay-200 hidden lg:block">
+                        <img src="assets/images/Services/UI-UX/Ui-1.png" alt="UI/UX & Product Design Illustration"
+                            class="w-full h-auto object-cover" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services-list" class="py-10 sm:py-16 bg-white overflow-hidden">
+            <!-- py-20 sm:py-32 to py-10 sm:py-16 for remove extra space -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-6 animate-fade-in-up">
+                    Our Design Services
+                </h2>
+                <p class="text-xl text-gray-700 mb-16 max-w-3xl mx-auto animate-fade-in-up delay-100">
+                    We cover the entire design lifecycle, from user research and strategy to crafting pixel-perfect
+                    interfaces that deliver a seamless experience.
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 mb-24 animate-fade-in-up delay-200">
+                    <div class="text-left">
+                        <h3 class="text-3xl font-extrabold text-gray-900 mb-4">User Experience (UX) Research & Strategy
+                        </h3>
+                        <p class="text-lg text-gray-600 leading-relaxed">
+                            We dive deep into understanding your target users through research, user personas, and
+                            journey mapping. This foundational work ensures your product is designed to meet real user
+                            needs and expectations.
+                        </p>
+                    </div>
+                    <div>
+                        <img src="assets/images/Services/UI-UX/UI research.png"
+                            alt="User Experience (UX) Research & Strategy"
+                            class="rounded-3xl shadow-xl w-full h-auto object-cover transform transition duration-500 hover:scale-105" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 mb-24 animate-fade-in-up delay-300">
+                    <div class="order-2 lg:order-1">
+                        <img src="assets/images/Services/UI-UX/Wireframing-2.png" alt="Wireframing & Prototyping"
+                            class="rounded-3xl shadow-xl w-full h-auto object-cover transform transition duration-500 hover:scale-105" />
+                    </div>
+                    <div class="text-left order-1 lg:order-2">
+                        <h3 class="text-3xl font-extrabold text-gray-900 mb-4">Wireframing & Prototyping</h3>
+                        <p class="text-lg text-gray-600 leading-relaxed">
+                            We create low-fidelity wireframes and interactive prototypes to test and refine the user
+                            flow and product structure early in the process, saving time and resources before
+                            development begins.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 mb-24 animate-fade-in-up delay-400">
+                    <div class="text-left">
+                        <h3 class="text-3xl font-extrabold text-gray-900 mb-4">User Interface (UI) Design</h3>
+                        <p class="text-lg text-gray-600 leading-relaxed">
+                            Our designers craft a stunning visual identity for your product. We create captivating and
+                            consistent interfaces that align with your brand, ensuring a memorable and aesthetically
+                            pleasing user experience.
+                        </p>
+                    </div>
+                    <div>
+                        <img src="assets/images/Services/UI-UX/UI design-2.png" alt="User Interface (UI) Design"
+                            class="rounded-3xl shadow-xl w-full h-auto object-cover transform transition duration-500 hover:scale-105" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 mb-24 animate-fade-in-up delay-500">
+                    <div class="order-2 lg:order-1">
+                        <img src="assets/images/Services/UI-UX/design-2.png" alt="Design Systems"
+                            class="rounded-3xl shadow-xl w-full h-auto object-cover transform transition duration-500 hover:scale-105" />
+                    </div>
+                    <div class="text-left order-1 lg:order-2">
+                        <h3 class="text-3xl font-extrabold text-gray-900 mb-4">Design Systems</h3>
+                        <p class="text-lg text-gray-600 leading-relaxed">
+                            We create comprehensive design systems with reusable components, guidelines, and standards.
+                            This ensures consistency, efficiency, and scalability for your product as it grows.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="why-choose-us" class="py-20 sm:py-32 bg-gradient-to-br from-blue-50 to-indigo-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-16 animate-fade-in-up">
+                    Why Choose InGrowwth Innovations for Design?
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-10 flex flex-col items-center transform hover:scale-105 transition duration-500 ease-in-out group animate-fade-in-up delay-100">
+                        <i data-lucide="award"
+                            class="w-12 h-12 text-blue-600 mb-6 group-hover:text-blue-800 transition duration-300"></i>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">User-Centered Approach</h3>
+                        <p class="text-gray-600 text-lg">
+                            Our designs are not just beautiful; they are built on a deep understanding of user behavior
+                            and needs to ensure a delightful experience.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-10 flex flex-col items-center transform hover:scale-105 transition duration-500 ease-in-out group animate-fade-in-up delay-200">
+                        <i data-lucide="cpu"
+                            class="w-12 h-12 text-blue-600 mb-6 group-hover:text-blue-800 transition duration-300"></i>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Strategic Problem-Solving</h3>
+                        <p class="text-gray-600 text-lg">
+                            We go beyond aesthetics to solve complex business problems. Our designs are strategic assets
+                            that drive conversions and user engagement.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-white rounded-3xl shadow-xl p-10 flex flex-col items-center transform hover:scale-105 transition duration-500 ease-in-out group animate-fade-in-up delay-300">
+                        <i data-lucide="layers"
+                            class="w-12 h-12 text-blue-600 mb-6 group-hover:text-blue-800 transition duration-300"></i>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Collaborative Partnership</h3>
+                        <p class="text-gray-600 text-lg">
+                            We believe in close collaboration with your team, ensuring that the final product is a
+                            perfect reflection of your vision and expertise.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dev-process" class="py-20 sm:py-32 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-20 animate-fade-in-up">
+                    Our UI/UX & Product Design Process
+                </h2>
+
+                <div class="card-container grid gap-12 lg:grid-cols-3 lg:gap-8">
+                    <div class="relative animate-fade-in-up delay-100">
+                        <div
+                            class="absolute -top-6 -left-3 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
+                            <i data-lucide="cog" class="w-12 h-12"></i>
+                        </div>
+                        <div
+                            class="bg-gray-100 rounded-3xl p-8 pt-12 text-left h-full flex flex-col justify-end rectangular-card">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">1. Discovery & Research</h3>
+                            <p class="text-gray-600">
+                                We conduct in-depth user research and competitive analysis to understand your market,
+                                audience, and business goals.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="relative animate-fade-in-up delay-200">
+                        <div
+                            class="absolute -top-6 -left-3 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
+                            <i data-lucide="git-fork" class="w-12 h-12"></i>
+                        </div>
+                        <div
+                            class="bg-gray-100 rounded-3xl p-8 pt-12 text-left h-full flex flex-col justify-end rectangular-card">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">2. Information Architecture & Wireframing
+                            </h3>
+                            <p class="text-gray-600">
+                                We structure the content and create low-fidelity wireframes to map out the user flow and
+                                product functionality.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="relative animate-fade-in-up delay-300">
+                        <div
+                            class="absolute -top-6 -left-3 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
+                            <i data-lucide="figma" class="w-12 h-12"></i>
+                        </div>
+                        <div
+                            class="bg-gray-100 rounded-3xl p-8 pt-12 text-left h-full flex flex-col justify-end rectangular-card">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">3. UI Design & Prototyping</h3>
+                            <p class="text-gray-600">
+                                Our designers bring the wireframes to life with a stunning visual design and interactive
+                                prototypes for testing.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="relative animate-fade-in-up delay-400">
+                        <div
+                            class="absolute -top-6 -left-3 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
+                            <i data-lucide="code" class="w-12 h-12"></i>
+                        </div>
+                        <div
+                            class="bg-gray-100 rounded-3xl p-8 pt-12 text-left h-full flex flex-col justify-end rectangular-card">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">4. Development Handoff</h3>
+                            <p class="text-gray-600">
+                                We provide developers with comprehensive design specifications, assets, and a clean
+                                design system for a smooth and efficient build.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="relative animate-fade-in-up delay-500">
+                        <div
+                            class="absolute -top-6 -left-3 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
+                            <i data-lucide="bug" class="w-12 h-12"></i>
+                        </div>
+                        <div
+                            class="bg-gray-100 rounded-3xl p-8 pt-12 text-left h-full flex flex-col justify-end rectangular-card">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">5. User Testing & Iteration</h3>
+                            <p class="text-gray-600">
+                                We conduct user testing to gather feedback and make data-driven improvements, ensuring
+                                the final product meets user needs.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="relative animate-fade-in-up delay-600">
+                        <div
+                            class="absolute -top-6 -left-3 z-10 w-16 h-16 bg-white text-blue-600 flex items-center justify-center rounded-full text-3xl font-bold shadow-lg border-2 border-blue-600">
+                            <i data-lucide="rocket" class="w-12 h-12"></i>
+                        </div>
+                        <div
+                            class="bg-gray-100 rounded-3xl p-8 pt-12 text-left h-full flex flex-col justify-end rectangular-card">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">6. Launch & Post-Launch Support</h3>
+                            <p class="text-gray-600">
+                                We support you through the launch and continue to provide design support to ensure the
+                                product's long-term success.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tech-stack" class="py-20 sm:py-32 bg-gradient-to-br from-blue-50 to-indigo-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-16 animate-fade-in-up">
+                    Our Design & Prototyping <span class="text-blue-600">Tools</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                    <div class="tech-stack-item left-to-right">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Prototyping & Collaboration</h3>
+                        <div class="flex flex-wrap justify-center gap-6">
+                            <div class="flex flex-col items-center">
+                                <img src="assets/images/Services/UI-UX/Figma.png" alt="Figma"
+                                    class="w-20 h-20 rounded-xl shadow-lg transform transition duration-300 hover:scale-110" />
+                                <span class="text-gray-600 text-sm mt-2">Figma</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <img src="https://placehold.co/100x100/ADD8E6/2C3E50?text=Sketch" alt="Sketch"
+                                    class="w-20 h-20 rounded-xl shadow-lg transform transition duration-300 hover:scale-110" />
+                                <span class="text-gray-600 text-sm mt-2">Sketch</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <img src="assets/images/Services/UI-UX/Adobe-XD.png" alt="Adobe XD"
+                                    class="w-20 h-20 rounded-xl shadow-lg transform transition duration-300 hover:scale-110" />
+                                <span class="text-gray-600 text-sm mt-2">Adobe XD</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tech-stack-item fade-in">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">User Research & Testing</h3>
+                        <div class="flex flex-wrap justify-center gap-6">
+                            <div class="flex flex-col items-center">
+                                <img src="assets/images/Services/UI-UX/USER.png" alt="UserTesting"
+                                    class="w-20 h-20 rounded-xl shadow-lg transform transition duration-300 hover:scale-110" />
+                                <span class="text-gray-600 text-sm mt-2">UserTesting</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <img src="assets/images/Services/UI-UX/Hotjar.png" alt="Hotjar"
+                                    class="w-20 h-20 rounded-xl shadow-lg transform transition duration-300 hover:scale-110" />
+                                <span class="text-gray-600 text-sm mt-2">Hotjar</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <img src="assets/images/Services/UI-UX/lookback.png" alt="Lookback"
+                                    class="w-20 h-20 rounded-xl shadow-lg transform transition duration-300 hover:scale-110" />
+                                <span class="text-gray-600 text-sm mt-2">Lookback</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tech-stack-item right-to-left">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Project Management</h3>
+                        <div class="flex flex-wrap justify-center gap-6">
+                            <div class="flex flex-col items-center">
+                                <img src="assets/images/Services/UI-UX/Jira.png" alt="Jira"
+                                    class="w-20 h-20 rounded-xl shadow-lg transform transition duration-300 hover:scale-110" />
+                                <span class="text-gray-600 text-sm mt-2">Jira</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <img src="assets/images/Services/UI-UX/Trello.png" alt="Trello"
+                                    class="w-20 h-20 rounded-xl shadow-lg transform transition duration-300 hover:scale-110" />
+                                <span class="text-gray-600 text-sm mt-2">Trello</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <img src="assets/images/Services/UI-UX/Asana-1.png" alt="Asana"
+                                    class="w-20 h-20 rounded-xl shadow-lg transform transition duration-300 hover:scale-110" />
+                                <span class="text-gray-600 text-sm mt-2">Asana</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="py-20 sm:py-32 bg-white">
+            <div class="px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 text-center mb-16 animate-fade-in-up">
+                    Frequently Asked Questions
+                </h2>
+                <div class="max-w-5xl mx-auto space-y-6">
+                    <details
+                        class="group bg-gray-50 rounded-2xl p-6 shadow-md cursor-pointer animate-fade-in-up delay-100">
+                        <summary
+                            class="flex justify-between items-center text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                            What's the difference between UI and UX design?
+                            <i data-lucide="chevron-down"
+                                class="w-6 h-6 transform transition-transform duration-300 group-open:rotate-180"></i>
+                        </summary>
+                        <p class="text-gray-600 mt-4 leading-relaxed">
+                            UI (User Interface) design is focused on the visual elements of a product—the look and feel,
+                            colors, typography, and button placement. UX (User Experience) design is concerned with how
+                            a user interacts with the product—the overall journey, ease of use, and efficiency of the
+                            flow. In short, UI is the "looks," and UX is the "feels."
+                        </p>
+                    </details>
+                    <details
+                        class="group bg-gray-50 rounded-2xl p-6 shadow-md cursor-pointer animate-fade-in-up delay-200">
+                        <summary
+                            class="flex justify-between items-center text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                            Can you redesign an existing product?
+                            <i data-lucide="chevron-down"
+                                class="w-6 h-6 transform transition-transform duration-300 group-open:rotate-180"></i>
+                        </summary>
+                        <p class="text-gray-600 mt-4 leading-relaxed">
+                            Yes, we specialize in product redesigns. We start by conducting a comprehensive UX audit to
+                            identify pain points and opportunities for improvement. Our redesign process focuses on
+                            enhancing usability, modernizing the interface, and improving key performance indicators.
+                        </p>
+                    </details>
+                    <details
+                        class="group bg-gray-50 rounded-2xl p-6 shadow-md cursor-pointer animate-fade-in-up delay-300">
+                        <summary
+                            class="flex justify-between items-center text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                            How do you ensure the design is ready for development?
+                            <i data-lucide="chevron-down"
+                                class="w-6 h-6 transform transition-transform duration-300 group-open:rotate-180"></i>
+                        </summary>
+                        <p class="text-gray-600 mt-4 leading-relaxed">
+                            We provide a complete handoff package that includes high-fidelity prototypes, interactive
+                            wireframes, a full design system (components, typography, colors), and detailed
+                            documentation. Our designers work closely with your development team to ensure a seamless
+                            implementation.
+                        </p>
+                    </details>
+                    <details
+                        class="group bg-gray-50 rounded-2xl p-6 shadow-md cursor-pointer animate-fade-in-up delay-400">
+                        <summary
+                            class="flex justify-between items-center text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                            What tools do you use for design?
+                            <i data-lucide="chevron-down"
+                                class="w-6 h-6 transform transition-transform duration-300 group-open:rotate-180"></i>
+                        </summary>
+                        <p class="text-gray-600 mt-4 leading-relaxed">
+                            We use industry-standard tools to create our designs. Our primary tools include Figma for
+                            collaborative design and prototyping, Sketch for UI design, and Adobe XD. For user testing
+                            and analytics, we use tools like UserTesting and Hotjar.
+                        </p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section
+            class="bg-blue-700 py-20 rounded-3xl mx-4 sm:mx-6 lg:mx-8 -mt-4 sm:-mt-2 lg:-mt-16 relative z-20 shadow-2xl animate-fade-in-up delay-200">
+            <div class="max-w-5xl mx-auto text-center text-white px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl sm:text-5xl font-extrabold mb-6 leading-tight">
+                    Ready to Transform Your Business?
+                </h2>
+                <p class="text-xl opacity-90 mb-10">
+                    Let's discuss your next big idea and how InGrowwth Innovations can bring it to life.
+                </p>
+                <a href="#contact"
+                    class="inline-flex items-center justify-center px-10 py-5 border border-white text-lg font-semibold rounded-full shadow-lg text-white hover:bg-white hover:text-blue-700 transition duration-300 ease-in-out transform hover:scale-105">
+                    Start Your Project Today <i data-lucide="zap" class="ml-3 w-6 h-6"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Updated responsive contact section (Tailwind only) -->
+        <section id="contact" class="py-20 sm:py-32 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2
+                    class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 text-center mb-6 animate-fade-in-up">
+                    Get In <span class="text-blue-600">Touch</span>
+                </h2>
+
+                <p
+                    class="text-base sm:text-lg md:text-xl text-gray-700 text-center mb-16 max-w-3xl mx-auto animate-fade-in-up delay-100">
+                    We're eager to hear about your project and explore how InGrowwth Innovations can help you achieve
+                    your
+                    digital ambitions.
+                </p>
+
+                <!-- grid: single column on small, 2-cols on lg -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12">
+                    <!-- contact card -->
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 text-white 
+                                     p-6 sm:p-8 md:p-10 rounded-2xl md:rounded-3xl shadow-xl 
+                                     flex flex-col justify-between transform hover:-translate-y-2 
+                                     transition duration-500 ease-in-out break-words">
+
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-bold mb-6">Reach Out to Us</h3>
+
+                            <div class="space-y-6 sm:space-y-8">
+                                <!-- Email -->
+                                <div class="flex items-start sm:items-center">
+                                    <i data-lucide="mail"
+                                        class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mr-3 sm:mr-4 flex-shrink-0"></i>
+                                    <a href="mailto:info@ingrowwthinnovations.in" class="text-sm sm:text-base md:text-lg hover:underline 
+                                              break-words whitespace-normal leading-snug max-w-[90%]">
+                                        info@ingrowwthinnovations.in
+                                    </a>
+                                </div>
+
+                                <!-- Phone -->
+                                <div class="flex items-start sm:items-center">
+                                    <i data-lucide="phone"
+                                        class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mr-3 sm:mr-4 flex-shrink-0"></i>
+                                    <a href="tel:+918200229099"
+                                        class="text-sm sm:text-base md:text-lg hover:underline break-words max-w-[90%]">
+                                        +91 8200229099
+                                    </a>
+                                </div>
+
+                                <!-- Address -->
+                                <div class="flex items-start">
+                                    <i data-lucide="map-pin"
+                                        class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mr-3 sm:mr-4 flex-shrink-0 mt-1"></i>
+                                    <p
+                                        class="text-sm sm:text-base md:text-lg leading-snug break-words whitespace-normal max-w-[90%]">
+                                        A-102 Oscar Hills, Hanspura, <br />
+                                        Naroda-Dahegam Highway, <br />
+                                        Ahmedabad - 382330 <br />
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 sm:mt-10">
+                            <h3 class="text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6">Connect With Us</h3>
+                            <div class="flex space-x-4 sm:space-x-6">
+                                <!--linkedin-->
+                                <a href="https://www.linkedin.com/company/ingrowwth-innovations/" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-110 focus:outline-none">
+                                    <i data-lucide="linkedin" class="w-5 h-5 sm:w-7 sm:h-7"></i>
+                                </a>
+
+                                <!--twitter-->
+                                <a href="https://x.com/InGrowwTech?t=8MiL8-rVH3gbCI-JO2WH_Q&s=09" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-110 focus:outline-none">
+                                    <i data-lucide="twitter" class="w-5 h-5 sm:w-7 sm:h-7"></i>
+                                </a>
+
+                                <!-- GitHub 
+                                <a href="#"
+                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-110 focus:outline-none">
+                                    <i data-lucide="github" class="w-5 h-5 sm:w-7 sm:h-7"></i>
+                                </a> -->
+
+                                <!--instagram-->
+                                <a href="https://www.instagram.com/ingrowwth_innovations?igsh=MW1sbXR6OW53Z2Q4cA=="
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-110 focus:outline-none">
+                                    <i data-lucide="instagram" class="w-5 h-5 sm:w-7 sm:h-7"></i>
+                                </a>
+
+                                <!--facebook-->
+                                <a href="https://www.facebook.com/share/1BN77ZSTUs/" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="hover:text-blue-200 transition duration-300 transform hover:scale-110 focus:outline-none">
+                                    <i data-lucide="facebook" class="w-5 h-5 sm:w-7 sm:h-7"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- form card -->
+                    <div
+                        class="bg-gray-50 p-5 sm:p-8 md:p-10 rounded-2xl md:rounded-3xl shadow-xl transform hover:-translate-y-2 transition duration-500 ease-in-out animate-fade-in-up delay-300">
+                        <form id="contactForm" class="space-y-5 sm:space-y-6">
+                            <div>
+                                <label for="name"
+                                    class="block text-base sm:text-lg font-medium text-gray-700 mb-2">Name</label>
+                                <input type="text" id="name" name="name"
+                                    class="mt-1 block w-full px-4 sm:px-5 py-3 sm:py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base md:text-lg transition duration-300 bg-white"
+                                    placeholder="Your Full Name" />
+                            </div>
+
+                            <div>
+                                <label for="email"
+                                    class="block text-base sm:text-lg font-medium text-gray-700 mb-2">Email</label>
+                                <input type="email" id="email" name="email"
+                                    class="mt-1 block w-full px-4 sm:px-5 py-3 sm:py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base md:text-lg transition duration-300 bg-white"
+                                    placeholder="you@example.com" />
+                            </div>
+
+                            <div>
+                                <label for="subject"
+                                    class="block text-base sm:text-lg font-medium text-gray-700 mb-2">Subject</label>
+                                <input type="text" id="subject" name="subject"
+                                    class="mt-1 block w-full px-4 sm:px-5 py-3 sm:py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base md:text-lg transition duration-300 bg-white"
+                                    placeholder="Project Inquiry, Partnership, etc." />
+                            </div>
+
+                            <div>
+                                <label for="message"
+                                    class="block text-base sm:text-lg font-medium text-gray-700 mb-2">Message</label>
+                                <textarea id="message" name="message" rows="5"
+                                    class="mt-1 block w-full px-4 sm:px-5 py-3 sm:py-4 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base md:text-lg transition duration-300 bg-white"
+                                    placeholder="Tell us about your project or query in detail..."></textarea>
+                            </div>
+
+                            <button type="submit"
+                                class="w-full inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 border border-transparent text-base sm:text-lg md:text-xl font-semibold rounded-full shadow-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
+                                Send Your Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <a href="https://wa.me/918200229099?text=Hello,%20I'm%20interested%20in%20your%20IT%20services." target="_blank"
+        class="fixed bottom-8 right-8 text-white rounded-full shadow-lg z-[9999] transition-all duration-300 hover:scale-110 flex items-center justify-center"
+        aria-label="Chat on WhatsApp">
+        <img src="assets/images/whatsapp.png" alt="WhatsApp Logo" class="w-16 h-16">
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-10 px-4 sm:px-6 lg:px-8 rounded-t-3xl shadow-inner">
+        <div class="max-w-7xl mx-auto">
+            <!-- Responsive grid: 1 -> 2 -> 3 -> 4 columns -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-center md:text-left">
+
+                <!-- Logo + Intro -->
+                <div class="min-w-0 flex flex-col items-center md:items-start">
+                    <a href="#hero" class="flex items-center mb-4 shrink-0">
+                        <img src="assets/images/company_logo2.png" alt="InGrowwth Innovations Logo"
+                            class="h-20 sm:h-24 md:h-20 lg:h-20 w-auto max-w-full object-contain" />
+                    </a>
+
+                    <p class="intro-text">
+                        Innovating for a brighter digital future. We are committed to delivering excellence and driving
+                        success for businesses worldwide.
+                    </p>
+
+                    <br>
+                    <br>
+                    <div class="flex space-x-4 mt-3">
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/company/ingrowwth-innovations/" target="_blank" rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="linkedin" class="w-6 h-6"></i>
+                        </a>
+                    
+                        <!-- Twitter -->
+                        <a href="https://x.com/InGrowwTech?t=8MiL8-rVH3gbCI-JO2WH_Q&s=09" target="_blank" rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="twitter" class="w-6 h-6"></i>
+                        </a>
+                    
+                        <!-- GitHub 
+                        <a href="#"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="github" class="w-6 h-6"></i>
+                        </a>-->
+                    
+                        <!-- Instagram -->
+                        <a href="https://www.instagram.com/ingrowwth_innovations?igsh=MW1sbXR6OW53Z2Q4cA==" target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="instagram" class="w-6 h-6"></i>
+                        </a>
+                    
+                        <!-- Facebook -->
+                        <a href="https://www.facebook.com/share/1BN77ZSTUs/" target="_blank" rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-white transition duration-300 transform hover:scale-110 focus:outline-none">
+                            <i data-lucide="facebook" class="w-6 h-6"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="min-w-0">
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm sm:text-base">
+                        <li><a href="index.html#hero" class="hover:text-white transition duration-200">Home</a></li>
+                        <li><a href="index.html#about" class="hover:text-white transition duration-200">About Us</a>
+                        </li>
+                        <li><a href="index.html#services" class="hover:text-white transition duration-200">Services</a>
+                        </li>
+                        <li><a href="index.html#portfolio"
+                                class="hover:text-white transition duration-200">Portfolio</a>
+                        </li>
+                        <li><a href="index.html#testimonials"
+                                class="hover:text-white transition duration-200">Testimonials</a></li>
+                        <li><a href="index.html#careers" class="hover:text-white transition duration-200">Careers</a>
+                        </li>
+                        <li><a href="index.html#contact" class="hover:text-white transition duration-200">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Our Services (visible from md up) -->
+                <div class="min-w-0 md:block hidden">
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-4">Our Services</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm sm:text-base">
+                        <li><a href="web-development-service.html" class="hover:text-white transition duration-200">Web
+                                Development</a></li>
+                        <li><a href="mobile-application-service.html"
+                                class="hover:text-white transition duration-200">Mobile App Development</a></li>
+                        <li><a href="cloud-solutions-service.html"
+                                class="hover:text-white transition duration-200">Cloud
+                                Solutions</a></li>
+                        <li><a href="ai-ml-services.html" class="hover:text-white transition duration-200">AI & Machine
+                                Learning</a></li>
+                        <li><a href="cybersecurity-services.html"
+                                class="hover:text-white transition duration-200">Cybersecurity</a></li>
+                        <li><a href="data-analytics-services.html" class="hover:text-white transition duration-200">Data
+                                Analytics</a></li>
+                        <li><a href="ui-ux-product-design-service.html"
+                                class="hover:text-white transition duration-200">UI/UX & Product Design</a></li>
+                        <li><a href="blockchain-services.html"
+                                class="hover:text-white transition duration-200">Blockchain
+                                Solutions</a></li>
+                        <li><a href="erp-services.html" class="hover:text-white transition duration-200">ERP
+                                Solutions</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="min-w-0">
+                    <h3 class="text-lg sm:text-xl font-semibold text-white mb-4">Contact Info</h3>
+                    <ul class="space-y-3 text-sm sm:text-base">
+                        <li class="flex items-start md:justify-start justify-center gap-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-blue-400 flex-shrink-0 mt-1"></i>
+                            <p class="text-gray-400">A-102 Oscar Hills, Hanspura, Ahmedabad</p>
+                        </li>
+
+                        <li class="flex items-center md:justify-start justify-center gap-3">
+                            <i data-lucide="phone" class="w-5 h-5 text-blue-400 flex-shrink-0"></i>
+                            <a href="tel:+918200229099"
+                                class="text-gray-400 hover:text-white transition duration-200">+91
+                                8200229099</a>
+                        </li>
+
+                        <!-- Email: single-line, safe overflow -->
+                        <li class="flex items-center md:justify-start justify-center gap-3">
+                            <i data-lucide="mail" class="w-5 h-5 text-blue-400 flex-shrink-0"></i>
+                            <a href="mailto:info@ingrowwthinnovations.in" class="footer-email">
+                                info@ingrowwthinnovations.in
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom -->
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+                <p class="text-gray-500 text-sm mb-3">
+                    &copy; <span id="current-year"></span> InGrowwth Innovations. All rights reserved. Designed with
+                    <span class="text-red-500">&hearts;</span> for modern businesses.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
+                    <a href="Privacy-Policy.html" class="text-gray-400 hover:text-white transition duration-200">Privacy
+                        Policy</a>
+                    <span class="text-gray-600 hidden sm:inline">|</span>
+                    <a href="term-of-services.html" class="text-gray-400 hover:text-white transition duration-200">Terms
+                        of
+                        Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.add('hidden');
+        });
+
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            });
+        });
+
+        // Intersection Observer for Scroll Animations
+        const sections = document.querySelectorAll('section');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (!entry.target.classList.contains('animate-fade-in-up')) {
+                        entry.target.classList.add('animate-fade-in-up');
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Fix for Lucide icons not rendering initially on some elements
+        window.onload = () => {
+            lucide.createIcons();
+        };
+
+        // Fallback for image loading errors (still good to keep for other images)
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.onerror = function () {
+                    this.src = 'https://placehold.co/600x400/CCCCCC/333333?text=Image+Error';
+                };
+            });
+        });
+
+        // Contact Form Submission (connects to backend)
+        const contactForm = document.getElementById('contactForm');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+
+                if (!name || !email || !subject || !message) {
+                    alert('Please fill in all fields.');
+                    return;
+                }
+
+                if (!email.includes('@') || !email.includes('.')) {
+                    alert('Please enter a valid email address.');
+                    return;
+                }
+
+                const submitButton = contactForm.querySelector('button[type="submit"]');
+                submitButton.textContent = 'Sending...';
+                submitButton.disabled = true;
+
+                try {
+                    const response = await fetch('http://127.0.0.1:5000/submit_contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ name, email, subject, message }),
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        alert(result.message);
+                        contactForm.reset();
+                    } else {
+                        alert(`Error: ${result.message || 'Something went wrong.'}`);
+                    }
+                } catch (error) {
+                    console.error('Network or server error:', error);
+                    alert('Could not connect to the server. Please ensure the backend is running and reachable.');
+                } finally {
+                    submitButton.textContent = 'Send Your Message';
+                    submitButton.disabled = false;
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

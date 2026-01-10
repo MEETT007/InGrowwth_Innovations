@@ -1,0 +1,21 @@
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local DB and secrets
+site.db
+.env
+firebase-service-account.json
+ingrowwth-dashboard-firebase-adminsdk-*.json
+*.b64
+
+# Uploads or private folders
+resumes/
+instance/
+
+# IDE files
+.vscode/
+*.log
