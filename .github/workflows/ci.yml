@@ -1,0 +1,42 @@
+name: Next.js CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+      - 'feature/*'
+      - 'fix/*'
+      - 'IGG_*'
+
+jobs:
+  build:
+    name: Build & Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Ideal for Next.js 15
+          cache: 'npm'
+          
+      # The steps below are commented out because we haven't initialized the Next.js project yet. 
+      # Uncomment them once Issue #1 is completed and package.json is created.
+      
+      # - name: Install Dependencies
+      #   run: npm ci
+
+      # - name: Check Linting
+      #   run: npm run lint
+
+      # - name: Generate Prisma Client
+      #   run: npx prisma generate
+
+      # - name: Build Next.js Application
+      #   run: npm run build
