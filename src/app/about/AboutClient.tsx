@@ -50,7 +50,7 @@ const values = [
 const team = [
   {
     name: 'Meet',
-    role: 'Co-Founder & CEO',
+    role: 'Founder & CEO',
     desc: 'Leading business strategy, client operations, and overall growth to deliver high-impact enterprise solutions.',
     initials: 'M',
     gradient: 'from-indigo-600 to-purple-600',
