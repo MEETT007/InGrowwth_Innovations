@@ -76,6 +76,7 @@ export default function Home() {
         >
           <Button
             render={<Link href="/contact" />}
+            nativeButton={false}
             size="lg"
             className="w-full sm:w-auto bg-primary text-primary-foreground group cursor-pointer shadow-md flex items-center justify-center gap-2"
           >
@@ -84,6 +85,7 @@ export default function Home() {
           </Button>
           <Button
             render={<Link href="/services" />}
+            nativeButton={false}
             variant="outline"
             size="lg"
             className="w-full sm:w-auto cursor-pointer border-border hover:bg-muted/50"

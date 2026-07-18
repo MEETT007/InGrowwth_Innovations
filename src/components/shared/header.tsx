@@ -79,6 +79,7 @@ export function Header() {
           <ThemeToggle />
           <Button
             render={<Link href="/contact?type=quote" />}
+            nativeButton={false}
             size="sm"
             className="cursor-pointer group relative overflow-hidden bg-primary text-primary-foreground shadow-sm hover:opacity-90 transition-opacity flex items-center gap-2"
           >
@@ -128,6 +129,7 @@ export function Header() {
             </div>
             <Button
               render={<Link href="/contact?type=quote" />}
+              nativeButton={false}
               className="w-full justify-center group bg-primary text-primary-foreground flex items-center gap-2"
             >
               Get a Quote
