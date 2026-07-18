@@ -75,22 +75,20 @@ export default function Home() {
           className="mt-10 flex flex-col sm:flex-row gap-4 items-center justify-center w-full max-w-md"
         >
           <Button
-            asChild
+            render={<Link href="/contact" />}
             size="lg"
-            className="w-full sm:w-auto bg-primary text-primary-foreground group cursor-pointer shadow-md"
+            className="w-full sm:w-auto bg-primary text-primary-foreground group cursor-pointer shadow-md flex items-center justify-center gap-2"
           >
-            <Link href="/contact" className="flex items-center justify-center gap-2">
-              Start Project
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
+            Start Project
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Button>
           <Button
-            asChild
+            render={<Link href="/services" />}
             variant="outline"
             size="lg"
             className="w-full sm:w-auto cursor-pointer border-border hover:bg-muted/50"
           >
-            <Link href="/services">View Services</Link>
+            View Services
           </Button>
         </motion.div>
       </section>

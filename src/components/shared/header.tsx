@@ -78,14 +78,12 @@ export function Header() {
         <div className="hidden md:flex items-center gap-4">
           <ThemeToggle />
           <Button
-            asChild
+            render={<Link href="/contact?type=quote" />}
             size="sm"
-            className="cursor-pointer group relative overflow-hidden bg-primary text-primary-foreground shadow-sm hover:opacity-90 transition-opacity"
+            className="cursor-pointer group relative overflow-hidden bg-primary text-primary-foreground shadow-sm hover:opacity-90 transition-opacity flex items-center gap-2"
           >
-            <Link href="/contact?type=quote" className="flex items-center gap-2">
-              Get a Quote
-              <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
-            </Link>
+            Get a Quote
+            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
           </Button>
         </div>
 
@@ -129,13 +127,11 @@ export function Header() {
               })}
             </div>
             <Button
-              asChild
-              className="w-full justify-center group bg-primary text-primary-foreground"
+              render={<Link href="/contact?type=quote" />}
+              className="w-full justify-center group bg-primary text-primary-foreground flex items-center gap-2"
             >
-              <Link href="/contact?type=quote" className="flex items-center gap-2">
-                Get a Quote
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
+              Get a Quote
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>
           </motion.div>
         )}

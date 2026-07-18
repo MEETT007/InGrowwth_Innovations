@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Send, Linkedin, Twitter, Github, ChevronRight } from 'lucide-react';
+import { Send, Globe, MessageSquare, Code, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const footerLinks = {
@@ -52,19 +52,19 @@ export function Footer() {
                 href="#"
                 className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors"
               >
-                <Linkedin className="h-4 w-4" />
+                <Globe className="h-4 w-4" />
               </Link>
               <Link
                 href="#"
                 className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors"
               >
-                <Twitter className="h-4 w-4" />
+                <MessageSquare className="h-4 w-4" />
               </Link>
               <Link
                 href="#"
                 className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors"
               >
-                <Github className="h-4 w-4" />
+                <Code className="h-4 w-4" />
               </Link>
             </div>
           </div>
