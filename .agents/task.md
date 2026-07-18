@@ -1,8 +1,5 @@
-# Issue #3: Header, Footer, and Dark Mode
+# Issue #4: Create Reusable UI Components
 
-- `[x]` Install `next-themes` for theme provider setup
-- `[x]` Create `ThemeProvider` wrapper component
-- `[x]` Build the Theme Toggle button (using shadcn/dropdown-menu or custom)
-- `[x]` Build the Responsive Header/Navbar (Desktop nav + Mobile drawer)
-- `[x]` Build the Footer component
-- `[x]` Integrate components in root `layout.tsx`
+- `[x]` Install shadcn components (Card, Input, Dialog, Form/Field)
+- `[x]` Ensure proper styling and design variables are mapped
+- `[x]` Verify components load correctly in Next.js
