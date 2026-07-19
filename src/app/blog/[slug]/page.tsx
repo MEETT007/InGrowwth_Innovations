@@ -4,9 +4,9 @@ import {
   Calendar,
   User,
   ArrowLeft,
-  Twitter,
-  Linkedin,
-  Facebook,
+  Send,
+  Globe,
+  MessageCircle,
   Link as LinkIcon,
 } from 'lucide-react';
 import { mockBlogPosts } from '@/lib/mock-data';
@@ -82,13 +82,13 @@ export default async function BlogDetailPage({ params }: PageProps) {
             Share
           </span>
           <Button variant="outline" size="icon" className="rounded-full">
-            <Twitter className="h-4 w-4" />
+            <Send className="h-4 w-4" />
           </Button>
           <Button variant="outline" size="icon" className="rounded-full">
-            <Linkedin className="h-4 w-4" />
+            <Globe className="h-4 w-4" />
           </Button>
           <Button variant="outline" size="icon" className="rounded-full">
-            <Facebook className="h-4 w-4" />
+            <MessageCircle className="h-4 w-4" />
           </Button>
           <Button variant="outline" size="icon" className="rounded-full">
             <LinkIcon className="h-4 w-4" />
