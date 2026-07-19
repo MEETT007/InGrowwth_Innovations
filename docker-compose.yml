@@ -1,18 +1,22 @@
-version: '3.8'
-
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: node:22-alpine
+    working_dir: /app
     ports:
       - '3000:3000'
     volumes:
       - .:/app
-      # Anonymize node_modules to prevent local host system from overriding the container's linux dependencies
-      - /app/node_modules
-      - /app/.next
+      # Keep node_modules inside the container (isolated from Windows host)
+      - ingrowwth_node_modules:/app/node_modules
+      - ingrowwth_next_cache:/app/.next
     environment:
       - NODE_ENV=development
-      # Enable polling for hot-reloading on Windows WSL/Hyper-V setups
+      - NEXT_TELEMETRY_DISABLED=1
+      # Enable polling for hot-reload on Windows/WSL/Hyper-V setups
       - WATCHPACK_POLLING=true
+    # Install deps and start dev server
+    command: sh -c "npm install && npm run dev -- -H 0.0.0.0"
+
+volumes:
+  ingrowwth_node_modules:
+  ingrowwth_next_cache:
