@@ -12,6 +12,7 @@ const navLinks = [
   { href: '/services', label: 'Services' },
   { href: '/technologies', label: 'Technologies' },
   { href: '/projects', label: 'Projects' },
+  { href: '/blog', label: 'Blog' },
   { href: '/careers', label: 'Careers' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -37,11 +38,10 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        scrolled
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled
           ? 'backdrop-blur-md bg-background/80 border-b border-border/40 shadow-sm'
           : 'bg-transparent border-b border-transparent'
-      }`}
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Logo */}
@@ -119,9 +119,8 @@ export function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`text-lg font-medium py-2 border-b border-border/20 ${
-                      isActive ? 'text-indigo-500' : 'text-foreground/80 hover:text-foreground'
-                    }`}
+                    className={`text-lg font-medium py-2 border-b border-border/20 ${isActive ? 'text-indigo-500' : 'text-foreground/80 hover:text-foreground'
+                      }`}
                   >
                     {link.label}
                   </Link>
