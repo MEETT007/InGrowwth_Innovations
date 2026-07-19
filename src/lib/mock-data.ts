@@ -1,6 +1,330 @@
 import { Code, Cloud, Layers, Cpu, Shield, Smartphone } from 'lucide-react';
 import React from 'react';
 
+export interface Project {
+  slug: string;
+  title: string;
+  tagline: string;
+  description: string;
+  category: string;
+  gradient: string;
+  accentColor: string;
+  colorClass: string;
+  tags: string[];
+  tech: string[];
+  functionality: string[];
+  technologyStack: string[];
+  coverImage: string;
+  screenshots: { src: string; alt: string }[];
+  featured: boolean;
+  year: string;
+}
+
+export const projects: Project[] = [
+  {
+    slug: 'sensai',
+    title: 'SENSAI',
+    tagline: 'AI-Powered Career Guidance Platform',
+    description:
+      'A web platform that helps students explore career-specific industry insights, prepare for interviews, and create ATS-friendly resumes and cover letters with AI support.',
+    category: 'Web Development',
+    gradient: 'from-violet-600 to-indigo-600',
+    accentColor: 'violet',
+    colorClass: 'text-violet-500 bg-violet-500/10',
+    tags: ['Web Development', 'UI/UX', 'React', 'AI/ML'],
+    tech: ['Next.js', 'Clerk', 'Prisma', 'Neon DB', 'Inngest', 'Google Gemini API', 'Vercel'],
+    functionality: [
+      'View personalized industry insights for chosen career paths',
+      'Build ATS-friendly resumes and cover letters',
+      'Prepare for interviews with tailored AI guidance',
+      'Practice quizzes with solutions and explanations',
+      'User authentication with secure login/signup',
+      'Dashboard for managing career resources & progress',
+    ],
+    technologyStack: [
+      'Frontend: Next.js (React-based framework)',
+      'Auth & User Mgmt: Clerk (authentication & authorization)',
+      'Database: Prisma ORM + Neon (serverless Postgres)',
+      'Background Tasks: Inngest (event-driven workflows)',
+      'AI Integration: Google Gemini API',
+      'Hosting & Infra: Vercel',
+    ],
+    coverImage: '/projects/sensai/cover.png',
+    screenshots: [
+      { src: '/projects/sensai/home.png', alt: 'SENSAI Home Dashboard' },
+      { src: '/projects/sensai/industry.png', alt: 'Industry Insights' },
+      { src: '/projects/sensai/resume.png', alt: 'Resume Builder' },
+      { src: '/projects/sensai/mock.png', alt: 'Mock Interview Practice' },
+      { src: '/projects/sensai/cover-letter.png', alt: 'Cover Letter Generator' },
+    ],
+    featured: true,
+    year: '2024',
+  },
+  {
+    slug: 'easy-farm-hub',
+    title: 'Easy Farm Hub',
+    tagline: 'Smart Farming Platform for Modern Agriculture',
+    description:
+      'A platform helping farmers with organic farming practices, government scheme discovery, and product management with multi-language support.',
+    category: 'Web Development',
+    gradient: 'from-emerald-500 to-teal-600',
+    accentColor: 'emerald',
+    colorClass: 'text-emerald-500 bg-emerald-500/10',
+    tags: ['Mobile App', 'Fintech', 'Multi-Language', 'Agriculture'],
+    tech: ['HTML', 'CSS', 'Bootstrap', 'JavaScript', 'PHP', 'MySQL'],
+    functionality: [
+      'User and admin login system with role-based access',
+      'User registration with multi-language support (English/Gujarati)',
+      'Admin can add and manage agricultural products',
+      'Admin can publish organic farming technologies',
+      'Admin can share new government schemes for farmers',
+    ],
+    technologyStack: [
+      'Frontend: HTML, CSS, Bootstrap, JavaScript',
+      'Backend: PHP (server-side logic)',
+      'Database: MySQL',
+      'Language Support: English ↔ Gujarati toggle',
+      'Hosting & Infra: Localhost / Web server (XAMPP, Apache)',
+    ],
+    coverImage: '/projects/easy-farm-hub/cover.png',
+    screenshots: [
+      { src: '/projects/easy-farm-hub/home.png', alt: 'Easy Farm Hub Home' },
+      { src: '/projects/easy-farm-hub/about.png', alt: 'About Section' },
+      { src: '/projects/easy-farm-hub/organic.png', alt: 'Organic Farming' },
+      { src: '/projects/easy-farm-hub/product.png', alt: 'Product Management' },
+      { src: '/projects/easy-farm-hub/technology.png', alt: 'Technology Section' },
+    ],
+    featured: true,
+    year: '2024',
+  },
+  {
+    slug: 'sankalp-library',
+    title: 'Sankalp Library App',
+    tagline: 'Discover, Reserve & Borrow Books Seamlessly',
+    description:
+      'A lightweight Flutter app to discover, reserve, and borrow books with offline support, making library management effortless for both users and administrators.',
+    category: 'Mobile App',
+    gradient: 'from-orange-500 to-amber-600',
+    accentColor: 'orange',
+    colorClass: 'text-orange-500 bg-orange-500/10',
+    tags: ['Flutter', 'Firebase', 'Firestore', 'Mobile App'],
+    tech: ['Flutter', 'Dart', 'Firebase', 'Firestore', 'Firebase Auth'],
+    functionality: [
+      'Browse and search a complete book catalog',
+      'Reserve books online with instant confirmation',
+      'Track borrow history and due dates',
+      'Offline support for reading book details',
+      'Admin panel for book management',
+      'Push notifications for due date reminders',
+    ],
+    technologyStack: [
+      'Frontend: Flutter (cross-platform mobile framework)',
+      'Backend: Firebase (serverless backend)',
+      'Database: Firestore (NoSQL real-time database)',
+      'Authentication: Firebase Auth',
+      'Offline Support: Hive / local caching',
+      'Platform: iOS & Android',
+    ],
+    coverImage: '/projects/sankalp-library/cover.png',
+    screenshots: [
+      { src: '/projects/sankalp-library/home.png', alt: 'Library Home' },
+      { src: '/projects/sankalp-library/catalog.png', alt: 'Book Catalog' },
+      { src: '/projects/sankalp-library/reserve.png', alt: 'Book Reservation' },
+      { src: '/projects/sankalp-library/history.png', alt: 'Borrow History' },
+    ],
+    featured: false,
+    year: '2024',
+  },
+  {
+    slug: 'ahmedabad-builders',
+    title: 'Ahmedabad Builders',
+    tagline: 'Your Trusted Construction Partner in Ahmedabad',
+    description:
+      'A professional website for a leading construction company, showcasing residential and commercial projects with an enterprise CRM system for client and project management.',
+    category: 'Web Development',
+    gradient: 'from-sky-500 to-blue-600',
+    accentColor: 'sky',
+    colorClass: 'text-sky-500 bg-sky-500/10',
+    tags: ['CRM', 'Enterprise', 'Cloud', 'Construction'],
+    tech: ['React', 'Node.js', 'PostgreSQL', 'Tailwind CSS', 'Vercel'],
+    functionality: [
+      'Project showcase with high-resolution gallery',
+      'Client inquiry and lead management CRM',
+      'Project progress tracking dashboard',
+      'Contact and quotation request forms',
+      'Admin panel for content management',
+      'SEO-optimized for local Ahmedabad searches',
+    ],
+    technologyStack: [
+      'Frontend: React with Tailwind CSS',
+      'Backend: Node.js + Express REST API',
+      'Database: PostgreSQL (relational data)',
+      'CMS: Custom admin panel',
+      'Hosting: Vercel + Railway (database)',
+      'SEO: Next.js static generation',
+    ],
+    coverImage: '/projects/ahmedabad-builders/cover.png',
+    screenshots: [
+      { src: '/projects/ahmedabad-builders/home.png', alt: 'Company Homepage' },
+      { src: '/projects/ahmedabad-builders/projects.png', alt: 'Project Gallery' },
+      { src: '/projects/ahmedabad-builders/contact.png', alt: 'Contact Page' },
+    ],
+    featured: false,
+    year: '2024',
+  },
+  {
+    slug: 'quickchat',
+    title: 'QuickChat',
+    tagline: 'Real-Time Messaging with Lightning Speed',
+    description:
+      'A real-time Flutter chat application for chatting & media sharing using Firebase, with secure, fast messaging and end-to-end encryption support.',
+    category: 'Mobile App',
+    gradient: 'from-pink-500 to-rose-600',
+    accentColor: 'pink',
+    colorClass: 'text-pink-500 bg-pink-500/10',
+    tags: ['Flutter', 'Firebase', 'Real-time Chat', 'Mobile App'],
+    tech: ['Flutter', 'Dart', 'Firebase', 'Firestore', 'Firebase Storage', 'FCM'],
+    functionality: [
+      'Real-time one-on-one and group messaging',
+      'Image, video, and file sharing',
+      'Push notifications via Firebase Cloud Messaging',
+      'User status indicators (online/offline/typing)',
+      'Message read receipts',
+      'Secure authentication with Firebase Auth',
+    ],
+    technologyStack: [
+      'Frontend: Flutter (cross-platform)',
+      'Real-time Database: Firebase Firestore',
+      'File Storage: Firebase Storage',
+      'Notifications: Firebase Cloud Messaging (FCM)',
+      'Authentication: Firebase Auth',
+      'Platform: iOS & Android',
+    ],
+    coverImage: '/projects/quickchat/cover.png',
+    screenshots: [
+      { src: '/projects/quickchat/chat.png', alt: 'Chat Interface' },
+      { src: '/projects/quickchat/groups.png', alt: 'Group Chats' },
+      { src: '/projects/quickchat/profile.png', alt: 'User Profile' },
+      { src: '/projects/quickchat/media.png', alt: 'Media Sharing' },
+    ],
+    featured: true,
+    year: '2024',
+  },
+  {
+    slug: 'smart-irrigation',
+    title: 'Smart Irrigation System',
+    tagline: 'IoT-Powered Precision Agriculture',
+    description:
+      'A smart irrigation system that automates watering and suggests suitable crops using real-time soil moisture and weather data — reducing water waste and maximizing yield.',
+    category: 'IoT & AI',
+    gradient: 'from-teal-500 to-cyan-600',
+    accentColor: 'teal',
+    colorClass: 'text-teal-500 bg-teal-500/10',
+    tags: ['Crop-prediction', 'Farming', 'IoT', 'AI/ML'],
+    tech: ['Python', 'Raspberry Pi', 'MQTT', 'TensorFlow Lite', 'React', 'Firebase'],
+    functionality: [
+      'Real-time soil moisture and temperature monitoring',
+      'Automated irrigation scheduling based on sensor data',
+      'AI-based crop recommendation system',
+      'Weather API integration for smart decisions',
+      'Mobile dashboard for remote monitoring and control',
+      'Alert system for abnormal conditions',
+    ],
+    technologyStack: [
+      'Hardware: Raspberry Pi + Soil/Weather Sensors',
+      'Communication: MQTT Protocol',
+      'AI Model: TensorFlow Lite (crop prediction)',
+      'Backend: Python FastAPI',
+      'Frontend: React dashboard',
+      'Cloud: Firebase Realtime Database',
+    ],
+    coverImage: '/projects/smart-irrigation/cover.png',
+    screenshots: [
+      { src: '/projects/smart-irrigation/dashboard.png', alt: 'IoT Dashboard' },
+      { src: '/projects/smart-irrigation/sensors.png', alt: 'Sensor Data' },
+      { src: '/projects/smart-irrigation/crop-suggest.png', alt: 'Crop Suggestions' },
+    ],
+    featured: false,
+    year: '2024',
+  },
+  {
+    slug: 'adventure-sports-club',
+    title: 'Adventure Sports Club',
+    tagline: 'World-Class Sports & Fitness for All Ages',
+    description:
+      'A modern website for an adventure sports club offering world-class indoor and outdoor facilities including swimming, gym, and various sports, designed for all age groups.',
+    category: 'Web Development',
+    gradient: 'from-amber-500 to-orange-600',
+    accentColor: 'amber',
+    colorClass: 'text-amber-500 bg-amber-500/10',
+    tags: ['Sports', 'Swim + Gym', 'Fitness', 'Website'],
+    tech: ['React', 'Tailwind CSS', 'Node.js', 'MongoDB', 'Stripe'],
+    functionality: [
+      'Membership plans and online enrollment',
+      'Class scheduling and online booking system',
+      'Trainer profiles and specialization showcase',
+      'Facilities tour with image gallery',
+      'Online payment integration via Stripe',
+      'Member portal for tracking fitness progress',
+    ],
+    technologyStack: [
+      'Frontend: React + Tailwind CSS',
+      'Backend: Node.js + Express',
+      'Database: MongoDB (flexible member data)',
+      'Payments: Stripe integration',
+      'Authentication: JWT-based auth',
+      'Hosting: Vercel + Railway',
+    ],
+    coverImage: '/projects/adventure-sports-club/cover.png',
+    screenshots: [
+      { src: '/projects/adventure-sports-club/home.png', alt: 'Club Homepage' },
+      { src: '/projects/adventure-sports-club/facilities.png', alt: 'Facilities' },
+      { src: '/projects/adventure-sports-club/classes.png', alt: 'Classes' },
+      { src: '/projects/adventure-sports-club/membership.png', alt: 'Membership Plans' },
+    ],
+    featured: false,
+    year: '2024',
+  },
+  {
+    slug: 'crunchy-coffee',
+    title: 'Crunchy — A Coffee App',
+    tagline: 'Order Your Perfect Coffee, Anytime',
+    description:
+      'The Coffee App lets users browse, order, and enjoy fast delivery with a personalized experience — featuring favorites, order history, and loyalty rewards.',
+    category: 'Mobile App',
+    gradient: 'from-yellow-600 to-amber-700',
+    accentColor: 'yellow',
+    colorClass: 'text-yellow-500 bg-yellow-500/10',
+    tags: ['Flutter', 'Firebase', 'Coffee Delivery', 'Mobile App'],
+    tech: ['Flutter', 'Dart', 'Firebase', 'Firestore', 'Razorpay', 'Google Maps API'],
+    functionality: [
+      'Browse curated menu with categories and filters',
+      'Add to cart and place orders with real-time tracking',
+      'Favorites list for quick re-ordering',
+      'Loyalty rewards and coupon system',
+      'Order history and receipt generation',
+      'Live delivery tracking with Google Maps',
+    ],
+    technologyStack: [
+      'Frontend: Flutter (cross-platform mobile)',
+      'Backend: Firebase (serverless)',
+      'Database: Firestore (real-time orders)',
+      'Payments: Razorpay integration',
+      'Maps: Google Maps API (delivery tracking)',
+      'Platform: iOS & Android',
+    ],
+    coverImage: '/projects/crunchy-coffee/cover.png',
+    screenshots: [
+      { src: '/projects/crunchy-coffee/home.png', alt: 'Coffee Menu' },
+      { src: '/projects/crunchy-coffee/order.png', alt: 'Order Screen' },
+      { src: '/projects/crunchy-coffee/tracking.png', alt: 'Live Tracking' },
+      { src: '/projects/crunchy-coffee/profile.png', alt: 'User Profile' },
+    ],
+    featured: false,
+    year: '2024',
+  },
+];
+
 export interface Service {
   slug: string;
   title: string;
