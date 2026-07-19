@@ -1,0 +1,43 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+enum LeadType {
+  CONTACT
+  QUOTE
+  NEWSLETTER
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+model Lead {
+  id             String     @id @default(uuid())
+  type           LeadType
+  status         LeadStatus @default(NEW)
+  email          String
+  name           String?
+  phone          String?
+  subject        String?
+  message        String?
+  
+  // Fields specific to Quote requests
+  budget         String?
+  timeline       String?
+  service        String?
+  projectDetails String?
+  fileUrl        String?    // S3 URL for attached requirements document
+  
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  @@map("leads")
+}

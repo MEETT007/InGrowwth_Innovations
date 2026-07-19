@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   web:
     build:
@@ -16,3 +14,29 @@ services:
       - NODE_ENV=development
       # Enable polling for hot-reloading on Windows WSL/Hyper-V setups
       - WATCHPACK_POLLING=true
+      - DATABASE_URL=postgresql://postgres:postgrespassword@postgres:5432/ingrowwth?schema=public
+    command: sh -c "npx prisma generate && npx prisma migrate deploy && npm run dev"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: ingrowwth-postgres
+    restart: always
+    ports:
+      - '5435:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: ingrowwth
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ingrowwth"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
