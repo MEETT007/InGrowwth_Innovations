@@ -551,3 +551,180 @@ export const technologies: TechGroup[] = [
     ],
   },
 ];
+
+import { BlogPost, JobPosition } from '../types';
+
+export const mockBlogPosts: BlogPost[] = [
+  {
+    id: '1',
+    slug: 'future-of-ai-in-healthcare',
+    title: 'The Future of AI in Healthcare: Transforming Patient Outcomes',
+    excerpt:
+      'Discover how artificial intelligence is revolutionizing the healthcare industry, from early diagnosis to personalized treatment plans.',
+    content: `
+      <h2>The Dawn of a New Era in Medicine</h2>
+      <p>Artificial Intelligence (AI) is no longer just a buzzword; it's a driving force in the healthcare sector. By analyzing vast amounts of medical data, AI algorithms can identify patterns that human doctors might miss, leading to earlier and more accurate diagnoses.</p>
+      <br/>
+      <h3>Personalized Treatment Plans</h3>
+      <p>One of the most exciting applications of AI is in the realm of personalized medicine. By analyzing a patient's genetic makeup, lifestyle, and medical history, AI can help doctors tailor treatment plans that are specific to the individual, increasing the chances of a successful outcome while minimizing side effects.</p>
+      <br/>
+      <h3>The Role of Predictive Analytics</h3>
+      <p>Predictive analytics powered by AI can forecast outbreaks of diseases and help hospitals manage their resources more effectively. By predicting patient admission rates, healthcare facilities can ensure they have adequate staff and supplies on hand.</p>
+      <br/>
+      <p>As we continue to develop more sophisticated AI tools, the possibilities for improving patient care are virtually limitless.</p>
+    `,
+    author: {
+      name: 'Dr. Jane Smith',
+      avatar: 'https://i.pravatar.cc/150?u=jane_smith',
+    },
+    publishDate: '2026-07-15',
+    category: 'Healthcare',
+    thumbnail:
+      'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800&h=400',
+    isFeatured: true,
+  },
+  {
+    id: '2',
+    slug: 'sustainable-tech-innovations',
+    title: 'Sustainable Tech: Innovations Driving a Greener Tomorrow',
+    excerpt:
+      'Explore the latest technological advancements that are helping to combat climate change and promote environmental sustainability.',
+    content: `
+      <h2>Green Technologies Leading the Charge</h2>
+      <p>From renewable energy sources like solar and wind to energy-efficient building materials, sustainable technologies are crucial for reducing our carbon footprint.</p>
+    `,
+    author: {
+      name: 'Alex Johnson',
+      avatar: 'https://i.pravatar.cc/150?u=alex_johnson',
+    },
+    publishDate: '2026-07-10',
+    category: 'Environment',
+    thumbnail:
+      'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=800&h=400',
+  },
+  {
+    id: '3',
+    slug: 'remote-work-best-practices',
+    title: 'Mastering Remote Work: Strategies for Productivity and Well-being',
+    excerpt:
+      'Practical tips for thriving in a remote work environment, balancing professional responsibilities with personal health.',
+    content: `
+      <h2>Setting Up for Success</h2>
+      <p>Creating a dedicated workspace is the first step to maintaining focus and productivity while working from home.</p>
+    `,
+    author: {
+      name: 'Sarah Lee',
+      avatar: 'https://i.pravatar.cc/150?u=sarah_lee',
+    },
+    publishDate: '2026-07-05',
+    category: 'Work Culture',
+    thumbnail:
+      'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&q=80&w=800&h=400',
+  },
+  {
+    id: '4',
+    slug: 'blockchain-beyond-crypto',
+    title: 'Blockchain Beyond Cryptocurrency: Real-World Applications',
+    excerpt:
+      'How blockchain technology is transforming industries like supply chain management, voting systems, and digital identity.',
+    content: `
+      <h2>Securing the Supply Chain</h2>
+      <p>Blockchain provides an immutable ledger that can track goods from origin to destination, ensuring transparency and reducing fraud.</p>
+    `,
+    author: {
+      name: 'Michael Chen',
+      avatar: 'https://i.pravatar.cc/150?u=michael_chen',
+    },
+    publishDate: '2026-06-28',
+    category: 'Technology',
+    thumbnail:
+      'https://images.unsplash.com/photo-1639762681485-074b7f4fc250?auto=format&fit=crop&q=80&w=800&h=400',
+  },
+];
+
+export const mockJobs: JobPosition[] = [
+  {
+    id: 'job-1',
+    title: 'Senior Frontend Engineer',
+    department: 'Engineering',
+    location: 'Remote (US/Canada)',
+    type: 'Full-time',
+    description:
+      'We are looking for an experienced Frontend Engineer to lead the development of our core web applications using React and Next.js.',
+    requirements: [
+      '5+ years of experience with React and modern JavaScript',
+      'Strong understanding of Next.js and SSR/SSG',
+      'Experience with Tailwind CSS and responsive design',
+      'Excellent communication skills',
+    ],
+    responsibilities: [
+      'Architect and develop new frontend features',
+      'Mentor junior engineers',
+      'Collaborate with designers and product managers',
+      'Optimize application performance',
+    ],
+  },
+  {
+    id: 'job-2',
+    title: 'Product Designer',
+    department: 'Design',
+    location: 'New York, NY or Remote',
+    type: 'Full-time',
+    description:
+      'Join our design team to create intuitive and beautiful user experiences across our product suite.',
+    requirements: [
+      '3+ years of product design experience',
+      'Proficiency in Figma and prototyping tools',
+      'Strong portfolio showcasing UI/UX skills',
+      'Experience working in agile teams',
+    ],
+    responsibilities: [
+      'Conduct user research and usability testing',
+      'Create wireframes, prototypes, and high-fidelity mockups',
+      'Maintain and evolve our design system',
+      'Work closely with engineering to ensure design fidelity',
+    ],
+  },
+  {
+    id: 'job-3',
+    title: 'Marketing Manager',
+    department: 'Marketing',
+    location: 'San Francisco, CA',
+    type: 'Full-time',
+    description:
+      'Lead our growth marketing initiatives and brand campaigns to expand our market reach.',
+    requirements: [
+      '4+ years of B2B marketing experience',
+      'Proven track record of successful campaign management',
+      'Strong analytical skills (Google Analytics, Mixpanel)',
+      'Excellent written and verbal communication',
+    ],
+    responsibilities: [
+      'Develop and execute go-to-market strategies',
+      'Manage digital advertising budgets',
+      'Collaborate with content and PR teams',
+      'Analyze and report on campaign performance',
+    ],
+  },
+  {
+    id: 'job-4',
+    title: 'Customer Support Specialist',
+    department: 'Customer Success',
+    location: 'Remote (Global)',
+    type: 'Contract',
+    description:
+      'Help our users get the most out of our platform by providing top-notch technical and product support.',
+    requirements: [
+      '1-2 years of customer support experience',
+      'Familiarity with helpdesk software (Zendesk, Intercom)',
+      'High empathy and patience',
+      'Ability to troubleshoot technical issues',
+    ],
+    responsibilities: [
+      'Respond to customer inquiries via email and chat',
+      'Create and update help center articles',
+      'Escalate complex issues to the engineering team',
+      'Gather and share customer feedback',
+    ],
+  },
+];
