@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rate-limit';
 import { ContactSchema } from '@/schemas/lead';
+import { sendLeadEmails } from '@/lib/mail';
 
 export async function POST(request: NextRequest) {
   // Extract client IP address for rate limiting
@@ -81,8 +82,8 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // TODO: Issue 15 Integration - Trigger Resend email notification
-    console.log(`[Notification Placeholder] Email notification for Contact Lead ID: ${lead.id}`);
+    // Trigger Resend email notification in the background (non-blocking, errors handled gracefully)
+    void sendLeadEmails(lead);
 
     return NextResponse.json(
       {

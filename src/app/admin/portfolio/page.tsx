@@ -73,6 +73,8 @@ export default function PortfolioPage() {
   const [portfolioItems, setPortfolioItems] = useState<PortfolioFormValues[]>(initialPortfolio);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [galleryPreviews, setGalleryPreviews] = useState<string[]>([]);
 
   const form = useForm<PortfolioFormValues>({
     resolver: zodResolver(portfolioSchema),
@@ -82,27 +84,102 @@ export default function PortfolioPage() {
       category: '',
       websiteUrl: '',
       description: '',
+      gallery: [],
     },
   });
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setIsUploading(true);
+    const toastId = toast.loading(`Uploading ${files.length} image(s)...`);
+
+    try {
+      const uploadPromises = Array.from(files).map(async (file) => {
+        // Size limit: 5MB
+        if (file.size > 5 * 1024 * 1024) {
+          toast.error(`File "${file.name}" exceeds the 5MB limit and was skipped.`);
+          return null;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+          const response = await fetch('/api/upload?folder=portfolio', {
+            method: 'POST',
+            body: formData,
+          });
+
+          const result = await response.json();
+          if (result.success && result.url) {
+            return result.url;
+          } else {
+            toast.error(`Failed to upload "${file.name}": ${result.message || 'unknown error'}`);
+            return null;
+          }
+        } catch (err) {
+          console.error(`Error uploading file ${file.name}:`, err);
+          toast.error(`Error uploading "${file.name}".`);
+          return null;
+        }
+      });
+
+      const results = await Promise.all(uploadPromises);
+      const uploadedUrls = results.filter((url): url is string => url !== null);
+
+      if (uploadedUrls.length > 0) {
+        const updatedGallery = [...galleryPreviews, ...uploadedUrls];
+        setGalleryPreviews(updatedGallery);
+        form.setValue('gallery', updatedGallery);
+        toast.success(`Successfully uploaded ${uploadedUrls.length} image(s)!`, { id: toastId });
+      } else {
+        toast.error('No images were successfully uploaded.', { id: toastId });
+      }
+    } catch (error) {
+      console.error('Error uploading gallery files:', error);
+      toast.error('An error occurred during gallery upload.', { id: toastId });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleRemoveImage = (indexToRemove: number) => {
+    const updatedGallery = galleryPreviews.filter((_, idx) => idx !== indexToRemove);
+    setGalleryPreviews(updatedGallery);
+    form.setValue('gallery', updatedGallery);
+  };
+
   const onSubmit = (data: PortfolioFormValues) => {
+    const submitData = { ...data, gallery: galleryPreviews };
     if (editingId) {
       setPortfolioItems(
-        portfolioItems.map((item) => (item.id === editingId ? { ...data, id: editingId } : item))
+        portfolioItems.map((item) =>
+          item.id === editingId ? { ...submitData, id: editingId } : item
+        )
       );
       toast.success('Portfolio item updated successfully');
     } else {
-      setPortfolioItems([...portfolioItems, { ...data, id: crypto.randomUUID() }]);
+      setPortfolioItems([...portfolioItems, { ...submitData, id: crypto.randomUUID() }]);
       toast.success('Portfolio item created successfully');
     }
     setIsDialogOpen(false);
     form.reset();
+    setGalleryPreviews([]);
     setEditingId(null);
   };
 
   const handleEdit = (item: PortfolioFormValues) => {
     setEditingId(item.id!);
     form.reset(item);
+    let existingGallery: string[] = [];
+    if (Array.isArray(item.gallery)) {
+      existingGallery = item.gallery;
+    } else if (typeof item.gallery === 'string' && item.gallery) {
+      existingGallery = [item.gallery];
+    }
+    setGalleryPreviews(existingGallery);
     setIsDialogOpen(true);
   };
 
@@ -115,7 +192,15 @@ export default function PortfolioPage() {
 
   const handleOpenNew = () => {
     setEditingId(null);
-    form.reset({ title: '', client: '', category: '', websiteUrl: '', description: '' });
+    form.reset({
+      title: '',
+      client: '',
+      category: '',
+      websiteUrl: '',
+      description: '',
+      gallery: [],
+    });
+    setGalleryPreviews([]);
   };
 
   return (
@@ -207,6 +292,33 @@ export default function PortfolioPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="gallery">Image Gallery</Label>
+
+                {/* Previews grid */}
+                {galleryPreviews.length > 0 && (
+                  <div className="grid grid-cols-3 gap-3 mb-3">
+                    {galleryPreviews.map((url, idx) => (
+                      <div
+                        key={idx}
+                        className="relative aspect-video rounded-lg overflow-hidden border"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={url}
+                          alt={`Gallery image ${idx + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                        <button
+                          type="button"
+                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                          onClick={() => handleRemoveImage(idx)}
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
                 <div className="border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-muted-foreground hover:bg-muted/50 transition-colors">
                   <ImageIcon className="h-8 w-8 mb-2 opacity-50" />
                   <p className="text-sm font-medium">Click to upload images</p>
@@ -217,17 +329,18 @@ export default function PortfolioPage() {
                     multiple
                     className="hidden"
                     accept="image/*"
-                    {...form.register('gallery')}
+                    disabled={isUploading}
+                    onChange={handleFileUpload}
                   />
-                  {/* Note: In a real app we would use a hidden input and a button or dropzone here */}
                   <Button
                     type="button"
                     variant="secondary"
                     size="sm"
                     className="mt-4"
+                    disabled={isUploading}
                     onClick={() => document.getElementById('gallery')?.click()}
                   >
-                    Select Files
+                    {isUploading ? 'Uploading...' : 'Select Files'}
                   </Button>
                 </div>
               </div>

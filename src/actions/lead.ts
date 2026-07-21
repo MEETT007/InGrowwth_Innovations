@@ -11,6 +11,7 @@ import {
   NewsletterInput,
 } from '@/schemas/lead';
 import { headers } from 'next/headers';
+import { sendLeadEmails } from '@/lib/mail';
 
 // Helper to extract client IP address
 async function getClientIp(): Promise<string> {
@@ -85,8 +86,8 @@ export async function submitContactAction(rawInput: ContactInput) {
       },
     });
 
-    // TODO: Issue 15 Integration - Trigger Resend email notification
-    console.log(`[Notification Placeholder] Email notification for Contact Lead ID: ${lead.id}`);
+    // Trigger Resend email notification in the background (non-blocking, errors handled gracefully)
+    void sendLeadEmails(lead);
 
     return {
       success: true,
@@ -165,8 +166,8 @@ export async function submitQuoteAction(rawInput: QuoteInput) {
       },
     });
 
-    // TODO: Issue 15 Integration - Trigger Resend email notification
-    console.log(`[Notification Placeholder] Email notification for Quote Lead ID: ${lead.id}`);
+    // Trigger Resend email notification in the background (non-blocking, errors handled gracefully)
+    void sendLeadEmails(lead);
 
     return {
       success: true,
@@ -232,8 +233,8 @@ export async function subscribeNewsletterAction(rawInput: NewsletterInput) {
       },
     });
 
-    // TODO: Issue 15 Integration - Trigger Resend email notification
-    console.log(`[Notification Placeholder] Email notification for Newsletter Lead ID: ${lead.id}`);
+    // Trigger Resend email notification in the background (non-blocking, errors handled gracefully)
+    void sendLeadEmails(lead);
 
     return {
       success: true,

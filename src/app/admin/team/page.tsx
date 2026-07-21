@@ -77,6 +77,8 @@ export default function TeamPage() {
   const [teamMembers, setTeamMembers] = useState<TeamFormValues[]>(initialTeam);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
   const form = useForm<TeamFormValues>({
     resolver: zodResolver(teamSchema),
@@ -88,8 +90,49 @@ export default function TeamPage() {
       linkedin: '',
       twitter: '',
       github: '',
+      photo: '',
     },
   });
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const file = files[0];
+
+    // Client side limit: 5MB
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('File size exceeds the 5MB limit.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    setIsUploading(true);
+    const toastId = toast.loading('Uploading photo...');
+
+    try {
+      const response = await fetch('/api/upload?folder=team', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+      if (result.success && result.url) {
+        form.setValue('photo', result.url);
+        setPhotoPreview(result.url);
+        toast.success('Photo uploaded successfully!', { id: toastId });
+      } else {
+        toast.error(result.message || 'Upload failed.', { id: toastId });
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      toast.error('An error occurred during upload.', { id: toastId });
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   const onSubmit = (data: TeamFormValues) => {
     if (editingId) {
@@ -101,12 +144,14 @@ export default function TeamPage() {
     }
     setIsDialogOpen(false);
     form.reset();
+    setPhotoPreview(null);
     setEditingId(null);
   };
 
   const handleEdit = (member: TeamFormValues) => {
     setEditingId(member.id!);
     form.reset(member);
+    setPhotoPreview(member.photo || null);
     setIsDialogOpen(true);
   };
 
@@ -119,7 +164,17 @@ export default function TeamPage() {
 
   const handleOpenNew = () => {
     setEditingId(null);
-    form.reset({ name: '', role: '', email: '', bio: '', linkedin: '', twitter: '', github: '' });
+    form.reset({
+      name: '',
+      role: '',
+      email: '',
+      bio: '',
+      linkedin: '',
+      twitter: '',
+      github: '',
+      photo: '',
+    });
+    setPhotoPreview(null);
   };
 
   // Helper to get initials for Avatar fallback
@@ -155,9 +210,18 @@ export default function TeamPage() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 py-4">
               <div className="flex items-center space-x-6 border-b pb-6">
                 <Avatar className="h-24 w-24 border">
-                  <AvatarFallback className="text-xl bg-muted">
-                    <ImageIcon className="h-8 w-8 text-muted-foreground opacity-50" />
-                  </AvatarFallback>
+                  {photoPreview ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={photoPreview}
+                      alt="Profile preview"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <AvatarFallback className="text-xl bg-muted">
+                      <ImageIcon className="h-8 w-8 text-muted-foreground opacity-50" />
+                    </AvatarFallback>
+                  )}
                 </Avatar>
                 <div className="space-y-2 flex-1">
                   <Label htmlFor="photo">Profile Photo</Label>
@@ -165,10 +229,13 @@ export default function TeamPage() {
                     id="photo"
                     type="file"
                     accept="image/*"
-                    {...form.register('photo')}
+                    disabled={isUploading}
+                    onChange={handleFileUpload}
                     className="max-w-xs"
                   />
-                  <p className="text-xs text-muted-foreground">Recommended size: 400x400px</p>
+                  <p className="text-xs text-muted-foreground">
+                    {isUploading ? 'Uploading photo...' : 'Recommended size: 400x400px (Max 5MB)'}
+                  </p>
                 </div>
               </div>
 
@@ -317,9 +384,18 @@ export default function TeamPage() {
 
               <CardHeader className="pt-8 pb-2 relative">
                 <Avatar className="h-20 w-20 mx-auto border-4 border-background shadow-sm mb-2">
-                  <AvatarFallback className="bg-primary/10 text-primary text-xl font-medium">
-                    {getInitials(member.name)}
-                  </AvatarFallback>
+                  {member.photo ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={member.photo}
+                      alt={member.name}
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                  ) : (
+                    <AvatarFallback className="bg-primary/10 text-primary text-xl font-medium">
+                      {getInitials(member.name)}
+                    </AvatarFallback>
+                  )}
                 </Avatar>
                 <CardTitle className="text-lg">{member.name}</CardTitle>
                 <CardDescription className="font-medium text-primary">

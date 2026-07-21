@@ -5,7 +5,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { toast } from 'sonner';
-import { Plus, Edit, Trash2, Image as ImageIcon } from 'lucide-react';
+import { Plus, Edit, Trash2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -73,6 +73,8 @@ export default function BlogsPage() {
   const [blogs, setBlogs] = useState<BlogFormValues[]>(initialBlogs);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
 
   const form = useForm<BlogFormValues>({
     resolver: zodResolver(blogSchema),
@@ -82,8 +84,49 @@ export default function BlogsPage() {
       status: 'Draft',
       tags: '',
       content: '',
+      thumbnail: '',
     },
   });
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const file = files[0];
+
+    // Client side limit: 5MB
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('File size exceeds the 5MB limit.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    setIsUploading(true);
+    const toastId = toast.loading('Uploading thumbnail image...');
+
+    try {
+      const response = await fetch('/api/upload?folder=blogs', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+      if (result.success && result.url) {
+        form.setValue('thumbnail', result.url);
+        setThumbnailPreview(result.url);
+        toast.success('Thumbnail uploaded successfully!', { id: toastId });
+      } else {
+        toast.error(result.message || 'Upload failed.', { id: toastId });
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      toast.error('An error occurred during upload.', { id: toastId });
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   const onSubmit = (data: BlogFormValues) => {
     if (editingId) {
@@ -95,12 +138,14 @@ export default function BlogsPage() {
     }
     setIsDialogOpen(false);
     form.reset();
+    setThumbnailPreview(null);
     setEditingId(null);
   };
 
   const handleEdit = (blog: BlogFormValues) => {
     setEditingId(blog.id!);
     form.reset(blog);
+    setThumbnailPreview(blog.thumbnail || null);
     setIsDialogOpen(true);
   };
 
@@ -113,7 +158,8 @@ export default function BlogsPage() {
 
   const handleOpenNew = () => {
     setEditingId(null);
-    form.reset({ title: '', category: '', status: 'Draft', tags: '', content: '' });
+    form.reset({ title: '', category: '', status: 'Draft', tags: '', content: '', thumbnail: '' });
+    setThumbnailPreview(null);
   };
 
   return (
@@ -213,14 +259,40 @@ export default function BlogsPage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="thumbnail">Thumbnail Image</Label>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex flex-col space-y-3">
+                    {thumbnailPreview && (
+                      <div className="relative w-40 h-24 rounded-lg overflow-hidden border">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={thumbnailPreview}
+                          alt="Thumbnail preview"
+                          className="w-full h-full object-cover"
+                        />
+                        <button
+                          type="button"
+                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                          onClick={() => {
+                            form.setValue('thumbnail', '');
+                            setThumbnailPreview(null);
+                          }}
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </button>
+                      </div>
+                    )}
                     <Input
                       id="thumbnail"
                       type="file"
                       className="cursor-pointer"
                       accept="image/*"
-                      {...form.register('thumbnail')}
+                      disabled={isUploading}
+                      onChange={handleFileUpload}
                     />
+                    {isUploading && (
+                      <span className="text-xs text-muted-foreground animate-pulse">
+                        Uploading file to cloud storage...
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
