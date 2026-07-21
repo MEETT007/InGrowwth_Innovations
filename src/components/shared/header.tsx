@@ -7,6 +7,7 @@ import { Menu, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './theme-toggle';
 import { Button } from '@/components/ui/button';
+import { UserButton, useAuth } from '@clerk/nextjs';
 
 const navLinks = [
   { href: '/services', label: 'Services' },
@@ -36,12 +37,15 @@ export function Header() {
     setIsOpen(false);
   }, [pathname]);
 
+  const { isSignedIn } = useAuth();
+
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        scrolled
           ? 'backdrop-blur-md bg-background/80 border-b border-border/40 shadow-sm'
           : 'bg-transparent border-b border-transparent'
-        }`}
+      }`}
     >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Logo */}
@@ -78,6 +82,21 @@ export function Header() {
         {/* Actions */}
         <div className="hidden md:flex items-center gap-4">
           <ThemeToggle />
+          {isSignedIn ? (
+            <div className="flex items-center gap-3">
+              <Link href="/admin" className="text-xs font-semibold text-primary hover:underline">
+                CMS Portal
+              </Link>
+              <UserButton />
+            </div>
+          ) : (
+            <Link
+              href="/admin/sign-in"
+              className="text-xs font-medium text-foreground/80 hover:text-foreground"
+            >
+              Sign In
+            </Link>
+          )}
           <Button
             render={<Link href="/contact?type=quote" />}
             nativeButton={false}
@@ -119,8 +138,9 @@ export function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`text-lg font-medium py-2 border-b border-border/20 ${isActive ? 'text-indigo-500' : 'text-foreground/80 hover:text-foreground'
-                      }`}
+                    className={`text-lg font-medium py-2 border-b border-border/20 ${
+                      isActive ? 'text-indigo-500' : 'text-foreground/80 hover:text-foreground'
+                    }`}
                   >
                     {link.label}
                   </Link>

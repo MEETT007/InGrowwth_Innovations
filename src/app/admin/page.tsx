@@ -1,146 +1,200 @@
-'use client';
-
-import { Users, FileText, Briefcase, TrendingUp } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import React from 'react';
+import Link from 'next/link';
+import { db } from '@/lib/db';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+  Users,
+  Mail,
+  FileText,
+  CheckCircle2,
+  ArrowRight,
+  ShieldAlert,
+  Clock,
+  Sparkles,
+} from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { getAuthUserRole } from '@/lib/auth';
 
-const stats = [
-  {
-    title: 'Total Leads',
-    value: '1,234',
-    change: '+20.1% from last month',
-    icon: <Users className="h-4 w-4 text-muted-foreground" />,
-  },
-  {
-    title: 'Total Blogs',
-    value: '42',
-    change: '+3 new this week',
-    icon: <FileText className="h-4 w-4 text-muted-foreground" />,
-  },
-  {
-    title: 'Active Services',
-    value: '8',
-    change: 'Stable',
-    icon: <Briefcase className="h-4 w-4 text-muted-foreground" />,
-  },
-  {
-    title: 'Conversion Rate',
-    value: '12.5%',
-    change: '+1.2% from last month',
-    icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
-  },
-];
+export const revalidate = 0; // Disable caching for real-time dashboard data
 
-const recentActivity = [
-  {
-    id: 1,
-    action: 'New Lead Generated',
-    user: 'Alice Johnson',
-    email: 'alice@example.com',
-    date: '2026-07-20 14:23',
-    status: 'New',
-  },
-  {
-    id: 2,
-    action: 'Blog Post Published',
-    user: 'Admin User',
-    email: 'admin@ingrowwth.com',
-    date: '2026-07-19 09:12',
-    status: 'Completed',
-  },
-  {
-    id: 3,
-    action: 'Service Updated',
-    user: 'Admin User',
-    email: 'admin@ingrowwth.com',
-    date: '2026-07-18 16:45',
-    status: 'Completed',
-  },
-  {
-    id: 4,
-    action: 'New Lead Generated',
-    user: 'Bob Smith',
-    email: 'bob@smithco.com',
-    date: '2026-07-18 10:30',
-    status: 'Contacted',
-  },
-];
+export default async function AdminDashboardPage() {
+  const { role } = await getAuthUserRole();
 
-export default function AdminDashboard() {
+  // Fetch summary metrics safely
+  let totalLeads = 0;
+  let contactCount = 0;
+  let quoteCount = 0;
+  let newsletterCount = 0;
+  let newLeadsCount = 0;
+
+  try {
+    const [total, contacts, quotes, newsletters, newLeads] = await Promise.all([
+      db.lead.count(),
+      db.lead.count({ where: { type: 'CONTACT' } }),
+      db.lead.count({ where: { type: 'QUOTE' } }),
+      db.lead.count({ where: { type: 'NEWSLETTER' } }),
+      db.lead.count({ where: { status: 'NEW' } }),
+    ]);
+
+    totalLeads = total;
+    contactCount = contacts;
+    quoteCount = quotes;
+    newsletterCount = newsletters;
+    newLeadsCount = newLeads;
+  } catch (error) {
+    console.error('Error loading dashboard stats:', error);
+  }
+
+  const statCards = [
+    {
+      title: 'Total Inquiries',
+      value: totalLeads,
+      description: 'All recorded leads across forms',
+      icon: Users,
+      color: 'text-blue-500 bg-blue-500/10',
+    },
+    {
+      title: 'Contact Form Submissions',
+      value: contactCount,
+      description: 'General business & sales inquiries',
+      icon: Mail,
+      color: 'text-purple-500 bg-purple-500/10',
+    },
+    {
+      title: 'Quote Requests',
+      value: quoteCount,
+      description: 'Detailed project estimate requests',
+      icon: FileText,
+      color: 'text-amber-500 bg-amber-500/10',
+    },
+    {
+      title: 'Pending New Leads',
+      value: newLeadsCount,
+      description: 'Leads requiring review or action',
+      icon: Clock,
+      color: 'text-emerald-500 bg-emerald-500/10',
+    },
+  ];
+
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-        <p className="text-muted-foreground">
-          Welcome back! Here's an overview of your platform.
-        </p>
+    <div className="space-y-8">
+      {/* Top Banner */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border/80 pb-6">
+        <div>
+          <h1 className="text-3xl font-extrabold tracking-tight text-foreground flex items-center gap-2">
+            <span>Admin Overview</span>
+            <Sparkles className="h-6 w-6 text-primary animate-pulse" />
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Real-time management dashboard for InGrowwth Innovations leads & content.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <div className="px-3 py-1.5 rounded-lg border border-border bg-card text-xs font-semibold text-foreground flex items-center gap-2">
+            <ShieldAlert className="h-4 w-4 text-primary" />
+            <span>
+              Role: <strong className="text-primary capitalize">{role || 'Admin'}</strong>
+            </span>
+          </div>
+          <Link href="/admin/leads">
+            <Button className="font-semibold shadow-md flex items-center gap-2">
+              <span>Manage All Leads</span>
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat, idx) => (
-          <Card key={idx} className="border-border/50 bg-card/60 backdrop-blur-sm">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                {stat.title}
-              </CardTitle>
-              {stat.icon}
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-              <p className="text-xs text-muted-foreground">
-                {stat.change}
-              </p>
-            </CardContent>
-          </Card>
-        ))}
+      {/* Metrics Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {statCards.map((card) => {
+          const Icon = card.icon;
+          return (
+            <Card key={card.title} className="hover:shadow-lg transition-shadow border-border/80">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  {card.title}
+                </CardTitle>
+                <div className={`p-2.5 rounded-xl ${card.color}`}>
+                  <Icon className="h-5 w-5" />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-foreground">{card.value}</div>
+                <p className="text-xs text-muted-foreground mt-1">{card.description}</p>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
-      <div className="grid gap-4 md:grid-cols-1">
-        <Card className="border-border/50 bg-card/60 backdrop-blur-sm">
+      {/* Breakdown & Quick Links */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="lg:col-span-2 border-border/80">
           <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
+            <CardTitle>System & Submissions Summary</CardTitle>
+            <CardDescription>Overview of lead categories in your system</CardDescription>
           </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Action</TableHead>
-                  <TableHead>User / Contact</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {recentActivity.map((activity) => (
-                  <TableRow key={activity.id}>
-                    <TableCell className="font-medium">{activity.action}</TableCell>
-                    <TableCell>
-                      <div className="flex flex-col">
-                        <span>{activity.user}</span>
-                        <span className="text-xs text-muted-foreground">{activity.email}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>{activity.date}</TableCell>
-                    <TableCell>
-                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                        activity.status === 'New' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
-                        activity.status === 'Completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
-                        'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                      }`}>
-                        {activity.status}
-                      </span>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between p-3 rounded-lg bg-muted/40 border border-border/60">
+              <div className="flex items-center gap-3">
+                <Mail className="h-5 w-5 text-purple-500" />
+                <div>
+                  <p className="text-sm font-medium text-foreground">Contact Form Leads</p>
+                  <p className="text-xs text-muted-foreground">
+                    General inquiries from prospective clients
+                  </p>
+                </div>
+              </div>
+              <span className="font-bold text-foreground">{contactCount}</span>
+            </div>
+
+            <div className="flex items-center justify-between p-3 rounded-lg bg-muted/40 border border-border/60">
+              <div className="flex items-center gap-3">
+                <FileText className="h-5 w-5 text-amber-500" />
+                <div>
+                  <p className="text-sm font-medium text-foreground">Quote Form Submissions</p>
+                  <p className="text-xs text-muted-foreground">
+                    Project estimates with budget & timeline specs
+                  </p>
+                </div>
+              </div>
+              <span className="font-bold text-foreground">{quoteCount}</span>
+            </div>
+
+            <div className="flex items-center justify-between p-3 rounded-lg bg-muted/40 border border-border/60">
+              <div className="flex items-center gap-3">
+                <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+                <div>
+                  <p className="text-sm font-medium text-foreground">Newsletter Subscribers</p>
+                  <p className="text-xs text-muted-foreground">Active email subscribers</p>
+                </div>
+              </div>
+              <span className="font-bold text-foreground">{newsletterCount}</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Quick Admin Actions */}
+        <Card className="border-border/80">
+          <CardHeader>
+            <CardTitle>Quick Actions</CardTitle>
+            <CardDescription>Administrative controls</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Link href="/admin/leads" className="block">
+              <Button variant="outline" className="w-full justify-start font-medium gap-2">
+                <Users className="h-4 w-4 text-primary" />
+                <span>View & Manage Leads</span>
+              </Button>
+            </Link>
+            <Link href="/admin/profile" className="block">
+              <Button variant="outline" className="w-full justify-start font-medium gap-2">
+                <ShieldAlert className="h-4 w-4 text-primary" />
+                <span>Manage Security & Account</span>
+              </Button>
+            </Link>
           </CardContent>
         </Card>
       </div>

@@ -42,3 +42,8 @@ next-env.d.ts
 
 # prisma generated client
 /src/generated/
+
+# agents
+/.agents
+/skills-lock.json
+
