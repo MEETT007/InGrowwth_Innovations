@@ -14,6 +14,11 @@ export default function AdminSignUpPage() {
           <p className="mt-2 text-sm text-muted-foreground">
             Register for access to the InGrowwth CMS & Admin console.
           </p>
+          <div className="mt-3 p-3 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-xs text-left text-indigo-600 dark:text-indigo-400">
+            <strong>Note on Phone Verification:</strong> If a phone number is required or entered,
+            you <strong>must</strong> prepend it with the <code>+</code> sign and your country code
+            (e.g. <code>+91</code> or <code>+1</code>) to satisfy validation.
+          </div>
         </div>
 
         <div className="flex justify-center pt-4">

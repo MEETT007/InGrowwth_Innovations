@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -52,29 +52,9 @@ const teamSchema = z.object({
 
 type TeamFormValues = z.infer<typeof teamSchema>;
 
-const initialTeam: TeamFormValues[] = [
-  {
-    id: '1',
-    name: 'Alice Johnson',
-    role: 'CEO & Founder',
-    email: 'alice@example.com',
-    bio: 'Visionary leader with 10+ years in tech.',
-    linkedin: 'https://linkedin.com',
-    twitter: 'https://twitter.com',
-  },
-  {
-    id: '2',
-    name: 'Bob Smith',
-    role: 'Lead Developer',
-    email: 'bob@example.com',
-    bio: 'Full-stack wizard and open-source contributor.',
-    github: 'https://github.com',
-    linkedin: 'https://linkedin.com',
-  },
-];
-
 export default function TeamPage() {
-  const [teamMembers, setTeamMembers] = useState<TeamFormValues[]>(initialTeam);
+  const [teamMembers, setTeamMembers] = useState<TeamFormValues[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -93,6 +73,31 @@ export default function TeamPage() {
       photo: '',
     },
   });
+
+  const fetchTeamMembers = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/admin/team');
+      const res = await response.json();
+      if (res.success) {
+        setTeamMembers(res.data);
+      } else {
+        toast.error(res.message || 'Failed to fetch team members.');
+      }
+    } catch (error) {
+      console.error('Error fetching team members:', error);
+      toast.error('Failed to connect to team members API.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchTeamMembers();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -134,31 +139,79 @@ export default function TeamPage() {
     }
   };
 
-  const onSubmit = (data: TeamFormValues) => {
-    if (editingId) {
-      setTeamMembers(teamMembers.map((m) => (m.id === editingId ? { ...data, id: editingId } : m)));
-      toast.success('Team member updated successfully');
-    } else {
-      setTeamMembers([...teamMembers, { ...data, id: crypto.randomUUID() }]);
-      toast.success('Team member added successfully');
+  const onSubmit = async (data: TeamFormValues) => {
+    const toastId = toast.loading(editingId ? 'Updating member...' : 'Adding member...');
+    try {
+      const url = editingId ? `/api/admin/team/${editingId}` : '/api/admin/team';
+      const method = editingId ? 'PUT' : 'POST';
+
+      const cleanedData = {
+        name: data.name,
+        role: data.role,
+        email: data.email || null,
+        bio: data.bio || null,
+        linkedin: data.linkedin || null,
+        twitter: data.twitter || null,
+        github: data.github || null,
+        photo: data.photo || null,
+      };
+
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cleanedData),
+      });
+      const res = await response.json();
+      if (res.success) {
+        toast.success(res.message, { id: toastId });
+        setIsDialogOpen(false);
+        form.reset();
+        setPhotoPreview(null);
+        setEditingId(null);
+        fetchTeamMembers();
+      } else {
+        toast.error(res.message || 'Action failed.', { id: toastId });
+      }
+    } catch (error) {
+      console.error('Error saving member:', error);
+      toast.error('Failed to save team member.', { id: toastId });
     }
-    setIsDialogOpen(false);
-    form.reset();
-    setPhotoPreview(null);
-    setEditingId(null);
   };
 
   const handleEdit = (member: TeamFormValues) => {
     setEditingId(member.id!);
-    form.reset(member);
+    form.reset({
+      name: member.name,
+      role: member.role,
+      email: member.email || '',
+      bio: member.bio || '',
+      linkedin: member.linkedin || '',
+      twitter: member.twitter || '',
+      github: member.github || '',
+      photo: member.photo || '',
+    });
     setPhotoPreview(member.photo || null);
     setIsDialogOpen(true);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to remove this team member?')) {
-      setTeamMembers(teamMembers.filter((m) => m.id !== id));
-      toast.success('Team member removed successfully');
+      const toastId = toast.loading('Removing member...');
+      try {
+        const response = await fetch(`/api/admin/team/${id}`, {
+          method: 'DELETE',
+        });
+        const res = await response.json();
+        if (res.success) {
+          toast.success(res.message, { id: toastId });
+          fetchTeamMembers();
+        } else {
+          toast.error(res.message || 'Failed to remove member.', { id: toastId });
+        }
+      } catch (error) {
+        console.error('Error removing member:', error);
+        toast.error('An error occurred.', { id: toastId });
+      }
     }
   };
 
@@ -346,7 +399,21 @@ export default function TeamPage() {
         </Dialog>
       </div>
 
-      {teamMembers.length === 0 ? (
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {[1, 2, 3, 4].map((i) => (
+            <Card
+              key={i}
+              className="animate-pulse border-border/40 bg-card/30 h-64 flex flex-col justify-center items-center p-6 space-y-4"
+            >
+              <div className="h-20 w-20 rounded-full bg-muted" />
+              <div className="h-4 w-32 bg-muted rounded" />
+              <div className="h-3.5 w-24 bg-muted rounded" />
+              <div className="h-3 w-16 bg-muted rounded" />
+            </Card>
+          ))}
+        </div>
+      ) : teamMembers.length === 0 ? (
         <Card className="flex flex-col items-center justify-center py-12 text-center shadow-sm">
           <UserPlus className="h-12 w-12 text-muted-foreground opacity-20 mb-4" />
           <h3 className="text-lg font-medium">No team members</h3>

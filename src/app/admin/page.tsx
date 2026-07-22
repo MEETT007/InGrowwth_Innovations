@@ -13,12 +13,17 @@ import {
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { redirect } from 'next/navigation';
 import { getAuthUserRole } from '@/lib/auth';
 
 export const revalidate = 0; // Disable caching for real-time dashboard data
 
 export default async function AdminDashboardPage() {
-  const { role } = await getAuthUserRole();
+  const { userId, role } = await getAuthUserRole();
+
+  if (!userId || !role) {
+    redirect('/admin/sign-in');
+  }
 
   // Fetch summary metrics safely
   let totalLeads = 0;

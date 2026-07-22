@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -40,25 +40,9 @@ const serviceSchema = z.object({
 
 type ServiceFormValues = z.infer<typeof serviceSchema>;
 
-const initialServices: ServiceFormValues[] = [
-  {
-    id: '1',
-    title: 'Web Development',
-    description: 'Custom web applications',
-    icon: 'Code',
-    body: 'Full stack web development services using modern technologies.',
-  },
-  {
-    id: '2',
-    title: 'SEO Optimization',
-    description: 'Improve your search rankings',
-    icon: 'Search',
-    body: 'We optimize your site for better visibility and organic traffic.',
-  },
-];
-
 export default function ServicesPage() {
-  const [services, setServices] = useState<ServiceFormValues[]>(initialServices);
+  const [services, setServices] = useState<ServiceFormValues[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -72,29 +56,87 @@ export default function ServicesPage() {
     },
   });
 
-  const onSubmit = (data: ServiceFormValues) => {
-    if (editingId) {
-      setServices(services.map((s) => (s.id === editingId ? { ...data, id: editingId } : s)));
-      toast.success('Service updated successfully');
-    } else {
-      setServices([...services, { ...data, id: crypto.randomUUID() }]);
-      toast.success('Service created successfully');
+  const fetchServices = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/admin/services');
+      const res = await response.json();
+      if (res.success) {
+        setServices(res.data);
+      } else {
+        toast.error(res.message || 'Failed to fetch services.');
+      }
+    } catch (error) {
+      console.error('Error fetching services:', error);
+      toast.error('Failed to connect to services API.');
+    } finally {
+      setIsLoading(false);
     }
-    setIsDialogOpen(false);
-    form.reset();
-    setEditingId(null);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchServices();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const onSubmit = async (data: ServiceFormValues) => {
+    const toastId = toast.loading(editingId ? 'Updating service...' : 'Creating service...');
+    try {
+      const url = editingId ? `/api/admin/services/${editingId}` : '/api/admin/services';
+      const method = editingId ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const res = await response.json();
+      if (res.success) {
+        toast.success(res.message, { id: toastId });
+        setIsDialogOpen(false);
+        form.reset();
+        setEditingId(null);
+        fetchServices();
+      } else {
+        toast.error(res.message || 'Action failed.', { id: toastId });
+      }
+    } catch (error) {
+      console.error('Error saving service:', error);
+      toast.error('Failed to save service.', { id: toastId });
+    }
   };
 
   const handleEdit = (service: ServiceFormValues) => {
     setEditingId(service.id!);
-    form.reset(service);
+    form.reset({
+      title: service.title,
+      description: service.description,
+      icon: service.icon,
+      body: service.body,
+    });
     setIsDialogOpen(true);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this service?')) {
-      setServices(services.filter((s) => s.id !== id));
-      toast.success('Service deleted successfully');
+      const toastId = toast.loading('Deleting service...');
+      try {
+        const response = await fetch(`/api/admin/services/${id}`, {
+          method: 'DELETE',
+        });
+        const res = await response.json();
+        if (res.success) {
+          toast.success(res.message, { id: toastId });
+          fetchServices();
+        } else {
+          toast.error(res.message || 'Failed to delete service.', { id: toastId });
+        }
+      } catch (error) {
+        console.error('Error deleting service:', error);
+        toast.error('An error occurred.', { id: toastId });
+      }
     }
   };
 
@@ -199,7 +241,24 @@ export default function ServicesPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {services.length === 0 ? (
+                {isLoading ? (
+                  [1, 2, 3].map((i) => (
+                    <TableRow key={i} className="animate-pulse">
+                      <TableCell>
+                        <div className="h-4 w-32 bg-muted rounded" />
+                      </TableCell>
+                      <TableCell>
+                        <div className="h-6 w-12 bg-muted rounded" />
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell">
+                        <div className="h-4 w-64 bg-muted rounded" />
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="h-8 w-16 bg-muted rounded ml-auto" />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : services.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={4} className="text-center py-10 text-muted-foreground">
                       No services found. Click &quot;Add Service&quot; to create one.

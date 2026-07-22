@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -50,27 +50,9 @@ const blogSchema = z.object({
 
 type BlogFormValues = z.infer<typeof blogSchema>;
 
-const initialBlogs: BlogFormValues[] = [
-  {
-    id: '1',
-    title: 'Top 10 Web Trends in 2026',
-    category: 'Technology',
-    status: 'Published',
-    tags: 'web, trends, 2026',
-    content: 'The world of web development is evolving rapidly...',
-  },
-  {
-    id: '2',
-    title: 'Why SEO Matters for Startups',
-    category: 'Marketing',
-    status: 'Draft',
-    tags: 'seo, marketing, startup',
-    content: 'Search engine optimization is critical for new businesses...',
-  },
-];
-
 export default function BlogsPage() {
-  const [blogs, setBlogs] = useState<BlogFormValues[]>(initialBlogs);
+  const [blogs, setBlogs] = useState<BlogFormValues[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -87,6 +69,31 @@ export default function BlogsPage() {
       thumbnail: '',
     },
   });
+
+  const fetchBlogs = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/admin/blogs');
+      const res = await response.json();
+      if (res.success) {
+        setBlogs(res.data);
+      } else {
+        toast.error(res.message || 'Failed to fetch blog posts.');
+      }
+    } catch (error) {
+      console.error('Error fetching blogs:', error);
+      toast.error('Failed to connect to blogs API.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchBlogs();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -128,31 +135,69 @@ export default function BlogsPage() {
     }
   };
 
-  const onSubmit = (data: BlogFormValues) => {
-    if (editingId) {
-      setBlogs(blogs.map((b) => (b.id === editingId ? { ...data, id: editingId } : b)));
-      toast.success('Blog post updated successfully');
-    } else {
-      setBlogs([...blogs, { ...data, id: crypto.randomUUID() }]);
-      toast.success('Blog post created successfully');
+  const onSubmit = async (data: BlogFormValues) => {
+    const toastId = toast.loading(editingId ? 'Updating blog post...' : 'Creating blog post...');
+    try {
+      const url = editingId ? `/api/admin/blogs/${editingId}` : '/api/admin/blogs';
+      const method = editingId ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...data,
+          thumbnail: data.thumbnail || null,
+        }),
+      });
+      const res = await response.json();
+      if (res.success) {
+        toast.success(res.message, { id: toastId });
+        setIsDialogOpen(false);
+        form.reset();
+        setThumbnailPreview(null);
+        setEditingId(null);
+        fetchBlogs();
+      } else {
+        toast.error(res.message || 'Action failed.', { id: toastId });
+      }
+    } catch (error) {
+      console.error('Error saving blog post:', error);
+      toast.error('Failed to save blog post.', { id: toastId });
     }
-    setIsDialogOpen(false);
-    form.reset();
-    setThumbnailPreview(null);
-    setEditingId(null);
   };
 
   const handleEdit = (blog: BlogFormValues) => {
     setEditingId(blog.id!);
-    form.reset(blog);
+    form.reset({
+      title: blog.title,
+      category: blog.category,
+      status: blog.status,
+      tags: blog.tags,
+      content: blog.content,
+      thumbnail: blog.thumbnail || '',
+    });
     setThumbnailPreview(blog.thumbnail || null);
     setIsDialogOpen(true);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this blog post?')) {
-      setBlogs(blogs.filter((b) => b.id !== id));
-      toast.success('Blog post deleted successfully');
+      const toastId = toast.loading('Deleting blog post...');
+      try {
+        const response = await fetch(`/api/admin/blogs/${id}`, {
+          method: 'DELETE',
+        });
+        const res = await response.json();
+        if (res.success) {
+          toast.success(res.message, { id: toastId });
+          fetchBlogs();
+        } else {
+          toast.error(res.message || 'Failed to delete blog post.', { id: toastId });
+        }
+      } catch (error) {
+        console.error('Error deleting blog post:', error);
+        toast.error('An error occurred.', { id: toastId });
+      }
     }
   };
 
@@ -342,7 +387,27 @@ export default function BlogsPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {blogs.length === 0 ? (
+                {isLoading ? (
+                  [1, 2, 3].map((i) => (
+                    <TableRow key={i} className="animate-pulse">
+                      <TableCell>
+                        <div className="space-y-2">
+                          <div className="h-4 w-48 bg-muted rounded" />
+                          <div className="h-3 w-32 bg-muted rounded" />
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="h-4 w-20 bg-muted rounded" />
+                      </TableCell>
+                      <TableCell>
+                        <div className="h-6 w-16 bg-muted rounded" />
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="h-8 w-16 bg-muted rounded ml-auto" />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : blogs.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={4} className="text-center py-10 text-muted-foreground">
                       No posts found. Click &quot;Write Post&quot; to create one.

@@ -170,7 +170,7 @@ export default function TechnologiesClient() {
                   <span className="text-3xl font-extrabold bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">
                     {stat.value}
                   </span>
-                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
                     {stat.label}
                   </span>
                 </div>

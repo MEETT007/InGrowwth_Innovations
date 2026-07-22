@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -49,28 +49,19 @@ const portfolioSchema = z.object({
 
 type PortfolioFormValues = z.infer<typeof portfolioSchema>;
 
-const initialPortfolio: PortfolioFormValues[] = [
-  {
-    id: '1',
-    title: 'E-Commerce Redesign',
-    client: 'TechStore Inc.',
-    category: 'Web Design',
-    websiteUrl: 'https://techstore.example.com',
-    description:
-      'A complete overhaul of the e-commerce experience resulting in a 40% increase in conversions.',
-  },
-  {
-    id: '2',
-    title: 'Fintech Mobile App',
-    client: 'SecurePay',
-    category: 'App Development',
-    websiteUrl: '',
-    description: 'A sleek and secure mobile application for personal finance management.',
-  },
-];
+interface DBPortfolioItem {
+  id: string;
+  title: string;
+  client: string;
+  category: string;
+  websiteUrl: string | null;
+  description: string;
+  gallery: string | null;
+}
 
 export default function PortfolioPage() {
-  const [portfolioItems, setPortfolioItems] = useState<PortfolioFormValues[]>(initialPortfolio);
+  const [portfolioItems, setPortfolioItems] = useState<PortfolioFormValues[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -87,6 +78,36 @@ export default function PortfolioPage() {
       gallery: [],
     },
   });
+
+  const fetchPortfolio = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/admin/portfolio');
+      const res = await response.json();
+      if (res.success) {
+        // Map database comma-separated gallery back to array for frontend
+        const items = res.data.map((item: DBPortfolioItem) => ({
+          ...item,
+          gallery: item.gallery ? item.gallery.split(',') : [],
+        }));
+        setPortfolioItems(items);
+      } else {
+        toast.error(res.message || 'Failed to fetch portfolio.');
+      }
+    } catch (error) {
+      console.error('Error fetching portfolio:', error);
+      toast.error('Failed to connect to portfolio API.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchPortfolio();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -151,42 +172,81 @@ export default function PortfolioPage() {
     form.setValue('gallery', updatedGallery);
   };
 
-  const onSubmit = (data: PortfolioFormValues) => {
-    const submitData = { ...data, gallery: galleryPreviews };
-    if (editingId) {
-      setPortfolioItems(
-        portfolioItems.map((item) =>
-          item.id === editingId ? { ...submitData, id: editingId } : item
-        )
-      );
-      toast.success('Portfolio item updated successfully');
-    } else {
-      setPortfolioItems([...portfolioItems, { ...submitData, id: crypto.randomUUID() }]);
-      toast.success('Portfolio item created successfully');
+  const onSubmit = async (data: PortfolioFormValues) => {
+    const toastId = toast.loading(
+      editingId ? 'Updating portfolio item...' : 'Creating portfolio item...'
+    );
+    try {
+      const url = editingId ? `/api/admin/portfolio/${editingId}` : '/api/admin/portfolio';
+      const method = editingId ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: data.title,
+          client: data.client,
+          category: data.category,
+          websiteUrl: data.websiteUrl || null,
+          description: data.description,
+          gallery: galleryPreviews.join(','), // Save array as comma-separated string in DB
+        }),
+      });
+      const res = await response.json();
+      if (res.success) {
+        toast.success(res.message, { id: toastId });
+        setIsDialogOpen(false);
+        form.reset();
+        setGalleryPreviews([]);
+        setEditingId(null);
+        fetchPortfolio();
+      } else {
+        toast.error(res.message || 'Action failed.', { id: toastId });
+      }
+    } catch (error) {
+      console.error('Error saving portfolio item:', error);
+      toast.error('Failed to save portfolio item.', { id: toastId });
     }
-    setIsDialogOpen(false);
-    form.reset();
-    setGalleryPreviews([]);
-    setEditingId(null);
   };
 
   const handleEdit = (item: PortfolioFormValues) => {
     setEditingId(item.id!);
-    form.reset(item);
+    form.reset({
+      title: item.title,
+      client: item.client,
+      category: item.category,
+      websiteUrl: item.websiteUrl || '',
+      description: item.description,
+    });
+
     let existingGallery: string[] = [];
     if (Array.isArray(item.gallery)) {
       existingGallery = item.gallery;
     } else if (typeof item.gallery === 'string' && item.gallery) {
-      existingGallery = [item.gallery];
+      existingGallery = (item.gallery as string).split(',');
     }
     setGalleryPreviews(existingGallery);
     setIsDialogOpen(true);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this portfolio item?')) {
-      setPortfolioItems(portfolioItems.filter((item) => item.id !== id));
-      toast.success('Portfolio item deleted successfully');
+      const toastId = toast.loading('Deleting portfolio item...');
+      try {
+        const response = await fetch(`/api/admin/portfolio/${id}`, {
+          method: 'DELETE',
+        });
+        const res = await response.json();
+        if (res.success) {
+          toast.success(res.message, { id: toastId });
+          fetchPortfolio();
+        } else {
+          toast.error(res.message || 'Failed to delete portfolio item.', { id: toastId });
+        }
+      } catch (error) {
+        console.error('Error deleting portfolio item:', error);
+        toast.error('An error occurred.', { id: toastId });
+      }
     }
   };
 
@@ -370,7 +430,22 @@ export default function PortfolioPage() {
         </Dialog>
       </div>
 
-      {portfolioItems.length === 0 ? (
+      {isLoading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3].map((i) => (
+            <Card
+              key={i}
+              className="animate-pulse border-border/40 bg-card/30 flex flex-col p-6 space-y-4"
+            >
+              <div className="aspect-video bg-muted rounded-lg" />
+              <div className="h-4 w-32 bg-muted rounded" />
+              <div className="h-3.5 w-24 bg-muted rounded" />
+              <div className="h-3.5 w-full bg-muted rounded" />
+              <div className="h-3 w-16 bg-muted rounded" />
+            </Card>
+          ))}
+        </div>
+      ) : portfolioItems.length === 0 ? (
         <Card className="flex flex-col items-center justify-center py-12 text-center shadow-sm">
           <ImageIcon className="h-12 w-12 text-muted-foreground opacity-20 mb-4" />
           <h3 className="text-lg font-medium">No portfolio items</h3>
