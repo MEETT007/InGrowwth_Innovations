@@ -2,24 +2,16 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, Bell, Search, Sparkles } from 'lucide-react';
+import { Menu, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { sidebarLinks } from './Sidebar';
+import { UserButton, useUser } from '@clerk/nextjs';
 import { cn } from '@/lib/utils';
 
 export function AdminHeader() {
   const pathname = usePathname();
+  const { user } = useUser();
 
   return (
     <header className="h-16 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-between px-4 md:px-6 shrink-0 z-10 sticky top-0">
@@ -66,37 +58,19 @@ export function AdminHeader() {
       </div>
 
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" className="text-muted-foreground">
-          <Bell className="h-5 w-5" />
-          <span className="sr-only">Notifications</span>
-        </Button>
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            render={<Button variant="ghost" className="relative h-8 w-8 rounded-full" />}
-          >
-            <Avatar className="h-8 w-8">
-              <AvatarImage src="" alt="Admin" />
-              <AvatarFallback className="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
-                AD
-              </AvatarFallback>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end">
-            <DropdownMenuGroup>
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">Admin User</p>
-                  <p className="text-xs leading-none text-muted-foreground">admin@ingrowwth.com</p>
-                </div>
-              </DropdownMenuLabel>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600 dark:text-red-400">Log out</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="text-right hidden sm:block">
+          <p className="text-sm font-medium text-foreground">
+            {user?.fullName || user?.primaryEmailAddress?.emailAddress}
+          </p>
+          <p className="text-xs text-muted-foreground">{user?.primaryEmailAddress?.emailAddress}</p>
+        </div>
+        <UserButton
+          appearance={{
+            elements: {
+              avatarBox: 'h-9 w-9 border border-primary/20 hover:scale-105 transition-transform',
+            },
+          }}
+        />
       </div>
     </header>
   );

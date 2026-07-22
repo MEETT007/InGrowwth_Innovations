@@ -333,9 +333,22 @@ export default function AdminLeadsPage() {
             </CardHeader>
             <CardContent className="p-0">
               {loading ? (
-                <div className="py-12 text-center text-muted-foreground text-sm flex items-center justify-center gap-2">
-                  <RefreshCw className="h-4 w-4 animate-spin text-primary" />
-                  <span>Loading leads records...</span>
+                <div className="p-4 space-y-4">
+                  <div className="animate-pulse flex items-center justify-between pb-3 border-b border-border/30">
+                    <div className="h-4 w-32 bg-muted rounded" />
+                    <div className="h-4 w-24 bg-muted rounded" />
+                    <div className="h-4 w-16 bg-muted rounded" />
+                  </div>
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <div key={i} className="animate-pulse flex items-center justify-between py-2.5">
+                      <div className="space-y-1.5 flex-1">
+                        <div className="h-4 w-40 bg-muted rounded" />
+                        <div className="h-3 w-48 bg-muted rounded" />
+                      </div>
+                      <div className="h-6 w-16 bg-muted rounded mx-8" />
+                      <div className="h-6 w-20 bg-muted rounded" />
+                    </div>
+                  ))}
                 </div>
               ) : error ? (
                 <div className="py-12 text-center text-destructive text-sm flex flex-col items-center gap-2">

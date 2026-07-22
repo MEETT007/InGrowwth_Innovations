@@ -41,3 +41,59 @@ model Lead {
 
   @@map("leads")
 }
+
+model Service {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  icon        String
+  body        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("services")
+}
+
+model BlogPost {
+  id        String   @id @default(uuid())
+  title     String
+  category  String
+  status    String   // "Draft" | "Published"
+  tags      String
+  thumbnail String?
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("blog_posts")
+}
+
+model PortfolioProject {
+  id          String   @id @default(uuid())
+  title       String
+  client      String
+  category    String
+  websiteUrl  String?
+  description String
+  gallery     String?  // comma-separated urls
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("portfolio_projects")
+}
+
+model TeamMember {
+  id        String   @id @default(uuid())
+  name      String
+  role      String
+  email     String?
+  bio       String?
+  linkedin  String?
+  twitter   String?
+  github    String?
+  photo     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("team_members")
+}

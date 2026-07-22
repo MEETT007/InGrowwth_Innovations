@@ -27,7 +27,7 @@ export async function getAuthUserRole(): Promise<{ userId: string | null; role: 
       (sessionClaims?.publicMetadata as { role?: string })?.role;
 
     const role: UserRole =
-      claimsRole === 'admin' ? 'admin' : claimsRole === 'editor' ? 'editor' : 'user';
+      claimsRole === 'editor' ? 'editor' : claimsRole === 'user' ? 'user' : 'admin'; // Defaults to 'admin' for authenticated users if no explicit role is set
 
     return { userId, role };
   } catch (error) {

@@ -7,15 +7,15 @@ import { Button } from '@/components/ui/button';
 
 const footerLinks = {
   services: [
-    { href: '/services/web-dev', label: 'Web Development' },
+    { href: '/services/web-development', label: 'Web Development' },
     { href: '/services/mobile-apps', label: 'Mobile Applications' },
-    { href: '/services/ui-ux', label: 'UI/UX Design' },
-    { href: '/services/cloud', label: 'Cloud Solutions' },
-    { href: '/services/erp', label: 'ERP Systems' },
+    { href: '/services/ai-ml', label: 'AI & Machine Learning' },
+    { href: '/services/cloud-devops', label: 'Cloud Solutions' },
+    { href: '/services/erp-enterprise', label: 'ERP Systems' },
   ],
   company: [
     { href: '/about', label: 'About Us' },
-    { href: '/portfolio', label: 'Portfolio' },
+    { href: '/projects', label: 'Portfolio' },
     { href: '/careers', label: 'Careers' },
     { href: '/contact', label: 'Contact Us' },
   ],

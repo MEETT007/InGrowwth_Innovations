@@ -125,13 +125,13 @@ export default function ServicesClient() {
             <div className="absolute bottom-1/4 right-1/4 w-32 h-32 rounded-full bg-pink-500/10 blur-2xl" />
 
             <div className="relative z-10">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-4">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">
                 Ready to build something{' '}
                 <span className="bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">
                   extraordinary?
                 </span>
               </h2>
-              <p className="text-muted-foreground mb-8 max-w-xl mx-auto leading-relaxed">
+              <p className="text-slate-300 mb-8 max-w-xl mx-auto leading-relaxed">
                 Let&apos;s discuss your project and tailor a solution that fits your goals,
                 timeline, and budget.
               </p>
