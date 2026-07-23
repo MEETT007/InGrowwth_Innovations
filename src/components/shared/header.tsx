@@ -101,7 +101,8 @@ export function Header() {
             render={<Link href="/contact?type=quote" />}
             nativeButton={false}
             size="sm"
-            className="cursor-pointer group relative overflow-hidden bg-primary text-primary-foreground shadow-sm hover:opacity-90 transition-opacity flex items-center gap-2"
+            variant="gradient"
+            className="cursor-pointer group flex items-center gap-2 px-4 shadow-md"
           >
             Get a Quote
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -129,7 +130,7 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden absolute top-20 left-0 w-full bg-background border-b border-border/50 shadow-xl px-6 py-8 flex flex-col gap-6"
+            className="md:hidden absolute top-20 left-0 w-full bg-background/95 backdrop-blur-xl border-b border-border/50 shadow-xl px-6 py-8 flex flex-col gap-6"
           >
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => {
@@ -139,7 +140,7 @@ export function Header() {
                     key={link.href}
                     href={link.href}
                     className={`text-lg font-medium py-2 border-b border-border/20 ${
-                      isActive ? 'text-indigo-500' : 'text-foreground/80 hover:text-foreground'
+                      isActive ? 'text-indigo-500 font-semibold' : 'text-foreground/80 hover:text-foreground'
                     }`}
                   >
                     {link.label}
@@ -150,7 +151,8 @@ export function Header() {
             <Button
               render={<Link href="/contact?type=quote" />}
               nativeButton={false}
-              className="w-full justify-center group bg-primary text-primary-foreground flex items-center gap-2"
+              variant="gradient"
+              className="w-full justify-center group flex items-center gap-2 py-3"
             >
               Get a Quote
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

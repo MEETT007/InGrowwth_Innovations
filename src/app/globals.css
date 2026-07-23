@@ -121,10 +121,37 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
   html {
-    @apply font-sans;
+    @apply font-sans scroll-smooth;
   }
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-indigo-500/20 selection:text-indigo-500;
+  }
+}
+
+/* UI/UX Pro Max Design Intelligence Utilities */
+@layer utilities {
+  .glass-card {
+    @apply bg-card/60 backdrop-blur-md border border-border/40 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-indigo-500/30;
+  }
+  .glass-header {
+    @apply bg-background/80 backdrop-blur-lg border-b border-border/40;
+  }
+  .gradient-text {
+    @apply bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent;
+  }
+  .ambient-glow {
+    @apply absolute rounded-full pointer-events-none blur-[120px] opacity-20 transition-opacity duration-500;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/20 rounded-full hover:bg-muted-foreground/40 transition-colors;
 }
