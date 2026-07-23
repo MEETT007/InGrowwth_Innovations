@@ -6,16 +6,9 @@ import { motion } from 'framer-motion';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Search, Calendar, ArrowRight } from 'lucide-react';
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Search, Calendar } from 'lucide-react';
 
 export const MOCK_POSTS = [
   {
