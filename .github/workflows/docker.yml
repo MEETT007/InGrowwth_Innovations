@@ -1,0 +1,39 @@
+name: Docker Build Validation
+
+on:
+  push:
+    branches:
+      - main
+      - IGG_Non_Prod
+      - 'IGG_*'
+  pull_request:
+    branches:
+      - main
+      - IGG_Non_Prod
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  docker-build:
+    name: Validate Docker Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image (Sanity Check)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: ingrowwth-web:test

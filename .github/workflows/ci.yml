@@ -1,42 +1,72 @@
-name: Next.js CI
+name: Next.js CI & Code Quality
 
 on:
   push:
     branches:
       - main
+      - IGG_Non_Prod
+      - 'IGG_*'
+      - 'feature/*'
+      - 'fix/*'
   pull_request:
     branches:
       - main
+      - IGG_Non_Prod
+      - 'IGG_*'
       - 'feature/*'
       - 'fix/*'
-      - 'IGG_*'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build & Lint
+  lint-and-typecheck:
+    name: Lint & Type Check
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Ideal for Next.js 15
+          node-version: '20'
           cache: 'npm'
-          
-      # The steps below are commented out because we haven't initialized the Next.js project yet. 
-      # Uncomment them once Issue #1 is completed and package.json is created.
-      
-      # - name: Install Dependencies
-      #   run: npm ci
 
-      # - name: Check Linting
-      #   run: npm run lint
+      - name: Install Dependencies
+        run: npm ci
 
-      # - name: Generate Prisma Client
-      #   run: npx prisma generate
+      - name: Generate Prisma Client
+        run: npx prisma generate
 
-      # - name: Build Next.js Application
-      #   run: npm run build
+      - name: Run ESLint
+        run: npm run lint
+
+  build:
+    name: Build Next.js Application
+    runs-on: ubuntu-latest
+    needs: lint-and-typecheck
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Build Application
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+          DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/ingrowwth_db?schema=public'
+        run: npm run build
