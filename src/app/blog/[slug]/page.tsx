@@ -5,7 +5,7 @@ import { MOCK_POSTS } from '../page';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, ArrowLeft, Twitter, Linkedin, Link as LinkIcon } from 'lucide-react';
+import { Calendar, ArrowLeft, Link as LinkIcon } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 // Simulate a rich text component for future Markdown/HTML rendering
@@ -98,12 +98,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <div className="mx-auto w-full max-w-3xl border-t border-border/40 pt-8 mt-12 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="text-sm font-medium text-muted-foreground">Share this article</p>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon" className="rounded-full">
-            <Twitter className="h-4 w-4" />
-          </Button>
-          <Button variant="outline" size="icon" className="rounded-full">
-            <Linkedin className="h-4 w-4" />
-          </Button>
           <Button variant="outline" size="icon" className="rounded-full">
             <LinkIcon className="h-4 w-4" />
           </Button>

@@ -89,9 +89,8 @@ export default function BlogPage() {
     <main className="min-h-screen pt-24 pb-20 px-6 max-w-7xl mx-auto flex flex-col gap-12">
       <SectionHeader
         title="Insights & Perspectives"
-        subtitle="Thoughts on product development, engineering, and design from the InGrowwth team."
-        badge="Our Blog"
-        align="center"
+        subtitle="Our Blog"
+        description="Thoughts on product development, engineering, and design from the InGrowwth team."
       />
 
       {/* Filters */}

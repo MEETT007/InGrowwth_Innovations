@@ -1,4 +1,5 @@
-import { Lead } from '@prisma/client';
+import * as React from 'react';
+import { Lead } from '../generated/prisma/client';
 import { Resend } from 'resend';
 import { ContactTemplate } from '@/components/emails/ContactTemplate';
 
@@ -29,7 +30,7 @@ export async function sendLeadEmails(lead: Lead) {
       from: 'InGrowwth Innovations <onboarding@resend.dev>', // resend.dev for testing, use real domain in prod
       to: ['hello@ingrowwth.com'], // In prod, this should be the company email
       subject: `New Lead: ${type} from ${name || email}`,
-      react: ContactTemplate({
+      react: React.createElement(ContactTemplate, {
         name,
         email,
         type,

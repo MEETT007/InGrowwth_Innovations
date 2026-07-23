@@ -108,9 +108,8 @@ export default function CareersPage() {
       <section className="flex flex-col gap-12 mt-8">
         <SectionHeader
           title="Join Our Mission"
-          subtitle="We're building the next generation of digital experiences. Come help us shape the future of technology."
-          badge="Careers"
-          align="center"
+          subtitle="Careers"
+          description="We're building the next generation of digital experiences. Come help us shape the future of technology."
         />
 
         {/* Culture / Image Grid */}
