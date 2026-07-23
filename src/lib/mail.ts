@@ -28,7 +28,7 @@ export async function sendLeadEmails(lead: Lead) {
     // Send notification to the admin/team
     await resend.emails.send({
       from: 'InGrowwth Innovations <onboarding@resend.dev>', // resend.dev for testing, use real domain in prod
-      to: ['hello@ingrowwth.com'], // In prod, this should be the company email
+      to: ['info@ingrowwthinnovations.in'], // In prod, this should be the company email
       subject: `New Lead: ${type} from ${name || email}`,
       react: React.createElement(ContactTemplate, {
         name,

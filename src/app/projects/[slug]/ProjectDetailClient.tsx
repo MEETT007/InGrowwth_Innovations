@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import {
   ArrowLeft,
@@ -33,29 +34,6 @@ const gradientToEmoji: Record<string, string> = {
   'adventure-sports-club': '🏊',
   'crunchy-coffee': '☕',
 };
-
-// Placeholder screenshot card
-function ScreenshotPlaceholder({
-  alt,
-  emoji,
-  gradient,
-  index,
-}: {
-  alt: string;
-  emoji: string;
-  gradient: string;
-  index: number;
-}) {
-  return (
-    <div
-      className={`w-full aspect-video rounded-2xl bg-gradient-to-br ${gradient} flex flex-col items-center justify-center gap-3 select-none`}
-    >
-      <span className="text-6xl">{emoji}</span>
-      <span className="text-white/80 text-sm font-medium px-6 text-center">{alt}</span>
-      <span className="text-white/50 text-xs">Screenshot {index + 1}</span>
-    </div>
-  );
-}
 
 export default function ProjectDetailClient({ project }: ProjectDetailClientProps) {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -172,19 +150,30 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
               <div className="absolute inset-0 bg-black/10" />
               {/* Grid pattern overlay */}
               <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:32px_32px]" />
-              <div className="relative flex flex-col items-center gap-4">
-                <span className="text-[120px] leading-none">{emoji}</span>
-                <div className="flex flex-wrap gap-2 justify-center px-8">
-                  {project.tech.slice(0, 4).map((t) => (
-                    <span
-                      key={t}
-                      className="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/20 text-white border border-white/30"
-                    >
-                      {t}
-                    </span>
-                  ))}
+              {project.coverImage ? (
+                <Image
+                  src={project.coverImage}
+                  alt={project.title}
+                  fill
+                  className="object-contain p-8 sm:p-16"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority
+                />
+              ) : (
+                <div className="relative flex flex-col items-center gap-4">
+                  <span className="text-[120px] leading-none">{emoji}</span>
+                  <div className="flex flex-wrap gap-2 justify-center px-8">
+                    {project.tech.slice(0, 4).map((t) => (
+                      <span
+                        key={t}
+                        className="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/20 text-white border border-white/30"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </motion.div>
         </div>
@@ -211,12 +200,16 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
                 transition={{ duration: 0.35 }}
                 className="w-full h-full"
               >
-                <ScreenshotPlaceholder
-                  alt={project.screenshots[activeSlide].alt}
-                  emoji={emoji}
-                  gradient={project.gradient}
-                  index={activeSlide}
-                />
+                <div className="relative w-full h-full bg-black/5 flex items-center justify-center">
+                  <Image
+                    src={project.screenshots[activeSlide].src}
+                    alt={project.screenshots[activeSlide].alt}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                    priority
+                  />
+                </div>
               </motion.div>
 
               {/* Navigation arrows */}
@@ -266,9 +259,15 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
                     }`}
                   >
                     <div
-                      className={`w-full h-full bg-gradient-to-br ${project.gradient} flex items-center justify-center`}
+                      className={`relative w-full h-full bg-black/5 flex items-center justify-center`}
                     >
-                      <span className="text-lg">{emoji}</span>
+                      <Image
+                        src={project.screenshots[i].src}
+                        alt={project.screenshots[i].alt}
+                        fill
+                        className="object-cover"
+                        sizes="100px"
+                      />
                     </div>
                   </button>
                 ))}
@@ -376,10 +375,20 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
                 <Link href={`/projects/${p.slug}`} className="block group h-full">
                   <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-card/60 backdrop-blur-sm h-full flex flex-col hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all duration-300 cursor-pointer">
                     <div
-                      className={`bg-gradient-to-br ${p.gradient} h-32 flex items-center justify-center relative`}
+                      className={`bg-gradient-to-br ${p.gradient} h-32 flex items-center justify-center relative overflow-hidden`}
                     >
                       <div className="absolute inset-0 bg-black/10" />
-                      <span className="relative text-5xl">{gradientToEmoji[p.slug]}</span>
+                      {p.coverImage ? (
+                        <Image
+                          src={p.coverImage}
+                          alt={p.title}
+                          fill
+                          className="object-contain p-4 transition-transform duration-700 group-hover:scale-110"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                        />
+                      ) : (
+                        <span className="relative text-5xl">{gradientToEmoji[p.slug]}</span>
+                      )}
                     </div>
                     <div className="p-5 flex flex-col gap-2">
                       <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-500">

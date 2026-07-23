@@ -18,7 +18,7 @@ const footerLinks = {
     { href: '/services/web-development', label: 'Web Development' },
     { href: '/services/mobile-apps', label: 'Mobile Applications' },
     { href: '/services/ai-ml', label: 'AI & Machine Learning' },
-    { href: '/services/cloud-solutions', label: 'Cloud Solutions' },
+    { href: '/services/cloud-devops', label: 'Cloud Solutions' },
     { href: '/services/erp-enterprise', label: 'ERP & Enterprise' },
   ],
   company: [

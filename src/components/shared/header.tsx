@@ -15,12 +15,10 @@ import {
   Users,
   Mail,
   Shield,
-  LayoutDashboard,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './theme-toggle';
 import { Button } from '@/components/ui/button';
-import { UserButton, useAuth } from '@clerk/nextjs';
 
 const navLinks = [
   { href: '/about', label: 'About', icon: Shield },
@@ -36,7 +34,6 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const { isSignedIn } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -129,6 +126,7 @@ export function Header() {
           <div className="hidden lg:flex items-center gap-3">
             <ThemeToggle />
 
+            {/* Commented out sign section and get a quote as requested
             {isSignedIn ? (
               <div className="flex items-center gap-3 bg-muted/40 p-1 pl-3 rounded-full border border-border/40">
                 <Link
@@ -159,6 +157,7 @@ export function Header() {
               <span>Get a Quote</span>
               <ArrowRight />
             </Button>
+            */}
           </div>
 
           {/* Mobile Hamburger & Toggle */}
@@ -211,6 +210,7 @@ export function Header() {
                 })}
               </div>
 
+              {/* Commented out sign section and get a quote from mobile menu as requested
               <div className="flex flex-col gap-3 pt-4 border-t border-border/40">
                 {isSignedIn ? (
                   <Link
@@ -240,6 +240,7 @@ export function Header() {
                   <ArrowRight />
                 </Button>
               </div>
+              */}
             </div>
           </motion.div>
         )}

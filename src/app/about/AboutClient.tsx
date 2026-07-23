@@ -49,7 +49,7 @@ const values = [
 
 const team = [
   {
-    name: 'Meet',
+    name: 'Meet Trivedi',
     role: 'Founder & CEO',
     desc: 'Leading business strategy, client operations, and overall growth to deliver high-impact enterprise solutions.',
     initials: 'M',
@@ -57,7 +57,7 @@ const team = [
     linkedin: 'https://linkedin.com',
   },
   {
-    name: 'Darshan',
+    name: 'Darshan Dalwadi',
     role: 'Co-Founder & CTO',
     desc: 'Lead architect driving technical strategy, cloud infrastructure design, and custom software systems. Passionate about Next.js performance and distributed databases.',
     initials: 'D',
@@ -65,7 +65,7 @@ const team = [
     linkedin: 'https://linkedin.com',
   },
   {
-    name: 'Saurav',
+    name: 'Saurav Patel',
     role: 'Co-Founder & COO',
     desc: 'Directing daily business operations, project execution, quality assurance, and developer relations to ensure seamless project delivery.',
     initials: 'S',

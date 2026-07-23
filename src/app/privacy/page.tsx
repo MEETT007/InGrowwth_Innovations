@@ -64,8 +64,14 @@ export default function PrivacyPage() {
         </Card>
 
         <p className="text-xs text-muted-foreground text-center">
-          Last updated: October 2026. For privacy concerns, contact us at
-          privacy@ingrowwthinnovations.com.
+          Last updated: October 2026. For privacy concerns, contact us at{' '}
+          <a
+            href="mailto:privacy@ingrowwthinnovations.com"
+            className="text-indigo-500 hover:text-indigo-400 transition-colors underline"
+          >
+            privacy@ingrowwthinnovations.com
+          </a>
+          .
         </p>
       </div>
     </main>

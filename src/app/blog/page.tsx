@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { Input } from '@/components/ui/input';
@@ -76,11 +77,15 @@ export default function BlogPage() {
           <Link href={`/blog/${featuredPost.slug}`}>
             <div className="group relative overflow-hidden rounded-3xl glass-card border-none bg-muted/20 dark:bg-muted/10 grid md:grid-cols-2 gap-8 items-center cursor-pointer transition-transform hover:scale-[1.01]">
               <div className="h-64 md:h-[400px] w-full overflow-hidden">
-                <img
-                  src={featuredPost.thumbnail}
-                  alt={featuredPost.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+                <div className="relative w-full h-full">
+                  <Image
+                    src={featuredPost.thumbnail}
+                    alt={featuredPost.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
               </div>
               <div className="p-8 md:p-12 flex flex-col gap-4">
                 <Badge className="w-fit mb-2">{featuredPost.category}</Badge>
@@ -118,10 +123,12 @@ export default function BlogPage() {
             <Link href={`/blog/${post.slug}`}>
               <Card className="h-full group cursor-pointer glass-card border-border/50 hover:border-indigo-500/50 overflow-hidden flex flex-col">
                 <div className="h-48 w-full overflow-hidden relative">
-                  <img
+                  <Image
                     src={post.thumbnail}
                     alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute top-4 left-4">
                     <Badge variant="secondary" className="backdrop-blur-md bg-background/70">
