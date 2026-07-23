@@ -1,0 +1,46 @@
+# General Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+env/
+.env/
+.venv/
+
+# Environment Variables (CRITICAL)
+.env
+.env.local
+
+# Database
+*.db
+*.sqlite3
+Backend/site.db
+Backend/instance/
+
+# Flask
+instance/
+.webassets-cache
+.flask_session/
+
+# Logs
+*.log
+Backend/logs/
+
+# Project Specific Assets (User Uploads)
+Backend/resumes/
+Backend/assets/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Specific
+.DS_Store
+Thumbs.db
+
+# Firebase Secrets
+ingrowwth-dashboard-firebase-adminsdk-fbsvc-290ec0995c.json

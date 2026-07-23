@@ -1,0 +1,74 @@
+name: Next.js CI & Code Quality
+
+on:
+  push:
+    branches:
+      - IGG_Production
+      - IGG_Non_Prod
+      - 'IGG_*'
+      - 'feature/*'
+      - 'fix/*'
+  pull_request:
+    branches:
+      - IGG_Production
+      - IGG_Non_Prod
+      - 'IGG_*'
+      - 'feature/*'
+      - 'fix/*'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-typecheck:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Run ESLint
+        run: npm run lint
+
+  build:
+    name: Build Next.js Application
+    runs-on: ubuntu-latest
+    needs: lint-and-typecheck
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Build Application
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+          DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/ingrowwth_db?schema=public'
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: 'pk_test_ZGVzdGluZWQtZG9nLTEyLmNsZXJrLmFjY291bnRzLmRldiQ'
+          CLERK_SECRET_KEY: 'sk_test_s4Tld4bYLYK7lXsK6qMljzLeeyBh2r5unTQ8eSVhiU'
+        run: npm run build

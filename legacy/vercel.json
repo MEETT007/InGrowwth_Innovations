@@ -1,0 +1,129 @@
+{
+    "functions": {
+        "api/**": {
+            "excludeFiles": "{.venv,Backend/logs,Backend/resumes,Backend/site.db,Backend/__pycache__,**/*.pyc}/**"
+        }
+    },
+    "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "/api/index.py"
+        },
+        {
+            "source": "/submit_contact",
+            "destination": "/api/index.py"
+        },
+        {
+            "source": "/submit_application",
+            "destination": "/api/index.py"
+        },
+        {
+            "source": "/ping",
+            "destination": "/api/index.py"
+        },
+        {
+            "source": "/",
+            "destination": "/Frontend/index.html"
+        },
+        {
+            "source": "/about",
+            "destination": "/Frontend/about.html"
+        },
+        {
+            "source": "/services",
+            "destination": "/Frontend/services.html"
+        },
+        {
+            "source": "/contact",
+            "destination": "/Frontend/contact.html"
+        },
+        {
+            "source": "/ai-ml-services",
+            "destination": "/Frontend/ai-ml-services.html"
+        },
+        {
+            "source": "/blockchain-services",
+            "destination": "/Frontend/blockchain-services.html"
+        },
+        {
+            "source": "/cloud-solutions-service",
+            "destination": "/Frontend/cloud-solutions-service.html"
+        },
+        {
+            "source": "/cybersecurity-services",
+            "destination": "/Frontend/cybersecurity-services.html"
+        },
+        {
+            "source": "/data-analytics-services",
+            "destination": "/Frontend/data-analytics-services.html"
+        },
+        {
+            "source": "/erp-services",
+            "destination": "/Frontend/erp-services.html"
+        },
+        {
+            "source": "/mobile-application-service",
+            "destination": "/Frontend/mobile-application-service.html"
+        },
+        {
+            "source": "/ui-ux-product-design-service",
+            "destination": "/Frontend/ui-ux-product-design-service.html"
+        },
+        {
+            "source": "/web-development-service",
+            "destination": "/Frontend/web-development-service.html"
+        },
+        {
+            "source": "/projects",
+            "destination": "/Frontend/projects.html"
+        },
+        {
+            "source": "/project1",
+            "destination": "/Frontend/project1.html"
+        },
+        {
+            "source": "/project2",
+            "destination": "/Frontend/project2.html"
+        },
+        {
+            "source": "/project3",
+            "destination": "/Frontend/project3.html"
+        },
+        {
+            "source": "/project4",
+            "destination": "/Frontend/project4.html"
+        },
+        {
+            "source": "/project5",
+            "destination": "/Frontend/project5.html"
+        },
+        {
+            "source": "/project6",
+            "destination": "/Frontend/project6.html"
+        },
+        {
+            "source": "/project7",
+            "destination": "/Frontend/project7.html"
+        },
+        {
+            "source": "/project8",
+            "destination": "/Frontend/project8.html"
+        },
+        {
+            "source": "/privacy-policy",
+            "destination": "/Frontend/Privacy-Policy.html"
+        },
+        {
+            "source": "/term-of-services",
+            "destination": "/Frontend/term-of-services.html"
+        },
+        {
+            "source": "/job-description",
+            "destination": "/Frontend/job_description.html"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/Frontend/$1"
+        }
+    ]
+}
