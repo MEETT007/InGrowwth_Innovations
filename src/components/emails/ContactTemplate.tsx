@@ -13,16 +13,16 @@ import {
 } from '@react-email/components';
 
 interface ContactTemplateProps {
-  name?: string;
+  name?: string | null;
   email: string;
   type: string;
-  subject?: string;
-  message?: string;
-  phone?: string;
-  service?: string;
-  budget?: string;
-  timeline?: string;
-  projectDetails?: string;
+  subject?: string | null;
+  message?: string | null;
+  phone?: string | null;
+  service?: string | null;
+  budget?: string | null;
+  timeline?: string | null;
+  projectDetails?: string | null;
 }
 
 export const ContactTemplate: React.FC<Readonly<ContactTemplateProps>> = ({
