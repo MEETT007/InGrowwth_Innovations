@@ -52,6 +52,10 @@ export function Header() {
     setIsOpen(false);
   }, [pathname]);
 
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <header className="sticky top-0 z-50 w-full transition-all duration-300">
       {/* Top Banner Chip */}
@@ -129,7 +133,7 @@ export function Header() {
           <div className="hidden lg:flex items-center gap-3">
             <ThemeToggle />
 
-            {isSignedIn ? (
+            {isSignedIn && (
               <div className="flex items-center gap-3 bg-muted/40 p-1 pl-3 rounded-full border border-border/40">
                 <Link
                   href="/admin"
@@ -140,13 +144,6 @@ export function Header() {
                 </Link>
                 <UserButton />
               </div>
-            ) : (
-              <Link
-                href="/admin/sign-in"
-                className="text-xs font-semibold px-3 py-2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Sign In
-              </Link>
             )}
 
             <Button
@@ -212,20 +209,13 @@ export function Header() {
               </div>
 
               <div className="flex flex-col gap-3 pt-4 border-t border-border/40">
-                {isSignedIn ? (
+                {isSignedIn && (
                   <Link
                     href="/admin"
                     className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-muted text-xs font-bold text-foreground"
                   >
                     <LayoutDashboard className="w-4 h-4 text-indigo-500" />
                     Go to Admin Dashboard
-                  </Link>
-                ) : (
-                  <Link
-                    href="/admin/sign-in"
-                    className="text-center py-2 text-xs font-semibold text-muted-foreground hover:text-foreground"
-                  >
-                    Admin Sign In
                   </Link>
                 )}
 
