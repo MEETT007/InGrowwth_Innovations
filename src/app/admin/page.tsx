@@ -17,6 +17,7 @@ import { redirect } from 'next/navigation';
 import { getAuthUserRole } from '@/lib/auth';
 
 export const revalidate = 0; // Disable caching for real-time dashboard data
+export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboardPage() {
   const { userId, role } = await getAuthUserRole();
