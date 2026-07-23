@@ -47,3 +47,6 @@ next-env.d.ts
 /.agents
 /skills-lock.json
 
+
+# clerk configuration (can include secrets)
+/.clerk/

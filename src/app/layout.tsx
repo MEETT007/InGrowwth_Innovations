@@ -30,6 +30,11 @@ export const metadata: Metadata = {
     locale: 'en_US',
     type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'InGrowwth Innovations',
+    description: 'Enterprise-grade software engineering and IT consulting.',
+  },
 };
 
 export default function RootLayout({
