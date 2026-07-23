@@ -1,10 +1,12 @@
-FROM node:20-alpine
+FROM node:22-alpine
 
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json package-lock.json* ./
+COPY prisma ./prisma/
 RUN npm install
+RUN npx prisma generate
 
 # Copy the rest of the application
 COPY . .
