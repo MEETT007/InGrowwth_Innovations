@@ -3,14 +3,14 @@ name: Next.js CI & Code Quality
 on:
   push:
     branches:
-      - main
+      - IGG_Production
       - IGG_Non_Prod
       - 'IGG_*'
       - 'feature/*'
       - 'fix/*'
   pull_request:
     branches:
-      - main
+      - IGG_Production
       - IGG_Non_Prod
       - 'IGG_*'
       - 'feature/*'

@@ -3,12 +3,12 @@ name: Docker Build Validation
 on:
   push:
     branches:
-      - main
+      - IGG_Production
       - IGG_Non_Prod
       - 'IGG_*'
   pull_request:
     branches:
-      - main
+      - IGG_Production
       - IGG_Non_Prod
 
 concurrency:
