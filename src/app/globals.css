@@ -49,72 +49,89 @@
 }
 
 :root {
-  --background: oklch(0.995 0 0);
-  --foreground: oklch(0.15 0 0);
+  /* UI/UX Pro Max - Premium Light Mode Design System */
+  --background: oklch(0.985 0.005 265);
+  --foreground: oklch(0.14 0.03 265);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0 0);
+  --card-foreground: oklch(0.14 0.03 265);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0 0);
-  --primary: oklch(0.25 0.01 250);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.96 0 0);
-  --secondary-foreground: oklch(0.2 0 0);
-  --muted: oklch(0.96 0 0);
-  --muted-foreground: oklch(0.5 0 0);
-  --accent: oklch(0.96 0 0);
-  --accent-foreground: oklch(0.15 0 0);
+  --popover-foreground: oklch(0.14 0.03 265);
+
+  /* Electric Indigo Primary */
+  --primary: oklch(0.52 0.22 265);
+  --primary-foreground: oklch(0.99 0 0);
+
+  --secondary: oklch(0.96 0.01 265);
+  --secondary-foreground: oklch(0.25 0.06 265);
+
+  --muted: oklch(0.962 0.008 265);
+  --muted-foreground: oklch(0.46 0.03 265);
+
+  --accent: oklch(0.95 0.015 265);
+  --accent-foreground: oklch(0.3 0.1 265);
+
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0 0);
-  --input: oklch(0.92 0 0);
-  --ring: oklch(0.7 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.75rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.15 0 0);
-  --sidebar-primary: oklch(0.25 0.01 250);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.96 0 0);
-  --sidebar-accent-foreground: oklch(0.2 0 0);
-  --sidebar-border: oklch(0.92 0 0);
-  --sidebar-ring: oklch(0.7 0 0);
+  --border: oklch(0.9 0.01 265);
+  --input: oklch(0.9 0.01 265);
+  --ring: oklch(0.55 0.22 265);
+
+  --chart-1: oklch(0.6 0.2 265);
+  --chart-2: oklch(0.65 0.2 300);
+  --chart-3: oklch(0.55 0.18 200);
+  --chart-4: oklch(0.7 0.18 140);
+  --chart-5: oklch(0.75 0.18 80);
+  --radius: 0.875rem;
+
+  --sidebar: oklch(0.99 0 0);
+  --sidebar-foreground: oklch(0.14 0.03 265);
+  --sidebar-primary: oklch(0.52 0.22 265);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.96 0.01 265);
+  --sidebar-accent-foreground: oklch(0.25 0.06 265);
+  --sidebar-border: oklch(0.9 0.01 265);
+  --sidebar-ring: oklch(0.55 0.22 265);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  /* UI/UX Pro Max - Deep Cyber Dark Mode */
+  --background: oklch(0.13 0.02 265);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: oklch(0.18 0.025 265);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.18 0.025 265);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
+
+  --primary: oklch(0.62 0.22 265);
+  --primary-foreground: oklch(0.13 0.02 265);
+
+  --secondary: oklch(0.24 0.03 265);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+
+  --muted: oklch(0.22 0.025 265);
+  --muted-foreground: oklch(0.72 0.02 265);
+
+  --accent: oklch(0.24 0.03 265);
   --accent-foreground: oklch(0.985 0 0);
+
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
+  --border: oklch(0.28 0.02 265 / 60%);
+  --input: oklch(0.28 0.02 265 / 80%);
+  --ring: oklch(0.62 0.22 265);
+
+  --chart-1: oklch(0.65 0.22 265);
+  --chart-2: oklch(0.65 0.2 300);
+  --chart-3: oklch(0.6 0.18 200);
+  --chart-4: oklch(0.75 0.18 140);
+  --chart-5: oklch(0.8 0.18 80);
+
+  --sidebar: oklch(0.16 0.025 265);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-primary: oklch(0.62 0.22 265);
+  --sidebar-primary-foreground: oklch(0.13 0.02 265);
+  --sidebar-accent: oklch(0.24 0.03 265);
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-border: oklch(0.28 0.02 265 / 60%);
+  --sidebar-ring: oklch(0.62 0.22 265);
 }
 
 @layer base {
@@ -122,26 +139,27 @@
     @apply border-border outline-ring/50;
   }
   html {
-    @apply font-sans scroll-smooth;
+    @apply font-sans scroll-smooth antialiased;
+    text-rendering: optimizeLegibility;
   }
   body {
-    @apply bg-background text-foreground antialiased selection:bg-indigo-500/20 selection:text-indigo-500;
+    @apply bg-background text-foreground antialiased selection:bg-indigo-500/20 selection:text-indigo-500 min-h-screen flex flex-col transition-colors duration-200;
   }
 }
 
 /* UI/UX Pro Max Design Intelligence Utilities */
 @layer utilities {
   .glass-card {
-    @apply bg-card/60 backdrop-blur-md border border-border/40 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-indigo-500/30;
+    @apply bg-card/80 dark:bg-card/60 backdrop-blur-xl border border-border/70 dark:border-border/40 shadow-sm dark:shadow-none hover:shadow-xl hover:shadow-indigo-500/5 hover:border-indigo-500/30 transition-all duration-300;
   }
   .glass-header {
-    @apply bg-background/80 backdrop-blur-lg border-b border-border/40;
+    @apply bg-background/85 dark:bg-background/70 backdrop-blur-2xl border-b border-border/60 dark:border-border/40 shadow-xs;
   }
   .gradient-text {
-    @apply bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent;
   }
   .ambient-glow {
-    @apply absolute rounded-full pointer-events-none blur-[120px] opacity-20 transition-opacity duration-500;
+    @apply absolute rounded-full pointer-events-none blur-[120px] opacity-25 dark:opacity-20 transition-opacity duration-500;
   }
 }
 
