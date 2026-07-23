@@ -141,7 +141,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
                 nativeButton={false}
                 size="lg"
                 variant="gradient"
-                className="cursor-pointer flex items-center gap-2 group w-fit"
+                className="cursor-pointer group w-fit"
               >
                 Request Similar Project
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -151,7 +151,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
                 nativeButton={false}
                 variant="outline"
                 size="lg"
-                className="cursor-pointer border-border hover:bg-muted/50 w-fit flex items-center gap-2"
+                className="cursor-pointer w-fit"
               >
                 <ExternalLink className="h-4 w-4" />
                 Talk to an Expert
@@ -222,22 +222,26 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
               {/* Navigation arrows */}
               {totalSlides > 1 && (
                 <>
-                  <button
+                  <Button
                     id="screenshot-prev"
                     onClick={prevSlide}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 shadow-lg flex items-center justify-center hover:bg-background transition-colors cursor-pointer"
+                    variant="outline"
+                    size="icon-sm"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-background/80 hover:bg-background cursor-pointer"
                     aria-label="Previous screenshot"
                   >
                     <ChevronLeft className="h-5 w-5 text-foreground" />
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     id="screenshot-next"
                     onClick={nextSlide}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 shadow-lg flex items-center justify-center hover:bg-background transition-colors cursor-pointer"
+                    variant="outline"
+                    size="icon-sm"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-background/80 hover:bg-background cursor-pointer"
                     aria-label="Next screenshot"
                   >
                     <ChevronRight className="h-5 w-5 text-foreground" />
-                  </button>
+                  </Button>
                 </>
               )}
 
@@ -424,7 +428,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
                 nativeButton={false}
                 size="lg"
                 variant="gradient"
-                className="cursor-pointer flex items-center gap-2 group mx-auto"
+                className="cursor-pointer group mx-auto"
               >
                 Start Your Project
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

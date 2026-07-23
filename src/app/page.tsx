@@ -117,7 +117,7 @@ export default function Home() {
             nativeButton={false}
             size="lg"
             variant="gradient"
-            className="w-full sm:w-auto cursor-pointer flex items-center justify-center gap-2 group px-6"
+            className="w-full sm:w-auto cursor-pointer group"
           >
             Get a Quote
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -127,7 +127,7 @@ export default function Home() {
             nativeButton={false}
             variant="outline"
             size="lg"
-            className="w-full sm:w-auto cursor-pointer border-border hover:bg-muted/50"
+            className="w-full sm:w-auto cursor-pointer"
           >
             View Services
           </Button>

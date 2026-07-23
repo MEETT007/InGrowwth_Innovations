@@ -431,16 +431,16 @@ export default function TeamPage() {
               <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex gap-1">
                 <Button
                   variant="secondary"
-                  size="icon"
-                  className="h-8 w-8 rounded-full bg-background/80 backdrop-blur"
+                  size="icon-sm"
+                  className="rounded-full bg-background/80 backdrop-blur cursor-pointer"
                   onClick={() => handleEdit(member)}
                 >
                   <Edit className="h-3.5 w-3.5" />
                 </Button>
                 <Button
                   variant="destructive"
-                  size="icon"
-                  className="h-8 w-8 rounded-full opacity-90"
+                  size="icon-sm"
+                  className="rounded-full cursor-pointer"
                   onClick={() => handleDelete(member.id!)}
                 >
                   <Trash2 className="h-3.5 w-3.5" />

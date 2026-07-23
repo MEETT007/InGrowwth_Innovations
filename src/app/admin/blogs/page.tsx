@@ -313,16 +313,18 @@ export default function BlogsPage() {
                           alt="Thumbnail preview"
                           className="w-full h-full object-cover"
                         />
-                        <button
+                        <Button
                           type="button"
-                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                          variant="destructive"
+                          size="icon-xs"
+                          className="absolute top-1 right-1 rounded-full cursor-pointer bg-red-500 hover:bg-red-600 border-none"
                           onClick={() => {
                             form.setValue('thumbnail', '');
                             setThumbnailPreview(null);
                           }}
                         >
-                          <Trash2 className="h-3 w-3" />
-                        </button>
+                          <Trash2 className="h-3 w-3 text-white" />
+                        </Button>
                       </div>
                     )}
                     <Input
@@ -434,18 +436,18 @@ export default function BlogsPage() {
                         <div className="flex items-center justify-end space-x-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                           <Button
                             variant="ghost"
-                            size="sm"
+                            size="icon-sm"
                             onClick={() => handleEdit(blog)}
-                            className="h-8 w-8 p-0"
+                            className="cursor-pointer"
                           >
                             <span className="sr-only">Edit</span>
                             <Edit className="h-4 w-4" />
                           </Button>
                           <Button
                             variant="ghost"
-                            size="sm"
+                            size="icon-sm"
                             onClick={() => handleDelete(blog.id!)}
-                            className="h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+                            className="cursor-pointer text-destructive hover:text-destructive hover:bg-destructive/10"
                           >
                             <span className="sr-only">Delete</span>
                             <Trash2 className="h-4 w-4" />

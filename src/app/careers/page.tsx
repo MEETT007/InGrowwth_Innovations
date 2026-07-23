@@ -154,7 +154,9 @@ export default function CareersPage() {
               className="glass-card border-none bg-muted/20 text-center hover:-translate-y-1 transition-transform"
             >
               <CardHeader className="items-center pb-2">
-                <div className="p-3 bg-background rounded-2xl shadow-sm mb-4">{perk.icon}</div>
+                <div className="p-3 w-fit bg-background rounded-2xl shadow-sm mb-4 mx-auto flex items-center justify-center">
+                  {perk.icon}
+                </div>
                 <CardTitle className="text-xl">{perk.title}</CardTitle>
               </CardHeader>
               <CardContent>

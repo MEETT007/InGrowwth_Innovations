@@ -282,18 +282,18 @@ export default function ServicesPage() {
                         <div className="flex items-center justify-end space-x-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                           <Button
                             variant="ghost"
-                            size="sm"
+                            size="icon-sm"
                             onClick={() => handleEdit(service)}
-                            className="h-8 w-8 p-0"
+                            className="cursor-pointer"
                           >
                             <span className="sr-only">Edit</span>
                             <Edit className="h-4 w-4" />
                           </Button>
                           <Button
                             variant="ghost"
-                            size="sm"
+                            size="icon-sm"
                             onClick={() => handleDelete(service.id!)}
-                            className="h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+                            className="cursor-pointer text-destructive hover:text-destructive hover:bg-destructive/10"
                           >
                             <span className="sr-only">Delete</span>
                             <Trash2 className="h-4 w-4" />

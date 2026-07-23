@@ -728,3 +728,65 @@ export const mockJobs: JobPosition[] = [
     ],
   },
 ];
+
+export type MockBlogPost = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  author: { name: string; avatar: string };
+  date: string;
+  thumbnail: string;
+  featured: boolean;
+};
+
+export const MOCK_POSTS: MockBlogPost[] = [
+  {
+    slug: 'future-of-saas-2027',
+    title: 'The Future of SaaS: What to Expect by 2027',
+    excerpt:
+      'Explore the emerging trends in cloud software, from AI-driven personalization to micro-SaaS ecosystems that are reshaping the industry.',
+    category: 'Technology',
+    author: { name: 'Sarah Jenkins', avatar: '/avatars/01.png' },
+    date: 'Oct 24, 2026',
+    thumbnail:
+      'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop',
+    featured: true,
+  },
+  {
+    slug: 'mastering-react-server-components',
+    title: 'Mastering React Server Components',
+    excerpt:
+      'A deep dive into how RSCs change the paradigm of fetching data and rendering UI in modern Next.js applications.',
+    category: 'Engineering',
+    author: { name: 'David Chen', avatar: '/avatars/02.png' },
+    date: 'Oct 20, 2026',
+    thumbnail:
+      'https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=800&auto=format&fit=crop',
+    featured: false,
+  },
+  {
+    slug: 'designing-for-accessibility',
+    title: 'Designing for Accessibility in 2026',
+    excerpt:
+      'Why inclusive design is no longer optional, and how to implement WCAG 3.0 standards in your next product.',
+    category: 'Design',
+    author: { name: 'Emma Wilson', avatar: '/avatars/03.png' },
+    date: 'Oct 15, 2026',
+    thumbnail:
+      'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop',
+    featured: false,
+  },
+  {
+    slug: 'scaling-startup-engineering',
+    title: 'Scaling Engineering Teams at Startups',
+    excerpt:
+      'Lessons learned from growing a team from 5 to 50 engineers while maintaining culture and deployment speed.',
+    category: 'Leadership',
+    author: { name: 'Michael Ross', avatar: '/avatars/04.png' },
+    date: 'Oct 10, 2026',
+    thumbnail:
+      'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop',
+    featured: false,
+  },
+];

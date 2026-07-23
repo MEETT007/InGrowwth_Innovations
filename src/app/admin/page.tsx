@@ -104,7 +104,7 @@ export default async function AdminDashboardPage() {
             </span>
           </div>
           <Link href="/admin/leads">
-            <Button className="font-semibold shadow-md flex items-center gap-2">
+            <Button className="font-semibold shadow-md cursor-pointer">
               <span>Manage All Leads</span>
               <ArrowRight className="h-4 w-4" />
             </Button>
@@ -190,13 +190,13 @@ export default async function AdminDashboardPage() {
           </CardHeader>
           <CardContent className="space-y-3">
             <Link href="/admin/leads" className="block">
-              <Button variant="outline" className="w-full justify-start font-medium gap-2">
+              <Button variant="outline" className="w-full justify-start cursor-pointer">
                 <Users className="h-4 w-4 text-primary" />
                 <span>View & Manage Leads</span>
               </Button>
             </Link>
             <Link href="/admin/profile" className="block">
-              <Button variant="outline" className="w-full justify-start font-medium gap-2">
+              <Button variant="outline" className="w-full justify-start cursor-pointer">
                 <ShieldAlert className="h-4 w-4 text-primary" />
                 <span>Manage Security & Account</span>
               </Button>

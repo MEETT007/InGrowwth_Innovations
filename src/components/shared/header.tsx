@@ -153,23 +153,26 @@ export function Header() {
               render={<Link href="/contact?type=quote" />}
               nativeButton={false}
               size="sm"
-              className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold text-xs px-5 h-9 rounded-full shadow-md shadow-indigo-500/20 cursor-pointer flex items-center gap-2 transition-all hover:scale-105"
+              variant="gradient"
+              className="cursor-pointer shadow-indigo-500/20 hover:scale-105 transition-transform"
             >
               <span>Get a Quote</span>
-              <ArrowRight className="h-3.5 w-3.5" />
+              <ArrowRight />
             </Button>
           </div>
 
           {/* Mobile Hamburger & Toggle */}
           <div className="flex lg:hidden items-center gap-3">
             <ThemeToggle />
-            <button
+            <Button
+              variant="outline"
+              size="icon"
               onClick={() => setIsOpen(!isOpen)}
-              className="flex items-center justify-center w-10 h-10 rounded-2xl bg-muted/60 hover:bg-muted border border-border/40 text-foreground cursor-pointer transition-colors"
+              className="bg-muted/60 hover:bg-muted border-border/40 text-foreground cursor-pointer"
               aria-label="Toggle Menu"
             >
               {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -229,10 +232,12 @@ export function Header() {
                 <Button
                   render={<Link href="/contact?type=quote" />}
                   nativeButton={false}
-                  className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold text-xs py-3 rounded-2xl shadow-md shadow-indigo-500/20 flex items-center justify-center gap-2"
+                  variant="gradient"
+                  size="default"
+                  className="w-full shadow-indigo-500/20"
                 >
                   <span>Get a Quote</span>
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight />
                 </Button>
               </div>
             </div>
