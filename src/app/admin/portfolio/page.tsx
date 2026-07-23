@@ -367,13 +367,15 @@ export default function PortfolioPage() {
                           alt={`Gallery image ${idx + 1}`}
                           className="w-full h-full object-cover"
                         />
-                        <button
+                        <Button
                           type="button"
-                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                          variant="destructive"
+                          size="icon-xs"
+                          className="absolute top-1 right-1 rounded-full cursor-pointer bg-red-500 hover:bg-red-600 border-none"
                           onClick={() => handleRemoveImage(idx)}
                         >
-                          <Trash2 className="h-3 w-3" />
-                        </button>
+                          <Trash2 className="h-3 w-3 text-white" />
+                        </Button>
                       </div>
                     ))}
                   </div>

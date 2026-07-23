@@ -234,21 +234,24 @@ export default function ProjectsClient() {
             {/* Category tabs */}
             <div className="flex items-center gap-2 flex-wrap justify-center">
               <Filter className="h-4 w-4 text-muted-foreground shrink-0" />
-              {CATEGORIES.map((cat) => (
-                <button
-                  key={cat}
-                  id={`filter-${cat.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}`}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
-                    activeCategory === cat
-                      ? 'bg-indigo-500 text-white shadow-md shadow-indigo-500/30'
-                      : 'bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground border border-border/40'
-                  }`}
-                >
-                  {categoryIcons[cat]}
-                  {cat}
-                </button>
-              ))}
+              {CATEGORIES.map((cat) => {
+                const isActive = activeCategory === cat;
+                return (
+                  <Button
+                    key={cat}
+                    id={`filter-${cat.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}`}
+                    onClick={() => setActiveCategory(cat)}
+                    variant={isActive ? 'default' : 'outline'}
+                    size="xs"
+                    className={`rounded-full cursor-pointer transition-all duration-200 ${
+                      isActive ? 'bg-indigo-500 text-white shadow-md shadow-indigo-500/30' : ''
+                    }`}
+                  >
+                    {categoryIcons[cat]}
+                    <span>{cat}</span>
+                  </Button>
+                );
+              })}
             </div>
           </div>
         </AnimatedContainer>
@@ -366,7 +369,7 @@ export default function ProjectsClient() {
                   nativeButton={false}
                   size="lg"
                   variant="gradient"
-                  className="cursor-pointer flex items-center gap-2 group mx-auto sm:mx-0"
+                  className="cursor-pointer group mx-auto sm:mx-0"
                 >
                   Start Your Project
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -376,7 +379,7 @@ export default function ProjectsClient() {
                   nativeButton={false}
                   variant="outline"
                   size="lg"
-                  className="cursor-pointer border-border hover:bg-muted/50 flex items-center gap-2 group mx-auto sm:mx-0"
+                  className="cursor-pointer group mx-auto sm:mx-0"
                 >
                   <ExternalLink className="h-4 w-4" />
                   Explore Services

@@ -4,14 +4,11 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import {
   Send,
-  Globe,
   MessageSquare,
-  Code,
   ChevronRight,
   Sparkles,
   CheckCircle2,
   AlertCircle,
-  Loader2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { subscribeNewsletterAction } from '@/actions/lead';
@@ -30,17 +27,6 @@ const footerLinks = {
     { href: '/blog', label: 'Blog & Insights' },
     { href: '/careers', label: 'Careers' },
     { href: '/contact', label: 'Contact Us' },
-  ],
-  platform: [
-    { href: '/technologies', label: 'Tech Stack' },
-    { href: '/admin', label: 'Admin Portal' },
-    { href: '/api/health', label: 'System Health' },
-    { href: '/sitemap.xml', label: 'Sitemap' },
-  ],
-  legal: [
-    { href: '/privacy', label: 'Privacy Policy' },
-    { href: '/terms', label: 'Terms of Service' },
-    { href: '/security', label: 'Security & Compliance' },
   ],
 };
 
@@ -152,7 +138,7 @@ export function Footer() {
           </div>
 
           {/* Quick Links - Services */}
-          <div className="col-span-1 lg:col-span-2">
+          <div className="col-span-1 lg:col-span-3">
             <h4 className="text-xs font-bold text-foreground uppercase tracking-widest mb-4">
               Services
             </h4>
@@ -172,32 +158,12 @@ export function Footer() {
           </div>
 
           {/* Quick Links - Company */}
-          <div className="col-span-1 lg:col-span-2">
+          <div className="col-span-1 lg:col-span-3">
             <h4 className="text-xs font-bold text-foreground uppercase tracking-widest mb-4">
               Company
             </h4>
             <ul className="flex flex-col gap-2.5">
               {footerLinks.company.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5 group"
-                  >
-                    <ChevronRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-indigo-500" />
-                    <span className="-ml-4 group-hover:ml-0 transition-all">{link.label}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Quick Links - Platform & Legal */}
-          <div className="col-span-1 lg:col-span-2">
-            <h4 className="text-xs font-bold text-foreground uppercase tracking-widest mb-4">
-              Platform & Legal
-            </h4>
-            <ul className="flex flex-col gap-2.5">
-              {footerLinks.platform.concat(footerLinks.legal).map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -228,6 +194,7 @@ export function Footer() {
                   type="email"
                   required
                   value={email}
+                  suppressHydrationWarning
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter work email"
                   className="w-full px-3.5 py-2.5 text-xs bg-background/80 border border-border/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all text-foreground placeholder:text-muted-foreground/60 shadow-inner"
@@ -235,18 +202,14 @@ export function Footer() {
               </div>
               <Button
                 type="submit"
-                disabled={loading}
+                suppressHydrationWarning
                 size="sm"
-                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium text-xs rounded-xl shadow-md shadow-indigo-500/20 cursor-pointer flex items-center justify-center gap-2 h-9 transition-all"
+                variant="gradient"
+                loading={loading}
+                className="w-full shadow-indigo-500/20 cursor-pointer"
               >
-                {loading ? (
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                ) : (
-                  <>
-                    <span>Subscribe Now</span>
-                    <Send className="h-3.5 w-3.5" />
-                  </>
-                )}
+                <span>Subscribe Now</span>
+                <Send className="h-3.5 w-3.5" />
               </Button>
 
               {status && (
@@ -275,17 +238,6 @@ export function Footer() {
             © {new Date().getFullYear()} InGrowwth Innovations. Engineered for excellence. All
             rights reserved.
           </p>
-          <div className="flex items-center gap-6">
-            {footerLinks.legal.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
         </div>
       </div>
     </footer>

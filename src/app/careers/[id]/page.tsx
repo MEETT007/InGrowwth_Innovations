@@ -97,10 +97,12 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
 
             <Dialog>
               <DialogTrigger
-                render={<Button className="w-full cursor-pointer" variant="gradient" size="lg" />}
-              >
-                Apply Now
-              </DialogTrigger>
+                render={
+                  <Button className="w-full cursor-pointer" variant="gradient" size="lg">
+                    Apply Now
+                  </Button>
+                }
+              />
               <DialogContent className="sm:max-w-[500px] glass-card">
                 <DialogHeader>
                   <DialogTitle className="text-2xl">Apply for {job.title}</DialogTitle>

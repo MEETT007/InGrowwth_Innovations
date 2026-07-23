@@ -259,9 +259,14 @@ export default function AdminLeadsPage() {
           }`}
         >
           <span>{feedback.message}</span>
-          <button onClick={() => setFeedback(null)} className="hover:opacity-75">
+          <Button
+            variant="ghost"
+            size="icon-xs"
+            onClick={() => setFeedback(null)}
+            className="cursor-pointer text-muted-foreground hover:text-foreground"
+          >
             <X className="h-4 w-4" />
-          </button>
+          </Button>
         </div>
       )}
 
@@ -462,12 +467,14 @@ export default function AdminLeadsPage() {
                     ID: {selectedLead.id.slice(0, 8)}...
                   </CardDescription>
                 </div>
-                <button
+                <Button
+                  variant="ghost"
+                  size="icon-xs"
                   onClick={() => setSelectedLead(null)}
-                  className="text-muted-foreground hover:text-foreground"
+                  className="cursor-pointer text-muted-foreground hover:text-foreground"
                 >
                   <X className="h-4 w-4" />
-                </button>
+                </Button>
               </CardHeader>
 
               <CardContent className="p-5 space-y-4 text-xs">

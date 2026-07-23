@@ -6,60 +6,11 @@ import { motion } from 'framer-motion';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Search, Calendar } from 'lucide-react';
-
-export const MOCK_POSTS = [
-  {
-    slug: 'future-of-saas-2027',
-    title: 'The Future of SaaS: What to Expect by 2027',
-    excerpt:
-      'Explore the emerging trends in cloud software, from AI-driven personalization to micro-SaaS ecosystems that are reshaping the industry.',
-    category: 'Technology',
-    author: { name: 'Sarah Jenkins', avatar: '/avatars/01.png' },
-    date: 'Oct 24, 2026',
-    thumbnail:
-      'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop',
-    featured: true,
-  },
-  {
-    slug: 'mastering-react-server-components',
-    title: 'Mastering React Server Components',
-    excerpt:
-      'A deep dive into how RSCs change the paradigm of fetching data and rendering UI in modern Next.js applications.',
-    category: 'Engineering',
-    author: { name: 'David Chen', avatar: '/avatars/02.png' },
-    date: 'Oct 20, 2026',
-    thumbnail:
-      'https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=800&auto=format&fit=crop',
-    featured: false,
-  },
-  {
-    slug: 'designing-for-accessibility',
-    title: 'Designing for Accessibility in 2026',
-    excerpt:
-      'Why inclusive design is no longer optional, and how to implement WCAG 3.0 standards in your next product.',
-    category: 'Design',
-    author: { name: 'Emma Wilson', avatar: '/avatars/03.png' },
-    date: 'Oct 15, 2026',
-    thumbnail:
-      'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop',
-    featured: false,
-  },
-  {
-    slug: 'scaling-startup-engineering',
-    title: 'Scaling Engineering Teams at Startups',
-    excerpt:
-      'Lessons learned from growing a team from 5 to 50 engineers while maintaining culture and deployment speed.',
-    category: 'Leadership',
-    author: { name: 'Michael Ross', avatar: '/avatars/04.png' },
-    date: 'Oct 10, 2026',
-    thumbnail:
-      'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop',
-    featured: false,
-  },
-];
+import { MOCK_POSTS } from '@/lib/mock-data';
 
 const CATEGORIES = ['All', 'Technology', 'Engineering', 'Design', 'Leadership'];
 
@@ -89,16 +40,20 @@ export default function BlogPage() {
       {/* Filters */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-          {CATEGORIES.map((category) => (
-            <Badge
-              key={category}
-              variant={activeCategory === category ? 'default' : 'secondary'}
-              className="cursor-pointer text-sm py-1.5 px-4 transition-all hover:scale-105"
-              onClick={() => setActiveCategory(category)}
-            >
-              {category}
-            </Badge>
-          ))}
+          {CATEGORIES.map((category) => {
+            const isActive = activeCategory === category;
+            return (
+              <Button
+                key={category}
+                onClick={() => setActiveCategory(category)}
+                variant={isActive ? 'default' : 'outline'}
+                size="sm"
+                className="rounded-full cursor-pointer hover:scale-105 transition-transform duration-200 shadow-xs"
+              >
+                {category}
+              </Button>
+            );
+          })}
         </div>
         <div className="relative w-full md:w-72">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
