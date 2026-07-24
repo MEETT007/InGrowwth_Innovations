@@ -45,7 +45,7 @@ const DEFAULT_TECH = [
 
 // Helper to render dynamic lucide icons
 const IconComponent = ({ name }: { name: string }) => {
-  // @ts-ignore
+  // @ts-expect-error - Dynamic import based on string name
   const Icon = LucideIcons[name] || Code;
   return <Icon className="w-8 h-8" />;
 };

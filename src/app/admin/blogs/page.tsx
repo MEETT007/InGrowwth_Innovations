@@ -52,6 +52,7 @@ export default function BlogsIndexPage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchBlogs();
   }, []);
 
@@ -87,7 +88,9 @@ export default function BlogsIndexPage() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Blog Posts</h2>
-          <p className="text-muted-foreground mt-1">Manage articles, SEO metadata, and publications.</p>
+          <p className="text-muted-foreground mt-1">
+            Manage articles, SEO metadata, and publications.
+          </p>
         </div>
         <Button asChild size="lg" className="shadow-md shadow-indigo-500/20 cursor-pointer">
           <Link href="/admin/blogs/create">
@@ -139,9 +142,15 @@ export default function BlogsIndexPage() {
                           <div className="h-3 w-32 bg-muted rounded" />
                         </div>
                       </TableCell>
-                      <TableCell><div className="h-4 w-20 bg-muted rounded" /></TableCell>
-                      <TableCell><div className="h-6 w-16 bg-muted rounded-full" /></TableCell>
-                      <TableCell><div className="h-4 w-24 bg-muted rounded" /></TableCell>
+                      <TableCell>
+                        <div className="h-4 w-20 bg-muted rounded" />
+                      </TableCell>
+                      <TableCell>
+                        <div className="h-6 w-16 bg-muted rounded-full" />
+                      </TableCell>
+                      <TableCell>
+                        <div className="h-4 w-24 bg-muted rounded" />
+                      </TableCell>
                       <TableCell className="text-right">
                         <div className="h-8 w-16 bg-muted rounded ml-auto" />
                       </TableCell>
@@ -153,7 +162,9 @@ export default function BlogsIndexPage() {
                       <div className="flex flex-col items-center justify-center space-y-3">
                         <Filter className="h-10 w-10 text-muted-foreground/30" />
                         <p className="font-medium text-base">No posts found</p>
-                        <p className="text-sm">We couldn&apos;t find any posts matching your search.</p>
+                        <p className="text-sm">
+                          We couldn&apos;t find any posts matching your search.
+                        </p>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -162,7 +173,10 @@ export default function BlogsIndexPage() {
                     <TableRow key={blog.id} className="group hover:bg-muted/30 transition-colors">
                       <TableCell className="font-medium">
                         <div className="flex flex-col gap-1">
-                          <Link href={`/admin/blogs/edit/${blog.id}`} className="hover:text-indigo-500 transition-colors">
+                          <Link
+                            href={`/admin/blogs/edit/${blog.id}`}
+                            className="hover:text-indigo-500 transition-colors"
+                          >
                             {blog.title}
                           </Link>
                           <span className="text-xs text-muted-foreground truncate max-w-xs">
@@ -174,9 +188,13 @@ export default function BlogsIndexPage() {
                         <span className="text-sm">{blog.category}</span>
                       </TableCell>
                       <TableCell>
-                        <Badge 
+                        <Badge
                           variant={blog.status === 'Published' ? 'default' : 'secondary'}
-                          className={blog.status === 'Published' ? 'bg-green-500/10 text-green-500 hover:bg-green-500/20' : ''}
+                          className={
+                            blog.status === 'Published'
+                              ? 'bg-green-500/10 text-green-500 hover:bg-green-500/20'
+                              : ''
+                          }
                         >
                           {blog.status}
                         </Badge>

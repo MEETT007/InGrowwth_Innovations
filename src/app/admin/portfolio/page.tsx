@@ -52,6 +52,7 @@ export default function PortfolioIndexPage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchProjects();
   }, []);
 
@@ -141,10 +142,18 @@ export default function PortfolioIndexPage() {
                           <div className="h-3 w-32 bg-muted rounded" />
                         </div>
                       </TableCell>
-                      <TableCell><div className="h-4 w-24 bg-muted rounded" /></TableCell>
-                      <TableCell><div className="h-4 w-20 bg-muted rounded" /></TableCell>
-                      <TableCell><div className="h-6 w-16 bg-muted rounded-full" /></TableCell>
-                      <TableCell><div className="h-4 w-24 bg-muted rounded" /></TableCell>
+                      <TableCell>
+                        <div className="h-4 w-24 bg-muted rounded" />
+                      </TableCell>
+                      <TableCell>
+                        <div className="h-4 w-20 bg-muted rounded" />
+                      </TableCell>
+                      <TableCell>
+                        <div className="h-6 w-16 bg-muted rounded-full" />
+                      </TableCell>
+                      <TableCell>
+                        <div className="h-4 w-24 bg-muted rounded" />
+                      </TableCell>
                       <TableCell className="text-right">
                         <div className="h-8 w-16 bg-muted rounded ml-auto" />
                       </TableCell>
@@ -156,15 +165,23 @@ export default function PortfolioIndexPage() {
                       <div className="flex flex-col items-center justify-center space-y-3">
                         <Briefcase className="h-10 w-10 text-muted-foreground/30" />
                         <p className="font-medium text-base">No projects found</p>
-                        <p className="text-sm">We couldn&apos;t find any projects matching your search.</p>
+                        <p className="text-sm">
+                          We couldn&apos;t find any projects matching your search.
+                        </p>
                       </div>
                     </TableCell>
                   </TableRow>
                 ) : (
                   filteredProjects.map((project) => (
-                    <TableRow key={project.id} className="group hover:bg-muted/30 transition-colors">
+                    <TableRow
+                      key={project.id}
+                      className="group hover:bg-muted/30 transition-colors"
+                    >
                       <TableCell className="font-medium">
-                        <Link href={`/admin/portfolio/edit/${project.id}`} className="hover:text-indigo-500 transition-colors">
+                        <Link
+                          href={`/admin/portfolio/edit/${project.id}`}
+                          className="hover:text-indigo-500 transition-colors"
+                        >
                           {project.title}
                         </Link>
                       </TableCell>
@@ -175,9 +192,13 @@ export default function PortfolioIndexPage() {
                         <span className="text-sm">{project.category}</span>
                       </TableCell>
                       <TableCell>
-                        <Badge 
+                        <Badge
                           variant={project.projectStatus === 'Completed' ? 'default' : 'secondary'}
-                          className={project.projectStatus === 'Completed' ? 'bg-green-500/10 text-green-500 hover:bg-green-500/20' : ''}
+                          className={
+                            project.projectStatus === 'Completed'
+                              ? 'bg-green-500/10 text-green-500 hover:bg-green-500/20'
+                              : ''
+                          }
                         >
                           {project.projectStatus || 'Active'}
                         </Badge>

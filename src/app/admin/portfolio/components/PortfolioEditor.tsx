@@ -6,7 +6,17 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { toast } from 'sonner';
-import { ArrowLeft, Image as ImageIcon, Trash2, Globe, Settings, Briefcase, Code, BarChart, FileText } from 'lucide-react';
+import {
+  ArrowLeft,
+  Image as ImageIcon,
+  Trash2,
+  Globe,
+  Settings,
+  Briefcase,
+  Code,
+  BarChart,
+  FileText,
+} from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
@@ -20,7 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const portfolioSchema = z.object({
   title: z.string().min(3, 'Title is required'),
@@ -51,6 +61,7 @@ const portfolioSchema = z.object({
 type PortfolioFormValues = z.infer<typeof portfolioSchema>;
 
 interface PortfolioEditorProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initialData?: any;
 }
 
@@ -59,7 +70,7 @@ export function PortfolioEditor({ initialData }: PortfolioEditorProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [coverPreview, setCoverPreview] = useState<string | null>(initialData?.coverImage || null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const form = useForm<PortfolioFormValues>({
     resolver: zodResolver(portfolioSchema),
     defaultValues: {
@@ -130,9 +141,11 @@ export function PortfolioEditor({ initialData }: PortfolioEditorProps) {
   const onSubmit = async (data: PortfolioFormValues) => {
     setIsSubmitting(true);
     const toastId = toast.loading(initialData?.id ? 'Updating project...' : 'Creating project...');
-    
+
     try {
-      const url = initialData?.id ? `/api/admin/portfolio/${initialData.id}` : '/api/admin/portfolio';
+      const url = initialData?.id
+        ? `/api/admin/portfolio/${initialData.id}`
+        : '/api/admin/portfolio';
       const method = initialData?.id ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
@@ -140,7 +153,7 @@ export function PortfolioEditor({ initialData }: PortfolioEditorProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      
+
       const res = await response.json();
       if (res.success) {
         toast.success(res.message, { id: toastId });
@@ -168,13 +181,15 @@ export function PortfolioEditor({ initialData }: PortfolioEditorProps) {
             </Link>
           </Button>
           <div>
-            <h1 className="font-semibold text-lg">{initialData?.id ? 'Edit Project' : 'New Project'}</h1>
+            <h1 className="font-semibold text-lg">
+              {initialData?.id ? 'Edit Project' : 'New Project'}
+            </h1>
             <p className="text-xs text-muted-foreground">Portfolio Showcase</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <Button 
-            onClick={form.handleSubmit(onSubmit)} 
+          <Button
+            onClick={form.handleSubmit(onSubmit)}
             disabled={isSubmitting}
             className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-500/20"
           >
@@ -184,7 +199,6 @@ export function PortfolioEditor({ initialData }: PortfolioEditorProps) {
       </div>
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        
         {/* Basic Information - Full Width */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
@@ -193,15 +207,21 @@ export function PortfolioEditor({ initialData }: PortfolioEditorProps) {
               className="text-4xl font-extrabold border-none bg-transparent px-0 focus-visible:ring-0 shadow-none placeholder:text-muted-foreground/50 h-auto"
               {...form.register('title')}
             />
-            {form.formState.errors.title && <p className="text-sm text-destructive">{form.formState.errors.title.message}</p>}
-            
+            {form.formState.errors.title && (
+              <p className="text-sm text-destructive">{form.formState.errors.title.message}</p>
+            )}
+
             <div className="space-y-2">
-              <Textarea 
-                placeholder="Short attractive description for the portfolio grid..." 
+              <Textarea
+                placeholder="Short attractive description for the portfolio grid..."
                 className="text-lg leading-relaxed border-none bg-transparent px-0 focus-visible:ring-0 shadow-none resize-y placeholder:text-muted-foreground/40 font-serif min-h-[100px]"
                 {...form.register('description')}
               />
-              {form.formState.errors.description && <p className="text-sm text-destructive">{form.formState.errors.description.message}</p>}
+              {form.formState.errors.description && (
+                <p className="text-sm text-destructive">
+                  {form.formState.errors.description.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -209,24 +229,44 @@ export function PortfolioEditor({ initialData }: PortfolioEditorProps) {
             {coverPreview ? (
               <>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={coverPreview} alt="Cover" className="absolute inset-0 w-full h-full object-cover" />
+                <img
+                  src={coverPreview}
+                  alt="Cover"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                  <Button type="button" variant="secondary" onClick={() => document.getElementById('cover-upload')?.click()}>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={() => document.getElementById('cover-upload')?.click()}
+                  >
                     <ImageIcon className="h-4 w-4 mr-2" /> Change Cover
                   </Button>
-                  <Button type="button" variant="destructive" onClick={() => { form.setValue('coverImage', ''); setCoverPreview(null); }}>
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => {
+                      form.setValue('coverImage', '');
+                      setCoverPreview(null);
+                    }}
+                  >
                     <Trash2 className="h-4 w-4 mr-2" /> Remove
                   </Button>
                 </div>
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center p-8 text-center space-y-4 cursor-pointer" onClick={() => document.getElementById('cover-upload')?.click()}>
+              <div
+                className="flex flex-col items-center justify-center p-8 text-center space-y-4 cursor-pointer"
+                onClick={() => document.getElementById('cover-upload')?.click()}
+              >
                 <div className="h-16 w-16 rounded-full bg-indigo-500/10 flex items-center justify-center">
                   <ImageIcon className="h-8 w-8 text-indigo-500" />
                 </div>
                 <div>
                   <p className="font-semibold text-lg">Upload Project Cover</p>
-                  <p className="text-sm text-muted-foreground mt-1">Stunning visual representation</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Stunning visual representation
+                  </p>
                 </div>
               </div>
             )}
@@ -244,29 +284,55 @@ export function PortfolioEditor({ initialData }: PortfolioEditorProps) {
         {/* Deep Dive Tabs */}
         <Tabs defaultValue="metadata" className="w-full">
           <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-8 h-auto p-1">
-            <TabsTrigger value="metadata" className="py-3"><Settings className="h-4 w-4 mr-2" /> Details</TabsTrigger>
-            <TabsTrigger value="stack" className="py-3"><Code className="h-4 w-4 mr-2" /> Tech Stack</TabsTrigger>
-            <TabsTrigger value="casestudy" className="py-3"><FileText className="h-4 w-4 mr-2" /> Case Study</TabsTrigger>
-            <TabsTrigger value="seo" className="py-3"><Globe className="h-4 w-4 mr-2" /> SEO</TabsTrigger>
+            <TabsTrigger value="metadata" className="py-3">
+              <Settings className="h-4 w-4 mr-2" /> Details
+            </TabsTrigger>
+            <TabsTrigger value="stack" className="py-3">
+              <Code className="h-4 w-4 mr-2" /> Tech Stack
+            </TabsTrigger>
+            <TabsTrigger value="casestudy" className="py-3">
+              <FileText className="h-4 w-4 mr-2" /> Case Study
+            </TabsTrigger>
+            <TabsTrigger value="seo" className="py-3">
+              <Globe className="h-4 w-4 mr-2" /> SEO
+            </TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="metadata" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-muted/10 p-6 rounded-2xl border border-border/50">
               <div className="space-y-2">
                 <Label>Client Name</Label>
-                <Input placeholder="Acme Corp" className="bg-background" {...form.register('client')} />
-                {form.formState.errors.client && <p className="text-sm text-destructive">{form.formState.errors.client.message}</p>}
+                <Input
+                  placeholder="Acme Corp"
+                  className="bg-background"
+                  {...form.register('client')}
+                />
+                {form.formState.errors.client && (
+                  <p className="text-sm text-destructive">{form.formState.errors.client.message}</p>
+                )}
               </div>
 
               <div className="space-y-2">
                 <Label>Category</Label>
-                <Input placeholder="Web App Development" className="bg-background" {...form.register('category')} />
-                {form.formState.errors.category && <p className="text-sm text-destructive">{form.formState.errors.category.message}</p>}
+                <Input
+                  placeholder="Web App Development"
+                  className="bg-background"
+                  {...form.register('category')}
+                />
+                {form.formState.errors.category && (
+                  <p className="text-sm text-destructive">
+                    {form.formState.errors.category.message}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
                 <Label>Industry</Label>
-                <Input placeholder="Fintech, Healthcare, etc." className="bg-background" {...form.register('industry')} />
+                <Input
+                  placeholder="Fintech, Healthcare, etc."
+                  className="bg-background"
+                  {...form.register('industry')}
+                />
               </div>
 
               <div className="space-y-2">
@@ -291,12 +357,20 @@ export function PortfolioEditor({ initialData }: PortfolioEditorProps) {
 
               <div className="space-y-2">
                 <Label>Website URL / Live Link</Label>
-                <Input placeholder="https://..." className="bg-background" {...form.register('websiteUrl')} />
+                <Input
+                  placeholder="https://..."
+                  className="bg-background"
+                  {...form.register('websiteUrl')}
+                />
               </div>
 
               <div className="space-y-2">
                 <Label>Duration</Label>
-                <Input placeholder="e.g. 6 Months" className="bg-background" {...form.register('duration')} />
+                <Input
+                  placeholder="e.g. 6 Months"
+                  className="bg-background"
+                  {...form.register('duration')}
+                />
               </div>
             </div>
           </TabsContent>
@@ -305,59 +379,99 @@ export function PortfolioEditor({ initialData }: PortfolioEditorProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-muted/10 p-6 rounded-2xl border border-border/50">
               <div className="space-y-2 md:col-span-2">
                 <Label>Technologies Used (Comma separated)</Label>
-                <Input placeholder="React, Node.js, PostgreSQL, AWS" className="bg-background" {...form.register('technologiesUsed')} />
+                <Input
+                  placeholder="React, Node.js, PostgreSQL, AWS"
+                  className="bg-background"
+                  {...form.register('technologiesUsed')}
+                />
               </div>
               <div className="space-y-2 md:col-span-2">
                 <Label>Services Provided (Comma separated)</Label>
-                <Input placeholder="UI/UX Design, Frontend Development, DevOps" className="bg-background" {...form.register('servicesUsed')} />
+                <Input
+                  placeholder="UI/UX Design, Frontend Development, DevOps"
+                  className="bg-background"
+                  {...form.register('servicesUsed')}
+                />
               </div>
               <div className="space-y-2 md:col-span-2">
                 <Label>Core Team Members (Comma separated)</Label>
-                <Input placeholder="John Doe, Jane Smith" className="bg-background" {...form.register('teamMembers')} />
+                <Input
+                  placeholder="John Doe, Jane Smith"
+                  className="bg-background"
+                  {...form.register('teamMembers')}
+                />
               </div>
             </div>
           </TabsContent>
 
           <TabsContent value="casestudy" className="space-y-6">
-             <div className="space-y-6 bg-muted/10 p-6 rounded-2xl border border-border/50">
-               <div className="space-y-2">
-                 <Label>Project Overview</Label>
-                 <Textarea placeholder="High level overview of what was built..." className="bg-background min-h-[100px]" {...form.register('projectOverview')} />
-               </div>
-               
-               <div className="space-y-2">
-                 <Label>Challenges Faced</Label>
-                 <Textarea placeholder="What were the business or technical hurdles..." className="bg-background min-h-[100px]" {...form.register('challenges')} />
-               </div>
+            <div className="space-y-6 bg-muted/10 p-6 rounded-2xl border border-border/50">
+              <div className="space-y-2">
+                <Label>Project Overview</Label>
+                <Textarea
+                  placeholder="High level overview of what was built..."
+                  className="bg-background min-h-[100px]"
+                  {...form.register('projectOverview')}
+                />
+              </div>
 
-               <div className="space-y-2">
-                 <Label>Our Solution</Label>
-                 <Textarea placeholder="How did we solve it..." className="bg-background min-h-[100px]" {...form.register('solution')} />
-               </div>
+              <div className="space-y-2">
+                <Label>Challenges Faced</Label>
+                <Textarea
+                  placeholder="What were the business or technical hurdles..."
+                  className="bg-background min-h-[100px]"
+                  {...form.register('challenges')}
+                />
+              </div>
 
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                 <div className="space-y-2">
-                   <Label>Key Results & Metrics</Label>
-                   <Textarea placeholder="Increased conversion by 50%..." className="bg-background min-h-[100px]" {...form.register('results')} />
-                 </div>
-                 <div className="space-y-2">
-                   <Label>Client Testimonial</Label>
-                   <Textarea placeholder="This team is amazing..." className="bg-background min-h-[100px]" {...form.register('testimonial')} />
-                 </div>
-               </div>
-             </div>
+              <div className="space-y-2">
+                <Label>Our Solution</Label>
+                <Textarea
+                  placeholder="How did we solve it..."
+                  className="bg-background min-h-[100px]"
+                  {...form.register('solution')}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label>Key Results & Metrics</Label>
+                  <Textarea
+                    placeholder="Increased conversion by 50%..."
+                    className="bg-background min-h-[100px]"
+                    {...form.register('results')}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Client Testimonial</Label>
+                  <Textarea
+                    placeholder="This team is amazing..."
+                    className="bg-background min-h-[100px]"
+                    {...form.register('testimonial')}
+                  />
+                </div>
+              </div>
+            </div>
           </TabsContent>
 
           <TabsContent value="seo" className="space-y-6">
             <div className="bg-muted/10 p-6 rounded-2xl border border-border/50 space-y-6">
               <div className="space-y-2">
                 <Label>SEO Title</Label>
-                <Input placeholder="Best Practices for Web Dev" className="bg-background" {...form.register('seoTitle')} />
+                <Input
+                  placeholder="Best Practices for Web Dev"
+                  className="bg-background"
+                  {...form.register('seoTitle')}
+                />
               </div>
 
               <div className="space-y-2">
                 <Label>SEO Description</Label>
-                <Textarea placeholder="Write a concise meta description..." className="bg-background resize-none h-24" {...form.register('seoDescription')} />
+                <Textarea
+                  placeholder="Write a concise meta description..."
+                  className="bg-background resize-none h-24"
+                  {...form.register('seoDescription')}
+                />
               </div>
             </div>
           </TabsContent>

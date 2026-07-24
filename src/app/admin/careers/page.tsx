@@ -9,7 +9,7 @@ import {
   Phone,
   Briefcase,
   ExternalLink,
-  GraduationCap
+  GraduationCap,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -65,6 +65,7 @@ export default function CareersPage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchApplications();
   }, []);
 
@@ -133,13 +134,13 @@ export default function CareersPage() {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
       {/* Ambient Glow */}
       <div className="absolute top-0 right-1/4 w-[30rem] h-[30rem] bg-indigo-500/10 rounded-full blur-[120px] -z-10 pointer-events-none" />
-      
+
       {/* Header Section */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-pink-500/5 border border-white/10 p-8 md:p-10 shadow-2xl backdrop-blur-xl">
         <div className="absolute top-0 right-0 p-8 opacity-10">
           <GraduationCap className="w-32 h-32 text-indigo-400 rotate-12" />
         </div>
-        
+
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-3">
@@ -172,7 +173,8 @@ export default function CareersPage() {
           <FileText className="h-16 w-16 text-muted-foreground opacity-20 mb-4" />
           <h3 className="text-xl font-medium text-foreground">No applications found</h3>
           <p className="text-muted-foreground mt-2 max-w-sm">
-            You haven&apos;t received any job applications yet. They will appear here once candidates apply.
+            You haven&apos;t received any job applications yet. They will appear here once
+            candidates apply.
           </p>
         </Card>
       ) : (
@@ -202,7 +204,7 @@ export default function CareersPage() {
                   {app.roleAppliedFor}
                 </CardDescription>
               </CardHeader>
-              
+
               <CardContent className="space-y-4 flex-1">
                 <div className="space-y-2">
                   <a
@@ -222,21 +224,16 @@ export default function CareersPage() {
                     </a>
                   )}
                 </div>
-                
+
                 {app.coverLetter && (
                   <div className="pt-2 border-t border-white/5">
-                    <p className="text-xs text-muted-foreground line-clamp-3">
-                      {app.coverLetter}
-                    </p>
+                    <p className="text-xs text-muted-foreground line-clamp-3">{app.coverLetter}</p>
                   </div>
                 )}
               </CardContent>
 
               <CardFooter className="pt-4 border-t border-white/5 flex gap-3">
-                <Select
-                  value={app.status}
-                  onValueChange={(val) => handleStatusChange(app.id, val)}
-                >
+                <Select value={app.status} onValueChange={(val) => handleStatusChange(app.id, val)}>
                   <SelectTrigger className="flex-1 bg-background/50 border-white/10 h-10">
                     <SelectValue placeholder="Update Status" />
                   </SelectTrigger>
@@ -248,9 +245,13 @@ export default function CareersPage() {
                     <SelectItem value="REJECTED">Rejected</SelectItem>
                   </SelectContent>
                 </Select>
-                
+
                 {app.resumeUrl && (
-                  <Button render={<a href={app.resumeUrl} target="_blank" rel="noreferrer" />} variant="outline" className="flex-1 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border-indigo-500/30 h-10 group/btn">
+                  <Button
+                    render={<a href={app.resumeUrl} target="_blank" rel="noreferrer" />}
+                    variant="outline"
+                    className="flex-1 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border-indigo-500/30 h-10 group/btn"
+                  >
                     <span className="flex items-center justify-center">
                       <FileText className="h-4 w-4 mr-2 group-hover/btn:scale-110 transition-transform" />
                       Resume

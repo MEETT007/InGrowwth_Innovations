@@ -6,7 +6,16 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { toast } from 'sonner';
-import { Save, ArrowLeft, Image as ImageIcon, Trash2, Globe, FileText, Settings, Sparkles } from 'lucide-react';
+import {
+  Save,
+  ArrowLeft,
+  Image as ImageIcon,
+  Trash2,
+  Globe,
+  FileText,
+  Settings,
+  Sparkles,
+} from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
@@ -20,7 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
 
 const blogSchema = z.object({
@@ -42,15 +51,18 @@ const blogSchema = z.object({
 type BlogFormValues = z.infer<typeof blogSchema>;
 
 interface BlogEditorProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initialData?: any;
 }
 
 export function BlogEditor({ initialData }: BlogEditorProps) {
   const router = useRouter();
   const [isUploading, setIsUploading] = useState(false);
-  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(initialData?.thumbnail || null);
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(
+    initialData?.thumbnail || null
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const form = useForm<BlogFormValues>({
     resolver: zodResolver(blogSchema),
     defaultValues: {
@@ -66,7 +78,9 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
       seoDescription: initialData?.seoDescription || '',
       readTime: initialData?.readTime?.toString() || '',
       authorName: initialData?.authorName || '',
-      publishDate: initialData?.publishDate ? new Date(initialData.publishDate).toISOString().split('T')[0] : '',
+      publishDate: initialData?.publishDate
+        ? new Date(initialData.publishDate).toISOString().split('T')[0]
+        : '',
     },
   });
 
@@ -93,7 +107,6 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
       form.setValue('readTime', readTime.toString(), { shouldValidate: true });
     }
   }, [content, form]);
-
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -135,8 +148,10 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
 
   const onSubmit = async (data: BlogFormValues) => {
     setIsSubmitting(true);
-    const toastId = toast.loading(initialData?.id ? 'Updating blog post...' : 'Publishing blog post...');
-    
+    const toastId = toast.loading(
+      initialData?.id ? 'Updating blog post...' : 'Publishing blog post...'
+    );
+
     try {
       const url = initialData?.id ? `/api/admin/blogs/${initialData.id}` : '/api/admin/blogs';
       const method = initialData?.id ? 'PUT' : 'POST';
@@ -146,7 +161,7 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      
+
       const res = await response.json();
       if (res.success) {
         toast.success(res.message, { id: toastId });
@@ -181,15 +196,11 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <Button 
-            variant="outline" 
-            onClick={() => form.setValue('status', 'Draft')}
-            type="button"
-          >
+          <Button variant="outline" onClick={() => form.setValue('status', 'Draft')} type="button">
             Save as Draft
           </Button>
-          <Button 
-            onClick={form.handleSubmit(onSubmit)} 
+          <Button
+            onClick={form.handleSubmit(onSubmit)}
             disabled={isSubmitting}
             className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-500/20"
           >
@@ -198,11 +209,12 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
         </div>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+      >
         {/* Main Editor Section */}
         <div className="lg:col-span-2 space-y-8">
-          
           <div className="space-y-4">
             <Input
               placeholder="Post Title..."
@@ -212,7 +224,7 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
             {form.formState.errors.title && (
               <p className="text-sm text-destructive">{form.formState.errors.title.message}</p>
             )}
-            
+
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Sparkles className="h-4 w-4 text-indigo-500" />
               <span>/blog/</span>
@@ -229,26 +241,48 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
             {thumbnailPreview ? (
               <>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={thumbnailPreview} alt="Cover" className="absolute inset-0 w-full h-full object-cover" />
+                <img
+                  src={thumbnailPreview}
+                  alt="Cover"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                  <Button type="button" variant="secondary" onClick={() => document.getElementById('cover-upload')?.click()}>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={() => document.getElementById('cover-upload')?.click()}
+                  >
                     <ImageIcon className="h-4 w-4 mr-2" /> Change Cover
                   </Button>
-                  <Button type="button" variant="destructive" onClick={() => { form.setValue('thumbnail', ''); setThumbnailPreview(null); }}>
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => {
+                      form.setValue('thumbnail', '');
+                      setThumbnailPreview(null);
+                    }}
+                  >
                     <Trash2 className="h-4 w-4 mr-2" /> Remove
                   </Button>
                 </div>
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center p-8 text-center space-y-4 cursor-pointer" onClick={() => document.getElementById('cover-upload')?.click()}>
+              <div
+                className="flex flex-col items-center justify-center p-8 text-center space-y-4 cursor-pointer"
+                onClick={() => document.getElementById('cover-upload')?.click()}
+              >
                 <div className="h-16 w-16 rounded-full bg-indigo-500/10 flex items-center justify-center">
                   <ImageIcon className="h-8 w-8 text-indigo-500" />
                 </div>
                 <div>
                   <p className="font-semibold text-lg">Add Cover Image</p>
-                  <p className="text-sm text-muted-foreground mt-1">Optimal size: 1200 x 630px. Max 5MB.</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Optimal size: 1200 x 630px. Max 5MB.
+                  </p>
                 </div>
-                {isUploading && <p className="text-sm text-indigo-500 animate-pulse">Uploading...</p>}
+                {isUploading && (
+                  <p className="text-sm text-indigo-500 animate-pulse">Uploading...</p>
+                )}
               </div>
             )}
             <input
@@ -272,19 +306,21 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
               <p className="text-sm text-destructive">{form.formState.errors.content.message}</p>
             )}
           </div>
-
         </div>
 
         {/* Right Sidebar - Settings & Metadata */}
         <div className="space-y-6">
           <Tabs defaultValue="settings" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="settings"><Settings className="h-4 w-4 mr-2" /> Settings</TabsTrigger>
-              <TabsTrigger value="seo"><Globe className="h-4 w-4 mr-2" /> SEO</TabsTrigger>
+              <TabsTrigger value="settings">
+                <Settings className="h-4 w-4 mr-2" /> Settings
+              </TabsTrigger>
+              <TabsTrigger value="seo">
+                <Globe className="h-4 w-4 mr-2" /> SEO
+              </TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="settings" className="space-y-6 mt-6">
-              
               <div className="space-y-2">
                 <Label>Status</Label>
                 <Controller
@@ -328,90 +364,96 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
 
               <div className="space-y-2">
                 <Label>Tags (Comma separated)</Label>
-                <Input 
-                  placeholder="e.g. Nextjs, Tailwind, React" 
+                <Input
+                  placeholder="e.g. Nextjs, Tailwind, React"
                   className="bg-muted/50 border-none"
-                  {...form.register('tags')} 
+                  {...form.register('tags')}
                 />
               </div>
 
               <div className="space-y-2">
                 <Label>Author Name</Label>
-                <Input 
-                  placeholder="Jane Doe" 
+                <Input
+                  placeholder="Jane Doe"
                   className="bg-muted/50 border-none"
-                  {...form.register('authorName')} 
+                  {...form.register('authorName')}
                 />
               </div>
 
               <div className="space-y-2">
                 <Label>Read Time (Mins)</Label>
-                <Input 
+                <Input
                   type="number"
-                  placeholder="Auto-calculated" 
+                  placeholder="Auto-calculated"
                   className="bg-muted/50 border-none"
-                  {...form.register('readTime')} 
+                  {...form.register('readTime')}
                 />
               </div>
 
               <div className="space-y-2">
                 <Label>Publish Date</Label>
-                <Input 
+                <Input
                   type="date"
                   className="bg-muted/50 border-none"
-                  {...form.register('publishDate')} 
+                  {...form.register('publishDate')}
                 />
               </div>
-
             </TabsContent>
 
             <TabsContent value="seo" className="space-y-6 mt-6">
               <div className="rounded-xl border border-border/50 p-4 space-y-4 bg-muted/20">
-                <h3 className="font-medium text-sm flex items-center"><Globe className="h-4 w-4 mr-2" /> Google Search Preview</h3>
+                <h3 className="font-medium text-sm flex items-center">
+                  <Globe className="h-4 w-4 mr-2" /> Google Search Preview
+                </h3>
                 <div className="space-y-1">
-                  <p className="text-xs text-muted-foreground">ingrowwth.com › blog › {form.watch('slug')}</p>
+                  <p className="text-xs text-muted-foreground">
+                    ingrowwth.com › blog › {form.watch('slug')}
+                  </p>
                   <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 leading-tight">
                     {seoTitle || title || 'Your SEO Title'}
                   </p>
                   <p className="text-xs text-muted-foreground line-clamp-2">
-                    {seoDescription || 'Provide a compelling SEO description to encourage users to click on your link in search results.'}
+                    {seoDescription ||
+                      'Provide a compelling SEO description to encourage users to click on your link in search results.'}
                   </p>
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Label>SEO Title</Label>
-                <Input 
-                  placeholder="Best Practices for Web Dev" 
+                <Input
+                  placeholder="Best Practices for Web Dev"
                   className="bg-muted/50 border-none"
-                  {...form.register('seoTitle')} 
+                  {...form.register('seoTitle')}
                 />
-                <p className="text-[10px] text-muted-foreground text-right">{seoTitle?.length || 0} / 60</p>
+                <p className="text-[10px] text-muted-foreground text-right">
+                  {seoTitle?.length || 0} / 60
+                </p>
               </div>
 
               <div className="space-y-2">
                 <Label>SEO Description</Label>
-                <Textarea 
-                  placeholder="Write a concise meta description..." 
+                <Textarea
+                  placeholder="Write a concise meta description..."
                   className="bg-muted/50 border-none resize-none h-24"
-                  {...form.register('seoDescription')} 
+                  {...form.register('seoDescription')}
                 />
-                <p className="text-[10px] text-muted-foreground text-right">{seoDescription?.length || 0} / 160</p>
+                <p className="text-[10px] text-muted-foreground text-right">
+                  {seoDescription?.length || 0} / 160
+                </p>
               </div>
 
               <div className="space-y-2">
                 <Label>Short Excerpt (For Blog Cards)</Label>
-                <Textarea 
-                  placeholder="Brief summary for the blog list view..." 
+                <Textarea
+                  placeholder="Brief summary for the blog list view..."
                   className="bg-muted/50 border-none resize-none h-24"
-                  {...form.register('shortDescription')} 
+                  {...form.register('shortDescription')}
                 />
               </div>
-
             </TabsContent>
           </Tabs>
         </div>
-
       </form>
     </div>
   );
