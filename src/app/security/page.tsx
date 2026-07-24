@@ -77,7 +77,14 @@ export default function SecurityPage() {
         <h3 className="text-xl font-bold">Security Bug Bounty & Inquiries</h3>
         <p className="text-sm text-muted-foreground max-w-xl">
           If you discover a security vulnerability or have questions regarding compliance standards,
-          please email security@ingrowwthinnovations.com.
+          please email{' '}
+          <a
+            href="mailto:security@ingrowwthinnovations.com"
+            className="text-indigo-500 hover:text-indigo-400 transition-colors underline"
+          >
+            security@ingrowwthinnovations.com
+          </a>
+          .
         </p>
       </div>
     </main>

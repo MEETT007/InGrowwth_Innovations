@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowRight,
@@ -26,17 +27,6 @@ const categoryIcons: Record<string, React.ReactNode> = {
   'Web Development': <Code className="h-4 w-4" />,
   'Mobile App': <Smartphone className="h-4 w-4" />,
   'IoT & AI': <Cpu className="h-4 w-4" />,
-};
-
-const placeholderColors: Record<string, string> = {
-  'from-violet-600 to-indigo-600': '#6d28d9',
-  'from-emerald-500 to-teal-600': '#059669',
-  'from-orange-500 to-amber-600': '#ea580c',
-  'from-sky-500 to-blue-600': '#0284c7',
-  'from-pink-500 to-rose-600': '#e11d48',
-  'from-teal-500 to-cyan-600': '#0d9488',
-  'from-amber-500 to-orange-600': '#d97706',
-  'from-yellow-600 to-amber-700': '#ca8a04',
 };
 
 const gradientToEmoji: Record<string, string> = {
@@ -149,22 +139,32 @@ export default function ProjectsClient() {
                 <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-card/60 backdrop-blur-sm h-full flex flex-col hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all duration-300">
                   {/* Color header */}
                   <div
-                    className={`bg-gradient-to-br ${project.gradient} h-48 flex items-center justify-center relative overflow-hidden`}
+                    className={`bg-gradient-to-br ${project.gradient} h-48 flex items-center justify-center relative overflow-hidden group/image`}
                   >
                     <div className="absolute inset-0 bg-black/10" />
-                    <div className="relative text-center">
-                      <span className="text-6xl">{gradientToEmoji[project.slug]}</span>
-                      <div className="mt-2 flex flex-wrap gap-1.5 justify-center px-4">
-                        {project.tags.slice(0, 2).map((tag) => (
-                          <span
-                            key={tag}
-                            className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/20 text-white border border-white/30"
-                          >
-                            {tag}
-                          </span>
-                        ))}
+                    {project.coverImage ? (
+                      <Image
+                        src={project.coverImage}
+                        alt={project.title}
+                        fill
+                        className="object-contain p-4 sm:p-6 transition-transform duration-700 group-hover/image:scale-110"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    ) : (
+                      <div className="relative text-center">
+                        <span className="text-6xl">{gradientToEmoji[project.slug]}</span>
+                        <div className="mt-2 flex flex-wrap gap-1.5 justify-center px-4">
+                          {project.tags.slice(0, 2).map((tag) => (
+                            <span
+                              key={tag}
+                              className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/20 text-white border border-white/30"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
                     {/* Featured badge */}
                     <div className="absolute top-3 right-3 bg-white/90 text-gray-800 text-[10px] font-bold px-2 py-0.5 rounded-full">
                       ⭐ Featured
@@ -290,10 +290,20 @@ export default function ProjectsClient() {
 
                       {/* Thumbnail */}
                       <div
-                        className={`bg-gradient-to-br ${project.gradient} h-36 flex items-center justify-center relative overflow-hidden`}
+                        className={`bg-gradient-to-br ${project.gradient} h-36 flex items-center justify-center relative overflow-hidden group/thumb`}
                       >
                         <div className="absolute inset-0 bg-black/10" />
-                        <span className="relative text-5xl">{gradientToEmoji[project.slug]}</span>
+                        {project.coverImage ? (
+                          <Image
+                            src={project.coverImage}
+                            alt={project.title}
+                            fill
+                            className="object-contain p-4 transition-transform duration-700 group-hover:scale-110"
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                          />
+                        ) : (
+                          <span className="relative text-5xl">{gradientToEmoji[project.slug]}</span>
+                        )}
                         {project.featured && (
                           <div className="absolute top-2 right-2 bg-white/90 text-gray-700 text-[9px] font-bold px-1.5 py-0.5 rounded-full">
                             ⭐

@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -114,20 +115,28 @@ export default function CareersPage() {
 
         {/* Culture / Image Grid */}
         <div className="grid md:grid-cols-2 gap-6 mt-4">
-          <div className="h-64 md:h-[400px] w-full rounded-3xl overflow-hidden glass-card p-2">
-            <img
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop"
-              alt="Team collaboration"
-              className="w-full h-full object-cover rounded-2xl"
-            />
+          <div className="h-64 md:h-[400px] w-full rounded-3xl overflow-hidden glass-card p-2 relative">
+            <div className="relative w-full h-full">
+              <Image
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop"
+                alt="Team collaboration"
+                fill
+                className="object-cover rounded-2xl"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
           </div>
           <div className="flex flex-col gap-6">
-            <div className="h-48 md:h-[188px] w-full rounded-3xl overflow-hidden glass-card p-2">
-              <img
-                src="https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=800&auto=format&fit=crop"
-                alt="Working remotely"
-                className="w-full h-full object-cover rounded-2xl"
-              />
+            <div className="h-48 md:h-[188px] w-full rounded-3xl overflow-hidden glass-card p-2 relative">
+              <div className="relative w-full h-full">
+                <Image
+                  src="https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=800&auto=format&fit=crop"
+                  alt="Working remotely"
+                  fill
+                  className="object-cover rounded-2xl"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
             </div>
             <div className="h-48 md:h-[188px] w-full rounded-3xl overflow-hidden glass-card p-2 bg-indigo-500/10 flex items-center justify-center p-8 text-center">
               <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">

@@ -176,10 +176,10 @@ export default function ContactClient() {
               <div>
                 <h4 className="font-semibold text-foreground text-sm">Email Address</h4>
                 <a
-                  href="mailto:hello@ingrowwth.com"
+                  href="mailto:info@ingrowwthinnovations.in"
                   className="text-xs sm:text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors mt-0.5 block"
                 >
-                  hello@ingrowwth.com
+                  info@ingrowwthinnovations.in
                 </a>
               </div>
             </div>
@@ -190,7 +190,7 @@ export default function ContactClient() {
               </div>
               <div>
                 <h4 className="font-semibold text-foreground text-sm">Call / WhatsApp</h4>
-                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">+91 98765 43210</p>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">+91 92271 01856</p>
               </div>
             </div>
 

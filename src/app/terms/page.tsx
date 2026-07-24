@@ -65,8 +65,14 @@ export default function TermsPage() {
         </Card>
 
         <p className="text-xs text-muted-foreground text-center">
-          Last updated: October 2026. For questions regarding terms, email
-          legal@ingrowwthinnovations.com.
+          Last updated: October 2026. For questions regarding terms, email{' '}
+          <a
+            href="mailto:legal@ingrowwthinnovations.com"
+            className="text-indigo-500 hover:text-indigo-400 transition-colors underline"
+          >
+            legal@ingrowwthinnovations.com
+          </a>
+          .
         </p>
       </div>
     </main>
