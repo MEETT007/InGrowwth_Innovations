@@ -253,7 +253,7 @@ export default function TeamPage() {
           <DialogTrigger render={<Button onClick={handleOpenNew} className="shadow-sm" />}>
             <UserPlus className="mr-2 h-4 w-4" /> Add Member
           </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-2xl max-h-[85vh] md:max-h-[80vh] overflow-y-auto w-[95vw] p-4 md:p-6 rounded-xl border-white/10 bg-background/95 backdrop-blur-xl">
             <DialogHeader>
               <DialogTitle>{editingId ? 'Edit Team Member' : 'Add New Team Member'}</DialogTitle>
               <DialogDescription>
@@ -431,16 +431,16 @@ export default function TeamPage() {
               <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex gap-1">
                 <Button
                   variant="secondary"
-                  size="icon"
-                  className="h-8 w-8 rounded-full bg-background/80 backdrop-blur"
+                  size="icon-sm"
+                  className="rounded-full bg-background/80 backdrop-blur cursor-pointer"
                   onClick={() => handleEdit(member)}
                 >
                   <Edit className="h-3.5 w-3.5" />
                 </Button>
                 <Button
                   variant="destructive"
-                  size="icon"
-                  className="h-8 w-8 rounded-full opacity-90"
+                  size="icon-sm"
+                  className="rounded-full cursor-pointer"
                   onClick={() => handleDelete(member.id!)}
                 >
                   <Trash2 className="h-3.5 w-3.5" />

@@ -88,11 +88,11 @@ export const projects: Project[] = [
     ],
     coverImage: '/projects/easy-farm-hub/cover.png',
     screenshots: [
-      { src: '/projects/easy-farm-hub/home.png', alt: 'Easy Farm Hub Home' },
-      { src: '/projects/easy-farm-hub/about.png', alt: 'About Section' },
-      { src: '/projects/easy-farm-hub/organic.png', alt: 'Organic Farming' },
-      { src: '/projects/easy-farm-hub/product.png', alt: 'Product Management' },
-      { src: '/projects/easy-farm-hub/technology.png', alt: 'Technology Section' },
+      { src: '/projects/easy-farm-hub/home.jpeg', alt: 'Easy Farm Hub Home' },
+      { src: '/projects/easy-farm-hub/about.jpeg', alt: 'About Section' },
+      { src: '/projects/easy-farm-hub/organic.jpeg', alt: 'Organic Farming' },
+      { src: '/projects/easy-farm-hub/product.jpeg', alt: 'Product Management' },
+      { src: '/projects/easy-farm-hub/technology.jpeg', alt: 'Technology Section' },
     ],
     featured: true,
     year: '2024',
@@ -315,10 +315,10 @@ export const projects: Project[] = [
     ],
     coverImage: '/projects/crunchy-coffee/cover.png',
     screenshots: [
-      { src: '/projects/crunchy-coffee/home.png', alt: 'Coffee Menu' },
-      { src: '/projects/crunchy-coffee/order.png', alt: 'Order Screen' },
-      { src: '/projects/crunchy-coffee/tracking.png', alt: 'Live Tracking' },
-      { src: '/projects/crunchy-coffee/profile.png', alt: 'User Profile' },
+      { src: '/projects/crunchy-coffee/home.jpeg', alt: 'Coffee Menu' },
+      { src: '/projects/crunchy-coffee/order.jpeg', alt: 'Order Screen' },
+      { src: '/projects/crunchy-coffee/tracking.jpeg', alt: 'Live Tracking' },
+      { src: '/projects/crunchy-coffee/profile.jpeg', alt: 'User Profile' },
     ],
     featured: false,
     year: '2024',
@@ -725,6 +725,340 @@ export const mockJobs: JobPosition[] = [
       'Create and update help center articles',
       'Escalate complex issues to the engineering team',
       'Gather and share customer feedback',
+    ],
+  },
+];
+
+export type BlogBlock =
+  | { type: 'paragraph'; text: string }
+  | { type: 'heading-2'; text: string }
+  | { type: 'heading-3'; text: string }
+  | { type: 'list-bullet'; items: string[] }
+  | { type: 'blockquote'; text: string; author?: string }
+  | { type: 'code-block'; code: string; language: string }
+  | { type: 'callout'; text: string; calloutType: 'info' | 'warning' | 'tip' }
+  | { type: 'image'; imageUrl: string; imageAlt: string };
+
+export type MockBlogPost = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  author: { name: string; avatar: string };
+  date: string;
+  thumbnail: string;
+  featured: boolean;
+  readingTime: string;
+  tags: string[];
+  contentBlocks: BlogBlock[];
+};
+
+export const MOCK_POSTS: MockBlogPost[] = [
+  {
+    slug: 'future-of-saas-2027',
+    title: 'The Future of SaaS: What to Expect by 2027',
+    excerpt:
+      'Explore the emerging trends in cloud software, from AI-driven personalization to micro-SaaS ecosystems that are reshaping the industry.',
+    category: 'Technology',
+    author: { name: 'Sarah Jenkins', avatar: '/avatars/01.png' },
+    date: 'Jul 10, 2026',
+    thumbnail:
+      'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop',
+    featured: true,
+    readingTime: '5 min read',
+    tags: ['SaaS', 'AI', 'Cloud Computing', 'Tech Trends'],
+    contentBlocks: [
+      {
+        type: 'paragraph',
+        text: 'The Software-as-a-Service (SaaS) industry is undergoing its most radical transformation since the transition from desktop to cloud. Driven by advancements in artificial intelligence, edge database systems, and zero-latency pipelines, the next generation of cloud software will look and feel fundamentally different by 2027.',
+      },
+      {
+        type: 'heading-2',
+        text: 'Autonomous AI Agents as the Interface Standard',
+      },
+      {
+        type: 'paragraph',
+        text: 'We are moving rapidly away from the era of simple chat interfaces. By 2027, enterprise SaaS will not just respond to prompts; it will proactively orchestrate workflows using autonomous AI agents. Instead of manually clicking through complex dashboard configurations, business analysts will instruct virtual agents to execute multi-step integrations.',
+      },
+      {
+        type: 'callout',
+        text: 'Industry projections show that autonomous agents will handle up to 45% of standard backend operations without human intervention by 2027, leading to a massive increase in operational efficiency.',
+        calloutType: 'info',
+      },
+      {
+        type: 'image',
+        imageUrl:
+          'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=800&auto=format&fit=crop',
+        imageAlt: 'AI and Robotics Workflow Automation',
+      },
+      {
+        type: 'heading-2',
+        text: 'The Rise of Micro-SaaS Ecosystems',
+      },
+      {
+        type: 'paragraph',
+        text: 'As the cost of engineering descends thanks to generative tools, we are witnessing a boom in niche micro-SaaS solutions. Rather than purchasing bloated, monolithic platforms, organizations will adopt specialized, single-purpose utilities that connect seamlessly through standardized, AI-mapped API gateways.',
+      },
+      {
+        type: 'list-bullet',
+        items: [
+          'Reduced engineering overhead and localized focus.',
+          'Quicker time-to-market and targeted feature development.',
+          'Seamless interoperability through self-documenting APIs.',
+          'Reduced vendor lock-in for enterprise customers.',
+        ],
+      },
+      {
+        type: 'heading-2',
+        text: 'Zero-Latency Edge Architecture',
+      },
+      {
+        type: 'blockquote',
+        text: 'User experience is directly proportional to load speed. In the modern web ecosystem, latency is a conversion killer. Utilizing edge databases is no longer a luxury; it is a baseline requirement.',
+        author: 'Sarah Jenkins, Principal Cloud Architect',
+      },
+      {
+        type: 'paragraph',
+        text: 'By serving data from nodes physically located close to users, next-generation SaaS architectures are driving response times down to the single-digit milliseconds. Coupled with real-time replication systems, this ensures absolute consistency and speed across remote-first team setups.',
+      },
+      {
+        type: 'heading-2',
+        text: 'Conclusion',
+      },
+      {
+        type: 'paragraph',
+        text: 'Adapting to the SaaS landscape of 2027 requires engineering leaders to adopt modular, edge-first architectures and integrate native agentic capabilities today. Those who design for high-performance integrations and absolute clarity will lead the next wave of digital products.',
+      },
+    ],
+  },
+  {
+    slug: 'mastering-react-server-components',
+    title: 'Mastering React Server Components',
+    excerpt:
+      'A deep dive into how RSCs change the paradigm of fetching data and rendering UI in modern Next.js applications.',
+    category: 'Engineering',
+    author: { name: 'David Chen', avatar: '/avatars/02.png' },
+    date: 'Jun 28, 2026',
+    thumbnail:
+      'https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=800&auto=format&fit=crop',
+    featured: false,
+    readingTime: '6 min read',
+    tags: ['React', 'Next.js', 'Web Development', 'Engineering'],
+    contentBlocks: [
+      {
+        type: 'paragraph',
+        text: 'React Server Components (RSC) represent one of the most substantial architectural shifts in React history. By introducing a server-first mindset, RSC allows developers to render components on the server, significantly reducing client-side bundle sizes and rendering latency.',
+      },
+      {
+        type: 'heading-2',
+        text: 'The Paradigm Shift: Server vs. Client',
+      },
+      {
+        type: 'paragraph',
+        text: 'Traditionally, React rendered components on the client, fetching data via API endpoints in hooks like useEffect. This created waterfall issues and loaded heavy JS bundles. With server components, fetching data directly connects your component to your database or CMS on the server.',
+      },
+      {
+        type: 'code-block',
+        language: 'tsx',
+        code: `// src/app/services/page.tsx
+import { db } from '@/lib/db';
+
+export default async function ServicesPage() {
+  // Direct database query on the server!
+  const services = await db.service.findMany();
+
+  return (
+    <div className="grid grid-cols-3 gap-6">
+      {services.map(service => (
+        <ServiceCard key={service.id} item={service} />
+      ))}
+    </div>
+  );
+}`,
+      },
+      {
+        type: 'heading-2',
+        text: 'Drawing the Client-Server Boundary',
+      },
+      {
+        type: 'paragraph',
+        text: 'Understanding where to place client boundaries is critical. Client components are designated using the directive at the top of the file, and should only be used when interactive features or client-only APIs are required.',
+      },
+      {
+        type: 'callout',
+        text: 'Use Server Components by default. Restrict client boundaries strictly to interactive elements like forms, modals, toggles, or components relying on hooks (useState, useEffect). This maintains optimal performance.',
+        calloutType: 'warning',
+      },
+      {
+        type: 'heading-2',
+        text: 'Streaming Content with Suspense',
+      },
+      {
+        type: 'paragraph',
+        text: 'One of the greatest benefits of RSC is the ability to stream UI updates. Rather than waiting for slow database calls to complete before rendering the page, Next.js can send static skeletons immediately while streaming slow-rendering blocks asynchronously.',
+      },
+      {
+        type: 'list-bullet',
+        items: [
+          'Improved Largest Contentful Paint (LCP) scores.',
+          'Reduced time-to-first-byte (TTFB) on static layouts.',
+          'Simpler code structure without complex state-tracking boilerplate.',
+        ],
+      },
+      {
+        type: 'blockquote',
+        text: 'Streaming turns page loading from a frustrating all-or-nothing experience into a progressive, fluid transition that keeps users engaged.',
+        author: 'David Chen, Lead Software Engineer',
+      },
+      {
+        type: 'heading-2',
+        text: 'Summary',
+      },
+      {
+        type: 'paragraph',
+        text: 'RSCs are a game-changer for building high-performance Next.js applications. By shifting data fetching closer to the data source and keeping client JS light, they deliver outstanding user experiences and clean code maintenance.',
+      },
+    ],
+  },
+  {
+    slug: 'designing-for-accessibility',
+    title: 'Designing for Accessibility in 2026',
+    excerpt:
+      'Why inclusive design is no longer optional, and how to implement WCAG 3.0 standards in your next product.',
+    category: 'Design',
+    author: { name: 'Emma Wilson', avatar: '/avatars/03.png' },
+    date: 'Jun 12, 2026',
+    thumbnail:
+      'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop',
+    featured: false,
+    readingTime: '4 min read',
+    tags: ['UI/UX', 'Accessibility', 'Inclusive Design', 'Web Design'],
+    contentBlocks: [
+      {
+        type: 'paragraph',
+        text: 'Web accessibility is moving rapidly from compliance-checking to user-centered inclusive design. With WCAG 3.0 on the horizon, creating digital interfaces that accommodate diverse physical and cognitive capabilities is both a moral obligation and a business driver.',
+      },
+      {
+        type: 'heading-2',
+        text: 'The Shift to WCAG 3.0 and the Bronze/Silver/Gold Framework',
+      },
+      {
+        type: 'paragraph',
+        text: 'WCAG 3.0 introduces a new scoring model that measures accessibility in a continuous, multi-dimensional format rather than a strict pass-fail check. This shifts the focus from rigid syntax audits to practical user-tested readability and ease of navigation.',
+      },
+      {
+        type: 'callout',
+        text: 'WCAG 3.0 uses the APCA (Advanced Perceptual Contrast Algorithm) instead of traditional contrast ratios. APCA evaluates text size, weight, and context to determine actual visual readability.',
+        calloutType: 'tip',
+      },
+      {
+        type: 'heading-2',
+        text: 'Semantic HTML & Screen Reader Semantics',
+      },
+      {
+        type: 'paragraph',
+        text: 'Native HTML tags provide screen readers with semantic meaning automatically. Replacing custom interactive elements constructed with unsemantic divs with correct native elements fixes key accessibility issues out of the box.',
+      },
+      {
+        type: 'list-bullet',
+        items: [
+          'Always use native elements (<button>, <input>, <nav>) for interactive controls.',
+          'Provide clear, descriptive alt text for all informative imagery.',
+          'Implement proper ARIA attributes to represent custom, complex UI states.',
+          'Structure your document with a logical heading heirarchy (H1 followed by H2s).',
+        ],
+      },
+      {
+        type: 'blockquote',
+        text: 'An interface designed without semantic layout structure is like an essay written without spaces or paragraphs — technically complete, but impossible to comprehend.',
+        author: 'Emma Wilson, Head of UI/UX Design',
+      },
+      {
+        type: 'heading-2',
+        text: 'Keyboard Navigability & Clear Focus Indicator States',
+      },
+      {
+        type: 'paragraph',
+        text: 'Keyboard navigation is essential for users with motor impairments or those using screen readers. Make sure all interactive items can be navigated in a sequential tab order and feature prominent focus ring styling.',
+      },
+      {
+        type: 'heading-2',
+        text: 'Conclusion',
+      },
+      {
+        type: 'paragraph',
+        text: 'Inclusive design should be woven into your workflow from wireframing to testing. Implementing WCAG 3.0 guidelines makes your products better, faster, and more readable for everyone.',
+      },
+    ],
+  },
+  {
+    slug: 'scaling-startup-engineering',
+    title: 'Scaling Engineering Teams at Startups',
+    excerpt:
+      'Lessons learned from growing a team from 5 to 50 engineers while maintaining culture and deployment speed.',
+    category: 'Leadership',
+    author: { name: 'Michael Ross', avatar: '/avatars/04.png' },
+    date: 'May 15, 2026',
+    thumbnail:
+      'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop',
+    featured: false,
+    readingTime: '7 min read',
+    tags: ['Startup', 'Leadership', 'Team Growth', 'Agile'],
+    contentBlocks: [
+      {
+        type: 'paragraph',
+        text: 'Scaling an engineering organization is a delicate balancing act. As a startup expands from a close-knit group of 5 engineers to a structured organization of 50+, communication overhead increases exponentially, and deployment velocity can quickly stall.',
+      },
+      {
+        type: 'heading-2',
+        text: 'Velocity vs. Quality: Setting Up Quality Gates',
+      },
+      {
+        type: 'paragraph',
+        text: 'To avoid shipping regressions as code volume grows, automated quality controls are vital. Continuous integration (CI) pipelines must act as the ultimate guardrails, validating code formatting, linting rules, type safety, and unit test suites on every pull request.',
+      },
+      {
+        type: 'callout',
+        text: 'Automate everything that is mechanical. Your code reviews should focus on system architecture, maintainability, and domain design, rather than arguing over code formatting and missing type declarations.',
+        calloutType: 'tip',
+      },
+      {
+        type: 'heading-2',
+        text: 'Transitioning to Modular Domain Codebases',
+      },
+      {
+        type: 'paragraph',
+        text: 'When 50 engineers edit a single codebase, merge conflicts become a bottleneck. Transitioning to a modular folder structure or microservice boundaries allows teams to work independently on separate features without step-stepping each other.',
+      },
+      {
+        type: 'list-bullet',
+        items: [
+          'Deconstruct features into separate directories organized by business domain.',
+          'Define clear API contracts between services to prevent deep coupling.',
+          'Enable squads to deploy their own services independently with robust release testing.',
+        ],
+      },
+      {
+        type: 'blockquote',
+        text: 'True team autonomy means a squad can deploy a new feature from start to finish without needing to coordinate release windows with three other departments.',
+        author: 'Michael Ross, VP of Engineering',
+      },
+      {
+        type: 'heading-2',
+        text: 'Implementing the Squad Model',
+      },
+      {
+        type: 'paragraph',
+        text: 'Organizing teams around customer value streams rather than technology layers (e.g., separating frontend and backend teams) prevents silo handoffs. Interdisciplinary squads containing product managers, designers, and engineers can own features from end to end.',
+      },
+      {
+        type: 'heading-2',
+        text: 'Conclusion',
+      },
+      {
+        type: 'paragraph',
+        text: 'Successfully growing an engineering department is less about tooling and more about trust, documentation, and clear architectural boundaries. Build a culture of accountability and automate your deployment checks early.',
+      },
     ],
   },
 ];

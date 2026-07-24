@@ -1,72 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, MapPin, Clock, Users, Zap, Heart, Coffee } from 'lucide-react';
-
-export const MOCK_JOBS = [
-  {
-    id: 'frontend-engineer-react',
-    title: 'Senior Frontend Engineer (React)',
-    department: 'Engineering',
-    location: 'Remote',
-    type: 'Full-time',
-    description:
-      'We are looking for a Senior Frontend Engineer to lead the development of our core web applications using React, Next.js, and Tailwind CSS.',
-    requirements: [
-      '5+ years of experience with React and modern web technologies.',
-      'Strong understanding of Next.js App Router and Server Components.',
-      'Experience with state management and performance optimization.',
-      'A keen eye for design and UI/UX best practices.',
-    ],
-  },
-  {
-    id: 'backend-engineer-node',
-    title: 'Backend Engineer (Node.js)',
-    department: 'Engineering',
-    location: 'New York, NY / Hybrid',
-    type: 'Full-time',
-    description:
-      'Join our backend team to build scalable APIs and microservices using Node.js, Express, and PostgreSQL.',
-    requirements: [
-      '3+ years of backend development experience.',
-      'Proficiency in Node.js and TypeScript.',
-      'Experience with SQL databases, particularly PostgreSQL and Prisma ORM.',
-      'Familiarity with AWS or cloud deployment architectures.',
-    ],
-  },
-  {
-    id: 'product-designer',
-    title: 'Senior Product Designer',
-    department: 'Design',
-    location: 'Remote',
-    type: 'Full-time',
-    description:
-      'Shape the future of our product interfaces. We need a visionary designer who can translate complex requirements into beautiful, intuitive experiences.',
-    requirements: [
-      'Portfolio demonstrating exceptional UI/UX design skills.',
-      'Experience with Figma and design systems.',
-      'Ability to prototype and communicate interaction design.',
-      'Understanding of frontend capabilities and constraints.',
-    ],
-  },
-  {
-    id: 'growth-marketing-manager',
-    title: 'Growth Marketing Manager',
-    department: 'Marketing',
-    location: 'London, UK / Remote',
-    type: 'Full-time',
-    description:
-      'Lead our growth initiatives across multiple channels to drive acquisition, activation, and retention.',
-    requirements: [
-      'Proven track record in B2B SaaS growth marketing.',
-      'Data-driven approach to experiments and A/B testing.',
-      'Experience with SEO, SEM, and content strategy.',
-      'Strong analytical skills using tools like Google Analytics or Mixpanel.',
-    ],
-  },
-];
+import { db } from '@/lib/db';
+import { Job } from '@/generated/prisma/client';
 
 const PERKS = [
   {
@@ -91,15 +31,22 @@ const PERKS = [
   },
 ];
 
-export default function CareersPage() {
+export const revalidate = 60; // Revalidate every 60 seconds
+
+export default async function CareersPage() {
+  const jobs = await db.job.findMany({
+    where: { status: 'OPEN' },
+    orderBy: { createdAt: 'desc' },
+  });
+
   // Group jobs by department
-  const groupedJobs = MOCK_JOBS.reduce(
+  const groupedJobs = jobs.reduce(
     (acc, job) => {
       if (!acc[job.department]) acc[job.department] = [];
       acc[job.department].push(job);
       return acc;
     },
-    {} as Record<string, typeof MOCK_JOBS>
+    {} as Record<string, Job[]>
   );
 
   return (
@@ -114,20 +61,28 @@ export default function CareersPage() {
 
         {/* Culture / Image Grid */}
         <div className="grid md:grid-cols-2 gap-6 mt-4">
-          <div className="h-64 md:h-[400px] w-full rounded-3xl overflow-hidden glass-card p-2">
-            <img
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop"
-              alt="Team collaboration"
-              className="w-full h-full object-cover rounded-2xl"
-            />
+          <div className="h-64 md:h-[400px] w-full rounded-3xl overflow-hidden glass-card p-2 relative">
+            <div className="relative w-full h-full">
+              <Image
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop"
+                alt="Team collaboration"
+                fill
+                className="object-cover rounded-2xl"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
           </div>
           <div className="flex flex-col gap-6">
-            <div className="h-48 md:h-[188px] w-full rounded-3xl overflow-hidden glass-card p-2">
-              <img
-                src="https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=800&auto=format&fit=crop"
-                alt="Working remotely"
-                className="w-full h-full object-cover rounded-2xl"
-              />
+            <div className="h-48 md:h-[188px] w-full rounded-3xl overflow-hidden glass-card p-2 relative">
+              <div className="relative w-full h-full">
+                <Image
+                  src="https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=800&auto=format&fit=crop"
+                  alt="Working remotely"
+                  fill
+                  className="object-cover rounded-2xl"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
             </div>
             <div className="h-48 md:h-[188px] w-full rounded-3xl overflow-hidden glass-card p-2 bg-indigo-500/10 flex items-center justify-center p-8 text-center">
               <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
@@ -154,7 +109,9 @@ export default function CareersPage() {
               className="glass-card border-none bg-muted/20 text-center hover:-translate-y-1 transition-transform"
             >
               <CardHeader className="items-center pb-2">
-                <div className="p-3 bg-background rounded-2xl shadow-sm mb-4">{perk.icon}</div>
+                <div className="p-3 w-fit bg-background rounded-2xl shadow-sm mb-4 mx-auto flex items-center justify-center">
+                  {perk.icon}
+                </div>
                 <CardTitle className="text-xl">{perk.title}</CardTitle>
               </CardHeader>
               <CardContent>

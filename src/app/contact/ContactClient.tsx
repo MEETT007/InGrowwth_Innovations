@@ -176,10 +176,10 @@ export default function ContactClient() {
               <div>
                 <h4 className="font-semibold text-foreground text-sm">Email Address</h4>
                 <a
-                  href="mailto:hello@ingrowwth.com"
+                  href="mailto:info@ingrowwthinnovations.in"
                   className="text-xs sm:text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors mt-0.5 block"
                 >
-                  hello@ingrowwth.com
+                  info@ingrowwthinnovations.in
                 </a>
               </div>
             </div>
@@ -190,7 +190,7 @@ export default function ContactClient() {
               </div>
               <div>
                 <h4 className="font-semibold text-foreground text-sm">Call / WhatsApp</h4>
-                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">+91 98765 43210</p>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">+91 92271 01856</p>
               </div>
             </div>
 
@@ -225,28 +225,32 @@ export default function ContactClient() {
           <AnimatedContainer direction="up" delay={0.2}>
             {/* Tabs Trigger Navigation */}
             <div className="flex border-b border-border/60 mb-8 p-1 bg-muted/30 rounded-xl max-w-md">
-              <button
+              <Button
+                variant={activeTab === 'message' ? 'default' : 'ghost'}
+                size="sm"
                 onClick={() => switchTab('message')}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all cursor-pointer ${
+                className={`flex-1 cursor-pointer font-semibold rounded-lg border-none ${
                   activeTab === 'message'
-                    ? 'bg-background text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? 'bg-background text-foreground shadow-xs hover:bg-background'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
                 }`}
               >
                 <Mail className="h-4 w-4" />
-                Send a Message
-              </button>
-              <button
+                <span>Send a Message</span>
+              </Button>
+              <Button
+                variant={activeTab === 'quote' ? 'default' : 'ghost'}
+                size="sm"
                 onClick={() => switchTab('quote')}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all cursor-pointer ${
+                className={`flex-1 cursor-pointer font-semibold rounded-lg border-none ${
                   activeTab === 'quote'
-                    ? 'bg-background text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? 'bg-background text-foreground shadow-xs hover:bg-background'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
                 }`}
               >
                 <FileText className="h-4 w-4" />
-                Request a Quote
-              </button>
+                <span>Request a Quote</span>
+              </Button>
             </div>
 
             {/* Forms Card */}
@@ -355,20 +359,11 @@ export default function ContactClient() {
 
                       <Button
                         type="submit"
-                        disabled={isSubmitting}
-                        className="w-full sm:w-auto font-semibold shadow-md flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer"
+                        loading={isSubmitting}
+                        className="w-full sm:w-auto cursor-pointer"
                       >
-                        {isSubmitting ? (
-                          <>
-                            <div className="h-4 w-4 border-2 border-primary-foreground border-t-transparent animate-spin rounded-full" />
-                            Sending...
-                          </>
-                        ) : (
-                          <>
-                            Send Message
-                            <Send className="h-4 w-4" />
-                          </>
-                        )}
+                        <span>Send Message</span>
+                        <Send className="h-4 w-4" />
                       </Button>
                     </motion.form>
                   ) : (
@@ -544,20 +539,11 @@ export default function ContactClient() {
 
                       <Button
                         type="submit"
-                        disabled={isSubmitting}
-                        className="w-full sm:w-auto font-semibold shadow-md flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer"
+                        loading={isSubmitting}
+                        className="w-full sm:w-auto cursor-pointer"
                       >
-                        {isSubmitting ? (
-                          <>
-                            <div className="h-4 w-4 border-2 border-primary-foreground border-t-transparent animate-spin rounded-full" />
-                            Submitting...
-                          </>
-                        ) : (
-                          <>
-                            Request Quote
-                            <ChevronRight className="h-4 w-4 animate-pulse" />
-                          </>
-                        )}
+                        <span>Request Quote</span>
+                        <ChevronRight className="h-4 w-4 animate-pulse" />
                       </Button>
                     </motion.form>
                   )}

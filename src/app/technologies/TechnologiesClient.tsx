@@ -6,6 +6,7 @@ import { Sparkles } from 'lucide-react';
 import { AnimatedContainer } from '@/components/shared/AnimatedContainer';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { technologies } from '@/lib/mock-data';
+import { Button } from '@/components/ui/button';
 
 export default function TechnologiesClient() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -63,33 +64,32 @@ export default function TechnologiesClient() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="flex flex-wrap justify-center gap-3"
         >
-          <button
+          <Button
             id="tech-filter-all"
             onClick={() => setActiveCategory(null)}
-            className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all duration-200 cursor-pointer ${
-              activeCategory === null
-                ? 'bg-indigo-500 text-white border-indigo-500 shadow-lg shadow-indigo-500/20'
-                : 'border-border/50 text-muted-foreground hover:text-foreground hover:border-border'
-            }`}
+            variant={activeCategory === null ? 'default' : 'outline'}
+            size="sm"
+            className="rounded-full shadow-xs cursor-pointer"
           >
             All Technologies
-          </button>
-          {technologies.map((group) => (
-            <button
-              key={group.category}
-              id={`tech-filter-${group.category.toLowerCase().replace(/\s+/g, '-')}`}
-              onClick={() =>
-                setActiveCategory(activeCategory === group.category ? null : group.category)
-              }
-              className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all duration-200 cursor-pointer ${
-                activeCategory === group.category
-                  ? `${group.colorClass} border-current/30 shadow-md`
-                  : 'border-border/50 text-muted-foreground hover:text-foreground hover:border-border'
-              }`}
-            >
-              {group.category}
-            </button>
-          ))}
+          </Button>
+          {technologies.map((group) => {
+            const isActive = activeCategory === group.category;
+            return (
+              <Button
+                key={group.category}
+                id={`tech-filter-${group.category.toLowerCase().replace(/\s+/g, '-')}`}
+                onClick={() => setActiveCategory(isActive ? null : group.category)}
+                variant="outline"
+                size="sm"
+                className={`rounded-full transition-all duration-200 cursor-pointer ${
+                  isActive ? `${group.colorClass} border-current/30 shadow-md` : ''
+                }`}
+              >
+                {group.category}
+              </Button>
+            );
+          })}
         </motion.div>
       </section>
 

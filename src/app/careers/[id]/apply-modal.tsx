@@ -26,7 +26,7 @@ export function ApplyModal({ jobTitle }: { jobTitle: string }) {
 
   return (
     <Dialog>
-      <DialogTrigger render={<Button size="lg" className="w-full md:w-auto px-8" />}>
+      <DialogTrigger render={<Button size="lg" className="w-full md:w-auto" />}>
         Apply Now
       </DialogTrigger>
       <DialogContent className="sm:max-w-lg">

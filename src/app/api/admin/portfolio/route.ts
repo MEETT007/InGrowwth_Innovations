@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
 
-// GET /api/admin/portfolio - Fetch all portfolio projects
 export async function GET() {
   const authCheck = await requireAuthAndRole(['admin', 'editor']);
   if (!authCheck.authorized) {
@@ -26,7 +25,6 @@ export async function GET() {
   }
 }
 
-// POST /api/admin/portfolio - Create portfolio project (Admin only)
 export async function POST(request: NextRequest) {
   const authCheck = await requireAdminRole();
   if (!authCheck.authorized) {
@@ -38,7 +36,12 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { title, client, category, websiteUrl, description, gallery } = body;
+    const { 
+      title, client, category, websiteUrl, description, gallery,
+      coverImage, industry, servicesUsed, technologiesUsed, teamMembers,
+      duration, projectStatus, projectOverview, challenges, solution,
+      features, results, metrics, testimonial, cta, seoTitle, seoDescription
+    } = body;
 
     if (!title || !client || !category || !description) {
       return NextResponse.json(
@@ -55,6 +58,23 @@ export async function POST(request: NextRequest) {
         websiteUrl: websiteUrl || null,
         description,
         gallery: gallery || null,
+        coverImage,
+        industry,
+        servicesUsed,
+        technologiesUsed,
+        teamMembers,
+        duration,
+        projectStatus,
+        projectOverview,
+        challenges,
+        solution,
+        features,
+        results,
+        metrics,
+        testimonial,
+        cta,
+        seoTitle,
+        seoDescription
       },
     });
 
