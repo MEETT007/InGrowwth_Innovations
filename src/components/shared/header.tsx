@@ -15,10 +15,12 @@ import {
   Users,
   Mail,
   Shield,
+  LayoutDashboard,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './theme-toggle';
 import { Button } from '@/components/ui/button';
+import { UserButton, useAuth } from '@clerk/nextjs';
 
 const navLinks = [
   { href: '/about', label: 'About', icon: Shield },
@@ -34,6 +36,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const { isSignedIn } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,6 +51,10 @@ export function Header() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsOpen(false);
   }, [pathname]);
+
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full transition-all duration-300">
@@ -126,8 +133,7 @@ export function Header() {
           <div className="hidden lg:flex items-center gap-3">
             <ThemeToggle />
 
-            {/* Commented out sign section and get a quote as requested
-            {isSignedIn ? (
+            {isSignedIn && (
               <div className="flex items-center gap-3 bg-muted/40 p-1 pl-3 rounded-full border border-border/40">
                 <Link
                   href="/admin"
@@ -138,13 +144,6 @@ export function Header() {
                 </Link>
                 <UserButton />
               </div>
-            ) : (
-              <Link
-                href="/admin/sign-in"
-                className="text-xs font-semibold px-3 py-2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Sign In
-              </Link>
             )}
 
             <Button
@@ -157,7 +156,6 @@ export function Header() {
               <span>Get a Quote</span>
               <ArrowRight />
             </Button>
-            */}
           </div>
 
           {/* Mobile Hamburger & Toggle */}
@@ -210,22 +208,14 @@ export function Header() {
                 })}
               </div>
 
-              {/* Commented out sign section and get a quote from mobile menu as requested
               <div className="flex flex-col gap-3 pt-4 border-t border-border/40">
-                {isSignedIn ? (
+                {isSignedIn && (
                   <Link
                     href="/admin"
                     className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-muted text-xs font-bold text-foreground"
                   >
                     <LayoutDashboard className="w-4 h-4 text-indigo-500" />
                     Go to Admin Dashboard
-                  </Link>
-                ) : (
-                  <Link
-                    href="/admin/sign-in"
-                    className="text-center py-2 text-xs font-semibold text-muted-foreground hover:text-foreground"
-                  >
-                    Admin Sign In
                   </Link>
                 )}
 
@@ -240,7 +230,6 @@ export function Header() {
                   <ArrowRight />
                 </Button>
               </div>
-              */}
             </div>
           </motion.div>
         )}

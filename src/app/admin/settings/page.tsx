@@ -1,7 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { UserProfile } from '@clerk/nextjs';
 
 export default function SettingsPage() {
   return (
@@ -13,17 +12,17 @@ export default function SettingsPage() {
         </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Profile Settings</CardTitle>
-          <CardDescription>
-            This page is currently a placeholder. You can implement full settings in a future issue.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Button disabled>Save Changes</Button>
-        </CardContent>
-      </Card>
+      <div className="flex justify-center md:justify-start">
+        <UserProfile 
+          routing="hash"
+          appearance={{
+            elements: {
+              rootBox: "w-full",
+              card: "shadow-none border border-border/20 bg-background/50 backdrop-blur-xl",
+            }
+          }}
+        />
+      </div>
     </div>
   );
 }

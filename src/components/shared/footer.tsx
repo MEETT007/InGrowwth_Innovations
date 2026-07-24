@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   Send,
   MessageSquare,
@@ -31,6 +32,7 @@ const footerLinks = {
 };
 
 export function Footer() {
+  const pathname = usePathname();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ success: boolean; message: string } | null>(null);
@@ -57,6 +59,10 @@ export function Footer() {
       setLoading(false);
     }
   };
+
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   return (
     <footer className="relative w-full bg-card/40 backdrop-blur-xl border-t border-border/50 mt-auto overflow-hidden">
