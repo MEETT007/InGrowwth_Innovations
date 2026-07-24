@@ -1,4 +1,4 @@
-import { db as prisma } from './src/lib/db.ts';
+import { db as prisma } from './src/lib/db';
 
 const MOCK_JOBS = [
   {
@@ -94,5 +94,4 @@ async function main() {
   console.log('Done!');
 }
 
-main()
-  .catch(console.error);
+main().catch(console.error);
