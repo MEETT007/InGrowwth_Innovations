@@ -29,7 +29,7 @@ const campaignSchema = z.object({
   subject: z.string().min(3, 'Subject is required'),
   bannerImage: z.any().optional(),
   content: z.string().min(10, 'Content is required'),
-  status: z.enum(['DRAFT', 'SCHEDULED', 'SENT']).default('DRAFT'),
+  status: z.enum(['DRAFT', 'SCHEDULED', 'SENT']),
   scheduledFor: z.string().optional(),
 });
 

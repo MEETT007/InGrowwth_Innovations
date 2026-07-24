@@ -59,7 +59,7 @@ const caseStudySchema = z.object({
   cta: z.string().optional(),
   seoTitle: z.string().optional(),
   seoDescription: z.string().optional(),
-  status: z.enum(['DRAFT', 'PUBLISHED']).default('DRAFT'),
+  status: z.enum(['DRAFT', 'PUBLISHED']),
 });
 
 type CaseStudyFormValues = z.infer<typeof caseStudySchema>;

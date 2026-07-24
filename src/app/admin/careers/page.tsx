@@ -233,7 +233,10 @@ export default function CareersPage() {
               </CardContent>
 
               <CardFooter className="pt-4 border-t border-white/5 flex gap-3">
-                <Select value={app.status} onValueChange={(val) => handleStatusChange(app.id, val)}>
+                <Select
+                  value={app.status ?? ''}
+                  onValueChange={(val) => handleStatusChange(String(app.id), String(val))}
+                >
                   <SelectTrigger className="flex-1 bg-background/50 border-white/10 h-10">
                     <SelectValue placeholder="Update Status" />
                   </SelectTrigger>

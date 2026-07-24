@@ -45,7 +45,7 @@ const portfolioSchema = z.object({
   technologiesUsed: z.string().optional(),
   teamMembers: z.string().optional(),
   duration: z.string().optional(),
-  projectStatus: z.enum(['Completed', 'In Progress', 'Archived']).default('Completed'),
+  projectStatus: z.enum(['Completed', 'In Progress', 'Archived']),
   projectOverview: z.string().optional(),
   challenges: z.string().optional(),
   solution: z.string().optional(),

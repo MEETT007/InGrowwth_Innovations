@@ -15,7 +15,7 @@ export default function SettingsPage() {
         <div className="absolute top-0 right-0 p-8 opacity-20">
           <SettingsIcon className="w-32 h-32 text-indigo-400 rotate-12" />
         </div>
-        
+
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-3">
@@ -25,7 +25,8 @@ export default function SettingsPage() {
               <ShieldCheck className="w-8 h-8 text-pink-400 animate-pulse" />
             </div>
             <p className="text-muted-foreground max-w-2xl text-lg leading-relaxed">
-              Manage your personal administrative profile, password, security options, and credentials.
+              Manage your personal administrative profile, password, security options, and
+              credentials.
             </p>
           </div>
         </div>
@@ -34,32 +35,33 @@ export default function SettingsPage() {
       {/* Clerk UserProfile Container */}
       <div className="flex justify-center md:justify-start w-full relative">
         <div className="w-full max-w-5xl rounded-3xl bg-background/40 backdrop-blur-xl border border-white/10 shadow-lg p-2 md:p-6 overflow-hidden">
-          <UserProfile 
+          <UserProfile
             routing="hash"
             appearance={{
               variables: {
                 colorPrimary: '#6366f1', // Indigo 500
                 colorBackground: 'transparent',
-                colorInputBackground: 'rgba(255, 255, 255, 0.05)',
-                colorInputText: '#fff',
-                colorText: '#f8fafc', // Slate 50
-                colorTextSecondary: '#94a3b8', // Slate 400
               },
               elements: {
-                rootBox: "w-full mx-auto",
-                card: "w-full shadow-none border-0 bg-transparent flex flex-col md:flex-row",
-                navbar: "border-r-0 md:border-r border-white/10 bg-transparent md:pr-4",
-                navbarButton: "text-muted-foreground hover:bg-white/5 hover:text-foreground font-medium rounded-xl transition-colors duration-200",
-                navbarButtonActive: "bg-indigo-500/20 text-indigo-400 font-bold rounded-xl",
-                headerTitle: "text-3xl font-black text-foreground",
-                headerSubtitle: "text-muted-foreground text-sm",
-                profileSectionTitleText: "text-lg font-bold text-foreground",
-                profileSectionItem: "border-white/5 hover:bg-white/5 rounded-xl p-3 transition-colors duration-200",
-                formButtonPrimary: "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg rounded-xl transition-all duration-200",
-                avatarImageActionsUpload: "text-indigo-400 border-indigo-500/30 hover:bg-indigo-500/10",
-                badge: "bg-indigo-500/20 text-indigo-400 border border-indigo-500/30",
-                accordionTriggerButton: "hover:bg-white/5 rounded-xl transition-colors duration-200",
-              }
+                rootBox: 'w-full mx-auto',
+                card: 'w-full shadow-none border-0 bg-transparent flex flex-col md:flex-row',
+                navbar: 'border-r-0 md:border-r border-white/10 bg-transparent md:pr-4',
+                navbarButton:
+                  'text-muted-foreground hover:bg-white/5 hover:text-foreground font-medium rounded-xl transition-colors duration-200',
+                navbarButtonActive: 'bg-indigo-500/20 text-indigo-400 font-bold rounded-xl',
+                headerTitle: 'text-3xl font-black text-foreground',
+                headerSubtitle: 'text-muted-foreground text-sm',
+                profileSectionTitleText: 'text-lg font-bold text-foreground',
+                profileSectionItem:
+                  'border-white/5 hover:bg-white/5 rounded-xl p-3 transition-colors duration-200',
+                formButtonPrimary:
+                  'bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg rounded-xl transition-all duration-200',
+                avatarImageActionsUpload:
+                  'text-indigo-400 border-indigo-500/30 hover:bg-indigo-500/10',
+                badge: 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30',
+                accordionTriggerButton:
+                  'hover:bg-white/5 rounded-xl transition-colors duration-200',
+              },
             }}
           />
         </div>

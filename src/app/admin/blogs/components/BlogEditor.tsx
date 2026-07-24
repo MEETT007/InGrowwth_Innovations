@@ -30,7 +30,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Switch } from '@/components/ui/switch';
 
 const blogSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters'),
