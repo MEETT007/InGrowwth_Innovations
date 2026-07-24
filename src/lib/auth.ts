@@ -1,4 +1,4 @@
-import { auth } from '@clerk/nextjs/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
 
 export type UserRole = 'admin' | 'editor' | 'user';
 
@@ -6,33 +6,43 @@ export interface AuthRoleCheckResult {
   authorized: boolean;
   userId: string | null;
   role: UserRole | null;
+  jobTitle?: string | null;
   status?: number;
   error?: string;
 }
 
 /**
  * Extracts the user role from Clerk session claims and public metadata.
- * Defaults to 'admin' for authenticated users if no explicit role is set in metadata.
+ * Dynamically assigns jobTitle based on the user's registered email address.
  */
-export async function getAuthUserRole(): Promise<{ userId: string | null; role: UserRole | null }> {
+export async function getAuthUserRole(): Promise<{ userId: string | null; role: UserRole | null; jobTitle: string | null }> {
   try {
-    const { userId, sessionClaims } = await auth();
+    const { userId } = await auth();
     if (!userId) {
-      return { userId: null, role: null };
+      return { userId: null, role: null, jobTitle: null };
     }
 
-    // Extract role from sessionClaims metadata if present
-    const claimsRole =
-      (sessionClaims?.metadata as { role?: string })?.role ||
-      (sessionClaims?.publicMetadata as { role?: string })?.role;
+    const user = await currentUser();
+    const email = user?.emailAddresses?.[0]?.emailAddress?.toLowerCase() || '';
 
-    const role: UserRole =
-      claimsRole === 'editor' ? 'editor' : claimsRole === 'user' ? 'user' : 'admin'; // Defaults to 'admin' for authenticated users if no explicit role is set
+    let jobTitle = 'Employee';
+    let role: UserRole = 'editor'; // Default to editor for standard employees
 
-    return { userId, role };
+    if (email === 'meett2110@gmail.com') {
+      jobTitle = 'CEO and Founder';
+      role = 'admin';
+    } else if (email === 'sauravp3011@gmail.com' || email === 'sauravpankajkumarpatel@gmail.com') {
+      jobTitle = 'COO and Co-Founder';
+      role = 'admin';
+    } else if (email === 'dalwadidarshan1010@gmail.com') {
+      jobTitle = 'CTO and Co-Founder';
+      role = 'admin';
+    }
+
+    return { userId, role, jobTitle };
   } catch (error) {
     console.error('Error fetching user auth/role:', error);
-    return { userId: null, role: null };
+    return { userId: null, role: null, jobTitle: null };
   }
 }
 

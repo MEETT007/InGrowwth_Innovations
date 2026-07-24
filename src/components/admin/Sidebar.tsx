@@ -12,6 +12,9 @@ import {
   Settings,
   Sparkles,
   ArrowLeft,
+  GraduationCap,
+  PieChart,
+  Mail,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -20,8 +23,11 @@ export const sidebarLinks = [
   { href: '/admin/services', label: 'Services', icon: <Briefcase className="w-5 h-5" /> },
   { href: '/admin/blogs', label: 'Blogs', icon: <FileText className="w-5 h-5" /> },
   { href: '/admin/portfolio', label: 'Portfolio', icon: <ImageIcon className="w-5 h-5" /> },
+  { href: '/admin/case-studies', label: 'Case Studies', icon: <PieChart className="w-5 h-5" /> },
   { href: '/admin/team', label: 'Team', icon: <Users className="w-5 h-5" /> },
+  { href: '/admin/careers', label: 'Careers', icon: <GraduationCap className="w-5 h-5" /> },
   { href: '/admin/leads', label: 'Leads', icon: <Users2 className="w-5 h-5" /> },
+  { href: '/admin/newsletter', label: 'Newsletter', icon: <Mail className="w-5 h-5" /> },
   { href: '/admin/settings', label: 'Settings', icon: <Settings className="w-5 h-5" /> },
 ];
 

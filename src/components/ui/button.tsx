@@ -56,9 +56,13 @@ function Button({
   disabled,
   ...props
 }: ButtonProps) {
+  const isCustomRender = 'render' in props && props.render !== undefined;
+  const shouldBeNative = props.nativeButton ?? (isCustomRender ? false : true);
+
   return (
     <ButtonPrimitive
       data-slot="button"
+      nativeButton={shouldBeNative}
       disabled={disabled || loading}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}

@@ -20,7 +20,7 @@ export const revalidate = 0; // Disable caching for real-time dashboard data
 export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboardPage() {
-  const { userId, role } = await getAuthUserRole();
+  const { userId, role, jobTitle } = await getAuthUserRole();
 
   if (!userId || !role) {
     return (
@@ -45,12 +45,10 @@ export default async function AdminDashboardPage() {
             Secure employee & team portal. Please authenticate to access the management dashboard and administrative tools.
           </p>
 
-          <Link href="/admin/sign-in" className="w-full max-w-sm">
-            <Button className="w-full h-14 text-lg font-bold bg-foreground text-background hover:bg-foreground/90 rounded-2xl border-0 transition-all hover:scale-[1.02] duration-300 group shadow-2xl">
-              <span>Continue to Sign In</span>
-              <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </Link>
+          <Button render={<Link href="/admin/sign-in" />} className="w-full max-w-sm h-14 text-lg font-bold bg-foreground text-background hover:bg-foreground/90 rounded-2xl border-0 transition-all hover:scale-[1.02] duration-300 group shadow-2xl">
+            <span>Continue to Sign In</span>
+            <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+          </Button>
           
           <div className="mt-16 flex items-center gap-4 text-sm font-medium text-muted-foreground/60">
             <ShieldAlert className="w-5 h-5 text-emerald-500/80" />
@@ -200,15 +198,13 @@ export default async function AdminDashboardPage() {
             <div className="px-4 py-2 rounded-xl border border-white/10 bg-background/40 backdrop-blur-md text-sm font-semibold flex items-center gap-2 shadow-sm">
               <ShieldAlert className="h-4 w-4 text-indigo-400" />
               <span>
-                Role: <strong className="text-indigo-400 capitalize">{role || 'Admin'}</strong>
+                Role: <strong className="text-indigo-400 capitalize">{jobTitle || role || 'Employee'}</strong>
               </span>
             </div>
-            <Link href="/admin/leads" className="w-full sm:w-auto">
-              <Button className="w-full sm:w-auto bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white border-0 shadow-lg shadow-indigo-500/25 transition-all hover:scale-105 duration-300">
-                <span>Manage All Leads</span>
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Button>
-            </Link>
+            <Button render={<Link href="/admin/leads" />} className="w-full sm:w-auto bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white border-0 shadow-lg shadow-indigo-500/25 transition-all hover:scale-105 duration-300">
+              <span>Manage All Leads</span>
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </Button>
           </div>
         </div>
       </div>
@@ -301,18 +297,14 @@ export default async function AdminDashboardPage() {
             <CardDescription className="text-sm font-medium">Administrative controls</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            <Link href="/admin/leads" className="block group">
-              <Button variant="outline" className="w-full justify-start h-12 rounded-xl border-white/10 bg-background/50 hover:bg-indigo-500/10 hover:text-indigo-400 hover:border-indigo-500/30 transition-all duration-300 cursor-pointer shadow-sm">
-                <Users className="h-4 w-4 mr-3 text-indigo-400 group-hover:scale-110 transition-transform" />
-                <span className="font-semibold">View & Manage Leads</span>
-              </Button>
-            </Link>
-            <Link href="/admin/profile" className="block group">
-              <Button variant="outline" className="w-full justify-start h-12 rounded-xl border-white/10 bg-background/50 hover:bg-pink-500/10 hover:text-pink-400 hover:border-pink-500/30 transition-all duration-300 cursor-pointer shadow-sm">
-                <ShieldAlert className="h-4 w-4 mr-3 text-pink-400 group-hover:scale-110 transition-transform" />
-                <span className="font-semibold">Manage Security & Account</span>
-              </Button>
-            </Link>
+            <Button render={<Link href="/admin/leads" />} variant="outline" className="w-full justify-start h-12 rounded-xl border-white/10 bg-background/50 hover:bg-indigo-500/10 hover:text-indigo-400 hover:border-indigo-500/30 transition-all duration-300 cursor-pointer shadow-sm group">
+              <Users className="h-4 w-4 mr-3 text-indigo-400 group-hover:scale-110 transition-transform" />
+              <span className="font-semibold">View & Manage Leads</span>
+            </Button>
+            <Button render={<Link href="/admin/settings" />} variant="outline" className="w-full justify-start h-12 rounded-xl border-white/10 bg-background/50 hover:bg-pink-500/10 hover:text-pink-400 hover:border-pink-500/30 transition-all duration-300 cursor-pointer shadow-sm group">
+              <ShieldAlert className="h-4 w-4 mr-3 text-pink-400 group-hover:scale-110 transition-transform" />
+              <span className="font-semibold">Manage Security & Account</span>
+            </Button>
           </CardContent>
         </Card>
       </div>

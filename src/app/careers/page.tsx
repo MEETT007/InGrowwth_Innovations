@@ -5,69 +5,8 @@ import { SectionHeader } from '@/components/shared/SectionHeader';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, MapPin, Clock, Users, Zap, Heart, Coffee } from 'lucide-react';
-
-export const MOCK_JOBS = [
-  {
-    id: 'frontend-engineer-react',
-    title: 'Senior Frontend Engineer (React)',
-    department: 'Engineering',
-    location: 'Remote',
-    type: 'Full-time',
-    description:
-      'We are looking for a Senior Frontend Engineer to lead the development of our core web applications using React, Next.js, and Tailwind CSS.',
-    requirements: [
-      '5+ years of experience with React and modern web technologies.',
-      'Strong understanding of Next.js App Router and Server Components.',
-      'Experience with state management and performance optimization.',
-      'A keen eye for design and UI/UX best practices.',
-    ],
-  },
-  {
-    id: 'backend-engineer-node',
-    title: 'Backend Engineer (Node.js)',
-    department: 'Engineering',
-    location: 'New York, NY / Hybrid',
-    type: 'Full-time',
-    description:
-      'Join our backend team to build scalable APIs and microservices using Node.js, Express, and PostgreSQL.',
-    requirements: [
-      '3+ years of backend development experience.',
-      'Proficiency in Node.js and TypeScript.',
-      'Experience with SQL databases, particularly PostgreSQL and Prisma ORM.',
-      'Familiarity with AWS or cloud deployment architectures.',
-    ],
-  },
-  {
-    id: 'product-designer',
-    title: 'Senior Product Designer',
-    department: 'Design',
-    location: 'Remote',
-    type: 'Full-time',
-    description:
-      'Shape the future of our product interfaces. We need a visionary designer who can translate complex requirements into beautiful, intuitive experiences.',
-    requirements: [
-      'Portfolio demonstrating exceptional UI/UX design skills.',
-      'Experience with Figma and design systems.',
-      'Ability to prototype and communicate interaction design.',
-      'Understanding of frontend capabilities and constraints.',
-    ],
-  },
-  {
-    id: 'growth-marketing-manager',
-    title: 'Growth Marketing Manager',
-    department: 'Marketing',
-    location: 'London, UK / Remote',
-    type: 'Full-time',
-    description:
-      'Lead our growth initiatives across multiple channels to drive acquisition, activation, and retention.',
-    requirements: [
-      'Proven track record in B2B SaaS growth marketing.',
-      'Data-driven approach to experiments and A/B testing.',
-      'Experience with SEO, SEM, and content strategy.',
-      'Strong analytical skills using tools like Google Analytics or Mixpanel.',
-    ],
-  },
-];
+import { db } from '@/lib/db';
+import { Job } from '@/generated/prisma/client';
 
 const PERKS = [
   {
@@ -92,15 +31,22 @@ const PERKS = [
   },
 ];
 
-export default function CareersPage() {
+export const revalidate = 60; // Revalidate every 60 seconds
+
+export default async function CareersPage() {
+  const jobs = await db.job.findMany({
+    where: { status: 'OPEN' },
+    orderBy: { createdAt: 'desc' },
+  });
+
   // Group jobs by department
-  const groupedJobs = MOCK_JOBS.reduce(
+  const groupedJobs = jobs.reduce(
     (acc, job) => {
       if (!acc[job.department]) acc[job.department] = [];
       acc[job.department].push(job);
       return acc;
     },
-    {} as Record<string, typeof MOCK_JOBS>
+    {} as Record<string, Job[]>
   );
 
   return (

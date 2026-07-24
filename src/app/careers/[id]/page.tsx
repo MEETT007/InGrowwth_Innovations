@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { MOCK_JOBS } from '../page';
+import { db } from '@/lib/db';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,10 +19,19 @@ import {
 
 export default async function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
-  const job = MOCK_JOBS.find((j) => j.id === resolvedParams.id);
+  const job = await db.job.findUnique({ where: { id: resolvedParams.id } });
 
   if (!job) {
     notFound();
+  }
+
+  let parsedRequirements: string[] = [];
+  if (job.requirements) {
+    try {
+      parsedRequirements = JSON.parse(job.requirements);
+    } catch {
+      parsedRequirements = job.requirements.split('\n').filter(Boolean);
+    }
   }
 
   return (
@@ -69,7 +78,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
           <section>
             <h2 className="text-2xl font-bold mb-4 text-foreground">Requirements</h2>
             <ul className="list-disc pl-5 text-muted-foreground space-y-2">
-              {job.requirements.map((req, i) => (
+              {parsedRequirements.map((req, i) => (
                 <li key={i}>{req}</li>
               ))}
             </ul>
