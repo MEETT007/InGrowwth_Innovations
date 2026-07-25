@@ -1,0 +1,132 @@
+﻿
+> my-app@0.1.0 lint
+> eslint
+
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\legacy\Frontend\assets\js\adminAuth.js
+  26:18  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\app\admin\blogs\components\BlogEditor.tsx
+  130:17  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\app\admin\blogs\components\BlogEditor.tsx:130:17
+  128 |   }, [initialData, isOpen, form]);
+  129 |
+> 130 |   const title = form.watch('title');
+      |                 ^^^^ React Hook Form's `useForm()` API returns a `watch()` function which cannot be memoized safely.
+  131 |   const content = form.watch('content');
+  132 |   const seoTitle = form.watch('seoTitle');
+  133 |   const seoDescription = form.watch('seoDescription');  react-hooks/incompatible-library
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\app\admin\blogs\page.tsx
+  52:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\app\admin\blogs\page.tsx:52:5
+  50 |
+  51 |   useEffect(() => {
+> 52 |     fetchBlogs();
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  53 |   }, []);
+  54 |
+  55 |   const handleDelete = async (id: string) => {  react-hooks/set-state-in-effect
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\app\admin\careers\page.tsx
+   17:10  warning  'format' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  111:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\app\admin\careers\page.tsx:111:5
+  109 |
+  110 |   useEffect(() => {
+> 111 |     fetchApplications();
+      |     ^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  112 |     fetchJobs();
+  113 |   }, []);
+  114 |  react-hooks/set-state-in-effect
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\app\admin\case-studies\components\CaseStudyEditor.tsx
+    4:19  warning  'Controller' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-unused-vars
+  177:17  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\app\admin\case-studies\components\CaseStudyEditor.tsx:177:17
+  175 |   }, [initialData, isOpen, form]);
+  176 |
+> 177 |   const title = form.watch('title');
+      |                 ^^^^ React Hook Form's `useForm()` API returns a `watch()` function which cannot be memoized safely.
+  178 |
+  179 |   // Auto-generate slug
+  180 |   useEffect(() => {  react-hooks/incompatible-library
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\app\admin\newsletter\components\NewsletterEditor.tsx
+    5:19  warning  'Controller' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+   13:3   warning  'Send' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-unused-vars
+   16:3   warning  'Edit3' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+   17:3   warning  'Type' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-unused-vars
+   18:3   warning  'Columns' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-unused-vars
+   19:3   warning  'GripHorizontal' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   85:14  warning  'error' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+  116:14  warning  'error' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+  135:16  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\app\admin\newsletter\components\NewsletterEditor.tsx:135:16
+  133 |             <h1 className="font-semibold text-lg">Email Builder</h1>
+  134 |             <p className="text-xs text-muted-foreground">
+> 135 |               {form.watch('status') === 'DRAFT' ? 'Draft' : 'Ready'}
+      |                ^^^^ React Hook Form's `useForm()` API returns a `watch()` function which cannot be memoized safely.
+  136 |             </p>
+  137 |           </div>
+  138 |         </div>  react-hooks/incompatible-library
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\app\admin\newsletter\page.tsx
+  12:52  warning  'CardDescription' is defined but never used  @typescript-eslint/no-unused-vars
+  55:14  warning  'error' is defined but never used            @typescript-eslint/no-unused-vars
+  70:14  warning  'error' is defined but never used            @typescript-eslint/no-unused-vars
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\app\admin\page.tsx
+  16:10  warning  'redirect' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\app\api\admin\newsletter\subscribers\route.ts
+  5:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\app\blog\[slug]\BlogDetailClient.tsx
+   6:10  warning  'motion' is defined but never used           @typescript-eslint/no-unused-vars
+   6:18  warning  'AnimatePresence' is defined but never used  @typescript-eslint/no-unused-vars
+  20:3   warning  'Send' is defined but never used             @typescript-eslint/no-unused-vars
+  21:3   warning  'CheckCircle2' is defined but never used     @typescript-eslint/no-unused-vars
+  22:3   warning  'AlertCircle' is defined but never used      @typescript-eslint/no-unused-vars
+  75:39  warning  'CardDescription' is defined but never used  @typescript-eslint/no-unused-vars
+  76:24  warning  'BlogBlock' is defined but never used        @typescript-eslint/no-unused-vars
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\components\ui\data-table.tsx
+  46:17  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+C:\Users\HP\Downloads\InGrowwth_Innovations\src\components\ui\data-table.tsx:46:17
+  44 |   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  45 |
+> 46 |   const table = useReactTable({
+     |                 ^^^^^^^^^^^^^ TanStack Table's `useReactTable()` API returns functions that cannot be memoized safely
+  47 |     data,
+  48 |     columns,
+  49 |     getCoreRowModel: getCoreRowModel(),  react-hooks/incompatible-library
+
+Γ£û 29 problems (2 errors, 27 warnings)
+
