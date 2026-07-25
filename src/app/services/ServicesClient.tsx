@@ -3,8 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, Code } from 'lucide-react';
-import * as LucideIcons from 'lucide-react';
+import { ArrowRight, Sparkles, Code, Monitor, Smartphone, Cloud, Cpu, Shield, Layers } from 'lucide-react';
 import { AnimatedContainer } from '@/components/shared/AnimatedContainer';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
@@ -43,10 +42,19 @@ const DEFAULT_TECH = [
   ['PostgreSQL', 'MongoDB', 'Redis', 'GraphQL'],
 ];
 
+const ICONS_MAP: Record<string, React.ElementType> = {
+  Monitor,
+  Smartphone,
+  Cloud,
+  Cpu,
+  Shield,
+  Layers,
+  Code
+};
+
 // Helper to render dynamic lucide icons
 const IconComponent = ({ name }: { name: string }) => {
-  // @ts-expect-error - Dynamic import based on string name
-  const Icon = LucideIcons[name] || Code;
+  const Icon = ICONS_MAP[name] || Code;
   return <Icon className="w-8 h-8" />;
 };
 

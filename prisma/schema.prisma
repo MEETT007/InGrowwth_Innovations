@@ -19,26 +19,62 @@ enum LeadStatus {
   CLOSED
 }
 
+enum BlogPostStatus {
+  Draft
+  Published
+}
+
+enum CaseStudyStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum NewsletterSubscriberStatus {
+  ACTIVE
+  UNSUBSCRIBED
+}
+
+enum NewsletterCampaignStatus {
+  DRAFT
+  SCHEDULED
+  SENT
+}
+
+enum JobApplicationStatus {
+  NEW
+  REVIEWED
+  INTERVIEW
+  REJECTED
+}
+
+enum JobStatus {
+  OPEN
+  CLOSED
+}
+
 model Lead {
-  id             String     @id @default(uuid())
-  type           LeadType
-  status         LeadStatus @default(NEW)
-  email          String
-  name           String?
-  phone          String?
-  subject        String?
-  message        String?
-  
+  id      String     @id @default(uuid())
+  type    LeadType
+  status  LeadStatus @default(NEW)
+  email   String
+  name    String?
+  phone   String?
+  subject String?
+  message String?
+
   // Fields specific to Quote requests
   budget         String?
   timeline       String?
   service        String?
   projectDetails String?
-  fileUrl        String?    // S3 URL for attached requirements document
-  
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
+  fileUrl        String? // S3 URL for attached requirements document
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
   @@map("leads")
 }
 
@@ -51,16 +87,17 @@ model Service {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  @@index([createdAt])
   @@map("services")
 }
 
 model BlogPost {
-  id               String   @id @default(uuid())
+  id               String         @id @default(uuid())
   title            String
-  slug             String   @unique @default(uuid())
+  slug             String         @unique @default(uuid())
   shortDescription String?
   category         String
-  status           String   // "Draft" | "Published"
+  status           BlogPostStatus
   tags             String
   thumbnail        String?
   content          String
@@ -69,9 +106,13 @@ model BlogPost {
   readTime         Int?
   authorName       String?
   publishDate      DateTime?
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 
+  @@index([slug])
+  @@index([status])
+  @@index([category])
+  @@index([createdAt])
   @@map("blog_posts")
 }
 
@@ -82,20 +123,20 @@ model PortfolioProject {
   category         String
   websiteUrl       String?
   description      String
-  gallery          String?  // comma-separated urls
+  gallery          String? // comma-separated urls
   coverImage       String?
   industry         String?
-  servicesUsed     String?  // JSON string or comma-separated
-  technologiesUsed String?  // JSON string or comma-separated
-  teamMembers      String?  // JSON string or comma-separated
+  servicesUsed     String? // JSON string or comma-separated
+  technologiesUsed String? // JSON string or comma-separated
+  teamMembers      String? // JSON string or comma-separated
   duration         String?
-  projectStatus    String?  // e.g. "Completed", "In Progress"
+  projectStatus    String? // e.g. "Completed", "In Progress"
   projectOverview  String?
   challenges       String?
   solution         String?
-  features         String?  // JSON string
+  features         String? // JSON string
   results          String?
-  metrics          String?  // JSON string
+  metrics          String? // JSON string
   testimonial      String?
   cta              String?
   seoTitle         String?
@@ -103,12 +144,15 @@ model PortfolioProject {
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
+  @@index([category])
+  @@index([projectStatus])
+  @@index([createdAt])
   @@map("portfolio_projects")
 }
 
 model CaseStudy {
-  id                 String   @id @default(uuid())
-  slug               String   @unique
+  id                 String          @id @default(uuid())
+  slug               String          @unique
   title              String
   heroBanner         String?
   coverImage         String?
@@ -123,47 +167,55 @@ model CaseStudy {
   architecture       String?
   designProcess      String?
   developmentJourney String?
-  technologies       String?  // JSON string or comma-separated
-  beforeVsAfter      String?  // JSON string
-  kpis               String?  // JSON string
-  charts             String?  // JSON string
+  technologies       String? // JSON string or comma-separated
+  beforeVsAfter      String? // JSON string
+  kpis               String? // JSON string
+  charts             String? // JSON string
   roi                String?
   results            String?
   clientTestimonial  String?
-  media              String?  // JSON string for images/videos
+  media              String? // JSON string for images/videos
   downloadPdfUrl     String?
   cta                String?
   seoTitle           String?
   seoDescription     String?
-  status             String   @default("DRAFT") // "DRAFT" | "PUBLISHED"
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  status             CaseStudyStatus @default(DRAFT)
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
 
+  @@index([slug])
+  @@index([status])
+  @@index([createdAt])
   @@map("case_studies")
 }
 
 model NewsletterSubscriber {
-  id           String   @id @default(uuid())
-  email        String   @unique
+  id           String                     @id @default(uuid())
+  email        String                     @unique
   name         String?
-  status       String   @default("ACTIVE") // "ACTIVE" | "UNSUBSCRIBED"
-  subscribedAt DateTime @default(now())
+  status       NewsletterSubscriberStatus @default(ACTIVE)
+  subscribedAt DateTime                   @default(now())
 
+  @@index([email])
+  @@index([status])
+  @@index([subscribedAt])
   @@map("newsletter_subscribers")
 }
 
 model NewsletterCampaign {
-  id           String   @id @default(uuid())
+  id           String                   @id @default(uuid())
   subject      String
   bannerImage  String?
   content      String
-  status       String   @default("DRAFT") // "DRAFT" | "SCHEDULED" | "SENT"
+  status       NewsletterCampaignStatus @default(DRAFT)
   scheduledFor DateTime?
   sentAt       DateTime?
-  stats        String?  // JSON string { totalSent, delivered, failed, opens, clicks }
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  stats        String? // JSON string { totalSent, delivered, failed, opens, clicks }
+  createdAt    DateTime                 @default(now())
+  updatedAt    DateTime                 @updatedAt
 
+  @@index([status])
+  @@index([scheduledFor])
   @@map("newsletter_campaigns")
 }
 
@@ -180,35 +232,42 @@ model TeamMember {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([createdAt])
   @@map("team_members")
 }
 
 model JobApplication {
-  id             String   @id @default(uuid())
+  id             String               @id @default(uuid())
   candidateName  String
   email          String
   phone          String?
   roleAppliedFor String
-  resumeUrl      String?  // File upload link
+  resumeUrl      String? // File upload link
   coverLetter    String?
-  status         String   @default("NEW") // "NEW", "REVIEWED", "INTERVIEW", "REJECTED"
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  status         JobApplicationStatus @default(NEW)
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
 
+  @@index([status])
+  @@index([roleAppliedFor])
+  @@index([createdAt])
   @@map("job_applications")
 }
 
 model Job {
-  id          String   @id @default(uuid())
-  title       String
-  department  String
-  location    String
-  type        String
-  description String
-  requirements String?  // JSON string or newline-separated
-  status      String   @default("OPEN") // "OPEN", "CLOSED"
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String    @id @default(uuid())
+  title        String
+  department   String
+  location     String
+  type         String
+  description  String
+  requirements String? // JSON string or newline-separated
+  status       JobStatus @default(OPEN)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
+  @@index([status])
+  @@index([department])
+  @@index([createdAt])
   @@map("jobs")
 }
