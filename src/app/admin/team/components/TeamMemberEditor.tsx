@@ -41,7 +41,12 @@ interface TeamMemberEditorProps {
   initialData?: any;
 }
 
-export function TeamMemberEditor({ isOpen, onClose, onSuccess, initialData }: TeamMemberEditorProps) {
+export function TeamMemberEditor({
+  isOpen,
+  onClose,
+  onSuccess,
+  initialData,
+}: TeamMemberEditorProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
@@ -73,6 +78,7 @@ export function TeamMemberEditor({ isOpen, onClose, onSuccess, initialData }: Te
           github: initialData.github || '',
           photo: initialData.photo || '',
         });
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setPhotoPreview(initialData.photo || null);
       } else {
         form.reset({
@@ -135,9 +141,7 @@ export function TeamMemberEditor({ isOpen, onClose, onSuccess, initialData }: Te
     const toastId = toast.loading(initialData?.id ? 'Updating member...' : 'Adding member...');
 
     try {
-      const url = initialData?.id
-        ? `/api/admin/team/${initialData.id}`
-        : '/api/admin/team';
+      const url = initialData?.id ? `/api/admin/team/${initialData.id}` : '/api/admin/team';
       const method = initialData?.id ? 'PUT' : 'POST';
 
       const cleanedData = {
@@ -233,14 +237,24 @@ export function TeamMemberEditor({ isOpen, onClose, onSuccess, initialData }: Te
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
-                <Input id="name" placeholder="e.g., Jane Doe" className="bg-background" {...form.register('name')} />
+                <Input
+                  id="name"
+                  placeholder="e.g., Jane Doe"
+                  className="bg-background"
+                  {...form.register('name')}
+                />
                 {form.formState.errors.name && (
                   <p className="text-sm text-destructive">{form.formState.errors.name.message}</p>
                 )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="role">Job Title / Role</Label>
-                <Input id="role" placeholder="e.g., Senior Designer" className="bg-background" {...form.register('role')} />
+                <Input
+                  id="role"
+                  placeholder="e.g., Senior Designer"
+                  className="bg-background"
+                  {...form.register('role')}
+                />
                 {form.formState.errors.role && (
                   <p className="text-sm text-destructive">{form.formState.errors.role.message}</p>
                 )}

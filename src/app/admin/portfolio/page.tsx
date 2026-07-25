@@ -24,7 +24,7 @@ interface PortfolioProject {
 export default function PortfolioIndexPage() {
   const [projects, setProjects] = useState<PortfolioProject[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Modal state
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<PortfolioProject | null>(null);
@@ -48,6 +48,7 @@ export default function PortfolioIndexPage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchProjects();
   }, []);
 
@@ -125,8 +126,8 @@ export default function PortfolioIndexPage() {
               status === 'Completed'
                 ? 'bg-green-500/10 text-green-500 hover:bg-green-500/20'
                 : status === 'In Progress'
-                ? 'bg-amber-500/10 text-amber-500 hover:bg-amber-500/20'
-                : ''
+                  ? 'bg-amber-500/10 text-amber-500 hover:bg-amber-500/20'
+                  : ''
             }
           >
             {status}
@@ -185,9 +186,7 @@ export default function PortfolioIndexPage() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Portfolio</h2>
-          <p className="text-muted-foreground mt-1">
-            Manage your project showcase and works.
-          </p>
+          <p className="text-muted-foreground mt-1">Manage your project showcase and works.</p>
         </div>
         <Button
           onClick={() => {
@@ -205,14 +204,14 @@ export default function PortfolioIndexPage() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl -z-10" />
         <CardHeader className="pb-4">
           <CardTitle>All Projects</CardTitle>
-          <CardDescription>
-            A list of all portfolio projects.
-          </CardDescription>
+          <CardDescription>A list of all portfolio projects.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="rounded-xl border border-border/50 overflow-hidden bg-background/50 p-1">
             {isLoading ? (
-              <div className="p-8 text-center text-muted-foreground animate-pulse">Loading projects...</div>
+              <div className="p-8 text-center text-muted-foreground animate-pulse">
+                Loading projects...
+              </div>
             ) : (
               <DataTable
                 columns={columns}

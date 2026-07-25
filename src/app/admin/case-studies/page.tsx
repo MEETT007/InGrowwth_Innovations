@@ -25,7 +25,7 @@ interface CaseStudy {
 export default function CaseStudiesIndexPage() {
   const [caseStudies, setCaseStudies] = useState<CaseStudy[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Modal state
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [editingCaseStudy, setEditingCaseStudy] = useState<CaseStudy | null>(null);
@@ -49,6 +49,7 @@ export default function CaseStudiesIndexPage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchCaseStudies();
   }, []);
 
@@ -100,9 +101,7 @@ export default function CaseStudiesIndexPage() {
         const cs = row.original;
         return (
           <div className="flex flex-col gap-1">
-            <span className="font-medium hover:text-indigo-500 transition-colors">
-              {cs.title}
-            </span>
+            <span className="font-medium hover:text-indigo-500 transition-colors">{cs.title}</span>
             <span className="text-xs text-muted-foreground truncate max-w-xs">
               Client: {cs.clientName || 'N/A'}
             </span>
@@ -123,9 +122,7 @@ export default function CaseStudiesIndexPage() {
           <Badge
             variant={status === 'PUBLISHED' ? 'default' : 'secondary'}
             className={
-              status === 'PUBLISHED'
-                ? 'bg-green-500/10 text-green-500 hover:bg-green-500/20'
-                : ''
+              status === 'PUBLISHED' ? 'bg-green-500/10 text-green-500 hover:bg-green-500/20' : ''
             }
           >
             {status}
@@ -211,7 +208,9 @@ export default function CaseStudiesIndexPage() {
         <CardContent>
           <div className="rounded-xl border border-border/50 overflow-hidden bg-background/50 p-1">
             {isLoading ? (
-              <div className="p-8 text-center text-muted-foreground animate-pulse">Loading case studies...</div>
+              <div className="p-8 text-center text-muted-foreground animate-pulse">
+                Loading case studies...
+              </div>
             ) : (
               <DataTable
                 columns={columns}

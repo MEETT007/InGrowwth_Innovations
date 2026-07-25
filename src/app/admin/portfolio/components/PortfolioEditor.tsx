@@ -5,14 +5,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { toast } from 'sonner';
-import {
-  Image as ImageIcon,
-  Trash2,
-  Globe,
-  Settings,
-  Code,
-  FileText,
-} from 'lucide-react';
+import { Image as ImageIcon, Trash2, Globe, Settings, Code, FileText } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -133,6 +126,7 @@ export function PortfolioEditor({ isOpen, onClose, onSuccess, initialData }: Por
           seoTitle: initialData.seoTitle || '',
           seoDescription: initialData.seoDescription || '',
         });
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setCoverPreview(initialData.coverImage || null);
       } else {
         form.reset({
@@ -253,14 +247,22 @@ export function PortfolioEditor({ isOpen, onClose, onSuccess, initialData }: Por
                 size="sm"
                 className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-500/20"
               >
-                {isSubmitting ? 'Saving...' : initialData?.id ? 'Update Project' : 'Publish Project'}
+                {isSubmitting
+                  ? 'Saving...'
+                  : initialData?.id
+                    ? 'Update Project'
+                    : 'Publish Project'}
               </Button>
             </div>
           </div>
         </DialogHeader>
 
         <ScrollArea className="flex-1 px-6 py-6 overflow-y-auto">
-          <form id="portfolio-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 pb-12">
+          <form
+            id="portfolio-form"
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8 pb-12"
+          >
             {/* Basic Information - Full Width */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-4">
@@ -370,7 +372,9 @@ export function PortfolioEditor({ isOpen, onClose, onSuccess, initialData }: Por
                       {...form.register('client')}
                     />
                     {form.formState.errors.client && (
-                      <p className="text-sm text-destructive">{form.formState.errors.client.message}</p>
+                      <p className="text-sm text-destructive">
+                        {form.formState.errors.client.message}
+                      </p>
                     )}
                   </div>
 

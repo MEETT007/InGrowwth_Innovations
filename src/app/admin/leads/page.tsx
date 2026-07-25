@@ -16,7 +16,7 @@ import {
   X,
 } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@clerk/nextjs';
 import { DataTable } from '@/components/ui/data-table';
@@ -46,7 +46,7 @@ export default function AdminLeadsPage() {
 
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [typeFilter, setTypeFilter] = useState<string>('ALL');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
@@ -237,9 +237,7 @@ export default function AdminLeadsPage() {
             <div className="font-semibold text-foreground">
               {lead.name || 'Anonymous / Subscriber'}
             </div>
-            <div className="text-muted-foreground text-[11px] font-mono">
-              {lead.email}
-            </div>
+            <div className="text-muted-foreground text-[11px] font-mono">{lead.email}</div>
             {lead.subject && (
               <div className="text-[11px] text-muted-foreground/80 truncate max-w-xs mt-0.5">
                 Subj: {lead.subject}
@@ -266,10 +264,7 @@ export default function AdminLeadsPage() {
               disabled={updatingId === lead.id}
               onClick={(e) => e.stopPropagation()}
               onChange={(e) =>
-                handleStatusUpdate(
-                  lead.id,
-                  e.target.value as 'NEW' | 'CONTACTED' | 'CLOSED'
-                )
+                handleStatusUpdate(lead.id, e.target.value as 'NEW' | 'CONTACTED' | 'CLOSED')
               }
               className="bg-background border border-border rounded px-2 py-1 text-xs font-semibold focus:outline-none"
             >
@@ -443,7 +438,9 @@ export default function AdminLeadsPage() {
         </CardHeader>
         <CardContent className="p-1">
           {loading ? (
-            <div className="p-8 text-center text-muted-foreground animate-pulse">Loading leads...</div>
+            <div className="p-8 text-center text-muted-foreground animate-pulse">
+              Loading leads...
+            </div>
           ) : leads.length === 0 ? (
             <div className="py-12 text-center text-muted-foreground text-sm">
               No lead records match your search criteria.

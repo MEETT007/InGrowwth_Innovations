@@ -21,7 +21,7 @@ interface Service {
 export default function ServicesPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Modal state
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [editingService, setEditingService] = useState<Service | null>(null);
@@ -45,6 +45,7 @@ export default function ServicesPage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchServices();
   }, []);
 
@@ -169,7 +170,9 @@ export default function ServicesPage() {
         <CardContent>
           <div className="rounded-md border p-1">
             {isLoading ? (
-              <div className="p-8 text-center text-muted-foreground animate-pulse">Loading services...</div>
+              <div className="p-8 text-center text-muted-foreground animate-pulse">
+                Loading services...
+              </div>
             ) : (
               <DataTable
                 columns={columns}

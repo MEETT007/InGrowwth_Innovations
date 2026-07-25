@@ -2,25 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
-import {
-  Edit,
-  Trash2,
-  Link,
-  MessageCircle,
-  Code,
-  Mail,
-  UserPlus,
-} from 'lucide-react';
+import { Edit, Trash2, Link, MessageCircle, Code, UserPlus } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { DataTable } from '@/components/ui/data-table';
 import { TeamMemberEditor } from './components/TeamMemberEditor';
@@ -40,7 +26,7 @@ interface TeamMember {
 export default function TeamPage() {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Modal state
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
@@ -64,6 +50,7 @@ export default function TeamPage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchTeamMembers();
   }, []);
 
@@ -146,17 +133,32 @@ export default function TeamPage() {
         return (
           <div className="flex items-center space-x-2">
             {linkedin && (
-              <a href={linkedin} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-blue-600 transition-colors">
+              <a
+                href={linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="text-muted-foreground hover:text-blue-600 transition-colors"
+              >
                 <Link className="h-4 w-4" />
               </a>
             )}
             {twitter && (
-              <a href={twitter} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-sky-500 transition-colors">
+              <a
+                href={twitter}
+                target="_blank"
+                rel="noreferrer"
+                className="text-muted-foreground hover:text-sky-500 transition-colors"
+              >
                 <MessageCircle className="h-4 w-4" />
               </a>
             )}
             {github && (
-              <a href={github} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+              <a
+                href={github}
+                target="_blank"
+                rel="noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
                 <Code className="h-4 w-4" />
               </a>
             )}
@@ -224,14 +226,14 @@ export default function TeamPage() {
       <Card className="shadow-sm">
         <CardHeader className="pb-4">
           <CardTitle>Roster</CardTitle>
-          <CardDescription>
-            A list of all team members.
-          </CardDescription>
+          <CardDescription>A list of all team members.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="rounded-md border p-1">
             {isLoading ? (
-              <div className="p-8 text-center text-muted-foreground animate-pulse">Loading team members...</div>
+              <div className="p-8 text-center text-muted-foreground animate-pulse">
+                Loading team members...
+              </div>
             ) : (
               <DataTable
                 columns={columns}
