@@ -2,22 +2,11 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { toast } from 'sonner';
-import {
-  ArrowLeft,
-  Image as ImageIcon,
-  Trash2,
-  Send,
-  Clock,
-  Save,
-  Edit3,
-  Type,
-  Columns,
-  GripHorizontal,
-} from 'lucide-react';
+import { ArrowLeft, Image as ImageIcon, Trash2, Clock, Save } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
@@ -82,7 +71,7 @@ export function NewsletterEditor({ initialData }: { initialData?: any }) {
       } else {
         toast.error('Upload failed.', { id: toastId });
       }
-    } catch (error) {
+    } catch {
       toast.error('An error occurred during upload.', { id: toastId });
     } finally {
       setIsUploading(false);
@@ -113,7 +102,7 @@ export function NewsletterEditor({ initialData }: { initialData?: any }) {
       } else {
         toast.error(res.message || 'Action failed.', { id: toastId });
       }
-    } catch (error) {
+    } catch {
       toast.error('Failed to save campaign.', { id: toastId });
     } finally {
       setIsSubmitting(false);
@@ -132,6 +121,7 @@ export function NewsletterEditor({ initialData }: { initialData?: any }) {
           <div>
             <h1 className="font-semibold text-lg">Email Builder</h1>
             <p className="text-xs text-muted-foreground">
+              {/* eslint-disable-next-line react-hooks/incompatible-library */}
               {form.watch('status') === 'DRAFT' ? 'Draft' : 'Ready'}
             </p>
           </div>

@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   Calendar,
   Clock,
@@ -17,9 +16,6 @@ import {
   Sparkles,
   Info,
   AlertTriangle,
-  Send,
-  CheckCircle2,
-  AlertCircle,
   Hash,
 } from 'lucide-react';
 
@@ -72,8 +68,8 @@ const FacebookIcon = (props: React.ComponentProps<'svg'>) => (
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { MockBlogPost, BlogBlock, MOCK_POSTS } from '@/lib/mock-data';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+import { MockBlogPost, MOCK_POSTS } from '@/lib/mock-data';
 
 interface Props {
   post: MockBlogPost;

@@ -9,7 +9,7 @@ import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Table,
@@ -52,7 +52,7 @@ export default function NewsletterIndexPage() {
       if (res.success) {
         setCampaigns(res.data);
       }
-    } catch (error) {
+    } catch {
       toast.error('Failed to connect to API.');
     } finally {
       setIsLoadingCampaigns(false);
@@ -67,7 +67,7 @@ export default function NewsletterIndexPage() {
       if (res.success) {
         setSubscribers(res.data);
       }
-    } catch (error) {
+    } catch {
       toast.error('Failed to fetch subscribers.');
     } finally {
       setIsLoadingSubs(false);

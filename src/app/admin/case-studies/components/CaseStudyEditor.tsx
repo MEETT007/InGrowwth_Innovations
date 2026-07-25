@@ -1,18 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { toast } from 'sonner';
-import {
-  Image as ImageIcon,
-  Globe,
-  Settings,
-  Target,
-  Presentation,
-  Activity,
-} from 'lucide-react';
+import { Image as ImageIcon, Globe, Settings, Target, Presentation, Activity } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -174,6 +167,7 @@ export function CaseStudyEditor({ isOpen, onClose, onSuccess, initialData }: Cas
     }
   }, [initialData, isOpen, form]);
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const title = form.watch('title');
 
   // Auto-generate slug
@@ -271,7 +265,12 @@ export function CaseStudyEditor({ isOpen, onClose, onSuccess, initialData }: Cas
               <DialogDescription>Deep dive marketing asset</DialogDescription>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="outline" onClick={() => form.setValue('status', 'DRAFT')} type="button" size="sm">
+              <Button
+                variant="outline"
+                onClick={() => form.setValue('status', 'DRAFT')}
+                type="button"
+                size="sm"
+              >
                 Save as Draft
               </Button>
               <Button
@@ -290,7 +289,11 @@ export function CaseStudyEditor({ isOpen, onClose, onSuccess, initialData }: Cas
         </DialogHeader>
 
         <ScrollArea className="flex-1 px-6 py-6 overflow-y-auto">
-          <form id="casestudy-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 pb-12">
+          <form
+            id="casestudy-form"
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8 pb-12"
+          >
             {/* Core Info */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-4">

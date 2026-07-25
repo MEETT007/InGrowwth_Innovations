@@ -5,13 +5,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { toast } from 'sonner';
-import {
-  Image as ImageIcon,
-  Trash2,
-  Globe,
-  Settings,
-  Sparkles,
-} from 'lucide-react';
+import { Image as ImageIcon, Trash2, Globe, Settings, Sparkles } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -127,6 +121,7 @@ export function BlogEditor({ isOpen, onClose, onSuccess, initialData }: BlogEdit
     }
   }, [initialData, isOpen, form]);
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const title = form.watch('title');
   const content = form.watch('content');
   const seoTitle = form.watch('seoTitle');
@@ -227,13 +222,20 @@ export function BlogEditor({ isOpen, onClose, onSuccess, initialData }: BlogEdit
         <DialogHeader className="px-6 py-4 border-b border-border/40 sticky top-0 bg-background/80 backdrop-blur-md z-10 flex flex-row items-center justify-between">
           <div className="flex items-center justify-between w-full pr-8">
             <div>
-              <DialogTitle className="text-2xl font-bold tracking-tight">{initialData?.id ? 'Edit Post' : 'Write New Post'}</DialogTitle>
+              <DialogTitle className="text-2xl font-bold tracking-tight">
+                {initialData?.id ? 'Edit Post' : 'Write New Post'}
+              </DialogTitle>
               <DialogDescription>
                 {form.watch('status') === 'Draft' ? 'Draft saved locally' : 'Live on site'}
               </DialogDescription>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="outline" onClick={() => form.setValue('status', 'Draft')} type="button" size="sm">
+              <Button
+                variant="outline"
+                onClick={() => form.setValue('status', 'Draft')}
+                type="button"
+                size="sm"
+              >
                 Save as Draft
               </Button>
               <Button
@@ -249,7 +251,11 @@ export function BlogEditor({ isOpen, onClose, onSuccess, initialData }: BlogEdit
         </DialogHeader>
 
         <ScrollArea className="flex-1 px-6 py-6 overflow-y-auto">
-          <form id="blog-form" onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-12">
+          <form
+            id="blog-form"
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-12"
+          >
             {/* Main Editor Section */}
             <div className="lg:col-span-2 space-y-8">
               <div className="space-y-4">
@@ -339,7 +345,9 @@ export function BlogEditor({ isOpen, onClose, onSuccess, initialData }: BlogEdit
                   {...form.register('content')}
                 />
                 {form.formState.errors.content && (
-                  <p className="text-sm text-destructive">{form.formState.errors.content.message}</p>
+                  <p className="text-sm text-destructive">
+                    {form.formState.errors.content.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -397,7 +405,9 @@ export function BlogEditor({ isOpen, onClose, onSuccess, initialData }: BlogEdit
                       )}
                     />
                     {form.formState.errors.category && (
-                      <p className="text-xs text-destructive">{form.formState.errors.category.message}</p>
+                      <p className="text-xs text-destructive">
+                        {form.formState.errors.category.message}
+                      </p>
                     )}
                   </div>
 
@@ -409,7 +419,9 @@ export function BlogEditor({ isOpen, onClose, onSuccess, initialData }: BlogEdit
                       {...form.register('tags')}
                     />
                     {form.formState.errors.tags && (
-                      <p className="text-xs text-destructive">{form.formState.errors.tags.message}</p>
+                      <p className="text-xs text-destructive">
+                        {form.formState.errors.tags.message}
+                      </p>
                     )}
                   </div>
 

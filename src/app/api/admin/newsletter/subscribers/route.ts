@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAuthAndRole } from '@/lib/auth';
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   const authCheck = await requireAuthAndRole(['admin', 'editor']);
   if (!authCheck.authorized) {
     return NextResponse.json({ success: false, message: authCheck.error }, { status: 401 });
@@ -15,6 +15,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ success: true, data: subscribers });
   } catch (error) {
     console.error('Error fetching subscribers:', error);
-    return NextResponse.json({ success: false, message: 'Database error fetching subscribers.' }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: 'Database error fetching subscribers.' },
+      { status: 500 }
+    );
   }
 }

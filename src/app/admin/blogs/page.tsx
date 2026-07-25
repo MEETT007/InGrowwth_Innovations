@@ -25,7 +25,7 @@ interface Blog {
 export default function BlogsIndexPage() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Modal state
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
@@ -49,6 +49,7 @@ export default function BlogsIndexPage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchBlogs();
   }, []);
 
@@ -103,9 +104,7 @@ export default function BlogsIndexPage() {
             <span className="font-medium hover:text-indigo-500 transition-colors">
               {blog.title}
             </span>
-            <span className="text-xs text-muted-foreground truncate max-w-xs">
-              {blog.tags}
-            </span>
+            <span className="text-xs text-muted-foreground truncate max-w-xs">{blog.tags}</span>
           </div>
         );
       },
@@ -123,9 +122,7 @@ export default function BlogsIndexPage() {
           <Badge
             variant={status === 'Published' ? 'default' : 'secondary'}
             className={
-              status === 'Published'
-                ? 'bg-green-500/10 text-green-500 hover:bg-green-500/20'
-                : ''
+              status === 'Published' ? 'bg-green-500/10 text-green-500 hover:bg-green-500/20' : ''
             }
           >
             {status}
@@ -211,7 +208,9 @@ export default function BlogsIndexPage() {
         <CardContent>
           <div className="rounded-xl border border-border/50 overflow-hidden bg-background/50 p-1">
             {isLoading ? (
-              <div className="p-8 text-center text-muted-foreground animate-pulse">Loading posts...</div>
+              <div className="p-8 text-center text-muted-foreground animate-pulse">
+                Loading posts...
+              </div>
             ) : (
               <DataTable
                 columns={columns}

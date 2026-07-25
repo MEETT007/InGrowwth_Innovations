@@ -24,6 +24,7 @@
             }
 
         } catch (e) {
+             
             console.warn("Auth check failed, redirecting to login...");
             window.location.href = 'admin-login.html';
         }

@@ -14,7 +14,6 @@ import {
   Edit,
 } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
-import { format } from 'date-fns';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -108,7 +107,9 @@ export default function CareersPage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchApplications();
+
     fetchJobs();
   }, []);
 
@@ -322,14 +323,14 @@ export default function CareersPage() {
           <Card className="shadow-sm border-border/50 bg-card/60 backdrop-blur-xl relative overflow-hidden">
             <CardHeader className="pb-4">
               <CardTitle>Open Positions</CardTitle>
-              <CardDescription>
-                Manage active and closed job postings.
-              </CardDescription>
+              <CardDescription>Manage active and closed job postings.</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="rounded-xl border border-border/50 overflow-hidden bg-background/50 p-1">
                 {isLoadingJobs ? (
-                  <div className="p-8 text-center text-muted-foreground animate-pulse">Loading jobs...</div>
+                  <div className="p-8 text-center text-muted-foreground animate-pulse">
+                    Loading jobs...
+                  </div>
                 ) : (
                   <DataTable
                     columns={jobColumns}
@@ -417,7 +418,9 @@ export default function CareersPage() {
 
                     {app.coverLetter && (
                       <div className="pt-2 border-t border-white/5">
-                        <p className="text-xs text-muted-foreground line-clamp-3">{app.coverLetter}</p>
+                        <p className="text-xs text-muted-foreground line-clamp-3">
+                          {app.coverLetter}
+                        </p>
                       </div>
                     )}
                   </CardContent>
