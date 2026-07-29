@@ -35,8 +35,8 @@ const categoryIcons: Record<string, React.ReactNode> = {
   All: <Layers className="h-4 w-4" />,
   'Web Design': <Code className="h-4 w-4" />,
   'App Development': <Smartphone className="h-4 w-4" />,
-  'Branding': <Sparkles className="h-4 w-4" />,
-  'Marketing': <Cpu className="h-4 w-4" />,
+  Branding: <Sparkles className="h-4 w-4" />,
+  Marketing: <Cpu className="h-4 w-4" />,
 };
 
 const GRADIENTS = [
@@ -58,7 +58,11 @@ const DEFAULT_TECH_LISTS = [
 
 const EMOJIS = ['🚀', '💻', '📱', '🎨', '📈', '⚡'];
 
-export default function ProjectsClient({ initialProjects }: { initialProjects: DBPortfolioProject[] }) {
+export default function ProjectsClient({
+  initialProjects,
+}: {
+  initialProjects: DBPortfolioProject[];
+}) {
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -67,7 +71,7 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: D
     return initialProjects.map((p, idx) => {
       const galleryArray = p.gallery ? p.gallery.split(',') : [];
       const coverImage = galleryArray.length > 0 ? galleryArray[0] : null;
-      
+
       return {
         ...p,
         slug: p.id,
@@ -176,7 +180,11 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: D
               <AnimatedContainer key={project.slug} direction="up" delay={0.1 + idx * 0.1}>
                 {/* Note: In a real app we'd route to /projects/[id] but we haven't built that page yet. 
                     We will just use the websiteUrl or '#' */}
-                <Link href={project.websiteUrl || '#'} target={project.websiteUrl ? "_blank" : undefined} className="block group h-full">
+                <Link
+                  href={project.websiteUrl || '#'}
+                  target={project.websiteUrl ? '_blank' : undefined}
+                  className="block group h-full"
+                >
                   <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-card/60 backdrop-blur-sm h-full flex flex-col hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all duration-300">
                     {/* Color header */}
                     <div
@@ -207,7 +215,7 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: D
                         </div>
                       )}
                       {/* Featured badge */}
-                      <div className="absolute top-3 right-3 bg-white/90 text-gray-800 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                      <div className="absolute top-3 right-3 bg-background/90 text-foreground text-[10px] font-bold px-2 py-0.5 rounded-full border border-border/50 shadow-sm">
                         ⭐ Featured
                       </div>
                     </div>
@@ -323,7 +331,11 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: D
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.35, delay: idx * 0.05 }}
                 >
-                  <Link href={project.websiteUrl || '#'} target={project.websiteUrl ? "_blank" : undefined} className="block group h-full">
+                  <Link
+                    href={project.websiteUrl || '#'}
+                    target={project.websiteUrl ? '_blank' : undefined}
+                    className="block group h-full"
+                  >
                     <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-card/60 backdrop-blur-sm h-full flex flex-col hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all duration-300 cursor-pointer">
                       {/* Top accent line */}
                       <div
@@ -347,7 +359,7 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: D
                           <span className="relative text-5xl">{project.emoji}</span>
                         )}
                         {project.featured && (
-                          <div className="absolute top-2 right-2 bg-white/90 text-gray-700 text-[9px] font-bold px-1.5 py-0.5 rounded-full">
+                          <div className="absolute top-2 right-2 bg-background/90 text-foreground text-[9px] font-bold px-1.5 py-0.5 rounded-full border border-border/50 shadow-sm">
                             ⭐
                           </div>
                         )}
@@ -399,19 +411,19 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: D
       {/* CTA Banner */}
       <section className="relative z-10 max-w-7xl mx-auto px-6 py-20 w-full border-t border-border/40">
         <AnimatedContainer direction="up" delay={0.1}>
-          <div className="relative rounded-2xl bg-gradient-to-br from-indigo-900/40 via-purple-950/40 to-pink-900/40 border border-indigo-500/20 p-10 text-center overflow-hidden">
+          <div className="relative rounded-2xl bg-gradient-to-br from-indigo-100/60 via-purple-100/60 to-pink-100/60 dark:from-indigo-900/40 dark:via-purple-950/40 dark:to-pink-900/40 border border-indigo-200/50 dark:border-indigo-500/20 p-10 text-center overflow-hidden">
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
             <div className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-indigo-500/10 blur-2xl" />
             <div className="absolute bottom-1/4 right-1/4 w-32 h-32 rounded-full bg-pink-500/10 blur-2xl" />
 
             <div className="relative z-10">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-indigo-950 dark:text-white mb-4">
                 Ready to be our next{' '}
                 <span className="bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">
                   success story?
                 </span>
               </h2>
-              <p className="text-slate-300 mb-8 max-w-xl mx-auto leading-relaxed">
+              <p className="text-muted-foreground mb-8 max-w-xl mx-auto leading-relaxed">
                 Let&apos;s discuss your vision and build something remarkable together. Our team is
                 ready to turn your idea into a reality.
               </p>

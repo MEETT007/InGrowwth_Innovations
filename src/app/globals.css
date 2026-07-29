@@ -159,7 +159,7 @@
     @apply bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent;
   }
   .ambient-glow {
-    @apply absolute rounded-full pointer-events-none blur-[120px] opacity-25 dark:opacity-20 transition-opacity duration-500;
+    @apply absolute rounded-full pointer-events-none blur-[120px] opacity-15 dark:opacity-20 transition-opacity duration-500;
   }
 }
 

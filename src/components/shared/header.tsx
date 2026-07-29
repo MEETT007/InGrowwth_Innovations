@@ -59,7 +59,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full transition-all duration-300">
       {/* Top Banner Chip */}
-      <div className="hidden lg:flex items-center justify-center bg-gradient-to-r from-indigo-900/30 via-purple-900/30 to-pink-900/30 backdrop-blur-md border-b border-white/5 py-1.5 px-4 text-xs font-medium text-muted-foreground">
+      <div className="hidden lg:flex items-center justify-center bg-gradient-to-r from-indigo-100/60 via-purple-100/60 to-pink-100/60 dark:from-indigo-900/30 dark:via-purple-900/30 dark:to-pink-900/30 backdrop-blur-md border-b border-indigo-200/50 dark:border-white/5 py-1.5 px-4 text-xs font-medium text-indigo-950 dark:text-muted-foreground">
         <div className="flex items-center gap-2">
           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-semibold text-[10px] tracking-wider uppercase">
             New

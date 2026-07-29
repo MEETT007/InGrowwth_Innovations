@@ -38,7 +38,7 @@ export default function TechnologiesClient() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground mb-6"
+          className="text-4xl sm:text-5xl font-extrabold tracking-tight text-indigo-950 dark:text-white mb-6"
         >
           Built With the{' '}
           <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
@@ -155,7 +155,7 @@ export default function TechnologiesClient() {
       {/* Stats Banner */}
       <section className="relative z-10 max-w-7xl mx-auto px-6 pb-20 w-full">
         <AnimatedContainer direction="up" delay={0.1}>
-          <div className="relative rounded-2xl bg-gradient-to-br from-indigo-900/40 via-purple-950/40 to-pink-900/40 border border-indigo-500/20 p-10 overflow-hidden">
+          <div className="relative rounded-2xl bg-gradient-to-br from-indigo-100/60 via-purple-100/60 to-pink-100/60 dark:from-indigo-900/40 dark:via-purple-950/40 dark:to-pink-900/40 border border-indigo-200/50 dark:border-indigo-500/20 p-10 overflow-hidden">
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
             <div className="absolute top-1/4 left-1/4 w-40 h-40 rounded-full bg-indigo-500/10 blur-3xl" />
             <div className="absolute bottom-1/4 right-1/4 w-40 h-40 rounded-full bg-pink-500/10 blur-3xl" />
@@ -170,7 +170,7 @@ export default function TechnologiesClient() {
                   <span className="text-3xl font-extrabold bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">
                     {stat.value}
                   </span>
-                  <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {stat.label}
                   </span>
                 </div>

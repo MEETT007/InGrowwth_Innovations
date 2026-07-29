@@ -128,7 +128,7 @@ export default function AboutClient({ initialTeam }: AboutClientProps) {
           className="relative flex justify-center lg:justify-end"
         >
           {/* Abstract Premium CSS Graphic representing Digital Growth */}
-          <div className="w-full max-w-md h-80 rounded-2xl bg-gradient-to-br from-indigo-900/40 via-purple-950/40 to-pink-900/40 border border-indigo-500/20 p-6 flex flex-col justify-between shadow-2xl backdrop-blur-md relative overflow-hidden group/graphic">
+          <div className="w-full max-w-md h-80 rounded-2xl bg-gradient-to-br from-indigo-100/60 via-purple-100/60 to-pink-100/60 dark:from-indigo-900/40 dark:via-purple-950/40 dark:to-pink-900/40 border border-indigo-200/50 dark:border-indigo-500/20 p-6 flex flex-col justify-between shadow-2xl backdrop-blur-md relative overflow-hidden group/graphic">
             {/* Grid pattern background */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
 
@@ -216,7 +216,7 @@ export default function AboutClient({ initialTeam }: AboutClientProps) {
                   .substring(0, 2)
                   .toUpperCase()
               : 'X';
-            
+
             // Generate a deterministic gradient based on name length or index
             const gradients = [
               'from-indigo-600 to-purple-600',
@@ -228,14 +228,22 @@ export default function AboutClient({ initialTeam }: AboutClientProps) {
             const gradient = gradients[idx % gradients.length];
 
             return (
-              <AnimatedContainer key={member.id || member.name} direction="up" delay={0.2 + idx * 0.1}>
+              <AnimatedContainer
+                key={member.id || member.name}
+                direction="up"
+                delay={0.2 + idx * 0.1}
+              >
                 <Card className="h-full border-border/50 bg-card/60 backdrop-blur-sm relative p-4 flex flex-col justify-between group/member">
                   <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-pink-500/5 opacity-0 group-hover/member:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   <CardHeader className="pb-4 flex flex-col items-center text-center">
                     {member.photo ? (
                       <div className="w-20 h-20 rounded-full overflow-hidden shadow-lg mb-4 group-hover/member:scale-105 transition-transform duration-300">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={member.photo} alt={member.name} className="w-full h-full object-cover" />
+                        <img
+                          src={member.photo}
+                          alt={member.name}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                     ) : (
                       <div

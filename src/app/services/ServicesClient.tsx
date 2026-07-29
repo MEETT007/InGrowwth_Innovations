@@ -3,7 +3,17 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, Code, Monitor, Smartphone, Cloud, Cpu, Shield, Layers } from 'lucide-react';
+import {
+  ArrowRight,
+  Sparkles,
+  Code,
+  Monitor,
+  Smartphone,
+  Cloud,
+  Cpu,
+  Shield,
+  Layers,
+} from 'lucide-react';
 import { AnimatedContainer } from '@/components/shared/AnimatedContainer';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
@@ -49,7 +59,7 @@ const ICONS_MAP: Record<string, React.ElementType> = {
   Cpu,
   Shield,
   Layers,
-  Code
+  Code,
 };
 
 // Helper to render dynamic lucide icons
@@ -172,19 +182,19 @@ export default function ServicesClient({ initialServices }: { initialServices: D
       {/* CTA Banner */}
       <section className="relative z-10 max-w-7xl mx-auto px-6 py-20 w-full border-t border-border/40">
         <AnimatedContainer direction="up" delay={0.1}>
-          <div className="relative rounded-2xl bg-gradient-to-br from-indigo-900/40 via-purple-950/40 to-pink-900/40 border border-indigo-500/20 p-10 text-center overflow-hidden">
+          <div className="relative rounded-2xl bg-gradient-to-br from-indigo-100/60 via-purple-100/60 to-pink-100/60 dark:from-indigo-900/40 dark:via-purple-950/40 dark:to-pink-900/40 border border-indigo-200/50 dark:border-indigo-500/20 p-10 text-center overflow-hidden">
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
             <div className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-indigo-500/10 blur-2xl" />
             <div className="absolute bottom-1/4 right-1/4 w-32 h-32 rounded-full bg-pink-500/10 blur-2xl" />
 
             <div className="relative z-10">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-indigo-950 dark:text-white mb-4">
                 Ready to build something{' '}
                 <span className="bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">
                   extraordinary?
                 </span>
               </h2>
-              <p className="text-slate-300 mb-8 max-w-xl mx-auto leading-relaxed">
+              <p className="text-muted-foreground mb-8 max-w-xl mx-auto leading-relaxed">
                 Let&apos;s discuss your project and tailor a solution that fits your goals,
                 timeline, and budget.
               </p>

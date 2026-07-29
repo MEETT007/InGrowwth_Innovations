@@ -182,7 +182,7 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
       {/* Top Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-900/40 via-purple-900/20 to-background border border-white/10 p-8 shadow-2xl">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-100/60 via-purple-100/60 to-background dark:from-indigo-900/40 dark:via-purple-900/20 dark:to-background border border-indigo-200/50 dark:border-white/10 p-8 shadow-2xl">
         <div className="absolute top-0 right-0 -mt-20 -mr-20 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl opacity-50" />
         <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-72 h-72 bg-pink-500/20 rounded-full blur-3xl opacity-50" />
 

@@ -146,12 +146,12 @@ export default function ServiceDetailClient({ service }: ServiceDetailClientProp
       {/* CTA Banner */}
       <section className="relative z-10 max-w-7xl mx-auto px-6 pb-20 w-full">
         <AnimatedContainer direction="up" delay={0.1}>
-          <div className="relative rounded-2xl bg-gradient-to-br from-indigo-900/40 via-purple-950/40 to-pink-900/40 border border-indigo-500/20 p-10 text-center overflow-hidden">
+          <div className="relative rounded-2xl bg-gradient-to-br from-indigo-100/60 via-purple-100/60 to-pink-100/60 dark:from-indigo-900/40 dark:via-purple-950/40 dark:to-pink-900/40 border border-indigo-200/50 dark:border-indigo-500/20 p-10 text-center overflow-hidden">
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
             <div className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-indigo-500/10 blur-2xl" />
             <div className="absolute bottom-1/4 right-1/4 w-32 h-32 rounded-full bg-pink-500/10 blur-2xl" />
             <div className="relative z-10">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-indigo-950 dark:text-white mb-4">
                 Ready to get started with{' '}
                 <span
                   className={`bg-gradient-to-r ${service.gradient} bg-clip-text text-transparent`}
@@ -160,7 +160,7 @@ export default function ServiceDetailClient({ service }: ServiceDetailClientProp
                 </span>
                 ?
               </h2>
-              <p className="text-slate-300 mb-8 max-w-xl mx-auto leading-relaxed">
+              <p className="text-muted-foreground mb-8 max-w-xl mx-auto leading-relaxed">
                 Our team is ready to scope your project and deliver a tailored solution that exceeds
                 expectations.
               </p>
