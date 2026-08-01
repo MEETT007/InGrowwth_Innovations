@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
+import { readJsonBody } from '@/lib/request-security';
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -18,21 +19,25 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   }
 
   try {
-    const body = await request.json();
-    const { 
-      title, 
+    const parsedBody = await readJsonBody(request);
+    if (!parsedBody.ok) return parsedBody.response;
+
+    const // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      body = parsedBody.data as any;
+    const {
+      title,
       slug,
       shortDescription,
-      category, 
-      status, 
-      tags, 
-      thumbnail, 
+      category,
+      status,
+      tags,
+      thumbnail,
       content,
       seoTitle,
       seoDescription,
       readTime,
       authorName,
-      publishDate 
+      publishDate,
     } = body;
 
     const existing = await db.blogPost.findUnique({ where: { id } });
@@ -58,7 +63,9 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         ...(seoDescription !== undefined && { seoDescription }),
         ...(readTime !== undefined && { readTime: readTime ? parseInt(readTime) : null }),
         ...(authorName !== undefined && { authorName }),
-        ...(publishDate !== undefined && { publishDate: publishDate ? new Date(publishDate) : null }),
+        ...(publishDate !== undefined && {
+          publishDate: publishDate ? new Date(publishDate) : null,
+        }),
       },
     });
 

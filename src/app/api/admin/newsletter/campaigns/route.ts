@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
+import { readJsonBody } from '@/lib/request-security';
 
 export async function GET() {
   const authCheck = await requireAuthAndRole(['admin', 'editor']);
@@ -15,7 +16,10 @@ export async function GET() {
     return NextResponse.json({ success: true, data: campaigns });
   } catch (error) {
     console.error('Error fetching campaigns:', error);
-    return NextResponse.json({ success: false, message: 'Database error fetching campaigns.' }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: 'Database error fetching campaigns.' },
+      { status: 500 }
+    );
   }
 }
 
@@ -26,11 +30,18 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const body = await request.json();
+    const parsedBody = await readJsonBody(request);
+    if (!parsedBody.ok) return parsedBody.response;
+
+    const // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      body = parsedBody.data as any;
     const { subject, bannerImage, content, status, scheduledFor } = body;
 
     if (!subject || !content) {
-      return NextResponse.json({ success: false, message: 'Subject and Content are required.' }, { status: 400 });
+      return NextResponse.json(
+        { success: false, message: 'Subject and Content are required.' },
+        { status: 400 }
+      );
     }
 
     const campaign = await db.newsletterCampaign.create({
@@ -43,9 +54,15 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    return NextResponse.json({ success: true, message: 'Campaign created successfully.', data: campaign }, { status: 201 });
+    return NextResponse.json(
+      { success: true, message: 'Campaign created successfully.', data: campaign },
+      { status: 201 }
+    );
   } catch (error) {
     console.error('Error creating campaign:', error);
-    return NextResponse.json({ success: false, message: 'Database error creating campaign.' }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: 'Database error creating campaign.' },
+      { status: 500 }
+    );
   }
 }

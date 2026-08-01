@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
+import { readJsonBody } from '@/lib/request-security';
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -17,7 +18,11 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   }
 
   try {
-    const body = await request.json();
+    const parsedBody = await readJsonBody(request);
+    if (!parsedBody.ok) return parsedBody.response;
+
+    const // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      body = parsedBody.data as any;
     const existing = await db.caseStudy.findUnique({ where: { id } });
     if (!existing) {
       return NextResponse.json(

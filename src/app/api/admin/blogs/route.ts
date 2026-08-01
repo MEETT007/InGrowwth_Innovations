@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
+import { readJsonBody } from '@/lib/request-security';
 
 export async function GET() {
   const authCheck = await requireAuthAndRole(['admin', 'editor']);
@@ -35,21 +36,25 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const body = await request.json();
-    const { 
-      title, 
-      slug, 
-      shortDescription, 
-      category, 
-      status, 
-      tags, 
-      thumbnail, 
+    const parsedBody = await readJsonBody(request);
+    if (!parsedBody.ok) return parsedBody.response;
+
+    const // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      body = parsedBody.data as any;
+    const {
+      title,
+      slug,
+      shortDescription,
+      category,
+      status,
+      tags,
+      thumbnail,
       content,
       seoTitle,
       seoDescription,
       readTime,
       authorName,
-      publishDate 
+      publishDate,
     } = body;
 
     if (!title || !category || !status || !tags || !content) {
@@ -60,20 +65,20 @@ export async function POST(request: NextRequest) {
     }
 
     const blog = await db.blogPost.create({
-      data: { 
-        title, 
+      data: {
+        title,
         slug: slug || undefined, // Prisma will use uuid default if undefined
         shortDescription,
-        category, 
-        status, 
-        tags, 
-        thumbnail: thumbnail || null, 
+        category,
+        status,
+        tags,
+        thumbnail: thumbnail || null,
         content,
         seoTitle,
         seoDescription,
         readTime: readTime ? parseInt(readTime) : null,
         authorName,
-        publishDate: publishDate ? new Date(publishDate) : null
+        publishDate: publishDate ? new Date(publishDate) : null,
       },
     });
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
+import { readJsonBody } from '@/lib/request-security';
 
 export async function GET() {
   const authCheck = await requireAuthAndRole(['admin', 'editor']);
@@ -35,13 +36,40 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const body = await request.json();
-    const { 
-      title, slug, heroBanner, coverImage, clientName, industry,
-      problemStatement, businessChallenges, objectives, research, strategy,
-      solution, architecture, designProcess, developmentJourney, technologies,
-      beforeVsAfter, kpis, charts, roi, results, clientTestimonial, media,
-      downloadPdfUrl, cta, seoTitle, seoDescription, status
+    const parsedBody = await readJsonBody(request);
+    if (!parsedBody.ok) return parsedBody.response;
+
+    const // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      body = parsedBody.data as any;
+    const {
+      title,
+      slug,
+      heroBanner,
+      coverImage,
+      clientName,
+      industry,
+      problemStatement,
+      businessChallenges,
+      objectives,
+      research,
+      strategy,
+      solution,
+      architecture,
+      designProcess,
+      developmentJourney,
+      technologies,
+      beforeVsAfter,
+      kpis,
+      charts,
+      roi,
+      results,
+      clientTestimonial,
+      media,
+      downloadPdfUrl,
+      cta,
+      seoTitle,
+      seoDescription,
+      status,
     } = body;
 
     if (!title || !slug) {
@@ -53,11 +81,34 @@ export async function POST(request: NextRequest) {
 
     const caseStudy = await db.caseStudy.create({
       data: {
-        title, slug, heroBanner, coverImage, clientName, industry,
-        problemStatement, businessChallenges, objectives, research, strategy,
-        solution, architecture, designProcess, developmentJourney, technologies,
-        beforeVsAfter, kpis, charts, roi, results, clientTestimonial, media,
-        downloadPdfUrl, cta, seoTitle, seoDescription, status: status || 'DRAFT'
+        title,
+        slug,
+        heroBanner,
+        coverImage,
+        clientName,
+        industry,
+        problemStatement,
+        businessChallenges,
+        objectives,
+        research,
+        strategy,
+        solution,
+        architecture,
+        designProcess,
+        developmentJourney,
+        technologies,
+        beforeVsAfter,
+        kpis,
+        charts,
+        roi,
+        results,
+        clientTestimonial,
+        media,
+        downloadPdfUrl,
+        cta,
+        seoTitle,
+        seoDescription,
+        status: status || 'DRAFT',
       },
     });
 

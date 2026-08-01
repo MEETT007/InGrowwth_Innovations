@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
 import { LeadType, LeadStatus } from '@/generated/prisma/client';
+import { readJsonBody } from '@/lib/request-security';
 
 /**
  * GET /api/admin/leads
@@ -87,7 +88,10 @@ export async function POST(request: NextRequest) {
   };
 
   try {
-    body = await request.json();
+    const parsedBody = await readJsonBody(request);
+    if (!parsedBody.ok) return parsedBody.response;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    body = parsedBody.data as any;
   } catch {
     return NextResponse.json(
       { success: false, message: 'Malformed JSON payload.' },

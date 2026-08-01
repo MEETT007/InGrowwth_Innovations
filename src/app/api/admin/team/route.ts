@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
+import { readJsonBody } from '@/lib/request-security';
 
 // GET /api/admin/team - Fetch all team members
 export async function GET() {
@@ -37,7 +38,11 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const body = await request.json();
+    const parsedBody = await readJsonBody(request);
+    if (!parsedBody.ok) return parsedBody.response;
+
+    const // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      body = parsedBody.data as any;
     const { name, role, email, bio, linkedin, twitter, github, photo } = body;
 
     if (!name || !role) {
