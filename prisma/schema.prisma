@@ -91,13 +91,18 @@ model IdempotencyKey {
 
 model Service {
   id          String   @id @default(uuid())
+  slug        String?  @unique
   title       String
   description String
   icon        String
-  body        String
+  content     String @default("")
+  features    Json?
+  process     Json?
+  techStack   Json?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  @@index([slug])
   @@index([createdAt])
   @@map("services")
 }

@@ -1,19 +1,17 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { services } from '@/lib/mock-data';
+import { db } from '@/lib/db';
 import ServiceDetailClient from './ServiceDetailClient';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  return services.map((service) => ({ slug: service.slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const service = services.find((s) => s.slug === slug);
+  const service = await db.service.findUnique({ where: { slug } });
 
   if (!service) {
     return {
@@ -23,17 +21,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${service.title} | InGrowwth Innovations`,
-    description: service.shortDesc,
+    description: service.description,
   };
 }
 
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
-  const service = services.find((s) => s.slug === slug);
+  const service = await db.service.findUnique({ where: { slug } });
 
   if (!service) {
     notFound();
   }
 
-  return <ServiceDetailClient service={service} />;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <ServiceDetailClient service={service as any} />;
 }

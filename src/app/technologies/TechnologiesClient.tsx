@@ -133,13 +133,12 @@ export default function TechnologiesClient() {
                       whileHover={{ scale: 1.06, y: -2 }}
                       className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-card/60 border border-border/50 backdrop-blur-sm cursor-default hover:border-indigo-500/30 hover:shadow-md hover:shadow-indigo-500/10 transition-all duration-200 group/tech"
                     >
-                      <span
-                        className="text-2xl group-hover/tech:scale-110 transition-transform duration-200"
-                        role="img"
+                      <div
+                        className="group-hover/tech:scale-110 transition-transform duration-200 text-current flex items-center justify-center"
                         aria-label={item.name}
                       >
-                        {item.emoji}
-                      </span>
+                        <item.icon className="w-8 h-8" />
+                      </div>
                       <span className="text-xs font-semibold text-center text-foreground/80 leading-tight">
                         {item.name}
                       </span>

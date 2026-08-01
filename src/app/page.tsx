@@ -112,16 +112,21 @@ export default function Home() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="flex flex-col sm:flex-row gap-4 items-center justify-center w-full max-w-md"
         >
-          <Button
-            render={<Link href="/contact?type=quote" />}
-            nativeButton={false}
-            size="lg"
-            variant="gradient"
-            className="w-full sm:w-auto cursor-pointer group"
+          <motion.div
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           >
-            Get a Quote
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Button>
+            <Button
+              render={<Link href="/contact?type=quote" />}
+              nativeButton={false}
+              size="lg"
+              variant="gradient"
+              className="w-full sm:w-auto cursor-pointer group shadow-lg shadow-indigo-500/20"
+            >
+              Get a Quote
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </motion.div>
           <Button
             render={<Link href="/services" />}
             nativeButton={false}

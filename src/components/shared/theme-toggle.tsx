@@ -24,9 +24,9 @@ export function ThemeToggle() {
   return (
     <Button
       variant="outline"
-      size="icon-sm"
+      size="icon"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="relative rounded-full bg-muted/50 hover:bg-muted border border-border/40 cursor-pointer overflow-hidden transition-colors duration-200"
+      className="relative w-10 h-10 rounded-full bg-background hover:bg-muted border border-border/40 hover:border-indigo-500/50 shadow-sm cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-indigo-500/20 group"
       aria-label="Toggle theme"
     >
       <motion.div
@@ -37,9 +37,9 @@ export function ThemeToggle() {
           scale: isDark ? 0.3 : 1,
         }}
         transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-        className="absolute text-amber-500"
+        className="absolute inset-0 flex items-center justify-center text-amber-500"
       >
-        <Sun className="h-5 w-5 fill-amber-500/10" />
+        <Sun className="h-5 w-5 fill-amber-500/10 group-hover:scale-110 transition-transform" />
       </motion.div>
       <motion.div
         initial={false}
@@ -49,9 +49,9 @@ export function ThemeToggle() {
           scale: isDark ? 1 : 0.3,
         }}
         transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-        className="absolute text-indigo-400"
+        className="absolute inset-0 flex items-center justify-center text-indigo-400"
       >
-        <Moon className="h-5 w-5 fill-indigo-400/10" />
+        <Moon className="h-5 w-5 fill-indigo-400/10 group-hover:scale-110 transition-transform" />
       </motion.div>
     </Button>
   );

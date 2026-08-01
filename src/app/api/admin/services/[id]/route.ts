@@ -24,7 +24,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     const // eslint-disable-next-line @typescript-eslint/no-explicit-any
       body = parsedBody.data as any;
-    const { title, description, icon, body: serviceBody } = body;
+    const { title, description, icon, content, features, process: serviceProcess, techStack } = body;
 
     const existing = await db.service.findUnique({ where: { id } });
     if (!existing) {
@@ -37,7 +37,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         ...(title !== undefined && { title }),
         ...(description !== undefined && { description }),
         ...(icon !== undefined && { icon }),
-        ...(serviceBody !== undefined && { body: serviceBody }),
+        ...(content !== undefined && { content }),
+        ...(features !== undefined && { features }),
+        ...(serviceProcess !== undefined && { process: serviceProcess }),
+        ...(techStack !== undefined && { techStack }),
       },
     });
 

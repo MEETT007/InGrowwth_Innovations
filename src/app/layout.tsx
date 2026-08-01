@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/shared/header';
 import { Footer } from '@/components/shared/footer';
 import { ClerkProvider } from '@clerk/nextjs';
+import { SmoothScroller } from '@/components/smooth-scroller';
 
 // A request-specific CSP nonce is generated in proxy.ts, so pages must render per request.
 export const dynamic = 'force-dynamic';
@@ -62,9 +63,11 @@ export default function RootLayout({
             enableSystem={false}
             disableTransitionOnChange
           >
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <Footer />
+            <SmoothScroller>
+              <Header />
+              <main className="flex-grow">{children}</main>
+              <Footer />
+            </SmoothScroller>
           </ThemeProvider>
         </body>
       </html>

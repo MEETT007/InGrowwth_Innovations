@@ -16,6 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+export const dynamic = 'force-dynamic';
 
 export default async function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;

@@ -29,8 +29,6 @@ interface DBPortfolioProject {
   gallery: string | null;
 }
 
-const CATEGORIES = ['All', 'Web Design', 'App Development', 'Branding', 'Marketing'];
-
 const categoryIcons: Record<string, React.ReactNode> = {
   All: <Layers className="h-4 w-4" />,
   'Web Design': <Code className="h-4 w-4" />,
@@ -66,6 +64,12 @@ export default function ProjectsClient({
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Dynamically generate categories from the database data
+  const dynamicCategories = useMemo(() => {
+    const cats = Array.from(new Set(initialProjects.map((p) => p.category))).filter(Boolean);
+    return ['All', ...cats.sort()];
+  }, [initialProjects]);
+
   // Map DB projects to frontend format with algorithmic aesthetics
   const projectsWithAesthetics = useMemo(() => {
     return initialProjects.map((p, idx) => {
@@ -75,7 +79,7 @@ export default function ProjectsClient({
       return {
         ...p,
         slug: p.id,
-        tagline: `Client: ${p.client}`,
+        tagline: `Client: ${p.client || 'Confidential'}`,
         coverImage,
         gradient: GRADIENTS[idx % GRADIENTS.length],
         tech: DEFAULT_TECH_LISTS[idx % DEFAULT_TECH_LISTS.length],
@@ -92,10 +96,10 @@ export default function ProjectsClient({
       const q = searchQuery.toLowerCase();
       const matchSearch =
         !q ||
-        p.title.toLowerCase().includes(q) ||
-        p.description.toLowerCase().includes(q) ||
-        p.client.toLowerCase().includes(q) ||
-        p.category.toLowerCase().includes(q);
+        (p.title && p.title.toLowerCase().includes(q)) ||
+        (p.description && p.description.toLowerCase().includes(q)) ||
+        (p.client && p.client.toLowerCase().includes(q)) ||
+        (p.category && p.category.toLowerCase().includes(q));
       return matchCat && matchSearch;
     });
   }, [activeCategory, searchQuery, projectsWithAesthetics]);
@@ -284,7 +288,7 @@ export default function ProjectsClient({
             {/* Category tabs */}
             <div className="flex items-center gap-2 flex-wrap justify-center">
               <Filter className="h-4 w-4 text-muted-foreground shrink-0" />
-              {CATEGORIES.map((cat) => {
+              {dynamicCategories.map((cat) => {
                 const isActive = activeCategory === cat;
                 return (
                   <Button

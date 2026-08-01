@@ -15,7 +15,13 @@ interface Service {
   title: string;
   description: string;
   icon: string;
-  body: string;
+  content: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  features: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  process: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  techStack: any;
 }
 
 export default function ServicesPage() {

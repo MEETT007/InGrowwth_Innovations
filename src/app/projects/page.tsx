@@ -15,11 +15,11 @@ export const metadata: Metadata = {
 };
 
 export const revalidate = 0;
-
+export const dynamic = 'force-dynamic';
 export default async function ProjectsPage() {
   const dbProjects = await db.portfolioProject.findMany({
-    orderBy: { createdAt: 'desc' }
+    orderBy: { createdAt: 'desc' },
   });
-  
+
   return <ProjectsClient initialProjects={dbProjects} />;
 }
