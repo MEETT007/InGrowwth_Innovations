@@ -29,8 +29,6 @@ interface DBPortfolioProject {
   gallery: string | null;
 }
 
-const CATEGORIES = ['All', 'Web Design', 'App Development', 'Branding', 'Marketing'];
-
 const categoryIcons: Record<string, React.ReactNode> = {
   All: <Layers className="h-4 w-4" />,
   'Web Design': <Code className="h-4 w-4" />,

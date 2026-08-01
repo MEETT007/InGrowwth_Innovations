@@ -9,7 +9,7 @@ interface Props {
 
 export async function generateStaticParams() {
   const services = await db.service.findMany({ select: { slug: true } });
-  return services.filter(s => s.slug).map((service) => ({ slug: service.slug as string }));
+  return services.filter((s) => s.slug).map((service) => ({ slug: service.slug as string }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -36,5 +36,6 @@ export default async function ServiceDetailPage({ params }: Props) {
     notFound();
   }
 
-  return <ServiceDetailClient service={service} />;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <ServiceDetailClient service={service as any} />;
 }

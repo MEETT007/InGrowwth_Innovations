@@ -8,15 +8,15 @@ async function main() {
 
   // 1. Seed Services
   console.log('Seeding Services...');
-  
+
   // Icon mapping for services since mock-data has React nodes
   const iconMap: Record<string, string> = {
     'web-development': 'Monitor',
     'mobile-apps': 'Smartphone',
     'cloud-devops': 'Cloud',
     'ai-ml': 'Cpu',
-    'cybersecurity': 'Shield',
-    'erp-enterprise': 'Layers'
+    cybersecurity: 'Shield',
+    'erp-enterprise': 'Layers',
   };
 
   for (const s of services) {
@@ -27,7 +27,7 @@ async function main() {
           title: s.title,
           description: s.shortDesc,
           icon: iconMap[s.slug] || 'Code',
-          body: s.longDesc,
+          content: s.longDesc,
         },
       });
     }
@@ -106,7 +106,9 @@ async function main() {
   // 5. Seed Jobs from legacy
   console.log('Seeding Jobs...');
   for (const j of mockJobs) {
-    const existing = await prisma.job.findFirst({ where: { title: j.title, department: j.department } });
+    const existing = await prisma.job.findFirst({
+      where: { title: j.title, department: j.department },
+    });
     if (!existing) {
       await prisma.job.create({
         data: {

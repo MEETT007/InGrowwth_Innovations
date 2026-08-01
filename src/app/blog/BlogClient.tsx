@@ -8,7 +8,7 @@ import { SectionHeader } from '@/components/shared/SectionHeader';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Search, Calendar } from 'lucide-react';
 
@@ -49,16 +49,19 @@ export default function BlogClient({ initialPosts }: { initialPosts: DBBlogPost[
     return initialPosts.map((p, idx) => {
       // Excerpt from content (strip markdown/HTML roughly)
       const excerpt = p.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...';
-      
+
       return {
         ...p,
         excerpt,
         author: { name: p.authorName || 'InGrowwth Team' },
         date: new Date(p.createdAt).toLocaleDateString('en-US', {
-          year: 'numeric', month: 'short', day: 'numeric'
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
         }),
         featured: idx === 0, // make the first post featured
-        thumbnail: p.thumbnail || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80',
+        thumbnail:
+          p.thumbnail || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80',
         gradient: GRADIENTS[idx % GRADIENTS.length],
       };
     });
@@ -73,7 +76,7 @@ export default function BlogClient({ initialPosts }: { initialPosts: DBBlogPost[
       (post.tags && post.tags.toLowerCase().includes(q)) ||
       (post.category && post.category.toLowerCase().includes(q)) ||
       (post.author && post.author.name && post.author.name.toLowerCase().includes(q));
-      
+
     const matchesCategory = activeCategory === 'All' || post.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
@@ -105,7 +108,9 @@ export default function BlogClient({ initialPosts }: { initialPosts: DBBlogPost[
                 variant={isActive ? 'default' : 'outline'}
                 size="sm"
                 className={`rounded-full cursor-pointer hover:scale-105 transition-all duration-300 shadow-sm ${
-                  isActive ? 'bg-indigo-500 text-white shadow-md shadow-indigo-500/30 border-transparent' : 'border-border/50'
+                  isActive
+                    ? 'bg-indigo-500 text-white shadow-md shadow-indigo-500/30 border-transparent'
+                    : 'border-border/50'
                 }`}
               >
                 {category}
@@ -188,8 +193,10 @@ export default function BlogClient({ initialPosts }: { initialPosts: DBBlogPost[
             <Link href={`/blog/${post.slug}`} className="block h-full">
               <div className="relative h-full rounded-2xl overflow-hidden border border-white/5 bg-card/60 backdrop-blur-md flex flex-col hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-1.5 hover:border-white/10 transition-all duration-300">
                 {/* Top accent line */}
-                <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${post.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20`} />
-                
+                <div
+                  className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${post.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20`}
+                />
+
                 <div className="h-52 w-full overflow-hidden relative">
                   <div className="absolute inset-0 bg-black/20 z-10 group-hover:bg-transparent transition-colors duration-500" />
                   <Image
@@ -205,7 +212,7 @@ export default function BlogClient({ initialPosts }: { initialPosts: DBBlogPost[
                     </Badge>
                   </div>
                 </div>
-                
+
                 <div className="p-6 flex flex-col flex-grow gap-3">
                   <h3 className="text-xl font-bold line-clamp-2 text-foreground group-hover:text-indigo-400 transition-colors duration-300">
                     {post.title}
@@ -213,7 +220,7 @@ export default function BlogClient({ initialPosts }: { initialPosts: DBBlogPost[
                   <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed flex-grow">
                     {post.excerpt}
                   </p>
-                  
+
                   <div className="mt-4 pt-5 border-t border-white/5 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <Avatar className="h-8 w-8 ring-1 ring-white/10">
@@ -221,7 +228,9 @@ export default function BlogClient({ initialPosts }: { initialPosts: DBBlogPost[
                           {post.author.name[0]}
                         </AvatarFallback>
                       </Avatar>
-                      <span className="text-xs font-semibold text-foreground group-hover:text-indigo-400 transition-colors">{post.author.name}</span>
+                      <span className="text-xs font-semibold text-foreground group-hover:text-indigo-400 transition-colors">
+                        {post.author.name}
+                      </span>
                     </div>
                     <span className="text-xs text-muted-foreground font-medium flex items-center gap-1.5 bg-muted/50 px-2 py-1 rounded-md">
                       <Calendar className="w-3.5 h-3.5" />

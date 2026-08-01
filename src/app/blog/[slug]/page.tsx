@@ -14,7 +14,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;
   const post = await db.blogPost.findUnique({
-    where: { slug: resolvedParams.slug }
+    where: { slug: resolvedParams.slug },
   });
 
   if (!post) {
@@ -32,14 +32,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'article',
       url: `https://ingrowwthinnovations.com/blog/${post.slug}`,
       publishedTime: new Date(post.publishDate || post.createdAt).toISOString(),
-      images: post.thumbnail ? [
-        {
-          url: post.thumbnail,
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        },
-      ] : [],
+      images: post.thumbnail
+        ? [
+            {
+              url: post.thumbnail,
+              width: 1200,
+              height: 630,
+              alt: post.title,
+            },
+          ]
+        : [],
     },
     twitter: {
       card: 'summary_large_image',
@@ -53,15 +55,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BlogPostPage({ params }: Props) {
   const resolvedParams = await params;
   const nonce = (await headers()).get('x-nonce') || undefined;
-  
+
   const post = await db.blogPost.findUnique({
-    where: { slug: resolvedParams.slug }
+    where: { slug: resolvedParams.slug },
   });
 
   if (!post) {
     notFound();
   }
-  
+
   const serializedPost = {
     ...post,
     createdAt: post.createdAt.toISOString(),
@@ -103,9 +105,10 @@ export default async function BlogPostPage({ params }: Props) {
           __html: JSON.stringify(jsonLd)
             .replace(/</g, '\\u003c')
             .replace(/>/g, '\\u003e')
-            .replace(/&/g, '\\u0026')
+            .replace(/&/g, '\\u0026'),
         }}
       />
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       <BlogDetailClient post={serializedPost as any} />
     </>
   );

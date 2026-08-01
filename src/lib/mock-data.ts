@@ -468,7 +468,7 @@ export const services: Service[] = [
 ];
 
 import { IconType } from 'react-icons';
-import { FaAws, FaApple, FaAndroid } from 'react-icons/fa';
+import { FaAws, FaApple } from 'react-icons/fa';
 import {
   SiNextdotjs,
   SiReact,

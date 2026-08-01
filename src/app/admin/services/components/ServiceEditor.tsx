@@ -26,7 +26,7 @@ const serviceSchema = z.object({
   content: z.string().min(20, 'Content must be at least 20 characters'),
   features: z.string().optional(),
   techStack: z.string().optional(),
-  process: z.string().optional()
+  process: z.string().optional(),
 });
 
 type ServiceFormValues = z.infer<typeof serviceSchema>;
@@ -94,7 +94,7 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
         if (data.features) parsedFeatures = JSON.parse(data.features);
         if (data.techStack) parsedTechStack = JSON.parse(data.techStack);
         if (data.process) parsedProcess = JSON.parse(data.process);
-      } catch (e) {
+      } catch {
         toast.error('Invalid JSON in Features, Tech Stack, or Process', { id: toastId });
         setIsSubmitting(false);
         return;
@@ -110,9 +110,7 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
         process: parsedProcess,
       };
 
-      const url = initialData?.id
-        ? `/api/admin/services/${initialData.id}`
-        : '/api/admin/services';
+      const url = initialData?.id ? `/api/admin/services/${initialData.id}` : '/api/admin/services';
       const method = initialData?.id ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
@@ -162,7 +160,11 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
         </DialogHeader>
 
         <ScrollArea className="flex-1 px-6 py-6 overflow-y-auto">
-          <form id="service-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 pb-12">
+          <form
+            id="service-form"
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6 pb-12"
+          >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-2">
                 <Label htmlFor="title">Title</Label>
@@ -173,18 +175,16 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
                   {...form.register('title')}
                 />
                 {form.formState.errors.title && (
-                  <p className="text-sm text-destructive">
-                    {form.formState.errors.title.message}
-                  </p>
+                  <p className="text-sm text-destructive">{form.formState.errors.title.message}</p>
                 )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="icon">Icon Name (Lucide)</Label>
-                <Input 
-                  id="icon" 
-                  placeholder="e.g., Code" 
+                <Input
+                  id="icon"
+                  placeholder="e.g., Code"
                   className="bg-background"
-                  {...form.register('icon')} 
+                  {...form.register('icon')}
                 />
                 {form.formState.errors.icon && (
                   <p className="text-sm text-destructive">{form.formState.errors.icon.message}</p>
@@ -217,7 +217,7 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
                 <p className="text-sm text-destructive">{form.formState.errors.content.message}</p>
               )}
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="features">Features (JSON Array of Strings)</Label>
               <Textarea
@@ -240,7 +240,9 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
                 {...form.register('techStack')}
               />
               {form.formState.errors.techStack && (
-                <p className="text-sm text-destructive">{form.formState.errors.techStack.message}</p>
+                <p className="text-sm text-destructive">
+                  {form.formState.errors.techStack.message}
+                </p>
               )}
             </div>
 

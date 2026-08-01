@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function LeadDetailsModal({
   isOpen,
   onClose,
@@ -17,6 +16,7 @@ export function LeadDetailsModal({
 }: {
   isOpen: boolean;
   onClose: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   lead: any;
 }) {
   if (!lead) return null;
