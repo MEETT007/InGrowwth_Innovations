@@ -49,47 +49,48 @@
 }
 
 :root {
-  /* UI/UX Pro Max - Premium Light Mode Design System */
-  --background: oklch(0.985 0.005 265);
-  --foreground: oklch(0.14 0.03 265);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.14 0.03 265);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.14 0.03 265);
+  /* UI/UX Pro Max - Ultra Premium Light Mode */
+  --background: #ffffff;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --card-foreground: #09090b;
+  --popover: #ffffff;
+  --popover-foreground: #09090b;
 
-  /* Electric Indigo Primary */
-  --primary: oklch(0.52 0.22 265);
-  --primary-foreground: oklch(0.99 0 0);
+  /* Modern Electric Indigo */
+  --primary: #4f46e5;
+  --primary-foreground: #ffffff;
 
-  --secondary: oklch(0.96 0.01 265);
-  --secondary-foreground: oklch(0.25 0.06 265);
+  /* Subtle Slate Grays */
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
 
-  --muted: oklch(0.962 0.008 265);
-  --muted-foreground: oklch(0.46 0.03 265);
+  --destructive: #ef4444;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #4f46e5;
 
-  --accent: oklch(0.95 0.015 265);
-  --accent-foreground: oklch(0.3 0.1 265);
+  /* Vibrant Chart Accents */
+  --chart-1: #4f46e5;
+  --chart-2: #ec4899;
+  --chart-3: #8b5cf6;
+  --chart-4: #06b6d4;
+  --chart-5: #10b981;
 
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.9 0.01 265);
-  --input: oklch(0.9 0.01 265);
-  --ring: oklch(0.55 0.22 265);
-
-  --chart-1: oklch(0.6 0.2 265);
-  --chart-2: oklch(0.65 0.2 300);
-  --chart-3: oklch(0.55 0.18 200);
-  --chart-4: oklch(0.7 0.18 140);
-  --chart-5: oklch(0.75 0.18 80);
   --radius: 0.875rem;
 
-  --sidebar: oklch(0.99 0 0);
-  --sidebar-foreground: oklch(0.14 0.03 265);
-  --sidebar-primary: oklch(0.52 0.22 265);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.96 0.01 265);
-  --sidebar-accent-foreground: oklch(0.25 0.06 265);
-  --sidebar-border: oklch(0.9 0.01 265);
-  --sidebar-ring: oklch(0.55 0.22 265);
+  --sidebar: #ffffff;
+  --sidebar-foreground: #09090b;
+  --sidebar-primary: #4f46e5;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #18181b;
+  --sidebar-border: #e4e4e7;
+  --sidebar-ring: #4f46e5;
 }
 
 .dark {

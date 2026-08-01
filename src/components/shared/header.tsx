@@ -16,6 +16,7 @@ import {
   Mail,
   Shield,
   LayoutDashboard,
+  Layers,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './theme-toggle';
@@ -85,18 +86,16 @@ export function Header() {
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 p-0.5 shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
-              <div className="w-full h-full bg-background rounded-[10px] flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
-              </div>
+            <div className="relative w-9 h-9 flex items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-600 shadow-lg shadow-indigo-500/30 overflow-hidden shrink-0">
+              {/* Premium shine effect on hover */}
+              <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.4)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%,100%_100%] bg-[position:-100%_0,0_0] bg-no-repeat transition-[background-position] duration-700 ease-in-out group-hover:bg-[position:200%_0,0_0]" />
+              <Layers className="w-5 h-5 text-white relative z-10 drop-shadow-sm transition-transform duration-500 group-hover:scale-110" />
             </div>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1">
-                <span className="text-xl font-black bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent tracking-tight">
+            <div className="flex flex-col justify-center">
+              <div className="flex items-baseline gap-1">
+                <span className="text-[1.35rem] font-extrabold tracking-tight text-foreground leading-none">
                   InGrowwth
-                </span>
-                <span className="text-xl font-light text-foreground/90 tracking-tight">
-                  Innovations
+                  <span className="text-indigo-500">.</span>
                 </span>
               </div>
             </div>
