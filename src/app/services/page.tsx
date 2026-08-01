@@ -8,6 +8,7 @@ export const metadata: Metadata = {
     "Explore InGrowwth Innovations' full suite of IT services: Web Development, Mobile Apps, Cloud & DevOps, AI/ML, Cybersecurity, and ERP solutions built for enterprise scale.",
 };
 
+export const dynamic = 'force-dynamic';
 export const revalidate = 0; // Ensure data is always fresh
 
 export default async function ServicesPage() {

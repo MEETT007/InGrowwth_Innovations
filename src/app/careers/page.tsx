@@ -31,6 +31,7 @@ const PERKS = [
   },
 ];
 
+export const dynamic = 'force-dynamic';
 export const revalidate = 60; // Revalidate every 60 seconds
 
 export default async function CareersPage() {

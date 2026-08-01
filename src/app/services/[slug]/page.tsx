@@ -7,10 +7,7 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  const services = await db.service.findMany({ select: { slug: true } });
-  return services.filter((s) => s.slug).map((service) => ({ slug: service.slug as string }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

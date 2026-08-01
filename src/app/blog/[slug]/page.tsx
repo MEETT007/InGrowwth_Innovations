@@ -6,7 +6,7 @@ import { db } from '@/lib/db';
 import BlogDetailClient from './BlogDetailClient';
 
 export const revalidate = 0;
-
+export const dynamic = 'force-dynamic';
 interface Props {
   params: Promise<{ slug: string }>;
 }
