@@ -178,6 +178,7 @@ export default function ContactClient() {
                 <a
                   href="mailto:info@ingrowwthinnovations.in"
                   className="text-xs sm:text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors mt-0.5 block"
+                  suppressHydrationWarning
                 >
                   info@ingrowwthinnovations.in
                 </a>
