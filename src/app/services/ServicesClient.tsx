@@ -21,10 +21,12 @@ import { Button } from '@/components/ui/button';
 
 interface DBService {
   id: string;
+  slug: string | null;
   title: string;
   description: string;
   icon: string;
   body: string;
+  techStack?: string[] | null;
 }
 
 const GRADIENTS = [
@@ -127,7 +129,7 @@ export default function ServicesClient({ initialServices }: { initialServices: D
 
             return (
               <AnimatedContainer key={service.id} direction="up" delay={0.15 + idx * 0.08}>
-                <Link href={`/services/${service.id}`} className="block h-full group/card">
+                <Link href={`/services/${service.slug || service.id}`} className="block h-full group/card">
                   <Card className="h-full border-border/50 bg-card/60 backdrop-blur-sm relative overflow-hidden flex flex-col cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1">
                     {/* Hover gradient overlay */}
                     <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-pink-500/5 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none" />
@@ -155,7 +157,7 @@ export default function ServicesClient({ initialServices }: { initialServices: D
 
                       {/* Tech tags */}
                       <div className="flex flex-wrap gap-1.5">
-                        {tech.map((t) => (
+                        {(service.techStack || []).slice(0, 4).map((t) => (
                           <span
                             key={t}
                             className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted/60 border border-border/40 text-muted-foreground"
@@ -163,6 +165,11 @@ export default function ServicesClient({ initialServices }: { initialServices: D
                             {t}
                           </span>
                         ))}
+                        {(service.techStack && service.techStack.length > 4) && (
+                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted/60 border border-border/40 text-muted-foreground">
+                            +{service.techStack.length - 4} more
+                          </span>
+                        )}
                       </div>
 
                       {/* Learn More CTA */}

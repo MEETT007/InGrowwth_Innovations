@@ -23,7 +23,10 @@ const serviceSchema = z.object({
   title: z.string().min(2, 'Title must be at least 2 characters'),
   description: z.string().min(10, 'Description must be at least 10 characters'),
   icon: z.string().min(2, 'Icon identifier is required'),
-  body: z.string().min(20, 'Body must be at least 20 characters'),
+  content: z.string().min(20, 'Content must be at least 20 characters'),
+  features: z.string().optional(),
+  techStack: z.string().optional(),
+  process: z.string().optional()
 });
 
 type ServiceFormValues = z.infer<typeof serviceSchema>;
@@ -45,7 +48,10 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
       title: '',
       description: '',
       icon: '',
-      body: '',
+      content: '',
+      features: '',
+      techStack: '',
+      process: '',
     },
   });
 
@@ -56,14 +62,20 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
           title: initialData.title || '',
           description: initialData.description || '',
           icon: initialData.icon || '',
-          body: initialData.body || '',
+          content: initialData.content || '',
+          features: initialData.features ? JSON.stringify(initialData.features, null, 2) : '',
+          techStack: initialData.techStack ? JSON.stringify(initialData.techStack, null, 2) : '',
+          process: initialData.process ? JSON.stringify(initialData.process, null, 2) : '',
         });
       } else {
         form.reset({
           title: '',
           description: '',
           icon: '',
-          body: '',
+          content: '',
+          features: '',
+          techStack: '',
+          process: '',
         });
       }
     }
@@ -74,6 +86,30 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
     const toastId = toast.loading(initialData?.id ? 'Updating service...' : 'Creating service...');
 
     try {
+      let parsedFeatures = [];
+      let parsedTechStack = [];
+      let parsedProcess = [];
+
+      try {
+        if (data.features) parsedFeatures = JSON.parse(data.features);
+        if (data.techStack) parsedTechStack = JSON.parse(data.techStack);
+        if (data.process) parsedProcess = JSON.parse(data.process);
+      } catch (e) {
+        toast.error('Invalid JSON in Features, Tech Stack, or Process', { id: toastId });
+        setIsSubmitting(false);
+        return;
+      }
+
+      const payload = {
+        title: data.title,
+        description: data.description,
+        icon: data.icon,
+        content: data.content,
+        features: parsedFeatures,
+        techStack: parsedTechStack,
+        process: parsedProcess,
+      };
+
       const url = initialData?.id
         ? `/api/admin/services/${initialData.id}`
         : '/api/admin/services';
@@ -82,7 +118,7 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
 
       const res = await response.json();
@@ -170,15 +206,54 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="body">Full Body (Markdown/HTML)</Label>
+              <Label htmlFor="content">Full Content</Label>
               <Textarea
-                id="body"
-                placeholder="Detailed description of the service..."
-                className="min-h-[250px] bg-background"
-                {...form.register('body')}
+                id="content"
+                placeholder="Write the full service content here..."
+                className="min-h-[150px] bg-background"
+                {...form.register('content')}
               />
-              {form.formState.errors.body && (
-                <p className="text-sm text-destructive">{form.formState.errors.body.message}</p>
+              {form.formState.errors.content && (
+                <p className="text-sm text-destructive">{form.formState.errors.content.message}</p>
+              )}
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="features">Features (JSON Array of Strings)</Label>
+              <Textarea
+                id="features"
+                placeholder='["Feature 1", "Feature 2"]'
+                className="min-h-[100px] bg-background font-mono text-sm"
+                {...form.register('features')}
+              />
+              {form.formState.errors.features && (
+                <p className="text-sm text-destructive">{form.formState.errors.features.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="techStack">Tech Stack (JSON Array of Strings)</Label>
+              <Textarea
+                id="techStack"
+                placeholder='["React", "Node.js"]'
+                className="min-h-[100px] bg-background font-mono text-sm"
+                {...form.register('techStack')}
+              />
+              {form.formState.errors.techStack && (
+                <p className="text-sm text-destructive">{form.formState.errors.techStack.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="process">Process (JSON Array of Objects)</Label>
+              <Textarea
+                id="process"
+                placeholder='[{"step": "1", "details": "Desc"}]'
+                className="min-h-[150px] bg-background font-mono text-sm"
+                {...form.register('process')}
+              />
+              {form.formState.errors.process && (
+                <p className="text-sm text-destructive">{form.formState.errors.process.message}</p>
               )}
             </div>
           </form>

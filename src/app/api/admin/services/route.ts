@@ -43,17 +43,29 @@ export async function POST(request: NextRequest) {
 
     const // eslint-disable-next-line @typescript-eslint/no-explicit-any
       body = parsedBody.data as any;
-    const { title, description, icon, body: serviceBody } = body;
+    const { title, description, icon, content, features, process: serviceProcess, techStack } = body;
 
-    if (!title || !description || !icon || !serviceBody) {
+    if (!title || !description || !icon || !content) {
       return NextResponse.json(
         { success: false, message: 'Missing required fields.' },
         { status: 400 }
       );
     }
+    
+    // Generate slug from title
+    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
     const service = await db.service.create({
-      data: { title, description, icon, body: serviceBody },
+      data: { 
+        title, 
+        description, 
+        icon, 
+        content,
+        features: features || [],
+        process: serviceProcess || [],
+        techStack: techStack || [],
+        slug 
+      },
     });
 
     return NextResponse.json(
