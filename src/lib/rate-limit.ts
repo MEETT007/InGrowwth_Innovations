@@ -3,22 +3,14 @@ type RateLimitRecord = {
 };
 
 const rateLimitMap = new Map<string, RateLimitRecord>();
+const MAX_TRACKED_KEYS = 10_000;
 
-// Clean up memory cache periodically (every 10 minutes) to avoid memory leaks
-if (globalThis && !(globalThis as unknown as Record<string, unknown>).rateLimitIntervalSet) {
-  (globalThis as unknown as Record<string, unknown>).rateLimitIntervalSet = true;
-  setInterval(() => {
-    const now = Date.now();
-    for (const [key, value] of rateLimitMap.entries()) {
-      // Filter out timestamps older than 10 minutes
-      const activeTimestamps = value.timestamps.filter((t) => now - t < 600000);
-      if (activeTimestamps.length === 0) {
-        rateLimitMap.delete(key);
-      } else {
-        rateLimitMap.set(key, { timestamps: activeTimestamps });
-      }
-    }
-  }, 600000);
+function makeRoomForNewKey(): void {
+  while (rateLimitMap.size >= MAX_TRACKED_KEYS) {
+    const oldestKey = rateLimitMap.keys().next().value;
+    if (!oldestKey) return;
+    rateLimitMap.delete(oldestKey);
+  }
 }
 
 /**
@@ -31,13 +23,15 @@ if (globalThis && !(globalThis as unknown as Record<string, unknown>).rateLimitI
 export async function rateLimit(
   ip: string,
   limit: number,
-  windowMs: number = 60000
+  windowMs: number = 60000,
+  scope: string = 'default'
 ): Promise<{ success: boolean; limit: number; remaining: number; reset: number }> {
   const now = Date.now();
-  const key = `${ip}`;
+  const key = `${scope}:${ip}`;
 
   let record = rateLimitMap.get(key);
   if (!record) {
+    makeRoomForNewKey();
     record = { timestamps: [] };
     rateLimitMap.set(key, record);
   }

@@ -67,7 +67,8 @@ InGrowwth_Innovations/
 3.  **Configure Environment:**
     Create a `.env` file in the `Backend/` folder with the following:
     ```ini
-    SECRET_KEY=dev-secret-key
+    # Generate with: python -c "import secrets; print(secrets.token_urlsafe(32))"
+    SECRET_KEY=replace-with-a-unique-random-value
     SENDER_EMAIL=your-email@gmail.com
     SENDER_PASSWORD=your-app-password
     # Optional: Leave empty for local SQLite

@@ -73,7 +73,7 @@ export default function ContactClient() {
   const onContactSubmit = async (data: ContactInput) => {
     setIsSubmitting(true);
     try {
-      const res = await submitContactAction(data);
+      const res = await submitContactAction(data, crypto.randomUUID());
       if (res.success) {
         setSubmitSuccess(true);
         toast.success(res.message);
@@ -92,7 +92,7 @@ export default function ContactClient() {
   const onQuoteSubmit = async (data: QuoteInput) => {
     setIsSubmitting(true);
     try {
-      const res = await submitQuoteAction(data);
+      const res = await submitQuoteAction(data, crypto.randomUUID());
       if (res.success) {
         setSubmitSuccess(true);
         toast.success(res.message);

@@ -127,7 +127,15 @@ os.makedirs(RESUMES_FOLDER, exist_ok=True)
 
 # ---------- Flask app ----------
 app = Flask(__name__, template_folder=TEMPLATES_FOLDER)
-app.secret_key = os.getenv("SECRET_KEY", "dev-secret-key-change-in-prod")
+secret_key = os.getenv("SECRET_KEY")
+if not secret_key:
+    raise RuntimeError("SECRET_KEY must be configured before starting the legacy Flask app.")
+app.secret_key = secret_key
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+)
 
 
 # ---------- Mail config ----------

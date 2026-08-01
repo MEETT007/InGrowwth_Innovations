@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { auth } from '@clerk/nextjs/server';
+import { requireAdminRole, requireAuthAndRole } from '@/lib/auth';
 
-export async function GET(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { userId } = await auth();
-    if (!userId) {
-      return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
+    const authCheck = await requireAuthAndRole(['admin', 'editor']);
+    if (!authCheck.authorized) {
+      return NextResponse.json(
+        { success: false, message: authCheck.error },
+        { status: authCheck.status }
+      );
     }
 
     const { id } = await params;
@@ -24,26 +24,23 @@ export async function GET(
     return NextResponse.json({ success: true, data: job });
   } catch (error) {
     console.error('Error fetching job:', error);
-    return NextResponse.json(
-      { success: false, message: 'Internal Server Error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
   }
 }
 
-export async function PUT(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { userId } = await auth();
-    if (!userId) {
-      return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
+    const authCheck = await requireAuthAndRole(['admin', 'editor']);
+    if (!authCheck.authorized) {
+      return NextResponse.json(
+        { success: false, message: authCheck.error },
+        { status: authCheck.status }
+      );
     }
 
     const body = await req.json();
     const { id } = await params;
-    
+
     const job = await db.job.update({
       where: { id },
       data: {
@@ -60,21 +57,18 @@ export async function PUT(
     return NextResponse.json({ success: true, data: job, message: 'Job updated successfully.' });
   } catch (error) {
     console.error('Error updating job:', error);
-    return NextResponse.json(
-      { success: false, message: 'Failed to update job.' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, message: 'Failed to update job.' }, { status: 500 });
   }
 }
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { userId } = await auth();
-    if (!userId) {
-      return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
+    const authCheck = await requireAdminRole();
+    if (!authCheck.authorized) {
+      return NextResponse.json(
+        { success: false, message: authCheck.error },
+        { status: authCheck.status }
+      );
     }
 
     const { id } = await params;
@@ -85,9 +79,6 @@ export async function DELETE(
     return NextResponse.json({ success: true, message: 'Job deleted successfully.' });
   } catch (error) {
     console.error('Error deleting job:', error);
-    return NextResponse.json(
-      { success: false, message: 'Failed to delete job.' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, message: 'Failed to delete job.' }, { status: 500 });
   }
 }

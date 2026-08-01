@@ -78,6 +78,17 @@ model Lead {
   @@map("leads")
 }
 
+model IdempotencyKey {
+  id        String   @id @default(uuid())
+  scope     String
+  key       String
+  createdAt DateTime @default(now())
+
+  @@unique([scope, key])
+  @@index([createdAt])
+  @@map("idempotency_keys")
+}
+
 model Service {
   id          String   @id @default(uuid())
   title       String

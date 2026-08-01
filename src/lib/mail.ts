@@ -5,6 +5,15 @@ import { ContactTemplate } from '@/components/emails/ContactTemplate';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 export async function sendLeadEmails(lead: Lead) {
   try {
     if (!process.env.RESEND_API_KEY) {
@@ -50,7 +59,7 @@ export async function sendLeadEmails(lead: Lead) {
         from: 'InGrowwth Team <onboarding@resend.dev>',
         to: [email],
         subject: 'We received your inquiry - InGrowwth Innovations',
-        html: `<p>Hi ${name || 'there'},</p><p>Thank you for reaching out to InGrowwth Innovations. Our engineering team has received your inquiry and will be in touch shortly!</p><p>Best,<br/>The InGrowwth Team</p>`,
+        html: `<p>Hi ${escapeHtml(name || 'there')},</p><p>Thank you for reaching out to InGrowwth Innovations. Our engineering team has received your inquiry and will be in touch shortly!</p><p>Best,<br/>The InGrowwth Team</p>`,
       });
     }
   } catch (error) {

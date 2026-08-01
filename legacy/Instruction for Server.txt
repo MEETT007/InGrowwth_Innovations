@@ -7,7 +7,7 @@ The backend relies on these variables. Ensure they are set in your `.env` file (
 
 | Variable | Description | Example |
 | :--- | :--- | :--- |
-| `SECRET_KEY` | Encrypts session data. | `super-secret-key-123` |
+| `SECRET_KEY` | Encrypts session data. Generate a unique 32+ byte value; never reuse or commit it. | `python -c "import secrets; print(secrets.token_urlsafe(32))"` |
 | `DATABASE_URL` | PostgreSQL connection string. If omitted, defaults to local `site.db` (SQLite). | `postgres://user:pass@host:5432/db` |
 | `SENDER_EMAIL` | Gmail address for sending notifications. | `notifications@ingrowwth.in` |
 | `SENDER_PASSWORD` | App Password (Not login password) for Gmail. | `abcd efgh ijkl mnop` |

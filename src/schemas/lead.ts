@@ -5,7 +5,7 @@ export const ContactSchema = z.object({
     .string()
     .min(2, { message: 'Name must be at least 2 characters.' })
     .max(100, { message: 'Name must be less than 100 characters.' }),
-  email: z.string().email({ message: 'Invalid email address.' }),
+  email: z.string().max(254).email({ message: 'Invalid email address.' }),
   subject: z
     .string()
     .min(3, { message: 'Subject must be at least 3 characters.' })
@@ -21,20 +21,20 @@ export const QuoteSchema = z.object({
     .string()
     .min(2, { message: 'Name must be at least 2 characters.' })
     .max(100, { message: 'Name must be less than 100 characters.' }),
-  email: z.string().email({ message: 'Invalid email address.' }),
-  phone: z.string().optional().or(z.literal('')),
-  service: z.string().min(1, { message: 'Please select a service.' }),
-  budget: z.string().min(1, { message: 'Please select a budget range.' }),
-  timeline: z.string().min(1, { message: 'Please select a timeline.' }),
+  email: z.string().max(254).email({ message: 'Invalid email address.' }),
+  phone: z.string().max(32).optional().or(z.literal('')),
+  service: z.string().max(100).min(1, { message: 'Please select a service.' }),
+  budget: z.string().max(100).min(1, { message: 'Please select a budget range.' }),
+  timeline: z.string().max(100).min(1, { message: 'Please select a timeline.' }),
   projectDetails: z
     .string()
     .min(10, { message: 'Project details must be at least 10 characters.' })
     .max(5000, { message: 'Project details must be less than 5000 characters.' }),
-  fileUrl: z.string().url({ message: 'Invalid file URL.' }).optional().or(z.literal('')),
+  fileUrl: z.string().max(2_048).url({ message: 'Invalid file URL.' }).optional().or(z.literal('')),
 });
 
 export const NewsletterSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address.' }),
+  email: z.string().max(254).email({ message: 'Invalid email address.' }),
 });
 
 export type ContactInput = z.infer<typeof ContactSchema>;

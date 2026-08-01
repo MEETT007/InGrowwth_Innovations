@@ -6,6 +6,9 @@ import { Header } from '@/components/shared/header';
 import { Footer } from '@/components/shared/footer';
 import { ClerkProvider } from '@clerk/nextjs';
 
+// A request-specific CSP nonce is generated in proxy.ts, so pages must render per request.
+export const dynamic = 'force-dynamic';
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],

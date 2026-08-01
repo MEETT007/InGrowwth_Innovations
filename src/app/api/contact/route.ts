@@ -3,14 +3,30 @@ import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rate-limit';
 import { ContactSchema } from '@/schemas/lead';
 import { sendLeadEmails } from '@/lib/mail';
+import {
+  getClientIp,
+  getIdempotencyKey,
+  readJsonBody,
+  requireSameOrigin,
+} from '@/lib/request-security';
+import { claimIdempotencyKey } from '@/lib/replay-protection';
 
 export async function POST(request: NextRequest) {
-  // Extract client IP address for rate limiting
-  const forwardedFor = request.headers.get('x-forwarded-for');
-  const ip = forwardedFor ? forwardedFor.split(',')[0].trim() : '127.0.0.1';
+  const sameOriginError = requireSameOrigin(request);
+  if (sameOriginError) return sameOriginError;
+
+  const idempotencyKey = getIdempotencyKey(request);
+  if (!idempotencyKey) {
+    return NextResponse.json(
+      { success: false, message: 'A valid Idempotency-Key header is required.' },
+      { status: 400 }
+    );
+  }
+
+  const ip = getClientIp(request);
 
   // 1. Rate Limiting: Max 5 submissions per minute per IP
-  const rateLimitResult = await rateLimit(ip, 5, 60000);
+  const rateLimitResult = await rateLimit(ip, 5, 60000, 'contact');
   if (!rateLimitResult.success) {
     return NextResponse.json(
       {
@@ -22,18 +38,11 @@ export async function POST(request: NextRequest) {
   }
 
   // Parse request body safely
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json(
-      { success: false, message: 'Malformed JSON payload.' },
-      { status: 400 }
-    );
-  }
+  const parsedBody = await readJsonBody(request);
+  if (!parsedBody.ok) return parsedBody.response;
 
   // 2. Zod Validation
-  const validationResult = ContactSchema.safeParse(body);
+  const validationResult = ContactSchema.safeParse(parsedBody.data);
   if (!validationResult.success) {
     return NextResponse.json(
       {
@@ -48,6 +57,13 @@ export async function POST(request: NextRequest) {
   const { name, email, subject, message } = validationResult.data;
 
   try {
+    if (!(await claimIdempotencyKey('contact', idempotencyKey))) {
+      return NextResponse.json(
+        { success: false, message: 'This submission has already been processed.' },
+        { status: 409 }
+      );
+    }
+
     // 3. Deduplication: check for identical submissions within the last 5 minutes
     const cutoff = new Date(Date.now() - 5 * 60 * 1000);
     const existing = await db.lead.findFirst({

@@ -21,7 +21,7 @@ export const dynamic = 'force-dynamic';
 export default async function AdminDashboardPage() {
   const { userId, role, jobTitle } = await getAuthUserRole();
 
-  if (!userId || !role) {
+  if (!userId || (role !== 'admin' && role !== 'editor')) {
     return (
       <div className="min-h-screen w-full flex bg-background -mt-6 md:-mt-8">
         {/* Left Side: Branding & Auth */}

@@ -45,7 +45,7 @@ export function Footer() {
     setStatus(null);
 
     try {
-      const res = await subscribeNewsletterAction({ email });
+      const res = await subscribeNewsletterAction({ email }, crypto.randomUUID());
       if (res.success) {
         setStatus({ success: true, message: res.message });
         setEmail('');

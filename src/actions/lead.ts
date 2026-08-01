@@ -10,31 +10,25 @@ import {
   QuoteInput,
   NewsletterInput,
 } from '@/schemas/lead';
-import { headers } from 'next/headers';
 import { sendLeadEmails } from '@/lib/mail';
+import { headers } from 'next/headers';
+import { isValidIdempotencyKey } from '@/lib/request-security';
+import { claimIdempotencyKey } from '@/lib/replay-protection';
 
-// Helper to extract client IP address
 async function getClientIp(): Promise<string> {
-  try {
-    const headersList = await headers();
-    const forwardedFor = headersList.get('x-forwarded-for');
-    if (forwardedFor) {
-      return forwardedFor.split(',')[0].trim();
-    }
-  } catch (error) {
-    console.error('Error fetching client headers:', error);
-  }
-  return '127.0.0.1';
+  const headersList = await headers();
+  const candidate = headersList.get('x-forwarded-for')?.split(',', 1)[0]?.trim() || 'unknown';
+  return /^[0-9a-fA-F:.]{3,45}$/.test(candidate) ? candidate : 'unknown';
 }
 
 /**
  * Server action to submit a contact inquiry form
  */
-export async function submitContactAction(rawInput: ContactInput) {
+export async function submitContactAction(rawInput: ContactInput, idempotencyKey: string) {
   const ip = await getClientIp();
 
   // Rate Limiting: Max 5 submissions per minute per IP
-  const rateLimitResult = await rateLimit(ip, 5, 60000);
+  const rateLimitResult = await rateLimit(ip, 5, 60000, 'contact');
   if (!rateLimitResult.success) {
     return {
       success: false,
@@ -52,9 +46,17 @@ export async function submitContactAction(rawInput: ContactInput) {
     };
   }
 
+  if (!isValidIdempotencyKey(idempotencyKey)) {
+    return { success: false, message: 'Invalid submission identifier. Please try again.' };
+  }
+
   const { name, email, subject, message } = validationResult.data;
 
   try {
+    if (!(await claimIdempotencyKey('contact', idempotencyKey))) {
+      return { success: false, message: 'This submission has already been processed.' };
+    }
+
     // Deduplication: check for identical submissions within the last 5 minutes
     const cutoff = new Date(Date.now() - 5 * 60 * 1000);
     const existing = await db.lead.findFirst({
@@ -105,11 +107,11 @@ export async function submitContactAction(rawInput: ContactInput) {
 /**
  * Server action to submit a quote request form
  */
-export async function submitQuoteAction(rawInput: QuoteInput) {
+export async function submitQuoteAction(rawInput: QuoteInput, idempotencyKey: string) {
   const ip = await getClientIp();
 
   // Rate Limiting: Max 5 submissions per minute per IP
-  const rateLimitResult = await rateLimit(ip, 5, 60000);
+  const rateLimitResult = await rateLimit(ip, 5, 60000, 'quote');
   if (!rateLimitResult.success) {
     return {
       success: false,
@@ -127,10 +129,18 @@ export async function submitQuoteAction(rawInput: QuoteInput) {
     };
   }
 
+  if (!isValidIdempotencyKey(idempotencyKey)) {
+    return { success: false, message: 'Invalid submission identifier. Please try again.' };
+  }
+
   const { name, email, phone, service, budget, timeline, projectDetails, fileUrl } =
     validationResult.data;
 
   try {
+    if (!(await claimIdempotencyKey('quote', idempotencyKey))) {
+      return { success: false, message: 'This submission has already been processed.' };
+    }
+
     // Deduplication: check for duplicate quote request for the same service in last 5 minutes
     const cutoff = new Date(Date.now() - 5 * 60 * 1000);
     const existing = await db.lead.findFirst({
@@ -185,11 +195,11 @@ export async function submitQuoteAction(rawInput: QuoteInput) {
 /**
  * Server action to subscribe to the newsletter
  */
-export async function subscribeNewsletterAction(rawInput: NewsletterInput) {
+export async function subscribeNewsletterAction(rawInput: NewsletterInput, idempotencyKey: string) {
   const ip = await getClientIp();
 
   // Rate Limiting: Max 10 subscription attempts per minute per IP
-  const rateLimitResult = await rateLimit(ip, 10, 60000);
+  const rateLimitResult = await rateLimit(ip, 10, 60000, 'newsletter');
   if (!rateLimitResult.success) {
     return {
       success: false,
@@ -206,9 +216,17 @@ export async function subscribeNewsletterAction(rawInput: NewsletterInput) {
     };
   }
 
+  if (!isValidIdempotencyKey(idempotencyKey)) {
+    return { success: false, message: 'Invalid submission identifier. Please try again.' };
+  }
+
   const { email } = validationResult.data;
 
   try {
+    if (!(await claimIdempotencyKey('newsletter', idempotencyKey))) {
+      return { success: false, message: 'This submission has already been processed.' };
+    }
+
     // Check if already subscribed
     const existing = await db.lead.findFirst({
       where: {

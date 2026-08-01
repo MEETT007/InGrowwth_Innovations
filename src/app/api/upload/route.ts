@@ -10,6 +10,24 @@ const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'applicatio
 
 // Max file size: 5MB
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_MULTIPART_REQUEST_SIZE = MAX_FILE_SIZE + 64 * 1024;
+
+function hasExpectedFileSignature(file: File, buffer: Buffer): boolean {
+  if (file.type === 'image/jpeg')
+    return buffer.subarray(0, 3).equals(Buffer.from([0xff, 0xd8, 0xff]));
+  if (file.type === 'image/png') {
+    return buffer
+      .subarray(0, 8)
+      .equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
+  }
+  if (file.type === 'image/webp') {
+    return (
+      buffer.subarray(0, 4).equals(Buffer.from('RIFF')) &&
+      buffer.subarray(8, 12).equals(Buffer.from('WEBP'))
+    );
+  }
+  return file.type === 'application/pdf' && buffer.subarray(0, 5).equals(Buffer.from('%PDF-'));
+}
 
 export async function POST(request: NextRequest) {
   // 1. Enforce Authentication & Role (Access restricted to admin/editor)
@@ -18,6 +36,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       { success: false, message: authCheck.error },
       { status: authCheck.status || 401 }
+    );
+  }
+
+  const contentLength = Number(request.headers.get('content-length'));
+  if (
+    !Number.isFinite(contentLength) ||
+    contentLength <= 0 ||
+    contentLength > MAX_MULTIPART_REQUEST_SIZE
+  ) {
+    return NextResponse.json(
+      { success: false, message: 'Upload request exceeds the 5MB limit.' },
+      { status: 413 }
     );
   }
 
@@ -52,7 +82,9 @@ export async function POST(request: NextRequest) {
     // 5. Parse folder query parameter and validate
     const { searchParams } = new URL(request.url);
     const folderParam = searchParams.get('folder') || '';
-    const folder = ['blogs', 'portfolio', 'team', 'resumes'].includes(folderParam)
+    const folder = ['blogs', 'casestudies', 'newsletter', 'portfolio', 'team', 'resumes'].includes(
+      folderParam
+    )
       ? folderParam
       : 'general';
 
@@ -65,6 +97,13 @@ export async function POST(request: NextRequest) {
     // Read file contents to Buffer
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
+
+    if (!hasExpectedFileSignature(file, buffer)) {
+      return NextResponse.json(
+        { success: false, message: 'The file contents do not match the declared file type.' },
+        { status: 400 }
+      );
+    }
 
     // 6. Handle S3 Upload or Local Fallback
     if (isS3Configured() && s3Client) {

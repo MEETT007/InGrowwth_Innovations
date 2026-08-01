@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { headers } from 'next/headers';
 import { MOCK_POSTS } from '@/lib/mock-data';
 import BlogDetailClient from './BlogDetailClient';
 
@@ -51,6 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const resolvedParams = await params;
+  const nonce = (await headers()).get('x-nonce') || undefined;
   const post = MOCK_POSTS.find((p) => p.slug === resolvedParams.slug);
 
   if (!post) {
@@ -86,8 +88,16 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <>
       <script
+        nonce={nonce}
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd)
+            .replace(/</g, '\\u003c')
+            .replace(/>/g, '\\u003e')
+            .replace(/&/g, '\\u0026')
+            .replace(/\u2028/g, '\\u2028')
+            .replace(/\u2029/g, '\\u2029'),
+        }}
       />
       <BlogDetailClient post={post} />
     </>

@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAuthAndRole } from '@/lib/auth';
 
-export async function GET(_request: NextRequest) {
+export async function GET() {
   const authCheck = await requireAuthAndRole(['admin', 'editor']);
   if (!authCheck.authorized) {
     return NextResponse.json({ success: false, message: authCheck.error }, { status: 401 });

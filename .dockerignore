@@ -7,3 +7,7 @@ README.md
 .git
 .github
 legacy
+.env
+.env.*
+!.env.example
+*.pem

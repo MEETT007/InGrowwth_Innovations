@@ -12,10 +12,16 @@ export interface AuthRoleCheckResult {
 }
 
 /**
- * Extracts the user role from Clerk session claims and public metadata.
- * Dynamically assigns jobTitle based on the user's registered email address.
+ * Resolves the user's application role.
+ *
+ * Access is deny-by-default: a new Clerk account is a regular user, not an editor.
+ * Only explicitly allowlisted company accounts receive an administrative role.
  */
-export async function getAuthUserRole(): Promise<{ userId: string | null; role: UserRole | null; jobTitle: string | null }> {
+export async function getAuthUserRole(): Promise<{
+  userId: string | null;
+  role: UserRole | null;
+  jobTitle: string | null;
+}> {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -23,10 +29,10 @@ export async function getAuthUserRole(): Promise<{ userId: string | null; role: 
     }
 
     const user = await currentUser();
-    const email = user?.emailAddresses?.[0]?.emailAddress?.toLowerCase() || '';
+    const email = user?.primaryEmailAddress?.emailAddress?.toLowerCase() || '';
 
-    let jobTitle = 'Employee';
-    let role: UserRole = 'editor'; // Default to editor for standard employees
+    let jobTitle: string | null = null;
+    let role: UserRole = 'user';
 
     if (email === 'meett2110@gmail.com') {
       jobTitle = 'CEO and Founder';
