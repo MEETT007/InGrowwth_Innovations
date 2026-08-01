@@ -10,7 +10,15 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function LeadDetailsModal({ isOpen, onClose, lead }: { isOpen: boolean, onClose: () => void, lead: any }) {
+export function LeadDetailsModal({
+  isOpen,
+  onClose,
+  lead,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  lead: any;
+}) {
   if (!lead) return null;
 
   const getStatusBadge = (status: string) => {
@@ -68,14 +76,12 @@ export function LeadDetailsModal({ isOpen, onClose, lead }: { isOpen: boolean, o
       <DialogContent className="max-w-2xl sm:max-w-3xl max-h-[85vh] p-0 overflow-hidden bg-background border-border/50">
         <DialogHeader className="px-6 py-4 border-b border-border/50 bg-background/80 backdrop-blur z-10 sticky top-0">
           <DialogTitle>Lead Details</DialogTitle>
-          <DialogDescription>
-            ID: {lead.id}
-          </DialogDescription>
+          <DialogDescription>ID: {lead.id}</DialogDescription>
         </DialogHeader>
 
         <ScrollArea className="px-6 py-6 h-full max-h-[calc(85vh-80px)]">
           <div className="space-y-6 text-sm">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="text-muted-foreground font-medium block">Lead Type</label>
                 <div className="mt-1">{getTypeBadge(lead.type)}</div>
@@ -90,9 +96,7 @@ export function LeadDetailsModal({ isOpen, onClose, lead }: { isOpen: boolean, o
               <label className="text-muted-foreground font-medium block">Contact Info</label>
               <p className="font-bold text-foreground mt-0.5">{lead.name || 'N/A'}</p>
               <p className="text-muted-foreground font-mono">{lead.email}</p>
-              {lead.phone && (
-                <p className="text-muted-foreground">{lead.phone}</p>
-              )}
+              {lead.phone && <p className="text-muted-foreground">{lead.phone}</p>}
             </div>
 
             {lead.subject && (
@@ -113,33 +117,27 @@ export function LeadDetailsModal({ isOpen, onClose, lead }: { isOpen: boolean, o
 
             {lead.service && (
               <div>
-                <label className="text-muted-foreground font-medium block">
-                  Requested Service
-                </label>
+                <label className="text-muted-foreground font-medium block">Requested Service</label>
                 <p className="font-medium text-primary mt-0.5">{lead.service}</p>
               </div>
             )}
 
             {(lead.budget || lead.timeline) && (
-              <div className="grid grid-cols-2 gap-4 pt-2 border-t border-border/40">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-border/40">
                 <div>
                   <label className="text-muted-foreground font-medium block">Budget</label>
                   <p className="font-medium text-foreground">{lead.budget || 'N/A'}</p>
                 </div>
                 <div>
                   <label className="text-muted-foreground font-medium block">Timeline</label>
-                  <p className="font-medium text-foreground">
-                    {lead.timeline || 'N/A'}
-                  </p>
+                  <p className="font-medium text-foreground">{lead.timeline || 'N/A'}</p>
                 </div>
               </div>
             )}
 
             {lead.projectDetails && (
               <div>
-                <label className="text-muted-foreground font-medium block">
-                  Project Details
-                </label>
+                <label className="text-muted-foreground font-medium block">Project Details</label>
                 <div className="mt-1 p-3 rounded-lg bg-muted/40 border border-border/60 whitespace-pre-wrap text-foreground text-sm">
                   {lead.projectDetails}
                 </div>

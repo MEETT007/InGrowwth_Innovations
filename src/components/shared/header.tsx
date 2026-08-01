@@ -3,34 +3,20 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-  Menu,
-  X,
-  ArrowRight,
-  Sparkles,
-  Briefcase,
-  Code2,
-  FolderKanban,
-  BookOpen,
-  Users,
-  Mail,
-  Shield,
-  LayoutDashboard,
-  Layers,
-} from 'lucide-react';
+import { Menu, X, ArrowRight, LayoutDashboard, Box } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './theme-toggle';
 import { Button } from '@/components/ui/button';
 import { UserButton, useAuth } from '@clerk/nextjs';
 
 const navLinks = [
-  { href: '/about', label: 'About', icon: Shield },
-  { href: '/services', label: 'Services', icon: Briefcase },
-  { href: '/projects', label: 'Projects', icon: FolderKanban },
-  { href: '/technologies', label: 'Tech Stack', icon: Code2 },
-  { href: '/blog', label: 'Blog', icon: BookOpen },
-  { href: '/careers', label: 'Careers', icon: Users },
-  { href: '/contact', label: 'Contact', icon: Mail },
+  { href: '/about', label: 'About' },
+  { href: '/services', label: 'Services' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/technologies', label: 'Tech Stack' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/careers', label: 'Careers' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 export function Header() {
@@ -41,13 +27,12 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 15);
+      setScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsOpen(false);
@@ -58,69 +43,53 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full transition-all duration-300">
-      {/* Top Banner Chip */}
-      <div className="hidden lg:flex items-center justify-center bg-gradient-to-r from-indigo-100/60 via-purple-100/60 to-pink-100/60 dark:from-indigo-900/30 dark:via-purple-900/30 dark:to-pink-900/30 backdrop-blur-md border-b border-indigo-200/50 dark:border-white/5 py-1.5 px-4 text-xs font-medium text-indigo-950 dark:text-muted-foreground">
-        <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-semibold text-[10px] tracking-wider uppercase">
-            New
-          </span>
-          <span>Architecting Enterprise AI & Custom Cloud Systems</span>
-          <Link
-            href="/contact?type=quote"
-            className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline flex items-center gap-1 ml-1"
-          >
-            Start your project <ArrowRight className="w-3 h-3" />
-          </Link>
-        </div>
-      </div>
-
-      {/* Main Header Navigation Bar */}
-      <div
-        className={`w-full transition-all duration-500 ${
-          scrolled
-            ? 'bg-background/80 dark:bg-background/70 backdrop-blur-xl border-b border-border/50 shadow-sm'
-            : 'bg-transparent border-b border-transparent'
-        }`}
+    <header className="fixed top-0 left-0 right-0 z-50 w-full pt-4 px-4 transition-all duration-500 flex justify-center pointer-events-none">
+      {/* Floating Glassmorphic Nav with Gradient Halo */}
+      <motion.div
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+        className="pointer-events-auto w-full max-w-7xl relative rounded-full p-[1px] bg-gradient-to-r from-indigo-500/30 via-purple-500/30 to-pink-500/30 shadow-[0_8px_30px_rgb(0,0,0,0.05)] hover:shadow-indigo-500/20 transition-all duration-500 group/nav"
       >
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="relative w-9 h-9 flex items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-600 shadow-lg shadow-indigo-500/30 overflow-hidden shrink-0">
-              {/* Premium shine effect on hover */}
+        <div
+          className={`w-full h-full rounded-full flex items-center justify-between px-4 py-2.5 transition-all duration-500 ${
+            scrolled ? 'bg-background/80 backdrop-blur-2xl' : 'bg-background/50 backdrop-blur-md'
+          }`}
+        >
+          {/* Left: Custom Premium Logo Mark */}
+          <Link href="/" className="flex items-center gap-3 group pl-1">
+            <div className="relative w-9 h-9 rounded-[10px] bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30 transition-all duration-500 shrink-0 overflow-hidden">
+              {/* Animated glass shine overlay */}
               <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.4)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%,100%_100%] bg-[position:-100%_0,0_0] bg-no-repeat transition-[background-position] duration-700 ease-in-out group-hover:bg-[position:200%_0,0_0]" />
-              <Layers className="w-5 h-5 text-white relative z-10 drop-shadow-sm transition-transform duration-500 group-hover:scale-110" />
+              <Box className="w-5 h-5 text-white relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12" />
             </div>
-            <div className="flex flex-col justify-center">
-              <div className="flex items-baseline gap-1">
-                <span className="text-[1.35rem] font-extrabold tracking-tight text-foreground leading-none">
-                  InGrowwth
-                  <span className="text-indigo-500">.</span>
-                </span>
-              </div>
+            <div className="flex items-center gap-1">
+              <span className="text-[1rem] sm:text-[1.15rem] font-bold tracking-tight text-foreground group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-indigo-500 group-hover:to-purple-500 transition-all duration-300 line-clamp-1 whitespace-nowrap">
+                InGrowwth Innovations
+              </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1.5 bg-muted/30 p-1.5 rounded-full border border-border/40 backdrop-blur-md">
+          {/* Center: Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative px-4 py-1.5 text-xs font-semibold rounded-full transition-all duration-200 ${
+                  className={`relative px-3.5 py-1.5 text-sm font-medium rounded-full transition-colors duration-300 ${
                     isActive
-                      ? 'text-foreground font-bold'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                      ? 'text-foreground font-semibold'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-foreground/5'
                   }`}
                 >
                   {link.label}
                   {isActive && (
                     <motion.div
-                      layoutId="activeHeaderNav"
-                      className="absolute inset-0 bg-background shadow-xs border border-border/60 rounded-full -z-10"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      layoutId="header-nav-indicator"
+                      className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-full -z-10"
+                      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                     />
                   )}
                 </Link>
@@ -128,107 +97,95 @@ export function Header() {
             })}
           </nav>
 
-          {/* Actions (Desktop) */}
-          <div className="hidden lg:flex items-center gap-3">
-            <ThemeToggle />
-
-            {isSignedIn && (
-              <div className="flex items-center gap-3 bg-muted/40 p-1 pl-3 rounded-full border border-border/40">
+          {/* Right: Actions */}
+          <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-2 mr-2">
+              <ThemeToggle />
+              {isSignedIn && (
                 <Link
                   href="/admin"
-                  className="text-xs font-bold text-foreground flex items-center gap-1.5 hover:text-indigo-500 transition-colors"
+                  className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border hover:bg-muted text-sm font-medium transition-colors"
                 >
-                  <LayoutDashboard className="w-3.5 h-3.5 text-indigo-500" />
+                  <LayoutDashboard className="w-4 h-4" />
                   Admin
                 </Link>
-                <UserButton />
-              </div>
-            )}
+              )}
+              {isSignedIn && <UserButton />}
+            </div>
 
             <Button
               render={<Link href="/contact?type=quote" />}
               nativeButton={false}
               size="sm"
               variant="gradient"
-              className="cursor-pointer shadow-indigo-500/20 hover:scale-105 transition-transform"
+              className="hidden sm:flex rounded-full px-5 cursor-pointer shadow-md shadow-indigo-500/20 group-hover/nav:shadow-indigo-500/40 transition-shadow"
             >
-              <span>Get a Quote</span>
-              <ArrowRight />
+              Get a Quote <ArrowRight className="ml-1 w-4 h-4" />
             </Button>
-          </div>
 
-          {/* Mobile Hamburger & Toggle */}
-          <div className="flex lg:hidden items-center gap-3">
-            <ThemeToggle />
+            {/* Mobile Menu Toggle */}
             <Button
-              variant="outline"
+              variant="ghost"
               size="icon"
               onClick={() => setIsOpen(!isOpen)}
-              className="bg-muted/60 hover:bg-muted border-border/40 text-foreground cursor-pointer"
+              className="lg:hidden rounded-full text-foreground"
               aria-label="Toggle Menu"
             >
               {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Mobile Navigation Dropdown */}
+      {/* Mobile Nav Dropdown */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="lg:hidden w-full bg-background/95 backdrop-blur-2xl border-b border-border/50 shadow-2xl overflow-hidden"
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="absolute top-[80px] left-4 right-4 bg-background/95 backdrop-blur-xl border border-indigo-500/20 shadow-2xl shadow-indigo-500/10 rounded-2xl overflow-hidden p-4 flex flex-col gap-2 lg:hidden pointer-events-auto"
           >
-            <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col gap-6">
-              <div className="grid grid-cols-2 gap-2">
-                {navLinks.map((link) => {
-                  const isActive = pathname === link.href;
-                  const Icon = link.icon;
-                  return (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={`flex items-center gap-2.5 p-3 rounded-2xl text-xs font-semibold transition-all ${
-                        isActive
-                          ? 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20'
-                          : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
-                      }`}
-                    >
-                      <div className="p-2 rounded-xl bg-background border border-border/40">
-                        <Icon className="w-4 h-4 text-indigo-500" />
-                      </div>
-                      <span>{link.label}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-
-              <div className="flex flex-col gap-3 pt-4 border-t border-border/40">
-                {isSignedIn && (
-                  <Link
-                    href="/admin"
-                    className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-muted text-xs font-bold text-foreground"
-                  >
-                    <LayoutDashboard className="w-4 h-4 text-indigo-500" />
-                    Go to Admin Dashboard
-                  </Link>
-                )}
-
-                <Button
-                  render={<Link href="/contact?type=quote" />}
-                  nativeButton={false}
-                  variant="gradient"
-                  size="default"
-                  className="w-full shadow-indigo-500/20"
+            <div className="flex items-center justify-between mb-2 pb-2 border-b border-border/40">
+              <span className="font-bold text-foreground">Menu</span>
+              <ThemeToggle />
+            </div>
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'bg-gradient-to-r from-indigo-500/10 to-purple-500/10 text-indigo-600 dark:text-indigo-400 font-semibold'
+                      : 'text-muted-foreground hover:bg-muted'
+                  }`}
                 >
-                  <span>Get a Quote</span>
-                  <ArrowRight />
-                </Button>
-              </div>
+                  {link.label}
+                </Link>
+              );
+            })}
+
+            <div className="pt-2 mt-2 border-t border-border/40 flex flex-col gap-2">
+              {isSignedIn && (
+                <Link
+                  href="/admin"
+                  className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-muted text-sm font-medium text-foreground"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  Admin Dashboard
+                </Link>
+              )}
+              <Button
+                render={<Link href="/contact?type=quote" />}
+                nativeButton={false}
+                variant="gradient"
+                className="w-full rounded-xl"
+              >
+                Get a Quote <ArrowRight className="ml-1 w-4 h-4" />
+              </Button>
             </div>
           </motion.div>
         )}
