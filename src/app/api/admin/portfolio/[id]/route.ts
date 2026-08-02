@@ -48,6 +48,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       cta,
       seoTitle,
       seoDescription,
+      slug,
     } = body;
 
     const existing = await db.portfolioProject.findUnique({ where: { id } });
@@ -61,6 +62,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const updated = await db.portfolioProject.update({
       where: { id },
       data: {
+        ...(slug !== undefined && { slug }),
         ...(title !== undefined && { title }),
         ...(client !== undefined && { client }),
         ...(category !== undefined && { category }),
