@@ -21,11 +21,11 @@ interface ProjectDetailClientProps {
     client: string;
     category: string;
     description: string;
-    projectOverview: string;
-    websiteUrl: string;
-    features: string;
-    technologiesUsed: string;
-    gallery: string;
+    projectOverview: string | null;
+    websiteUrl: string | null;
+    features: string | null;
+    technologiesUsed: string | null;
+    gallery: string | null;
     [key: string]: unknown;
   };
 }
