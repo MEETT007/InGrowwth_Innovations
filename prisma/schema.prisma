@@ -134,6 +134,7 @@ model BlogPost {
 
 model PortfolioProject {
   id               String   @id @default(uuid())
+  slug             String?  @unique
   title            String
   client           String
   category         String

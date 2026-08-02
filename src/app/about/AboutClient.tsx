@@ -127,37 +127,176 @@ export default function AboutClient({ initialTeam }: AboutClientProps) {
           direction="right"
           className="relative flex justify-center lg:justify-end"
         >
-          {/* Abstract Premium CSS Graphic representing Digital Growth */}
-          <div className="w-full max-w-md h-80 rounded-2xl bg-gradient-to-br from-indigo-100/60 via-purple-100/60 to-pink-100/60 dark:from-indigo-900/40 dark:via-purple-950/40 dark:to-pink-900/40 border border-indigo-200/50 dark:border-indigo-500/20 p-6 flex flex-col justify-between shadow-2xl backdrop-blur-md relative overflow-hidden group/graphic">
-            {/* Grid pattern background */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+          {/* Ultra-Premium Interactive 3D Card (Dark & Light Mode Supported) */}
+          <div className="relative w-full max-w-md h-[26rem] perspective-[2000px] group/supercard flex justify-center lg:justify-end">
+            {/* Ambient Mobile Floating Wrapper */}
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+              className="w-full h-full"
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 30, rotateX: 15 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                transition={{ duration: 1, type: 'spring', bounce: 0.5 }}
+                viewport={{ once: true }}
+                className="relative w-full h-full rounded-[2.5rem] transition-all duration-300 ease-out preserve-3d"
+                whileHover={{
+                  rotateX: 10,
+                  rotateY: -15,
+                  scale: 1.05,
+                  boxShadow:
+                    '0 30px 60px -12px rgba(99, 102, 241, 0.4), 0 18px 36px -18px rgba(236, 72, 153, 0.4)',
+                }}
+                style={{
+                  boxShadow: '0 20px 40px -10px rgba(0,0,0,0.2)',
+                }}
+              >
+                {/* Outer Glowing Border Effect (Always visible pulsing on mobile, hover on desktop) */}
+                <div className="absolute inset-[-2px] rounded-[2.6rem] bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 dark:from-indigo-500 dark:via-purple-500 dark:to-pink-500 opacity-60 md:opacity-0 group-hover/supercard:opacity-100 blur-xl transition-opacity duration-700 pointer-events-none -z-10 animate-pulse" />
 
-            {/* Soft background glows */}
-            <div className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-indigo-500/10 blur-2xl group-hover/graphic:bg-indigo-500/20 transition-colors duration-500" />
-            <div className="absolute bottom-1/4 right-1/4 w-32 h-32 rounded-full bg-pink-500/10 blur-2xl group-hover/graphic:bg-pink-500/20 transition-colors duration-500" />
+                {/* Main Background with Dark/Light Bifurcation */}
+                <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-indigo-50/90 via-purple-50/90 to-pink-50/90 dark:from-indigo-950/90 dark:via-purple-950/95 dark:to-slate-900/95 border border-indigo-900/10 dark:border-white/10" />
 
-            <div className="flex justify-between items-start z-10">
-              <span className="text-[10px] font-mono text-indigo-400 bg-indigo-950/50 border border-indigo-500/30 px-2 py-0.5 rounded">
-                SYSTEM_STATUS: ACTIVE
-              </span>
-              <span className="text-[10px] font-mono text-pink-400">v1.0.4</span>
-            </div>
+                {/* Inner content container */}
+                <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden">
+                  {/* Complex Background Noise & Grid */}
+                  <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+                  <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_40%,transparent_100%)] opacity-50 md:opacity-30 group-hover/supercard:opacity-60 transition-opacity duration-1000" />
 
-            <div className="flex flex-col gap-2 z-10">
-              <div className="h-1.5 w-1/3 rounded bg-indigo-500/40 group-hover/graphic:w-1/2 transition-all duration-700" />
-              <div className="h-1.5 w-2/3 rounded bg-purple-500/40 group-hover/graphic:w-3/4 transition-all duration-700 delay-75" />
-              <div className="h-1.5 w-1/2 rounded bg-pink-500/40 group-hover/graphic:w-full transition-all duration-700 delay-150" />
-            </div>
+                  {/* Moving Orbs */}
+                  <motion.div
+                    animate={{
+                      x: [0, 50, -20, 0],
+                      y: [0, -30, 40, 0],
+                      scale: [1, 1.2, 0.8, 1],
+                    }}
+                    transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                    className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-indigo-500/20 dark:bg-indigo-500/30 blur-[70px] pointer-events-none"
+                  />
+                  <motion.div
+                    animate={{
+                      x: [0, -40, 30, 0],
+                      y: [0, 50, -20, 0],
+                      scale: [1, 0.9, 1.3, 1],
+                    }}
+                    transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+                    className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-pink-500/10 dark:bg-pink-500/20 blur-[70px] pointer-events-none"
+                  />
 
-            <div className="flex items-end justify-between z-10">
-              <div>
-                <p className="text-xl font-bold font-mono tracking-tight text-white">InGrowwth</p>
-                <p className="text-xs text-indigo-300 font-mono">Digital Solutions Inc.</p>
-              </div>
-              <div className="h-12 w-12 rounded-xl bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center shadow-lg group-hover/graphic:rotate-6 transition-transform duration-500">
-                <Cpu className="h-6 w-6 text-white" />
-              </div>
-            </div>
+                  {/* Glare effect on hover (Static but visible on mobile) */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 dark:via-white/5 to-transparent opacity-50 md:opacity-0 group-hover/supercard:opacity-100 group-hover/supercard:translate-x-full transition-all duration-1000 ease-in-out pointer-events-none transform translate-x-[-30%] md:-translate-x-full" />
+                </div>
+
+                {/* 3D Elevated Content */}
+                <div className="relative h-full w-full p-8 flex flex-col justify-between z-10 translate-z-[60px] preserve-3d">
+                  {/* Header */}
+                  <div className="flex justify-between items-start translate-z-[40px]">
+                    <div className="inline-flex items-center gap-2 bg-emerald-500/20 dark:bg-emerald-500/10 border border-emerald-600/30 dark:border-emerald-500/20 px-3 py-1.5 rounded-full backdrop-blur-md shadow-[0_0_15px_rgba(16,185,129,0.1)] dark:shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                      <div className="h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-400 shadow-[0_0_10px_rgba(5,150,105,1)] dark:shadow-[0_0_10px_rgba(52,211,153,1)] animate-ping" />
+                      <span className="text-[10px] font-mono font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-widest">
+                        System Live
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5 opacity-100 md:opacity-60 dark:md:opacity-50 group-hover/supercard:opacity-100 transition-opacity">
+                      <Sparkles className="h-4 w-4 text-pink-600 dark:text-pink-400" />
+                      <span className="text-[10px] font-mono text-pink-700 dark:text-pink-400 font-bold dark:font-normal">
+                        v2.0.MAX
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Central Hologram Data */}
+                  <div className="flex-1 flex flex-col justify-center mt-4 translate-z-[80px]">
+                    <div className="relative w-full h-32 flex items-end justify-between gap-2">
+                      {/* Animated Data Bars */}
+                      {[
+                        {
+                          h: 30,
+                          color: 'from-indigo-600 to-indigo-400',
+                          shadow: 'rgba(79,70,229,0.5)',
+                        },
+                        {
+                          h: 60,
+                          color: 'from-purple-600 to-purple-400',
+                          shadow: 'rgba(147,51,234,0.5)',
+                        },
+                        {
+                          h: 45,
+                          color: 'from-pink-600 to-pink-400',
+                          shadow: 'rgba(219,39,119,0.5)',
+                        },
+                        {
+                          h: 90,
+                          color: 'from-rose-600 to-rose-400',
+                          shadow: 'rgba(225,29,72,0.5)',
+                        },
+                        {
+                          h: 75,
+                          color: 'from-fuchsia-600 to-fuchsia-400',
+                          shadow: 'rgba(192,38,211,0.5)',
+                        },
+                        {
+                          h: 100,
+                          color: 'from-violet-600 to-violet-400',
+                          shadow: 'rgba(124,58,237,0.5)',
+                        },
+                      ].map((bar, i) => (
+                        <div
+                          key={i}
+                          className="relative w-full bg-black/5 dark:bg-white/5 rounded-t-md overflow-hidden h-full group/bar border border-black/5 dark:border-white/5"
+                        >
+                          <motion.div
+                            initial={{ height: 0 }}
+                            whileInView={{ height: `${bar.h}%` }}
+                            transition={{
+                              duration: 1.5,
+                              delay: i * 0.15,
+                              type: 'spring',
+                              bounce: 0.6,
+                            }}
+                            className={`absolute bottom-0 w-full rounded-t-md bg-gradient-to-t ${bar.color} opacity-100 md:opacity-90 dark:md:opacity-80 group-hover/supercard:opacity-100 shadow-[0_0_20px_${bar.shadow}]`}
+                          >
+                            <div className="absolute top-0 w-full h-1 bg-white/70 dark:bg-white/50" />
+                          </motion.div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Floating Data Points */}
+                    <div className="flex justify-between mt-4 text-[10px] font-mono text-indigo-900/60 dark:text-indigo-300/70 font-extrabold dark:font-normal uppercase tracking-widest">
+                      <span>Latency: 12ms</span>
+                      <span>Load: 98%</span>
+                      <span>Sync: OK</span>
+                    </div>
+                  </div>
+
+                  {/* Footer Brand */}
+                  <div className="flex items-end justify-between mt-8 translate-z-[60px]">
+                    <div>
+                      <motion.h3 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-950 via-purple-900 to-indigo-900 dark:from-white dark:via-indigo-100 dark:to-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] tracking-tight">
+                        InGrowwth
+                      </motion.h3>
+                      <p className="text-sm font-bold dark:font-semibold text-indigo-700 dark:text-indigo-300 mt-1 tracking-widest uppercase flex items-center gap-2">
+                        Innovations{' '}
+                        <span className="h-px w-6 bg-indigo-500/40 dark:bg-indigo-500/50 block" />
+                      </p>
+                    </div>
+                    <motion.div
+                      animate={{ scale: [1, 1.05, 1] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                      whileHover={{ rotate: 360, scale: 1.15 }}
+                      className="h-16 w-16 rounded-[1.25rem] bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 dark:from-indigo-500 dark:via-purple-500 dark:to-pink-500 p-[1.5px] shadow-[0_0_20px_rgba(167,139,250,0.3)] dark:shadow-[0_0_30px_rgba(167,139,250,0.5)] cursor-pointer"
+                    >
+                      <div className="h-full w-full rounded-[1.2rem] bg-white/90 dark:bg-[#0f172a] flex items-center justify-center relative overflow-hidden group/icon backdrop-blur-md">
+                        <div className="absolute inset-0 bg-black/5 dark:bg-white/5 group-hover/icon:bg-black/10 dark:group-hover/icon:bg-white/20 transition-colors" />
+                        <Cpu className="h-7 w-7 text-indigo-900 dark:text-white drop-shadow-sm dark:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                      </div>
+                    </motion.div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
           </div>
         </AnimatedContainer>
       </section>

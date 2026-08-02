@@ -1,70 +1,83 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import {
   ArrowLeft,
-  ArrowRight,
-  CheckCircle2,
-  Code2,
-  Zap,
-  ChevronLeft,
-  ChevronRight,
   ExternalLink,
-  Calendar,
   Tag,
+  CheckCircle2,
+  LayoutGrid,
+  Cpu,
+  Sparkles,
 } from 'lucide-react';
 import { AnimatedContainer } from '@/components/shared/AnimatedContainer';
-import { Button } from '@/components/ui/button';
-import { projects, type Project } from '@/lib/mock-data';
 
 interface ProjectDetailClientProps {
-  project: Project;
+  data: {
+    title: string;
+    client: string;
+    category: string;
+    description: string;
+    projectOverview: string;
+    websiteUrl: string;
+    features: string;
+    technologiesUsed: string;
+    gallery: string;
+    [key: string]: unknown;
+  };
 }
 
-const gradientToEmoji: Record<string, string> = {
-  sensai: '🤖',
-  'easy-farm-hub': '🌾',
-  'sankalp-library': '📚',
-  'ahmedabad-builders': '🏗️',
-  quickchat: '💬',
-  'smart-irrigation': '💧',
-  'adventure-sports-club': '🏊',
-  'crunchy-coffee': '☕',
-};
+export default function ProjectDetailClient({ data }: ProjectDetailClientProps) {
+  const {
+    title,
+    client,
+    category,
+    description,
+    projectOverview,
+    websiteUrl,
+    features,
+    technologiesUsed,
+  } = data;
 
-export default function ProjectDetailClient({ project }: ProjectDetailClientProps) {
-  const [activeSlide, setActiveSlide] = useState(0);
+  const galleryArray = data.gallery ? data.gallery.split(',') : [];
+  const coverImage = galleryArray.length > 0 ? galleryArray[0] : null;
+  const gradient = 'from-indigo-500 to-purple-500';
 
-  const totalSlides = project.screenshots.length;
-  const nextSlide = () => setActiveSlide((prev) => (prev + 1) % totalSlides);
-  const prevSlide = () => setActiveSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  let parsedFeatures: string[] = [];
+  try {
+    if (features) parsedFeatures = JSON.parse(features);
+  } catch {}
 
-  const emoji = gradientToEmoji[project.slug] ?? '💡';
-
-  const otherProjects = projects.filter((p) => p.slug !== project.slug).slice(0, 3);
+  let parsedTech: string[] = [];
+  try {
+    if (technologiesUsed) parsedTech = JSON.parse(technologiesUsed);
+  } catch {}
 
   return (
     <div className="flex flex-col min-h-screen relative overflow-hidden bg-background py-12">
-      {/* Background glows */}
+      {/* Dynamic glow effects */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-pink-500/10 blur-[120px] pointer-events-none" />
 
-      {/* Back Button */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-10 w-full">
-        <Link
-          href="/projects"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors font-medium group"
-        >
-          <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-          Back to Projects
+      {/* Floating Back Button - Magnetic effect */}
+      <div className="fixed top-24 left-6 md:left-12 z-50">
+        <Link href="/projects">
+          <motion.div
+            whileHover={{ scale: 1.05, x: -5 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-2 bg-background/80 backdrop-blur-md border border-border/60 shadow-lg px-4 py-2.5 rounded-full text-sm font-semibold text-foreground transition-colors hover:bg-muted/80"
+          >
+            <ArrowLeft className="h-4 w-4 text-indigo-500" />
+            Back to Portfolio
+          </motion.div>
         </Link>
       </div>
 
       {/* Hero Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-10 pb-8 w-full">
+      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left: Text */}
           <motion.div
@@ -76,375 +89,176 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
             {/* Category badge */}
             <div className="flex items-center gap-3">
               <span
-                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${project.colorClass} border border-current/20`}
+                className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold text-indigo-500 bg-indigo-500/10 border border-indigo-500/20`}
               >
-                <Tag className="h-3 w-3" />
-                {project.category}
-              </span>
-              <span className="flex items-center gap-1 text-xs text-muted-foreground font-medium">
-                <Calendar className="h-3 w-3" />
-                {project.year}
+                <Tag className="h-3.5 w-3.5" />
+                {category || 'Web Development'}
               </span>
             </div>
 
             <div>
-              <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground">
-                <span
-                  className={`bg-gradient-to-r ${project.gradient} bg-clip-text text-transparent`}
-                >
-                  {project.title}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground leading-tight">
+                <span className={`bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}>
+                  {title}
                 </span>
               </h1>
-              <p className="text-lg text-muted-foreground mt-2 font-medium">{project.tagline}</p>
+              <p className="text-lg text-muted-foreground mt-4 font-medium flex items-center gap-2">
+                <span className="w-8 h-[1px] bg-border/80 block"></span>
+                Client: <span className="text-foreground">{client || 'Confidential'}</span>
+              </p>
             </div>
 
-            <p className="text-base text-muted-foreground leading-relaxed">{project.description}</p>
+            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+              {description}
+            </p>
 
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2">
-              {project.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs font-semibold px-3 py-1 rounded-full bg-muted/60 border border-border/40 text-muted-foreground"
+            {websiteUrl && (
+              <div className="pt-4 flex flex-wrap gap-4">
+                <a
+                  href={websiteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-foreground text-background px-8 py-3.5 rounded-full font-semibold transition-all hover:scale-105 active:scale-95 shadow-xl shadow-black/10"
                 >
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                render={<Link href={`/contact?type=quote&project=${project.slug}`} />}
-                nativeButton={false}
-                size="lg"
-                variant="gradient"
-                className="cursor-pointer group w-fit"
-              >
-                Request Similar Project
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-              <Button
-                render={<Link href="/contact" />}
-                nativeButton={false}
-                variant="outline"
-                size="lg"
-                className="cursor-pointer w-fit"
-              >
-                <ExternalLink className="h-4 w-4" />
-                Talk to an Expert
-              </Button>
-            </div>
+                  Visit Live Project <ExternalLink className="h-4 w-4" />
+                </a>
+              </div>
+            )}
           </motion.div>
 
-          {/* Right: Hero visual */}
+          {/* Right: Main Image */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="flex justify-center"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="relative"
           >
-            <div
-              className={`w-full max-w-lg aspect-square rounded-3xl bg-gradient-to-br ${project.gradient} flex items-center justify-center shadow-2xl relative overflow-hidden`}
-            >
-              <div className="absolute inset-0 bg-black/10" />
-              {/* Grid pattern overlay */}
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:32px_32px]" />
-              {project.coverImage ? (
-                <Image
-                  src={project.coverImage}
-                  alt={project.title}
-                  fill
-                  className="object-contain p-8 sm:p-16"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  priority
-                />
-              ) : (
-                <div className="relative flex flex-col items-center gap-4">
-                  <span className="text-[120px] leading-none">{emoji}</span>
-                  <div className="flex flex-wrap gap-2 justify-center px-8">
-                    {project.tech.slice(0, 4).map((t) => (
-                      <span
-                        key={t}
-                        className="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/20 text-white border border-white/30"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+            <div className="relative rounded-[2rem] overflow-hidden border border-border/50 bg-card/40 backdrop-blur-sm shadow-2xl p-2 aspect-[4/3] flex items-center justify-center transform lg:rotate-2 hover:rotate-0 transition-transform duration-500">
+              {coverImage ? (
+                <div className="relative w-full h-full rounded-[1.5rem] overflow-hidden shadow-inner">
+                  <Image
+                    src={coverImage}
+                    alt={title}
+                    fill
+                    className="object-cover object-top"
+                    priority
+                  />
                 </div>
+              ) : (
+                <div
+                  className={`w-full h-full rounded-[1.5rem] bg-gradient-to-br ${gradient} opacity-20`}
+                />
               )}
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Screenshot Gallery */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-16 w-full border-t border-border/40">
-        <AnimatedContainer direction="up" delay={0.1}>
-          <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8 text-center">
-            Project Screenshots
-          </h2>
-        </AnimatedContainer>
-
-        <AnimatedContainer direction="up" delay={0.2}>
-          {/* Carousel */}
-          <div className="relative">
-            {/* Main display */}
-            <div className="relative aspect-video max-w-4xl mx-auto rounded-2xl overflow-hidden border border-border/50 bg-card shadow-2xl">
-              <motion.div
-                key={activeSlide}
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -40 }}
-                transition={{ duration: 0.35 }}
-                className="w-full h-full"
-              >
-                <div className="relative w-full h-full bg-black/5 flex items-center justify-center">
-                  <Image
-                    src={project.screenshots[activeSlide].src}
-                    alt={project.screenshots[activeSlide].alt}
-                    fill
-                    className="object-contain"
-                    sizes="(max-width: 1200px) 100vw, 1200px"
-                    priority
-                  />
-                </div>
-              </motion.div>
-
-              {/* Navigation arrows */}
-              {totalSlides > 1 && (
-                <>
-                  <Button
-                    id="screenshot-prev"
-                    onClick={prevSlide}
-                    variant="outline"
-                    size="icon-sm"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-background/80 hover:bg-background cursor-pointer"
-                    aria-label="Previous screenshot"
-                  >
-                    <ChevronLeft className="h-5 w-5 text-foreground" />
-                  </Button>
-                  <Button
-                    id="screenshot-next"
-                    onClick={nextSlide}
-                    variant="outline"
-                    size="icon-sm"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-background/80 hover:bg-background cursor-pointer"
-                    aria-label="Next screenshot"
-                  >
-                    <ChevronRight className="h-5 w-5 text-foreground" />
-                  </Button>
-                </>
-              )}
-
-              {/* Slide counter */}
-              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1 rounded-full">
-                {activeSlide + 1} / {totalSlides}
+      {/* Main Content Sections */}
+      <section className="relative z-10 max-w-7xl mx-auto px-6 py-16 w-full grid grid-cols-1 lg:grid-cols-3 gap-12">
+        {/* Main Content Column */}
+        <div className="lg:col-span-2 space-y-16">
+          <AnimatedContainer direction="up" delay={0.2}>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center">
+                <LayoutGrid className="w-5 h-5 text-indigo-500" />
               </div>
+              <h2 className="text-3xl font-bold text-foreground">Project Overview</h2>
             </div>
+            <div className="prose prose-invert max-w-none text-muted-foreground whitespace-pre-wrap text-lg leading-relaxed">
+              {projectOverview || 'Detailed information is currently being updated.'}
+            </div>
+          </AnimatedContainer>
 
-            {/* Thumbnail row */}
-            {totalSlides > 1 && (
-              <div className="flex gap-3 mt-4 justify-center flex-wrap">
-                {project.screenshots.map((_, i) => (
-                  <button
-                    key={i}
-                    id={`screenshot-thumb-${i}`}
-                    onClick={() => setActiveSlide(i)}
-                    className={`w-14 h-10 rounded-lg overflow-hidden border-2 transition-all duration-200 cursor-pointer ${
-                      i === activeSlide
-                        ? 'border-indigo-500 scale-110 shadow-md'
-                        : 'border-border/40 opacity-60 hover:opacity-100'
-                    }`}
+          {/* Features Section */}
+          {parsedFeatures.length > 0 && (
+            <AnimatedContainer direction="up" delay={0.3}>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-purple-500" />
+                </div>
+                <h2 className="text-3xl font-bold text-foreground">Key Functionality</h2>
+              </div>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {parsedFeatures.map((feature: string, idx: number) => (
+                  <li
+                    key={idx}
+                    className="flex items-start gap-3 bg-card/40 border border-border/50 p-4 rounded-xl backdrop-blur-sm"
                   >
-                    <div
-                      className={`relative w-full h-full bg-black/5 flex items-center justify-center`}
-                    >
-                      <Image
-                        src={project.screenshots[i].src}
-                        alt={project.screenshots[i].alt}
-                        fill
-                        className="object-cover"
-                        sizes="100px"
-                      />
-                    </div>
-                  </button>
+                    <CheckCircle2 className="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" />
+                    <span className="text-muted-foreground">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </AnimatedContainer>
+          )}
+
+          {/* Screenshots Gallery */}
+          {galleryArray.length > 1 && (
+            <AnimatedContainer direction="up" delay={0.4}>
+              <h2 className="text-3xl font-bold text-foreground mb-8">Project Gallery</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {galleryArray.map((img: string, i: number) => (
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    key={i}
+                    className="relative aspect-video rounded-2xl overflow-hidden border border-border/50 shadow-lg group"
+                  >
+                    <Image
+                      src={img}
+                      alt={`${title} screenshot ${i + 1}`}
+                      fill
+                      className="object-cover object-top transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </motion.div>
                 ))}
               </div>
-            )}
-          </div>
-        </AnimatedContainer>
-      </section>
+            </AnimatedContainer>
+          )}
+        </div>
 
-      {/* Project Highlights: Functionality + Tech */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-16 w-full border-t border-border/40 grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* Functionality */}
-        <AnimatedContainer direction="left" className="flex flex-col gap-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-              <Zap className="h-5 w-5 text-indigo-500" />
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Functionality</h2>
-          </div>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            Key features and capabilities delivered in this project — built for real users and real
-            needs.
-          </p>
-          <ul className="flex flex-col gap-3">
-            {project.functionality.map((item) => (
-              <li key={item} className="flex items-start gap-3 group/feature">
-                <CheckCircle2 className="h-5 w-5 text-indigo-500 mt-0.5 shrink-0 group-hover/feature:scale-110 transition-transform duration-200" />
-                <span className="text-sm text-muted-foreground leading-relaxed">{item}</span>
-              </li>
-            ))}
-          </ul>
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mt-2">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className={`text-xs font-semibold px-3 py-1 rounded-full ${project.colorClass} border border-current/20`}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </AnimatedContainer>
+        {/* Sidebar Info */}
+        <div className="space-y-8">
+          <AnimatedContainer direction="left" delay={0.3}>
+            <div className="sticky top-24 rounded-3xl border border-border/60 bg-card/60 backdrop-blur-xl p-8 shadow-2xl">
+              <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
+                <Cpu className="w-5 h-5 text-indigo-500" /> Tech Stack
+              </h3>
 
-        {/* Technology Stack */}
-        <AnimatedContainer direction="right" className="flex flex-col gap-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20">
-              <Code2 className="h-5 w-5 text-purple-500" />
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Technology Stack</h2>
-          </div>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            The tools, frameworks, and services powering this solution under the hood.
-          </p>
-          <ul className="flex flex-col gap-3">
-            {project.technologyStack.map((item) => (
-              <li key={item} className="flex items-start gap-3 group/tech">
-                <CheckCircle2 className="h-5 w-5 text-purple-500 mt-0.5 shrink-0 group-hover/tech:scale-110 transition-transform duration-200" />
-                <span className="text-sm text-muted-foreground leading-relaxed">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </AnimatedContainer>
-      </section>
-
-      {/* Tech Pills */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-16 w-full border-t border-border/40">
-        <AnimatedContainer direction="up" delay={0.1}>
-          <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8">Technologies Used</h2>
-          <div className="flex flex-wrap gap-3">
-            {project.tech.map((t, idx) => (
-              <motion.span
-                key={t}
-                initial={{ opacity: 0, scale: 0.85 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.05 * idx, duration: 0.35 }}
-                className={`px-4 py-2 rounded-xl text-sm font-semibold border ${project.colorClass} border-current/20 hover:scale-105 transition-transform duration-200 cursor-default`}
-              >
-                {t}
-              </motion.span>
-            ))}
-          </div>
-        </AnimatedContainer>
-      </section>
-
-      {/* Other Projects */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-16 w-full border-t border-border/40">
-        <AnimatedContainer direction="up" delay={0.1}>
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground">More Projects</h2>
-            <Link
-              href="/projects"
-              className="text-sm text-indigo-500 hover:text-indigo-400 font-semibold flex items-center gap-1 group"
-            >
-              View All
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {otherProjects.map((p, idx) => (
-              <AnimatedContainer key={p.slug} direction="up" delay={0.1 + idx * 0.1}>
-                <Link href={`/projects/${p.slug}`} className="block group h-full">
-                  <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-card/60 backdrop-blur-sm h-full flex flex-col hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all duration-300 cursor-pointer">
-                    <div
-                      className={`bg-gradient-to-br ${p.gradient} h-32 flex items-center justify-center relative overflow-hidden`}
+              {parsedTech.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {parsedTech.map((tech: string, i: number) => (
+                    <span
+                      key={i}
+                      className="px-3 py-1.5 bg-background border border-border/60 rounded-lg text-sm font-medium text-foreground shadow-sm"
                     >
-                      <div className="absolute inset-0 bg-black/10" />
-                      {p.coverImage ? (
-                        <Image
-                          src={p.coverImage}
-                          alt={p.title}
-                          fill
-                          className="object-contain p-4 transition-transform duration-700 group-hover:scale-110"
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                        />
-                      ) : (
-                        <span className="relative text-5xl">{gradientToEmoji[p.slug]}</span>
-                      )}
-                    </div>
-                    <div className="p-5 flex flex-col gap-2">
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-500">
-                        {p.category}
-                      </p>
-                      <h3 className="text-sm font-bold text-foreground group-hover:text-indigo-500 transition-colors">
-                        {p.title}
-                      </h3>
-                      <p className="text-xs text-muted-foreground line-clamp-2">{p.description}</p>
-                      <div className="flex items-center gap-1 text-xs font-semibold text-indigo-500 opacity-0 group-hover:opacity-100 transition-all duration-300 mt-1">
-                        View Project
-                        <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                      </div>
-                    </div>
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground text-sm">Tech stack details unavailable.</p>
+              )}
+
+              <hr className="border-border/60 my-6" />
+
+              <ul className="space-y-6">
+                <li>
+                  <div className="text-sm text-muted-foreground mb-1">Client</div>
+                  <div className="font-semibold text-foreground text-lg">
+                    {client || 'Confidential'}
                   </div>
-                </Link>
-              </AnimatedContainer>
-            ))}
-          </div>
-        </AnimatedContainer>
-      </section>
-
-      {/* CTA Banner */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pb-20 w-full">
-        <AnimatedContainer direction="up" delay={0.1}>
-          <div className="relative rounded-2xl bg-gradient-to-br from-indigo-100/60 via-purple-100/60 to-pink-100/60 dark:from-indigo-900/40 dark:via-purple-950/40 dark:to-pink-900/40 border border-indigo-200/50 dark:border-indigo-500/20 p-10 text-center overflow-hidden">
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
-            <div className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-indigo-500/10 blur-2xl" />
-            <div className="absolute bottom-1/4 right-1/4 w-32 h-32 rounded-full bg-pink-500/10 blur-2xl" />
-
-            <div className="relative z-10">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-indigo-950 dark:text-white mb-4">
-                Love what you see?{' '}
-                <span
-                  className={`bg-gradient-to-r ${project.gradient} bg-clip-text text-transparent`}
-                >
-                  Let&apos;s build yours.
-                </span>
-              </h2>
-              <p className="text-muted-foreground mb-8 max-w-xl mx-auto leading-relaxed">
-                Our team is ready to scope your project and deliver a tailored solution that exceeds
-                expectations.
-              </p>
-              <Button
-                render={<Link href={`/contact?type=quote&inspiration=${project.slug}`} />}
-                nativeButton={false}
-                size="lg"
-                variant="gradient"
-                className="cursor-pointer group mx-auto"
-              >
-                Start Your Project
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
+                </li>
+                <li>
+                  <div className="text-sm text-muted-foreground mb-1">Category</div>
+                  <div className="font-semibold text-foreground text-lg">
+                    {category || 'Web Development'}
+                  </div>
+                </li>
+              </ul>
             </div>
-          </div>
-        </AnimatedContainer>
+          </AnimatedContainer>
+        </div>
       </section>
     </div>
   );

@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ['heights-consider-vocal-birthday.trycloudflare.com', 'localhost'],
+  allowedDevOrigins: ['stay-sources-citations-delivers.trycloudflare.com', 'localhost'],
   poweredByHeader: false,
   images: {
     remotePatterns: [

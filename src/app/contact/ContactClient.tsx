@@ -436,12 +436,14 @@ export default function ContactClient() {
                             aria-invalid={!!quoteForm.formState.errors.service}
                           >
                             <option value="">Select a service category...</option>
-                            <option value="web-development">Web Development</option>
-                            <option value="mobile-apps">Mobile App Development</option>
-                            <option value="cloud-devops">Cloud & DevOps Solutions</option>
-                            <option value="ai-ml">AI & Machine Learning</option>
-                            <option value="cybersecurity">Cybersecurity</option>
-                            <option value="erp-enterprise">ERP & Enterprise Software</option>
+                            <option value="mobile-app-development">Mobile App Development</option>
+                            <option value="blockchain-solutions">Blockchain Solutions</option>
+                            <option value="cybersecurity-services">Cybersecurity Services</option>
+                            <option value="erp-solutions">ERP Solutions</option>
+                            <option value="epm-financial-solutions">
+                              EPM - Financial Solutions
+                            </option>
+                            <option value="ai-ml-solutions">AI & Machine Learning</option>
                           </select>
                           {quoteForm.formState.errors.service && (
                             <span className="text-xs text-destructive">

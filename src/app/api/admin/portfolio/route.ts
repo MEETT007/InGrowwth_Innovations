@@ -74,9 +74,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    let slug = body.slug;
+    if (!slug) {
+      slug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
+    }
+
     const project = await db.portfolioProject.create({
       data: {
         title,
+        slug,
         client,
         category,
         websiteUrl: websiteUrl || null,
