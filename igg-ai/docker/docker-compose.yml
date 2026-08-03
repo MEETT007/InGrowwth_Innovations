@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  ai-core:
+    build: 
+      context: ../
+      dockerfile: docker/Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - AI_API_PORT=4000
+      - ACTIVE_LLM_PROVIDER=ollama
+      - ACTIVE_VECTOR_STORE=qdrant
+    depends_on:
+      - qdrant
+      - redis
+      - postgres
+      - ollama
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ai_user
+      POSTGRES_PASSWORD: ai_password
+      POSTGRES_DB: ai_memory
+    ports:
+      - "5432:5432"
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+volumes:
+  ollama_data:
