@@ -22,23 +22,44 @@ Copy the environment template file:
 cp .env.example .env
 ```
 
-Fill in the values in `.env` as required (see **Environment Variables** below).
+Fill in the values in `.env` as required.
+
+### 3. Start Local Development
+
+To run the application locally in development mode:
+
+1. Start the PostgreSQL database:
+   ```bash
+   docker compose up postgres -d
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run database migrations:
+   ```bash
+   npx prisma migrate dev
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
 ---
 
-## 🐳 Docker & Local PostgreSQL Setup
+## 🐳 Docker Production Environment Setup
 
-We run PostgreSQL 16 using Docker Compose for local development.
+Our Docker Compose configuration builds and runs a **production replica** locally.
 
-### Start the local environment
+### Start the production environment
 
-This command starts both the Next.js frontend (on `http://localhost:3000`) and the PostgreSQL database (mapped to host port `5435` to prevent conflicts with native Postgres services):
+This command builds the Next.js frontend for production (on `http://localhost:3000`) and starts the PostgreSQL database (mapped to host port `5435`):
 
 ```bash
 docker compose up --build -d
 ```
 
-### Stop the local environment
+### Stop the environment
 
 To shut down containers and free up ports:
 
