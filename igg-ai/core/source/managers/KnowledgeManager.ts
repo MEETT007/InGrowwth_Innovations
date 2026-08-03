@@ -1,5 +1,7 @@
-import { IEmbeddingProvider, IVectorStore, SearchResult } from "../interfaces";
+import { IVectorStore } from '../interfaces/IVectorStore';
+import { IEmbeddingProvider } from '../interfaces/IEmbeddingProvider';
 import { config } from "../config/env";
+
 
 export class KnowledgeManager {
   private embeddingProviders: Map<string, IEmbeddingProvider> = new Map();
@@ -25,7 +27,7 @@ export class KnowledgeManager {
     return store;
   }
 
-  async search(collection: string, query: string, topK: number = 5): Promise<SearchResult[]> {
+  async search(collection: string, query: string, topK: number = 5, filter?: Record<string, unknown>): Promise<any[]> {
     const embedder = this.getActiveEmbeddingProvider();
     const store = this.getActiveVectorStore();
     

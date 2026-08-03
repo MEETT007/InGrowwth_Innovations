@@ -1,7 +1,7 @@
 import { expect, test, describe, vi } from 'vitest';
 import { modelManager } from '../source/managers/ModelManager';
 import { contextManager } from '../source/managers/ContextManager';
-import { ILLMProvider } from '../source/interfaces';
+import { ILLMProvider } from '../source/interfaces/ILLMProvider';
 
 describe('Model Manager', () => {
   test('should register and retrieve LLM provider', () => {

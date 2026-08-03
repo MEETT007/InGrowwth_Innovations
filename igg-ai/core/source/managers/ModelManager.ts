@@ -1,4 +1,6 @@
-import { ILLMProvider, IVisionProvider, ISpeechProvider } from "../interfaces";
+import { ILLMProvider } from '../interfaces/ILLMProvider';
+import { IVisionProvider } from '../interfaces/IVisionProvider';
+import { ISpeechProvider } from '../interfaces/ISpeechProvider';
 import { config } from "../config/env";
 
 export class ModelManager {

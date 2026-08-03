@@ -15,9 +15,9 @@ User Question: ${rco.conversation.currentQuestion}
     `.trim();
 
     // Invoke Phase 2 LLM Provider
-    const response = await provider.generateCompletion(prompt);
+    const responseText = await provider.generateText(prompt);
     
-    rco.generation.llmResponse = response.text;
+    rco.generation.llmResponse = responseText;
     
     return rco;
   }

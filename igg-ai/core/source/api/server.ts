@@ -4,9 +4,9 @@ import { logger } from './logger';
 import { errorHandler } from './errorHandler';
 import routes from './routes';
 import knowledgeRoutes from './knowledgeRoutes';
-import retrievalRoutes from '../../rag/source/api/retrievalRoutes';
-import consultantRoutes from '../../consultant/source/api/consultantRoutes';
-import runtimeRoutes from '../../runtime/source/api/runtimeRoutes';
+import retrievalRoutes from '../../../rag/source/api/retrievalRoutes';
+import consultantRoutes from '../../../consultant/source/api/consultantRoutes';
+import runtimeRoutes from '../../../runtime/source/api/runtimeRoutes';
 
 const server = fastify({ logger });
 
