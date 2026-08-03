@@ -22,6 +22,7 @@ import FeedbackControls from './FeedbackControls';
 import MeetingBooking from './MeetingBooking';
 import HandoffCard from './HandoffCard';
 import ReactMarkdown from 'react-markdown';
+import { useAuth } from '@clerk/nextjs';
 
 interface Message {
   id: string;
@@ -34,6 +35,7 @@ interface Message {
 }
 
 export default function ChatWorkspace() {
+  const { userId } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -53,6 +55,40 @@ export default function ChatWorkspace() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Load chat history
+  useEffect(() => {
+    if (!userId) return;
+    const fetchHistory = async () => {
+      try {
+        const res = await fetch(`/api/chat?sessionId=${userId}`);
+        if (res.ok) {
+          const data = await res.json();
+          const historyMessages = data.map(
+            (msg: {
+              id: string;
+              role: 'user' | 'assistant';
+              content: string;
+              interactiveData?: Record<string, unknown>;
+            }) => ({
+              id: msg.id,
+              role: msg.role,
+              content: msg.content,
+              interactiveData: msg.interactiveData,
+              requiresHandoff: msg.interactiveData?.type === 'HANDOFF',
+              handoffReason: (msg.interactiveData?.reason as string) || undefined,
+            })
+          );
+          if (historyMessages.length > 0) {
+            setMessages(historyMessages);
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load history', e);
+      }
+    };
+    fetchHistory();
+  }, [userId]);
 
   // Auto-resize textarea
   useEffect(() => {
@@ -90,23 +126,54 @@ export default function ChatWorkspace() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          sessionId: 'e2e-session',
+          sessionId: userId || 'e2e-session',
           query: contentStr || 'Analyze attached file',
         }),
       });
 
       const data = await response.json();
 
+      // Fake streaming for perceived performance
+      const fullText = data.text || 'An error occurred.';
       setMessages((prev) => [
         ...prev,
         {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          content: data.text || 'An error occurred.',
+          content: '', // Start empty
+          isStreaming: true,
           requiresHandoff: data.requiresHandoff,
           handoffReason: data.handoffReason,
+          interactiveData: data.requiresHandoff
+            ? { type: 'HANDOFF', reason: data.handoffReason }
+            : undefined,
         },
       ]);
+
+      // Simulate typing speed
+      const words = fullText.split(' ');
+      let currentText = '';
+
+      for (let i = 0; i < words.length; i++) {
+        currentText += (i === 0 ? '' : ' ') + words[i];
+
+        // Update the last message with the new text
+        setMessages((prev) => {
+          const newMsgs = [...prev];
+          newMsgs[newMsgs.length - 1].content = currentText;
+          return newMsgs;
+        });
+
+        // Small delay between words
+        await new Promise((resolve) => setTimeout(resolve, 30));
+      }
+
+      // Finish streaming
+      setMessages((prev) => {
+        const newMsgs = [...prev];
+        newMsgs[newMsgs.length - 1].isStreaming = false;
+        return newMsgs;
+      });
     } catch (error) {
       setMessages((prev) => [
         ...prev,

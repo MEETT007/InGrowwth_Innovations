@@ -300,10 +300,25 @@ model AiSession {
   totalTokens Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  messages    AiChatMessage[]
 
   @@index([sessionId])
   @@index([createdAt])
   @@map("ai_sessions")
+}
+
+model AiChatMessage {
+  id          String     @id @default(uuid())
+  sessionId   String
+  session     AiSession  @relation(fields: [sessionId], references: [sessionId], onDelete: Cascade)
+  role        String     // user, assistant, system
+  content     String
+  interactiveData Json?  // Stores Handoff Reason, requirements, etc.
+  createdAt   DateTime   @default(now())
+
+  @@index([sessionId])
+  @@index([createdAt])
+  @@map("ai_chat_messages")
 }
 
 model AiTrace {
