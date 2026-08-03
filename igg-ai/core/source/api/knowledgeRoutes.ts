@@ -5,7 +5,7 @@ import { WebsiteConnector } from '../../../ingestion/source/connectors/WebsiteCo
 export default async function knowledgeRoutes(fastify: FastifyInstance) {
   
   fastify.post('/knowledge/index', async (request, reply) => {
-    const { sourceId, type, config } = request.body as any;
+    const { sourceId, type, config } = request.body as { sourceId: string; type: string; config: Record<string, unknown> };
     
     // Stub registry
     if (type === 'website') {
@@ -21,11 +21,11 @@ export default async function knowledgeRoutes(fastify: FastifyInstance) {
     return reply.status(400).send({ error: "Unsupported connector type" });
   });
 
-  fastify.get('/knowledge/status', async (request, reply) => {
+  fastify.get('/knowledge/status', async () => {
     return { status: "running", processedDocuments: 150 };
   });
 
-  fastify.get('/knowledge/statistics', async (request, reply) => {
+  fastify.get('/knowledge/statistics', async () => {
     return { documentsIndexed: 150, chunksGenerated: 1200, dbSize: "5MB" };
   });
 }
