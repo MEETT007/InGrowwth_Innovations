@@ -1,21 +1,31 @@
 import ChatWorkspace from '@/components/chat/ChatWorkspace';
-import { auth } from '@clerk/nextjs/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
 import { Check, Sparkles } from 'lucide-react';
 
 export default async function ChatPage() {
   const { has } = await auth();
+  const user = await currentUser();
 
-  // Gate access by 'pro' plan. If they don't have it, show the pricing table.
-  if (!has({ plan: 'pro' })) {
+  // 15 days in milliseconds
+  const FIFTEEN_DAYS_MS = 15 * 24 * 60 * 60 * 1000;
+
+  // Check if the user is within their 15-day free trial period
+  // eslint-disable-next-line react-hooks/purity
+  const isTrialActive = user?.createdAt ? Date.now() - user.createdAt < FIFTEEN_DAYS_MS : false;
+
+  const hasProPlan = has({ plan: 'pro' });
+
+  // Gate access: If they don't have the pro plan AND their trial has expired, show the paywall.
+  if (!hasProPlan && !isTrialActive) {
     return (
       <div className="w-full min-h-screen bg-background flex flex-col items-center justify-center p-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500 mb-4">
-            Upgrade to AI Consultant Pro
+            Your Free Trial Has Expired
           </h1>
           <p className="text-muted-foreground max-w-lg mx-auto text-lg">
-            Get exclusive access to our expert AI Consultant, unlimited queries, and deep
-            requirement analysis.
+            Upgrade to AI Consultant Pro to continue getting exclusive access, unlimited queries,
+            and deep requirement analysis.
           </p>
         </div>
 
