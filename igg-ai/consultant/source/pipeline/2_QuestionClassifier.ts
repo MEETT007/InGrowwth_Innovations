@@ -1,21 +1,23 @@
-import { IConsultantPipelineStage } from "./IConsultantPipelineStage";
-import { ReasoningContextObject } from "../models/ReasoningContextObject";
+import { IConsultantPipelineStage } from './IConsultantPipelineStage';
+import { ReasoningContextObject } from '../models/ReasoningContextObject';
 
 export class QuestionClassifier implements IConsultantPipelineStage {
-  name = "QuestionClassifier";
+  name = 'QuestionClassifier';
 
   async execute(rco: ReasoningContextObject): Promise<ReasoningContextObject> {
     const question = rco.conversation.currentQuestion.toLowerCase();
-    
+
     // Check if the user is asking a broad question that requires consultative probing
-    if (question.includes("i need an erp") || question.includes("build an app")) {
-      rco.intent.primary = "consultation_request";
+    if (question.includes('i need an erp') || question.includes('build an app')) {
+      rco.intent.primary = 'consultation_request';
       rco.intent.requiresClarification = true;
+      rco.intent.confidence = 0.9;
     } else {
-      rco.intent.primary = "direct_question";
+      rco.intent.primary = 'direct_question';
       rco.intent.requiresClarification = false;
+      rco.intent.confidence = 1.0;
     }
-    
+
     return rco;
   }
 }
