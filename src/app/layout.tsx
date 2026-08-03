@@ -2,10 +2,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
-import { Header } from '@/components/shared/header';
-import { Footer } from '@/components/shared/footer';
+import { GlobalLayoutWrapper } from '@/components/shared/global-layout-wrapper';
 import { ClerkProvider } from '@clerk/nextjs';
-import { SmoothScroller } from '@/components/smooth-scroller';
 
 // A request-specific CSP nonce is generated in proxy.ts, so pages must render per request.
 export const dynamic = 'force-dynamic';
@@ -63,11 +61,7 @@ export default function RootLayout({
             enableSystem={false}
             disableTransitionOnChange
           >
-            <SmoothScroller>
-              <Header />
-              <main className="flex-grow">{children}</main>
-              <Footer />
-            </SmoothScroller>
+            <GlobalLayoutWrapper>{children}</GlobalLayoutWrapper>
           </ThemeProvider>
         </body>
       </html>

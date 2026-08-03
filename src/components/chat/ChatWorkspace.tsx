@@ -1,9 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Send, Bot, User } from 'lucide-react';
-import { motion } from 'framer-motion';
-import DragDropUpload from './DragDropUpload';
+import React, { useState, useRef, useEffect } from 'react';
+import {
+  Send,
+  Bot,
+  User,
+  Plus,
+  FileText,
+  ArrowUp,
+  Search,
+  BrainCircuit,
+  Sparkles,
+  BookOpen,
+  Code,
+  PenTool,
+  GripHorizontal,
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import InteractiveMessage from './InteractiveMessage';
 import FeedbackControls from './FeedbackControls';
 import MeetingBooking from './MeetingBooking';
@@ -17,39 +30,69 @@ interface Message {
   interactiveData?: Record<string, unknown>;
   requiresHandoff?: boolean;
   handoffReason?: string;
+  isStreaming?: boolean;
 }
 
 export default function ChatWorkspace() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      role: 'assistant',
-      content:
-        'Hello! I am your AI Solutions Consultant. How can I help you architect your next product? Feel free to upload your requirements or wireframes below.',
-    },
-  ]);
-  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputValue, setInputValue] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [showUploadAnimation, setShowUploadAnimation] = useState(false);
+  const [searchEnabled, setSearchEnabled] = useState(false);
+  const [reasonEnabled, setReasonEnabled] = useState(false);
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // Auto-resize textarea
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.style.height = 'auto';
+      inputRef.current.style.height = `${Math.min(inputRef.current.scrollHeight, 200)}px`;
+    }
+  }, [inputValue]);
 
   const handleSend = async () => {
-    if (!input.trim()) return;
+    if (!inputValue.trim() && uploadedFiles.length === 0) return;
+
+    const userMessage = inputValue;
+    setInputValue('');
+    setIsProcessing(true);
+
+    let contentStr = userMessage;
+    if (uploadedFiles.length > 0) {
+      contentStr = `[Attached: ${uploadedFiles.map((f) => f.name).join(', ')}] ` + contentStr;
+    }
 
     setMessages((prev) => [
       ...prev,
       {
         id: Date.now().toString(),
         role: 'user',
-        content: input,
+        content: contentStr || 'Analyze these files.',
       },
     ]);
 
-    setInput('');
+    setUploadedFiles([]);
 
-    // Call real API
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId: 'manual-test-session', query: input }),
+        body: JSON.stringify({
+          sessionId: 'e2e-session',
+          query: contentStr || 'Analyze attached file',
+        }),
       });
 
       const data = await response.json();
@@ -73,142 +116,283 @@ export default function ChatWorkspace() {
           content: 'Error communicating with the backend.',
         },
       ]);
+    } finally {
+      setIsProcessing(false);
     }
   };
 
-  const handleFileUpload = (file: File) => {
-    // Add file message
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: Date.now().toString(),
-        role: 'user',
-        content: `Uploaded: ${file.name}`,
-      },
-    ]);
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const newFiles = Array.from(e.target.files);
+      setShowUploadAnimation(true);
 
-    // Mock an interactive requirement intelligence response
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: (Date.now() + 1).toString(),
-          role: 'assistant',
-          content:
-            "I've analyzed your requirements document. Here is my technical assessment based on similar platforms we've built:",
-          interactiveData: {
-            type: 'REQUIREMENT_ANALYSIS',
-            projectType: 'Mobility Platform',
-            missingRequirements: ['Fraud Detection', 'Surge Pricing Engine'],
-            techStack: ['Next.js', 'Flutter', 'PostgreSQL'],
-            timeline: { min: 16, max: 24 },
-            teamSize: 6,
-          },
-        },
-      ]);
-    }, 2000);
+      setTimeout(() => {
+        setUploadedFiles((prev) => [...prev, ...newFiles]);
+        setShowUploadAnimation(false);
+      }, 800);
+    }
+  };
+
+  const handleCommandSelect = (command: string) => {
+    setInputValue(command);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   return (
-    <div className="flex h-screen bg-gray-950 text-gray-100 font-sans selection:bg-blue-500/30">
-      {/* Sidebar - Optional for later (Chat history, settings) */}
-      <div className="w-64 border-r border-gray-800 bg-gray-900/50 hidden md:flex flex-col p-4">
-        <div className="flex items-center space-x-2 mb-8">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-            <Bot className="w-5 h-5 text-white" />
+    <div className="flex flex-col h-screen w-full bg-background text-foreground overflow-hidden">
+      {/* Header Bar */}
+      <div className="w-full flex items-center justify-between px-6 py-4 border-b border-border/50 bg-background/80 backdrop-blur-md z-10 shrink-0">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+            <Sparkles className="w-4 h-4 text-white" />
           </div>
-          <h2 className="font-semibold text-lg tracking-tight">AI Consultant</h2>
-        </div>
-        <div className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">
-          Recent Projects
-        </div>
-        {/* Mock history */}
-        <div className="space-y-2">
-          <div className="p-2 rounded-md bg-gray-800/50 text-sm text-gray-300 cursor-pointer hover:bg-gray-800 transition-colors">
-            Uber Clone Architecture
-          </div>
-          <div className="p-2 rounded-md text-sm text-gray-400 cursor-pointer hover:bg-gray-800 transition-colors">
-            ERP Cloud Migration
+          <div>
+            <h1 className="font-semibold text-sm">AI Consultant</h1>
+            <p className="text-xs text-muted-foreground">InGrowwth Innovations Engine</p>
           </div>
         </div>
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col max-w-4xl mx-auto">
-        {/* Messages Scroll Area */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 scroll-smooth">
-          {messages.map((msg) => (
+      <div className="flex-1 overflow-y-auto w-full flex flex-col relative scroll-smooth pb-32">
+        {messages.length === 0 ? (
+          <div className="flex-1 flex flex-col items-center justify-center p-6 mt-10">
+            <div className="mb-8 w-24 h-24 relative opacity-90">
+              {/* Animated Gradient Logo */}
+              <svg viewBox="0 0 200 200" className="w-full h-full animate-pulse-slow">
+                <defs>
+                  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#6366f1" />
+                    <stop offset="50%" stopColor="#a855f7" />
+                    <stop offset="100%" stopColor="#ec4899" />
+                  </linearGradient>
+                </defs>
+                <circle cx="100" cy="100" r="80" fill="url(#grad1)" fillOpacity="0.15" />
+                <circle cx="100" cy="100" r="50" fill="url(#grad1)" fillOpacity="0.3" />
+                <circle cx="100" cy="100" r="25" fill="url(#grad1)" />
+              </svg>
+            </div>
+
             <motion.div
-              key={msg.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`flex space-x-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              transition={{ duration: 0.5 }}
+              className="text-center mb-10"
             >
-              {msg.role === 'assistant' && (
-                <div className="w-8 h-8 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0 mt-1">
-                  <Bot className="w-4 h-4 text-blue-400" />
-                </div>
-              )}
+              <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500 mb-3">
+                How can I help you build today?
+              </h1>
+              <p className="text-muted-foreground max-w-md mx-auto">
+                I am your AI Architect. Upload a requirement document, ask a technical question, or
+                describe a project.
+              </p>
+            </motion.div>
 
-              <div className={`max-w-[85%] ${msg.role === 'user' ? 'order-1' : 'order-2'}`}>
-                {msg.role === 'user' ? (
-                  <div className="bg-gray-800 px-5 py-3 rounded-2xl rounded-tr-sm text-gray-100">
-                    {msg.content}
+            {/* Suggestions */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-4xl px-4">
+              {[
+                { icon: <BookOpen className="w-4 h-4" />, text: 'Architect a scalable SaaS' },
+                { icon: <Code className="w-4 h-4" />, text: 'Help me migrate to the cloud' },
+                { icon: <PenTool className="w-4 h-4" />, text: 'Design a database schema' },
+                { icon: <BrainCircuit className="w-4 h-4" />, text: 'Review my tech stack' },
+              ].map((s, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 + i * 0.1 }}
+                  onClick={() => handleCommandSelect(s.text)}
+                  className="bg-card border border-border/50 p-4 rounded-2xl hover:border-indigo-500/50 hover:bg-indigo-500/5 cursor-pointer transition-all flex flex-col gap-3 group shadow-sm"
+                >
+                  <div className="text-muted-foreground group-hover:text-indigo-400 transition-colors">
+                    {s.icon}
+                  </div>
+                  <p className="text-sm font-medium text-foreground/80">{s.text}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="w-full max-w-4xl mx-auto p-4 md:p-6 space-y-8 mt-4">
+            {messages.map((msg) => (
+              <motion.div
+                key={msg.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`flex gap-4 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
+              >
+                {/* Avatar */}
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-1 ${
+                    msg.role === 'user'
+                      ? 'bg-muted border border-border text-muted-foreground'
+                      : 'bg-indigo-500/10 border border-indigo-500/20 text-indigo-500'
+                  }`}
+                >
+                  {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                </div>
+
+                {/* Message Bubble */}
+                <div
+                  className={`flex flex-col max-w-[85%] ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
+                >
+                  {msg.role === 'user' ? (
+                    <div className="bg-primary text-primary-foreground px-5 py-3 rounded-2xl rounded-tr-sm shadow-sm text-sm sm:text-base whitespace-pre-wrap">
+                      {msg.content}
+                    </div>
+                  ) : (
+                    <div className="space-y-4 w-full">
+                      <div className="prose prose-sm sm:prose-base dark:prose-invert prose-indigo max-w-none prose-p:leading-relaxed">
+                        <ReactMarkdown>{msg.content}</ReactMarkdown>
+                      </div>
+
+                      {msg.requiresHandoff && <HandoffCard reason={msg.handoffReason} />}
+                      {msg.interactiveData && <InteractiveMessage data={msg.interactiveData} />}
+                      {msg.interactiveData?.type === 'REQUIREMENT_ANALYSIS' && <MeetingBooking />}
+                      <FeedbackControls messageId={msg.id} />
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+
+            {isProcessing && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0 mt-1">
+                  <Bot className="w-4 h-4 text-indigo-500 animate-pulse" />
+                </div>
+                <div className="flex items-center gap-1.5 px-4 py-3 bg-muted/30 rounded-2xl rounded-tl-sm w-fit">
+                  <span
+                    className="w-2 h-2 rounded-full bg-indigo-500 animate-bounce"
+                    style={{ animationDelay: '0ms' }}
+                  />
+                  <span
+                    className="w-2 h-2 rounded-full bg-indigo-500 animate-bounce"
+                    style={{ animationDelay: '150ms' }}
+                  />
+                  <span
+                    className="w-2 h-2 rounded-full bg-indigo-500 animate-bounce"
+                    style={{ animationDelay: '300ms' }}
+                  />
+                </div>
+              </motion.div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+        )}
+      </div>
+
+      {/* Input Area (Fixed Bottom) */}
+      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background via-background to-transparent pt-10">
+        <div className="max-w-4xl mx-auto w-full bg-card border border-border/60 rounded-3xl shadow-2xl shadow-black/5 overflow-hidden transition-all focus-within:border-indigo-500/50 focus-within:ring-2 focus-within:ring-indigo-500/20">
+          {/* Attached Files Preview */}
+          {uploadedFiles.length > 0 && (
+            <div className="flex flex-wrap gap-2 px-4 pt-3 pb-1">
+              {uploadedFiles.map((file, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center gap-2 bg-muted/50 py-1.5 px-3 rounded-lg border border-border/50 group"
+                >
+                  <FileText className="w-3.5 h-3.5 text-indigo-400" />
+                  <span className="text-xs font-medium text-muted-foreground truncate max-w-[150px]">
+                    {file.name}
+                  </span>
+                  <button
+                    onClick={() => setUploadedFiles((prev) => prev.filter((_, i) => i !== idx))}
+                    className="text-muted-foreground/50 hover:text-destructive transition-colors ml-1"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Text Area */}
+          <div className="flex items-end gap-2 p-2 px-4">
+            <textarea
+              ref={inputRef}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
+              placeholder="Message AI Consultant..."
+              className="flex-1 max-h-[200px] min-h-[44px] bg-transparent resize-none outline-none py-3 text-sm sm:text-base placeholder:text-muted-foreground scrollbar-hide"
+              rows={1}
+            />
+
+            <div className="flex items-center gap-2 pb-2 shrink-0">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+                className="hidden"
+                multiple
+              />
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:bg-muted transition-colors relative"
+              >
+                {showUploadAnimation ? (
+                  <div className="absolute inset-0 flex items-center justify-center gap-0.5">
+                    <span className="w-1 h-1 bg-indigo-500 rounded-full animate-bounce" />
+                    <span className="w-1 h-1 bg-indigo-500 rounded-full animate-bounce delay-75" />
+                    <span className="w-1 h-1 bg-indigo-500 rounded-full animate-bounce delay-150" />
                   </div>
                 ) : (
-                  <div className="space-y-4">
-                    <div className="prose prose-invert prose-blue max-w-none">
-                      <ReactMarkdown>{msg.content}</ReactMarkdown>
-                    </div>
-
-                    {msg.requiresHandoff && <HandoffCard reason={msg.handoffReason} />}
-
-                    {/* Render Interactive UI Cards if data is attached */}
-                    {msg.interactiveData && <InteractiveMessage data={msg.interactiveData} />}
-
-                    {/* If the AI has reached a proposal stage, show the Meeting Booking widget */}
-                    {msg.interactiveData?.type === 'REQUIREMENT_ANALYSIS' && <MeetingBooking />}
-
-                    {/* Always show feedback on assistant messages */}
-                    <FeedbackControls messageId={msg.id} />
-                  </div>
+                  <Plus className="w-5 h-5" />
                 )}
-              </div>
+              </button>
 
-              {msg.role === 'user' && (
-                <div className="w-8 h-8 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center flex-shrink-0 mt-1 order-2">
-                  <User className="w-4 h-4 text-gray-400" />
-                </div>
-              )}
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Input Area */}
-        <div className="p-4 md:p-8 pt-0">
-          <DragDropUpload onFileUpload={handleFileUpload} />
-
-          <div className="relative flex items-center bg-gray-900 border border-gray-700 rounded-xl overflow-hidden focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all shadow-lg">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-              placeholder="Ask a question or describe your project..."
-              className="flex-1 bg-transparent px-4 py-4 text-gray-100 placeholder-gray-500 focus:outline-none"
-            />
-            <button
-              onClick={handleSend}
-              disabled={!input.trim()}
-              className="absolute right-2 p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 disabled:opacity-50 disabled:hover:bg-blue-600 transition-colors"
-            >
-              <Send className="w-5 h-5" />
-            </button>
+              <button
+                onClick={handleSend}
+                disabled={(!inputValue.trim() && uploadedFiles.length === 0) || isProcessing}
+                className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                  (inputValue.trim() || uploadedFiles.length > 0) && !isProcessing
+                    ? 'bg-indigo-500 text-white shadow-md hover:bg-indigo-600 hover:scale-105'
+                    : 'bg-muted text-muted-foreground/50 cursor-not-allowed'
+                }`}
+              >
+                <ArrowUp className="w-4 h-4" />
+              </button>
+            </div>
           </div>
-          <div className="text-center mt-3">
-            <span className="text-xs text-gray-600">
-              AI can make mistakes. Verify important business logic.
-            </span>
+
+          {/* Toolbar */}
+          <div className="flex items-center justify-between px-4 py-2 border-t border-border/30 bg-muted/10">
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => setSearchEnabled(!searchEnabled)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                  searchEnabled
+                    ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20'
+                    : 'text-muted-foreground hover:bg-muted'
+                }`}
+              >
+                <Search className="w-3.5 h-3.5" />
+                Web Search
+              </button>
+              <button
+                onClick={() => setReasonEnabled(!reasonEnabled)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                  reasonEnabled
+                    ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20'
+                    : 'text-muted-foreground hover:bg-muted'
+                }`}
+              >
+                <BrainCircuit className="w-3.5 h-3.5" />
+                Reasoning
+              </button>
+            </div>
+            <div className="text-[10px] text-muted-foreground/60 hidden sm:block">
+              Shift + Return for new line
+            </div>
           </div>
         </div>
       </div>
