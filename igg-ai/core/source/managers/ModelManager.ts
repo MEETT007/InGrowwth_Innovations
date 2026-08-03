@@ -1,12 +1,18 @@
 import { ILLMProvider } from '../interfaces/ILLMProvider';
 import { IVisionProvider } from '../interfaces/IVisionProvider';
 import { ISpeechProvider } from '../interfaces/ISpeechProvider';
-import { config } from "../config/env";
+import { config } from '../config/env';
+
+import { OllamaProvider } from '../providers/OllamaProvider';
 
 export class ModelManager {
   private llmProviders: Map<string, ILLMProvider> = new Map();
   private visionProviders: Map<string, IVisionProvider> = new Map();
   private speechProviders: Map<string, ISpeechProvider> = new Map();
+
+  constructor() {
+    this.registerLLMProvider(new OllamaProvider());
+  }
 
   registerLLMProvider(provider: ILLMProvider) {
     this.llmProviders.set(provider.name, provider);

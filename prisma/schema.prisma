@@ -288,3 +288,111 @@ model Job {
   @@index([createdAt])
   @@map("jobs")
 }
+
+// ==========================================
+// AI Observability & Operations Platform
+// ==========================================
+
+model AiSession {
+  id          String   @id @default(uuid())
+  sessionId   String   @unique
+  userId      String?
+  totalTokens Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([sessionId])
+  @@index([createdAt])
+  @@map("ai_sessions")
+}
+
+model AiTrace {
+  id          String   @id @default(uuid())
+  sessionId   String
+  query       String
+  response    String?
+  latency     Int      @default(0)
+  status      String   @default("SUCCESS") // SUCCESS, FAILED
+  error       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([sessionId])
+  @@index([createdAt])
+  @@map("ai_traces")
+}
+
+model AiEvent {
+  id          String   @id @default(uuid())
+  traceId     String
+  stageName   String
+  latency     Int      @default(0)
+  rcoSnapshot Json?
+  createdAt   DateTime @default(now())
+
+  @@index([traceId])
+  @@index([stageName])
+  @@map("ai_events")
+}
+
+model PromptVersion {
+  id           String   @id @default(uuid())
+  name         String
+  version      Int
+  systemPrompt String
+  isActive     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  @@unique([name, version])
+  @@index([name])
+  @@map("ai_prompt_versions")
+}
+
+model EvaluationRun {
+  id                String   @id @default(uuid())
+  dataset           String
+  scoreGroundedness Float    @default(0)
+  scoreRelevance    Float    @default(0)
+  avgLatency        Int      @default(0)
+  details           Json?
+  createdAt         DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("ai_evaluation_runs")
+}
+
+// ==========================================
+// AI Security & Governance
+// ==========================================
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  action       String   // e.g. "PROMPT_INJECTION_DETECTED", "FILE_UPLOAD_REJECTED"
+  severity     String   // INFO, WARNING, CRITICAL
+  resourceId   String?  // The traceId or fileId involved
+  userId       String?
+  ipAddress    String?
+  details      Json?
+  createdAt    DateTime @default(now())
+
+  @@index([action])
+  @@index([severity])
+  @@index([createdAt])
+  @@map("ai_audit_logs")
+}
+
+model ApiQuota {
+  id               String   @id @default(uuid())
+  identifier       String   @unique // SessionId or UserId
+  requestsCount    Int      @default(0)
+  tokensUsed       Int      @default(0)
+  limitRequests    Int      @default(100)
+  limitTokens      Int      @default(50000)
+  resetAt          DateTime
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([identifier])
+  @@index([resetAt])
+  @@map("ai_api_quotas")
+}

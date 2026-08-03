@@ -1,5 +1,5 @@
 export interface Message {
-  role: "system" | "user" | "assistant" | "tool";
+  role: 'system' | 'user' | 'assistant' | 'tool';
   content: string;
 }
 
@@ -25,7 +25,7 @@ export interface ReasoningContextObject {
   };
   constraints: {
     mustNotHallucinate: boolean;
-    tone: "professional" | "consultative" | "technical";
+    tone: 'professional' | 'consultative' | 'technical';
     unknownResponseFallback: string;
   };
   generation: {
@@ -33,5 +33,7 @@ export interface ReasoningContextObject {
     llmResponse?: string;
     cta?: string;
     isValid?: boolean;
+    requiresHandoff?: boolean;
+    handoffReason?: string;
   };
 }

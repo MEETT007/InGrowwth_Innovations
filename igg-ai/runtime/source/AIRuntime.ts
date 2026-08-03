@@ -1,7 +1,7 @@
-import { LangGraphOrchestrator } from "./orchestration/LangGraphOrchestrator";
-import { toolRegistry } from "./registries/ToolRegistry";
-import { SearchWebsiteTool } from "./tools/SearchWebsiteTool";
-import { globalCapabilityRegistry, Capability } from "./registries/CapabilityRegistry";
+import { LangGraphOrchestrator } from './orchestration/LangGraphOrchestrator';
+import { toolRegistry } from './registries/ToolRegistry';
+import { SearchWebsiteTool } from './tools/SearchWebsiteTool';
+import { globalCapabilityRegistry, Capability } from './registries/CapabilityRegistry';
 
 export class AIRuntime {
   private orchestrator: LangGraphOrchestrator;
@@ -21,7 +21,8 @@ export class AIRuntime {
 
   async chat(sessionId: string, message: string): Promise<string> {
     // The Runtime accepts the raw request and hands it to LangGraph
-    return this.orchestrator.run(sessionId, message);
+    const response = await this.orchestrator.run(sessionId, message);
+    return response.text;
   }
 }
 

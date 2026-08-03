@@ -1,0 +1,20 @@
+[
+  {
+    "id": "q1",
+    "query": "What services do you offer for web development?",
+    "expectedIntent": "information",
+    "expectedKeywords": ["React", "Next.js", "frontend", "backend"]
+  },
+  {
+    "id": "q2",
+    "query": "How much does a custom CRM cost?",
+    "expectedIntent": "pricing",
+    "expectedKeywords": ["budget", "timeline", "scope"]
+  },
+  {
+    "id": "q3",
+    "query": "I want to schedule a meeting with your team.",
+    "expectedIntent": "scheduling",
+    "expectedKeywords": ["calendly", "book", "meeting"]
+  }
+]

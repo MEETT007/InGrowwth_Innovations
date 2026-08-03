@@ -44,6 +44,8 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
+      - name: Run AI Evaluations
+        run: npx tsx igg-ai/evals/source/EvalRunner.ts
   build:
     name: Build Next.js Application
     runs-on: ubuntu-latest
