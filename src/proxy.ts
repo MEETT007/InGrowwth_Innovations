@@ -6,6 +6,7 @@ const isPublicAdminRoute = createRouteMatcher(['/admin/sign-in(.*)']);
 const isAdminRoute = createRouteMatcher(['/admin(.*)']);
 const isAdminApiRoute = createRouteMatcher(['/api/admin(.*)']);
 const isUploadRoute = createRouteMatcher(['/api/upload']);
+const isChatRoute = createRouteMatcher(['/chat(.*)']);
 const MUTATING_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 const MAX_ADMIN_REQUEST_BYTES = 512 * 1024;
 
@@ -59,6 +60,10 @@ export default clerkMiddleware(async (auth, request) => {
   }
 
   if (isAdminRoute(request) && !isPublicAdminRoute(request)) {
+    await auth.protect();
+  }
+
+  if (isChatRoute(request)) {
     await auth.protect();
   }
 
