@@ -4,12 +4,14 @@ import { logger } from './logger';
 import { errorHandler } from './errorHandler';
 import routes from './routes';
 import knowledgeRoutes from './knowledgeRoutes';
+import retrievalRoutes from '../../rag/source/api/retrievalRoutes';
 
 const server = fastify({ logger });
 
 server.setErrorHandler(errorHandler);
 server.register(routes);
 server.register(knowledgeRoutes);
+server.register(retrievalRoutes);
 
 export const startServer = async () => {
   try {
