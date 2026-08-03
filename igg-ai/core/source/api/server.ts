@@ -5,6 +5,7 @@ import { errorHandler } from './errorHandler';
 import routes from './routes';
 import knowledgeRoutes from './knowledgeRoutes';
 import retrievalRoutes from '../../rag/source/api/retrievalRoutes';
+import consultantRoutes from '../../consultant/source/api/consultantRoutes';
 
 const server = fastify({ logger });
 
@@ -12,6 +13,7 @@ server.setErrorHandler(errorHandler);
 server.register(routes);
 server.register(knowledgeRoutes);
 server.register(retrievalRoutes);
+server.register(consultantRoutes);
 
 export const startServer = async () => {
   try {
