@@ -65,14 +65,10 @@ export class LangGraphOrchestrator {
     });
 
     // Edges
-    // @ts-ignore
-    graph.addEdge(START, "planner");
-    // @ts-ignore
-    graph.addEdge("planner", "executor");
-    // @ts-ignore
-    graph.addEdge("executor", "consultant");
-    // @ts-ignore
-    graph.addEdge("consultant", END);
+    (graph as any).addEdge(START, "planner");
+    (graph as any).addEdge("planner", "executor");
+    (graph as any).addEdge("executor", "consultant");
+    (graph as any).addEdge("consultant", END);
 
     this.workflow = graph.compile({ checkpointer: this.checkpointer });
   }
