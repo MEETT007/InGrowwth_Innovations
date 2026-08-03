@@ -1,6 +1,4 @@
 import { FileData } from '../../../security/source/validators/FileValidator';
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const pdfParse = require('pdf-parse');
 import { Logger } from '../../../core/source/utils/Logger';
 
 export class DocumentEngine {
@@ -12,6 +10,9 @@ export class DocumentEngine {
 
     try {
       if (file.mimeType === 'application/pdf' || file.name.endsWith('.pdf')) {
+        // Lazy load pdf-parse to avoid Next.js build-time ReferenceError: DOMMatrix is not defined
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const pdfParse = require('pdf-parse');
         const data = await pdfParse(file.buffer);
         return data.text;
       }
