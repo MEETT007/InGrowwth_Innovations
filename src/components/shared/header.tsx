@@ -71,7 +71,7 @@ export function Header() {
           </Link>
 
           {/* Center: Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
+          <nav className="hidden lg:flex items-center justify-center gap-1 flex-1 px-4">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -98,7 +98,7 @@ export function Header() {
           </nav>
 
           {/* Right: Actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <div className="hidden md:flex items-center gap-2 mr-2">
               <ThemeToggle />
               {isSignedIn && (
