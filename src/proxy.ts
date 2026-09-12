@@ -2,7 +2,12 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { requireSameOrigin } from '@/lib/request-security';
 
-const isPublicAdminRoute = createRouteMatcher(['/admin/sign-in(.*)']);
+const isPublicAdminRoute = createRouteMatcher([
+  '/admin/sign-in(.*)',
+  '/admin/sign-up(.*)',
+  '/sign-in(.*)',
+  '/sign-up(.*)',
+]);
 const isAdminRoute = createRouteMatcher(['/admin(.*)']);
 const isAdminApiRoute = createRouteMatcher(['/api/admin(.*)']);
 const isUploadRoute = createRouteMatcher(['/api/upload']);
@@ -68,13 +73,17 @@ export default clerkMiddleware(async (auth, request) => {
   }
 
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
-  const contentSecurityPolicy = buildContentSecurityPolicy(nonce);
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-nonce', nonce);
-  requestHeaders.set('Content-Security-Policy', contentSecurityPolicy);
 
   const response = NextResponse.next({ request: { headers: requestHeaders } });
-  response.headers.set('Content-Security-Policy', contentSecurityPolicy);
+
+  if (process.env.NODE_ENV !== 'development') {
+    const contentSecurityPolicy = buildContentSecurityPolicy(nonce);
+    requestHeaders.set('Content-Security-Policy', contentSecurityPolicy);
+    response.headers.set('Content-Security-Policy', contentSecurityPolicy);
+  }
+
   return response;
 });
 

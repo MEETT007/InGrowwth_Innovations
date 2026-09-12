@@ -113,6 +113,7 @@ export function Header() {
               {isSignedIn && <UserButton />}
             </div>
 
+            {/* AI Consultant Link disabled / commented out
             <Link
               href="/chat"
               className="hidden md:flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 hover:bg-blue-500/20 text-sm font-medium transition-colors shadow-[0_0_15px_rgba(59,130,246,0.1)] hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]"
@@ -120,6 +121,7 @@ export function Header() {
               <Sparkles className="w-4 h-4" />
               AI Consultant
             </Link>
+            */}
 
             <Button
               render={<Link href="/contact?type=quote" />}
