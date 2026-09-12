@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight, LayoutDashboard, Box, Sparkles } from 'lucide-react';
+import { Menu, X, ArrowRight, LayoutDashboard, Box } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './theme-toggle';
 import { Button } from '@/components/ui/button';
@@ -49,7 +49,7 @@ export function Header() {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-        className="pointer-events-auto w-full max-w-7xl relative rounded-full p-[1px] bg-gradient-to-r from-indigo-500/30 via-purple-500/30 to-pink-500/30 shadow-[0_8px_30px_rgb(0,0,0,0.05)] hover:shadow-indigo-500/20 transition-all duration-500 group/nav"
+        className="pointer-events-auto w-full max-w-7xl relative rounded-full p-px bg-linear-to-r from-indigo-500/30 via-purple-500/30 to-pink-500/30 shadow-[0_8px_30px_rgb(0,0,0,0.05)] hover:shadow-indigo-500/20 transition-all duration-500 group/nav"
       >
         <div
           className={`w-full h-full rounded-full flex items-center justify-between px-4 py-2.5 transition-all duration-500 ${
@@ -58,13 +58,13 @@ export function Header() {
         >
           {/* Left: Custom Premium Logo Mark */}
           <Link href="/" className="flex items-center gap-3 group pl-1">
-            <div className="relative w-9 h-9 rounded-[10px] bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30 transition-all duration-500 shrink-0 overflow-hidden">
+            <div className="relative w-9 h-9 rounded-[10px] bg-linear-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30 transition-all duration-500 shrink-0 overflow-hidden">
               {/* Animated glass shine overlay */}
-              <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.4)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%,100%_100%] bg-[position:-100%_0,0_0] bg-no-repeat transition-[background-position] duration-700 ease-in-out group-hover:bg-[position:200%_0,0_0]" />
+              <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.4)_50%,transparent_75%,transparent_100%)] bg-size-[250%_250%,100%_100%] bg-position-[-100%_0,0_0] bg-no-repeat transition-[background-position] duration-700 ease-in-out group-hover:bg-position-[200%_0,0_0]" />
               <Box className="w-5 h-5 text-white relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12" />
             </div>
             <div className="flex items-center gap-1">
-              <span className="text-[1rem] sm:text-[1.15rem] font-bold tracking-tight text-foreground group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-indigo-500 group-hover:to-purple-500 transition-all duration-300 line-clamp-1 whitespace-nowrap">
+              <span className="text-[1rem] sm:text-[1.15rem] font-bold tracking-tight text-foreground group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-indigo-500 group-hover:to-purple-500 transition-all duration-300 line-clamp-1 whitespace-nowrap">
                 InGrowwth Innovations
               </span>
             </div>
@@ -88,7 +88,7 @@ export function Header() {
                   {isActive && (
                     <motion.div
                       layoutId="header-nav-indicator"
-                      className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-full -z-10"
+                      className="absolute inset-0 bg-linear-to-r from-indigo-500/10 to-purple-500/10 rounded-full -z-10"
                       transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                     />
                   )}
@@ -113,15 +113,7 @@ export function Header() {
               {isSignedIn && <UserButton />}
             </div>
 
-            {/* AI Consultant Link disabled / commented out
-            <Link
-              href="/chat"
-              className="hidden md:flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 hover:bg-blue-500/20 text-sm font-medium transition-colors shadow-[0_0_15px_rgba(59,130,246,0.1)] hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]"
-            >
-              <Sparkles className="w-4 h-4" />
-              AI Consultant
-            </Link>
-            */}
+            {/* AI Consultant Link disabled / commented out */}
 
             <Button
               render={<Link href="/contact?type=quote" />}
@@ -155,7 +147,7 @@ export function Header() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="absolute top-[80px] left-4 right-4 bg-background/95 backdrop-blur-xl border border-indigo-500/20 shadow-2xl shadow-indigo-500/10 rounded-2xl overflow-hidden p-4 flex flex-col gap-2 lg:hidden pointer-events-auto"
+            className="absolute top-20 left-4 right-4 bg-background/95 backdrop-blur-xl border border-indigo-500/20 shadow-2xl shadow-indigo-500/10 rounded-2xl overflow-hidden p-4 flex flex-col gap-2 lg:hidden pointer-events-auto"
           >
             <div className="flex items-center justify-between mb-2 pb-2 border-b border-border/40">
               <span className="font-bold text-foreground">Menu</span>
@@ -169,7 +161,7 @@ export function Header() {
                   href={link.href}
                   className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-gradient-to-r from-indigo-500/10 to-purple-500/10 text-indigo-600 dark:text-indigo-400 font-semibold'
+                      ? 'bg-linear-to-r from-indigo-500/10 to-purple-500/10 text-indigo-600 dark:text-indigo-400 font-semibold'
                       : 'text-muted-foreground hover:bg-muted'
                   }`}
                 >
