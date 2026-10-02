@@ -23,7 +23,17 @@ export class ConsultantEngine {
     new CTAGenerator(),
   ];
 
-  async process(sessionId: string, message: string): Promise<ReasoningContextObject> {
+  async process(
+    sessionId: string,
+    message: string,
+    options?: {
+      model?: string;
+      reasoning?: boolean;
+      webSearch?: boolean;
+      webSnippets?: string[];
+      userLearningContext?: string;
+    }
+  ): Promise<ReasoningContextObject> {
     // Initialize the Reasoning Context Object (RCO)
     let rco: ReasoningContextObject = {
       conversation: {
@@ -51,7 +61,9 @@ export class ConsultantEngine {
         unknownResponseFallback: '',
       },
       generation: {},
+      options,
     };
+
 
     // Execute through the reasoning pipeline
     const traceId = await observabilityManager.findActiveTrace(sessionId);

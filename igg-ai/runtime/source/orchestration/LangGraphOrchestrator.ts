@@ -14,12 +14,16 @@ interface AgentState {
   sessionId: string;
   query: string;
   uploadedFile?: FileData;
+  model?: string;
+  webSearch?: boolean;
+  reasoning?: boolean;
   plan: string;
   toolResults: Record<string, any>;
   requirementInsights?: any;
   finalResponse: string;
   requiresHandoff?: boolean;
   handoffReason?: string;
+  userLearningContext?: string;
 }
 
 export class LangGraphOrchestrator {
@@ -42,6 +46,10 @@ export class LangGraphOrchestrator {
         sessionId: { value: (x, y) => y ?? x, default: () => 'default' },
         query: { value: (x, y) => y ?? x, default: () => '' },
         uploadedFile: { value: (x, y) => y ?? x, default: () => undefined },
+        model: { value: (x, y) => y ?? x, default: () => 'igg-architect-pro' },
+        webSearch: { value: (x, y) => y ?? x, default: () => false },
+        reasoning: { value: (x, y) => y ?? x, default: () => false },
+        userLearningContext: { value: (x, y) => y ?? x, default: () => undefined },
         plan: { value: (x, y) => y ?? x, default: () => '' },
         toolResults: {
           value: (x, y) => ({ ...x, ...y }),
@@ -77,8 +85,18 @@ export class LangGraphOrchestrator {
       return { requirementInsights: insights };
     });
 
-    // Node: Planner
+    // Node: Planner (Determine if web search or internal search is needed)
     graph.addNode('planner', async (state) => {
+      const q = (state.query || '').toLowerCase();
+      const needsWebSearch =
+        state.webSearch ||
+        /(idea|ideas|trend|trends|market|competitor|competitors|compare|comparison|what is|how to build|features of|latest|modern|best practices|benchmark|expense|recommendation|tools)/i.test(
+          q
+        );
+
+      if (needsWebSearch) {
+        return { plan: 'web_search' };
+      }
       return { plan: 'search_website' };
     });
 
@@ -96,11 +114,20 @@ export class LangGraphOrchestrator {
     // Node: Consultant
     graph.addNode('consultant', async (state) => {
       let enhancedQuery = state.query;
+      const webSnippets: string[] = state.toolResults?.web_search?.snippets || [];
+
       if (state.requirementInsights) {
         enhancedQuery += `\n\n[FILE REQUIREMENTS EXTRACTED]:\n${JSON.stringify(state.requirementInsights, null, 2)}`;
       }
 
-      const rco = await consultantEngine.process(state.sessionId, enhancedQuery);
+      const rco = await consultantEngine.process(state.sessionId, enhancedQuery, {
+        model: state.model,
+        reasoning: state.reasoning,
+        webSearch: state.webSearch,
+        webSnippets,
+        userLearningContext: state.userLearningContext,
+      });
+
       return {
         finalResponse: rco.generation.llmResponse || 'No response generated.',
         requiresHandoff: rco.generation.requiresHandoff,
@@ -121,13 +148,22 @@ export class LangGraphOrchestrator {
   async run(
     sessionId: string,
     query: string,
-    uploadedFile?: FileData
+    uploadedFile?: FileData,
+    options?: { model?: string; reasoning?: boolean; webSearch?: boolean; userLearningContext?: string }
   ): Promise<{ text: string; requiresHandoff?: boolean; handoffReason?: string }> {
     const startTime = Date.now();
     const traceId = await observabilityManager.startTrace(sessionId, query);
 
     try {
-      const initialState = { sessionId, query, uploadedFile };
+      const initialState = {
+        sessionId,
+        query,
+        uploadedFile,
+        model: options?.model,
+        webSearch: options?.webSearch,
+        reasoning: options?.reasoning,
+        userLearningContext: options?.userLearningContext,
+      };
       const finalState = await this.workflow.invoke(initialState, {
         configurable: { thread_id: sessionId },
       });
@@ -146,3 +182,4 @@ export class LangGraphOrchestrator {
     }
   }
 }
+

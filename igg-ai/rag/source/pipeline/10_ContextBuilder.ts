@@ -8,11 +8,11 @@ export class ContextBuilder implements IPipelineStage {
     context.finalPackage = {
       query: context.originalQuery,
       intent: context.intent,
-      citations: Array.from(new Set(context.citations)), // Deduplicate citations
-      contentChunks: context.compressedResults?.map(r => r.metadata?.text || r.id),
+      citations: Array.from(new Set(context.citations || [])), // Deduplicate citations
+      contentChunks: (context.compressedResults || []).map(r => r.metadata?.text || r.id),
       metadata: {
-        totalChunksRetrieved: context.compressedResults?.length,
-        retrievalLatency: context.statistics.retrievalLatency,
+        totalChunksRetrieved: context.compressedResults?.length || 0,
+        retrievalLatency: context.statistics.retrievalLatency || 0,
       }
     };
 

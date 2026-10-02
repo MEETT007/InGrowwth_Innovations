@@ -3,11 +3,18 @@
 import * as React from 'react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 
-// Filter out the React 19 warning caused by next-themes injecting a script tag
+// Filter out React 19 warnings and benign Clerk development debug network errors that trigger Next.js error overlays
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   const orig = console.error;
   console.error = (...args: unknown[]) => {
-    if (typeof args[0] === 'string' && args[0].includes('Encountered a script tag')) {
+    const msg = typeof args[0] === 'string' ? args[0] : '';
+    if (
+      msg.includes('Encountered a script tag') ||
+      msg.includes('[Clerk Debug]') ||
+      msg.includes('fapiClient') ||
+      msg.includes('clerk.accounts.dev')
+    ) {
+      console.warn('[Clerk Suppressed]', ...args);
       return;
     }
     orig.apply(console, args);

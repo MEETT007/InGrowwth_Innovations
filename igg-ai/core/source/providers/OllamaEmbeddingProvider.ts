@@ -16,14 +16,20 @@ export class OllamaEmbeddingProvider implements IEmbeddingProvider {
 
   async embedText(text: string): Promise<number[]> {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
+
       const response = await fetch(`${this.baseUrl}/api/embeddings`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
         body: JSON.stringify({
           model: this.defaultModel,
           prompt: text,
         }),
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`Ollama embeddings API error: ${response.statusText}`);
@@ -32,8 +38,9 @@ export class OllamaEmbeddingProvider implements IEmbeddingProvider {
       const data = await response.json();
       return data.embedding;
     } catch (error: any) {
-      Logger.error(`Ollama embedding generation failed: ${error.message}`);
-      throw error;
+      Logger.warn(`[OllamaEmbeddingProvider] Ollama daemon unavailable at ${this.baseUrl}: ${error.message}. Returning fallback zero embedding.`);
+      // Return 768-dimensional zero vector so retrieval pipeline doesn't crash
+      return new Array(768).fill(0);
     }
   }
 

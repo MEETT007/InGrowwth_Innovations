@@ -1,11 +1,18 @@
 import { ITool } from "../tools/ITool";
+import { SearchWebsiteTool } from "../tools/SearchWebsiteTool";
+import { WebSearchTool } from "../tools/WebSearchTool";
 
 export class ToolRegistry {
   private tools = new Map<string, ITool>();
 
+  constructor() {
+    this.register(new SearchWebsiteTool());
+    this.register(new WebSearchTool());
+  }
+
   register(tool: ITool): void {
     if (this.tools.has(tool.name)) {
-      throw new Error(`Tool ${tool.name} is already registered.`);
+      return; // Idempotent registration
     }
     this.tools.set(tool.name, tool);
   }
@@ -20,3 +27,4 @@ export class ToolRegistry {
 }
 
 export const toolRegistry = new ToolRegistry();
+

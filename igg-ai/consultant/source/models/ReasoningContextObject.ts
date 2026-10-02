@@ -36,4 +36,12 @@ export interface ReasoningContextObject {
     requiresHandoff?: boolean;
     handoffReason?: string;
   };
+  options?: {
+    model?: string;
+    reasoning?: boolean;
+    webSearch?: boolean;
+    webSnippets?: string[];
+    userLearningContext?: string;
+  };
 }
+

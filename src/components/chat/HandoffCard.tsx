@@ -1,55 +1,87 @@
-import React from 'react';
-import { PhoneCall, ShieldAlert, FileText, Banknote } from 'lucide-react';
+'use client';
+
+import React, { useState } from 'react';
+import { PhoneCall, ShieldAlert, FileText, Banknote, Mail, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function HandoffCard({ reason }: { reason?: string }) {
-  let title = 'Human Consultation Required';
+  const [scheduled, setScheduled] = useState(false);
+
+  let title = 'Human Solutions Architecture Consultation';
   let description =
-    'This request requires specialized expertise. I am connecting you with our Enterprise Architecture team.';
+    'This inquiry entails high-complexity constraints or specialized domain verification. We recommend routing this to our Principal Architect.';
   let Icon = PhoneCall;
+  let accentColor = 'border-amber-500/40 bg-amber-950/20 text-amber-400';
 
   if (reason === 'LEGAL_INQUIRY') {
-    title = 'Legal / Compliance Review';
+    title = 'Legal, Security & Compliance Review';
     description =
-      'Requests involving NDAs, SLAs, or legal compliance require our legal and enterprise risk team to evaluate.';
+      'Inquiries involving custom DPAs, SLAs, BAAs, or enterprise certifications are routed to our Chief Compliance Officer.';
     Icon = ShieldAlert;
+    accentColor = 'border-red-500/40 bg-red-950/20 text-red-400';
   } else if (reason === 'CUSTOM_PRICING') {
-    title = 'Enterprise Negotiation';
+    title = 'Enterprise Volume & Strategic Pricing';
     description =
-      'Custom pricing, discounts, and equity structures require a direct consultation with our sales directors.';
+      'Custom GPU compute quotas, dedicated clusters, and multi-year contract options are handled directly with our executive sales directors.';
     Icon = Banknote;
+    accentColor = 'border-emerald-500/40 bg-emerald-950/20 text-emerald-400';
   } else if (reason === 'HR_INQUIRY') {
-    title = 'Human Resources';
+    title = 'Executive Talent & Careers Partnership';
     description =
-      'For career opportunities and HR inquiries, please connect with our recruitment team.';
+      'For engineering fellowships, principal roles, or advisory positions, please connect with our Talent team.';
     Icon = FileText;
+    accentColor = 'border-indigo-500/40 bg-indigo-950/20 text-indigo-400';
+  }
+
+  if (scheduled) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-5 mt-4 text-center"
+      >
+        <CheckCircle2 className="w-6 h-6 text-emerald-400 mx-auto mb-2" />
+        <h4 className="text-sm font-bold text-white mb-1">Handoff Request Registered</h4>
+        <p className="text-xs text-slate-300">
+          Our Senior Lead will reach out within 2 business hours.
+        </p>
+      </motion.div>
+    );
   }
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="bg-gray-800/80 border border-orange-500/30 rounded-xl p-5 mt-4 relative overflow-hidden"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className={`rounded-2xl border p-5 mt-4 relative overflow-hidden backdrop-blur-md ${accentColor}`}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-red-500/5 pointer-events-none" />
-
-      <div className="flex items-start justify-between relative z-10">
+      <div className="flex items-start gap-3.5 mb-4">
+        <div className="p-2.5 rounded-xl bg-white/10 shrink-0">
+          <Icon className="w-5 h-5" />
+        </div>
         <div>
-          <div className="flex items-center space-x-2 text-orange-400 mb-2">
-            <Icon className="w-5 h-5" />
-            <h4 className="font-semibold tracking-tight">{title}</h4>
-          </div>
-          <p className="text-sm text-gray-300 max-w-md mb-5 leading-relaxed">{description}</p>
+          <h4 className="text-sm font-bold text-white mb-1">{title}</h4>
+          <p className="text-xs text-slate-300 leading-relaxed max-w-xl">{description}</p>
         </div>
       </div>
 
-      <div className="flex space-x-3 relative z-10">
-        <button className="flex-1 py-2.5 bg-orange-600 hover:bg-orange-500 text-white rounded-lg font-medium shadow-lg shadow-orange-900/20 transition-colors flex items-center justify-center space-x-2">
-          <span>Schedule Human Call</span>
+      <div className="flex flex-col sm:flex-row gap-2.5 pt-2">
+        <button
+          type="button"
+          onClick={() => setScheduled(true)}
+          className="flex-1 py-2.5 px-4 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-semibold border border-white/15 transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm"
+        >
+          <PhoneCall className="w-3.5 h-3.5" />
+          <span>Request Priority Callback</span>
         </button>
-        <button className="flex-1 py-2.5 bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-lg font-medium transition-colors">
-          Email Team
-        </button>
+
+        <a
+          href="mailto:consulting@ingrowwth.com"
+          className="py-2.5 px-4 bg-transparent hover:bg-white/5 text-slate-300 hover:text-white rounded-xl text-xs font-medium border border-white/10 transition-all flex items-center justify-center gap-2 text-center"
+        >
+          <Mail className="w-3.5 h-3.5" />
+          <span>Email Architecture Team</span>
+        </a>
       </div>
     </motion.div>
   );

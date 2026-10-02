@@ -4,6 +4,8 @@ import { ISpeechProvider } from '../interfaces/ISpeechProvider';
 import { config } from '../config/env';
 
 import { OllamaProvider } from '../providers/OllamaProvider';
+import { OpenAICompatibleProvider } from '../providers/OpenAICompatibleProvider';
+import { GeminiProvider } from '../providers/GeminiProvider';
 
 export class ModelManager {
   private llmProviders: Map<string, ILLMProvider> = new Map();
@@ -12,6 +14,8 @@ export class ModelManager {
 
   constructor() {
     this.registerLLMProvider(new OllamaProvider());
+    this.registerLLMProvider(new OpenAICompatibleProvider());
+    this.registerLLMProvider(new GeminiProvider());
   }
 
   registerLLMProvider(provider: ILLMProvider) {
@@ -24,6 +28,10 @@ export class ModelManager {
 
   registerSpeechProvider(provider: ISpeechProvider) {
     this.speechProviders.set(provider.name, provider);
+  }
+
+  getProviderByName(name: string): ILLMProvider | undefined {
+    return this.llmProviders.get(name);
   }
 
   getActiveLLMProvider(): ILLMProvider {
