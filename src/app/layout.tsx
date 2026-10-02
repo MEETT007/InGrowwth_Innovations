@@ -4,6 +4,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { GlobalLayoutWrapper } from '@/components/shared/global-layout-wrapper';
 import { ClerkProvider } from '@clerk/nextjs';
+import { env } from '@/lib/env';
 
 // A request-specific CSP nonce is generated in proxy.ts, so pages must render per request.
 export const dynamic = 'force-dynamic';
@@ -61,6 +62,11 @@ export default function RootLayout({
             enableSystem={false}
             disableTransitionOnChange
           >
+            {!env.isProduction && (
+              <div className="fixed bottom-4 right-4 z-50 bg-red-600 text-white px-3 py-1 text-xs font-bold rounded shadow-lg pointer-events-none opacity-80 uppercase tracking-widest">
+                DEV ENVIRONMENT
+              </div>
+            )}
             <GlobalLayoutWrapper>{children}</GlobalLayoutWrapper>
           </ThemeProvider>
         </body>

@@ -26,6 +26,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { AnimatedContainer } from '@/components/shared/AnimatedContainer';
 import { ContactSchema, QuoteSchema, ContactInput, QuoteInput } from '@/schemas/lead';
 import { submitContactAction, submitQuoteAction } from '@/actions/lead';
+import { logger } from '@/lib/logger';
 
 export default function ContactClient() {
   const searchParams = useSearchParams();
@@ -82,7 +83,7 @@ export default function ContactClient() {
         toast.error(res.message || 'Submission failed.');
       }
     } catch (error) {
-      console.error('Contact submission error:', error);
+      logger.error('Contact submission error:', error);
       toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -101,7 +102,7 @@ export default function ContactClient() {
         toast.error(res.message || 'Submission failed.');
       }
     } catch (error) {
-      console.error('Quote submission error:', error);
+      logger.error('Quote submission error:', error);
       toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);

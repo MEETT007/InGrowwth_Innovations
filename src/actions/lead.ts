@@ -14,6 +14,7 @@ import { sendLeadEmails } from '@/lib/mail';
 import { headers } from 'next/headers';
 import { isValidIdempotencyKey } from '@/lib/request-security';
 import { claimIdempotencyKey } from '@/lib/replay-protection';
+import { logger } from '@/lib/logger';
 
 async function getClientIp(): Promise<string> {
   const headersList = await headers();
@@ -96,7 +97,7 @@ export async function submitContactAction(rawInput: ContactInput, idempotencyKey
       message: 'Your inquiry has been submitted successfully! We will contact you soon.',
     };
   } catch (error) {
-    console.error('Error creating contact lead:', error);
+    logger.error('Error creating contact lead:', error);
     return {
       success: false,
       message: 'An unexpected database error occurred. Please try again later.',
@@ -184,7 +185,7 @@ export async function submitQuoteAction(rawInput: QuoteInput, idempotencyKey: st
       message: 'Your quote request has been submitted successfully! Our team is reviewing it.',
     };
   } catch (error) {
-    console.error('Error creating quote lead:', error);
+    logger.error('Error creating quote lead:', error);
     return {
       success: false,
       message: 'An unexpected database error occurred. Please try again later.',
@@ -259,7 +260,7 @@ export async function subscribeNewsletterAction(rawInput: NewsletterInput, idemp
       message: 'Thank you for subscribing to our newsletter!',
     };
   } catch (error) {
-    console.error('Error creating newsletter subscription:', error);
+    logger.error('Error creating newsletter subscription:', error);
     return {
       success: false,
       message: 'An unexpected database error occurred. Please try again later.',

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
 import { readJsonBody } from '@/lib/request-security';
+import { logger } from '@/lib/logger';
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -95,7 +96,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       data: updated,
     });
   } catch (error) {
-    console.error('Error updating portfolio project:', error);
+    logger.error('Error updating portfolio project:', error);
     return NextResponse.json(
       { success: false, message: 'Database error updating portfolio project.' },
       { status: 500 }
@@ -126,7 +127,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     await db.portfolioProject.delete({ where: { id } });
     return NextResponse.json({ success: true, message: 'Portfolio project deleted successfully.' });
   } catch (error) {
-    console.error('Error deleting portfolio project:', error);
+    logger.error('Error deleting portfolio project:', error);
     return NextResponse.json(
       { success: false, message: 'Database error deleting portfolio project.' },
       { status: 500 }

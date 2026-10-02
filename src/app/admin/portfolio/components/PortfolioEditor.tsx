@@ -27,6 +27,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { logger } from '@/lib/logger';
 
 const portfolioSchema = z.object({
   title: z.string().min(3, 'Title is required'),
@@ -190,7 +191,7 @@ export function PortfolioEditor({ isOpen, onClose, onSuccess, initialData }: Por
         toast.error(result.message || 'Upload failed.', { id: toastId });
       }
     } catch (error) {
-      console.error('Error uploading file:', error);
+      logger.error('Error uploading file:', error);
       toast.error('An error occurred during upload.', { id: toastId });
     } finally {
       setIsUploading(false);
@@ -222,7 +223,7 @@ export function PortfolioEditor({ isOpen, onClose, onSuccess, initialData }: Por
         toast.error(res.message || 'Action failed.', { id: toastId });
       }
     } catch (error) {
-      console.error('Error saving project:', error);
+      logger.error('Error saving project:', error);
       toast.error('Failed to save project.', { id: toastId });
     } finally {
       setIsSubmitting(false);

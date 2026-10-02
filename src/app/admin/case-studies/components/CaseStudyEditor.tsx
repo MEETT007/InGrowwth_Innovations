@@ -20,6 +20,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { logger } from '@/lib/logger';
 
 const caseStudySchema = z.object({
   title: z.string().min(3, 'Title is required'),
@@ -212,7 +213,7 @@ export function CaseStudyEditor({ isOpen, onClose, onSuccess, initialData }: Cas
         toast.error(result.message || 'Upload failed.', { id: toastId });
       }
     } catch (error) {
-      console.error('Error uploading file:', error);
+      logger.error('Error uploading file:', error);
       toast.error('An error occurred during upload.', { id: toastId });
     } finally {
       setIsUploadingCover(false);
@@ -246,7 +247,7 @@ export function CaseStudyEditor({ isOpen, onClose, onSuccess, initialData }: Cas
         toast.error(res.message || 'Action failed.', { id: toastId });
       }
     } catch (error) {
-      console.error('Error saving case study:', error);
+      logger.error('Error saving case study:', error);
       toast.error('Failed to save case study.', { id: toastId });
     } finally {
       setIsSubmitting(false);

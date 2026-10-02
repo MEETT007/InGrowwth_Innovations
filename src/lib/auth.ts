@@ -1,4 +1,5 @@
 import { auth, currentUser } from '@clerk/nextjs/server';
+import { logger } from '@/lib/logger';
 
 export type UserRole = 'admin' | 'editor' | 'user';
 
@@ -47,7 +48,7 @@ export async function getAuthUserRole(): Promise<{
 
     return { userId, role, jobTitle };
   } catch (error) {
-    console.error('Error fetching user auth/role:', error);
+    logger.error('Error fetching user auth/role:', error);
     return { userId: null, role: null, jobTitle: null };
   }
 }

@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { subscribeNewsletterAction } from '@/actions/lead';
+import { logger } from '@/lib/logger';
 
 const footerLinks = {
   services: [
@@ -54,7 +55,7 @@ export function Footer() {
         setStatus({ success: false, message: res.message });
       }
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       setStatus({ success: false, message: 'Failed to subscribe. Please try again.' });
     } finally {
       setLoading(false);

@@ -9,8 +9,8 @@ services:
     environment:
       - NODE_ENV=production
       - DATABASE_URL=${DATABASE_URL}
-    # Start the app after ensuring the database migrations are applied
-    command: sh -c "npx prisma migrate deploy && npm start"
+    # Start the app. Only run migrations if RUN_MIGRATIONS is set to true.
+    command: sh -c "if [ \"$$RUN_MIGRATIONS\" = 'true' ]; then npx prisma migrate deploy; fi && npm start"
     depends_on:
       postgres:
         condition: service_healthy
@@ -33,11 +33,11 @@ services:
       timeout: 5s
       retries: 5
 
-  redis:
-    image: redis:7-alpine
-    container_name: ingrowwth-redis
-    ports:
-      - "6379:6379"
+#  redis:
+#    image: redis:7-alpine
+#    container_name: ingrowwth-redis
+#    ports:
+#      - "6379:6379"
 
   qdrant:
     image: qdrant/qdrant:latest

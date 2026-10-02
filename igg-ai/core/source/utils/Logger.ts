@@ -41,7 +41,7 @@ export class Logger {
   }
 
   static debug(message: string, meta?: any) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.LOG_ENABLED === 'true' || process.env.NEXT_PUBLIC_LOG_ENABLED === 'true') {
       console.debug(Logger.format(LogLevel.DEBUG, message, meta));
     }
   }

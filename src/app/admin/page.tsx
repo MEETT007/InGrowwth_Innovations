@@ -14,6 +14,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { getAuthUserRole } from '@/lib/auth';
+import { logger } from '@/lib/logger';
 
 export const revalidate = 0; // Disable caching for real-time dashboard data
 export const dynamic = 'force-dynamic';
@@ -145,7 +146,7 @@ export default async function AdminDashboardPage() {
     newsletterCount = newsletters;
     newLeadsCount = newLeads;
   } catch (error) {
-    console.error('Error loading dashboard stats:', error);
+    logger.error('Error loading dashboard stats:', error);
   }
 
   const statCards = [

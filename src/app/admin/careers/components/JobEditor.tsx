@@ -25,6 +25,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { logger } from '@/lib/logger';
 
 const jobSchema = z.object({
   title: z.string().min(3, 'Title is required'),
@@ -113,7 +114,7 @@ export function JobEditor({ isOpen, onClose, onSuccess, initialData }: JobEditor
         toast.error(res.message || 'Action failed.', { id: toastId });
       }
     } catch (error) {
-      console.error('Error saving job:', error);
+      logger.error('Error saving job:', error);
       toast.error('Failed to save job.', { id: toastId });
     } finally {
       setIsSubmitting(false);

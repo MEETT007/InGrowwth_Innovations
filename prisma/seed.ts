@@ -1,6 +1,12 @@
 import { db } from '../src/lib/db';
 import { projects, services, mockBlogPosts, mockJobs } from '../src/lib/mock-data';
 
+if (process.env.APP_ENV === 'production' && process.env.ALLOW_PROD_SEED !== 'true') {
+  console.error('Refusing to run seed in production. Set ALLOW_PROD_SEED="true" to override.');
+  process.exit(1);
+}
+
+
 const prisma = db;
 
 async function main() {

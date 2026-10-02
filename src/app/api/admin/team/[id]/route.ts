@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
 import { readJsonBody } from '@/lib/request-security';
+import { logger } from '@/lib/logger';
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -54,7 +55,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       data: updated,
     });
   } catch (error) {
-    console.error('Error updating team member:', error);
+    logger.error('Error updating team member:', error);
     return NextResponse.json(
       { success: false, message: 'Database error updating team member.' },
       { status: 500 }
@@ -85,7 +86,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     await db.teamMember.delete({ where: { id } });
     return NextResponse.json({ success: true, message: 'Team member deleted successfully.' });
   } catch (error) {
-    console.error('Error deleting team member:', error);
+    logger.error('Error deleting team member:', error);
     return NextResponse.json(
       { success: false, message: 'Database error deleting team member.' },
       { status: 500 }

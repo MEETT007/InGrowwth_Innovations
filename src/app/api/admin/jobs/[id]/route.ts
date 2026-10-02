@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAdminRole, requireAuthAndRole } from '@/lib/auth';
+import { logger } from '@/lib/logger';
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -23,7 +24,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
 
     return NextResponse.json({ success: true, data: job });
   } catch (error) {
-    console.error('Error fetching job:', error);
+    logger.error('Error fetching job:', error);
     return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
   }
 }
@@ -56,7 +57,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
 
     return NextResponse.json({ success: true, data: job, message: 'Job updated successfully.' });
   } catch (error) {
-    console.error('Error updating job:', error);
+    logger.error('Error updating job:', error);
     return NextResponse.json({ success: false, message: 'Failed to update job.' }, { status: 500 });
   }
 }
@@ -78,7 +79,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
 
     return NextResponse.json({ success: true, message: 'Job deleted successfully.' });
   } catch (error) {
-    console.error('Error deleting job:', error);
+    logger.error('Error deleting job:', error);
     return NextResponse.json({ success: false, message: 'Failed to delete job.' }, { status: 500 });
   }
 }

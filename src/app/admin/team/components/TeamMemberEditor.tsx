@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { logger } from '@/lib/logger';
 
 const teamSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -129,7 +130,7 @@ export function TeamMemberEditor({
         toast.error(result.message || 'Upload failed.', { id: toastId });
       }
     } catch (error) {
-      console.error('Error uploading file:', error);
+      logger.error('Error uploading file:', error);
       toast.error('An error occurred during upload.', { id: toastId });
     } finally {
       setIsUploading(false);
@@ -170,7 +171,7 @@ export function TeamMemberEditor({
         toast.error(res.message || 'Action failed.', { id: toastId });
       }
     } catch (error) {
-      console.error('Error saving member:', error);
+      logger.error('Error saving member:', error);
       toast.error('Failed to save team member.', { id: toastId });
     } finally {
       setIsSubmitting(false);

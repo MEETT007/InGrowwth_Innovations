@@ -1,5 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 
+if (process.env.APP_ENV === 'production' && process.env.ALLOW_PROD_SEED !== 'true') {
+  console.error('Refusing to run seed in production. Set ALLOW_PROD_SEED="true" to override.');
+  process.exit(1);
+}
+
+
 const prisma = new PrismaClient();
 
 const MOCK_JOBS = [

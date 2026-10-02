@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { DataTable } from '@/components/ui/data-table';
 import { ServiceEditor } from './components/ServiceEditor';
+import { logger } from '@/lib/logger';
 
 interface Service {
   id: string;
@@ -43,7 +44,7 @@ export default function ServicesPage() {
         toast.error(res.message || 'Failed to fetch services.');
       }
     } catch (error) {
-      console.error('Error fetching services:', error);
+      logger.error('Error fetching services:', error);
       toast.error('Failed to connect to services API.');
     } finally {
       setIsLoading(false);
@@ -70,7 +71,7 @@ export default function ServicesPage() {
           toast.error(res.message || 'Failed to delete service.', { id: toastId });
         }
       } catch (error) {
-        console.error('Error deleting service:', error);
+        logger.error('Error deleting service:', error);
         toast.error('An error occurred.', { id: toastId });
       }
     }

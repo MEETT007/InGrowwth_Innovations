@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
 import { LeadType, LeadStatus } from '@/generated/prisma/client';
 import { readJsonBody } from '@/lib/request-security';
+import { logger } from '@/lib/logger';
 
 /**
  * GET /api/admin/leads
@@ -51,7 +52,7 @@ export async function GET(request: NextRequest) {
       total: leads.length,
     });
   } catch (error) {
-    console.error('Error fetching admin leads:', error);
+    logger.error('Error fetching admin leads:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to retrieve leads database records.' },
       { status: 500 }
@@ -132,7 +133,7 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error('Error creating lead manually:', error);
+    logger.error('Error creating lead manually:', error);
     return NextResponse.json(
       { success: false, message: 'Database error creating lead.' },
       { status: 500 }

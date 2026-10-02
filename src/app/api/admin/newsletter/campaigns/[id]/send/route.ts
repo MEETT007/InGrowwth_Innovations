@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAuthAndRole } from '@/lib/auth';
+import { logger } from '@/lib/logger';
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -24,7 +25,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     }
 
     // Mock sending logic here
-    console.log(`[MOCK EMAIL SERVICE] Sending campaign ID: ${id} - Subject: ${campaign.subject}`);
+    logger.info(`[MOCK EMAIL SERVICE] Sending campaign ID: ${id} - Subject: ${campaign.subject}`);
 
     // Update campaign status
     const updated = await db.newsletterCampaign.update({
@@ -44,7 +45,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true, message: 'Campaign sent successfully.', data: updated });
   } catch (error) {
-    console.error('Error sending campaign:', error);
+    logger.error('Error sending campaign:', error);
     return NextResponse.json({ success: false, message: 'Database error sending campaign.' }, { status: 500 });
   }
 }

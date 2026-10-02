@@ -1,6 +1,7 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { requireSameOrigin } from '@/lib/request-security';
+import { env } from '@/lib/env';
 
 const isPublicAdminRoute = createRouteMatcher([
   '/admin/sign-in(.*)',
@@ -16,7 +17,7 @@ const MUTATING_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 const MAX_ADMIN_REQUEST_BYTES = 512 * 1024;
 
 function buildContentSecurityPolicy(nonce: string): string {
-  const isDevelopment = process.env.NODE_ENV === 'development';
+  const isDevelopment = env.isDevelopment;
   return [
     "default-src 'self'",
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDevelopment ? " 'unsafe-eval'" : ''}`,
@@ -78,7 +79,7 @@ export default clerkMiddleware(async (auth, request) => {
 
   const response = NextResponse.next({ request: { headers: requestHeaders } });
 
-  if (process.env.NODE_ENV !== 'development') {
+  if (!env.isDevelopment) {
     const contentSecurityPolicy = buildContentSecurityPolicy(nonce);
     requestHeaders.set('Content-Security-Policy', contentSecurityPolicy);
     response.headers.set('Content-Security-Policy', contentSecurityPolicy);

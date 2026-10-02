@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { DataTable } from '@/components/ui/data-table';
 import { TeamMemberEditor } from './components/TeamMemberEditor';
+import { logger } from '@/lib/logger';
 
 interface TeamMember {
   id: string;
@@ -42,7 +43,7 @@ export default function TeamPage() {
         toast.error(res.message || 'Failed to fetch team members.');
       }
     } catch (error) {
-      console.error('Error fetching team members:', error);
+      logger.error('Error fetching team members:', error);
       toast.error('Failed to connect to team members API.');
     } finally {
       setIsLoading(false);
@@ -69,7 +70,7 @@ export default function TeamPage() {
           toast.error(res.message || 'Failed to remove member.', { id: toastId });
         }
       } catch (error) {
-        console.error('Error removing member:', error);
+        logger.error('Error removing member:', error);
         toast.error('An error occurred.', { id: toastId });
       }
     }

@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { DataTable } from '@/components/ui/data-table';
 import { CaseStudyEditor } from './components/CaseStudyEditor';
+import { logger } from '@/lib/logger';
 
 interface CaseStudy {
   id: string;
@@ -41,7 +42,7 @@ export default function CaseStudiesIndexPage() {
         toast.error(res.message || 'Failed to fetch case studies.');
       }
     } catch (error) {
-      console.error('Error fetching case studies:', error);
+      logger.error('Error fetching case studies:', error);
       toast.error('Failed to connect to case studies API.');
     } finally {
       setIsLoading(false);
@@ -68,7 +69,7 @@ export default function CaseStudiesIndexPage() {
           toast.error(res.message || 'Failed to delete case study.', { id: toastId });
         }
       } catch (error) {
-        console.error('Error deleting case study:', error);
+        logger.error('Error deleting case study:', error);
         toast.error('An error occurred.', { id: toastId });
       }
     }
@@ -88,7 +89,7 @@ export default function CaseStudiesIndexPage() {
         toast.error(res.message || 'Failed to load case study details.', { id: toastId });
       }
     } catch (error) {
-      console.error('Error fetching case study details:', error);
+      logger.error('Error fetching case study details:', error);
       toast.error('Error loading case study details.', { id: toastId });
     }
   };

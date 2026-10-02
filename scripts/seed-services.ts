@@ -1,5 +1,11 @@
 import { db as prisma } from '../src/lib/db';
 
+if (process.env.APP_ENV === 'production' && process.env.ALLOW_PROD_SEED !== 'true') {
+  console.error('Refusing to run seed in production. Set ALLOW_PROD_SEED="true" to override.');
+  process.exit(1);
+}
+
+
 const servicesData = [
   {
     title: 'Mobile App Development',

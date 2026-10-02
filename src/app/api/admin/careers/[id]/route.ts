@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAdminRole, requireAuthAndRole } from '@/lib/auth';
+import { logger } from '@/lib/logger';
 
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -24,7 +25,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
 
     return NextResponse.json({ success: true, data: application, message: 'Status updated.' });
   } catch (error) {
-    console.error('Error updating job application:', error);
+    logger.error('Error updating job application:', error);
     return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
   }
 }
@@ -47,7 +48,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
 
     return NextResponse.json({ success: true, message: 'Application deleted.' });
   } catch (error) {
-    console.error('Error deleting job application:', error);
+    logger.error('Error deleting job application:', error);
     return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
   }
 }

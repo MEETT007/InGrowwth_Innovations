@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { DataTable } from '@/components/ui/data-table';
 import { BlogEditor } from './components/BlogEditor';
+import { logger } from '@/lib/logger';
 
 interface Blog {
   id: string;
@@ -41,7 +42,7 @@ export default function BlogsIndexPage() {
         toast.error(res.message || 'Failed to fetch blog posts.');
       }
     } catch (error) {
-      console.error('Error fetching blogs:', error);
+      logger.error('Error fetching blogs:', error);
       toast.error('Failed to connect to blogs API.');
     } finally {
       setIsLoading(false);
@@ -68,7 +69,7 @@ export default function BlogsIndexPage() {
           toast.error(res.message || 'Failed to delete blog post.', { id: toastId });
         }
       } catch (error) {
-        console.error('Error deleting blog post:', error);
+        logger.error('Error deleting blog post:', error);
         toast.error('An error occurred.', { id: toastId });
       }
     }
@@ -88,7 +89,7 @@ export default function BlogsIndexPage() {
         toast.error(res.message || 'Failed to load post details.', { id: toastId });
       }
     } catch (error) {
-      console.error('Error fetching blog details:', error);
+      logger.error('Error fetching blog details:', error);
       toast.error('Error loading post details.', { id: toastId });
     }
   };

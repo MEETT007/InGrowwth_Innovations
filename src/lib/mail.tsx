@@ -3,15 +3,15 @@ import { Resend } from 'resend';
 import { Lead } from '@/generated/prisma/client';
 import { AdminNotificationEmail } from '@/components/emails/admin-notification';
 import { UserAutoResponderEmail } from '@/components/emails/user-auto-responder';
+import { env } from '@/lib/env';
+import { logger } from '@/lib/logger';
 
-// Initialize Resend with the API key from environment variables
-const resendApiKey = process.env.RESEND_API_KEY;
+const resendApiKey = env.RESEND_API_KEY;
 const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
-const MAIL_FROM = process.env.MAIL_FROM;
-const MAIL_TO_ADMIN = process.env.MAIL_TO_ADMIN;
+const MAIL_FROM = env.MAIL_FROM;
+const MAIL_TO_ADMIN = env.MAIL_TO_ADMIN;
 
-// Subject configurations mapping for different lead types
 const EMAIL_CONFIGS = {
   QUOTE: {
     adminSubject: (nameOrEmail: string) => `New Quote Request from ${nameOrEmail}`,
@@ -27,16 +27,17 @@ const EMAIL_CONFIGS = {
   },
 } as const;
 
-/**
- * Helper to send the Admin Notification email.
- */
+function getSubject(baseSubject: string) {
+  return env.isProduction ? baseSubject : `[DEV] ${baseSubject}`;
+}
+
 async function sendAdminEmail(lead: Lead, client: Resend): Promise<void> {
   const { type: leadType, name, email, subject, message, id } = lead;
 
   if (!MAIL_TO_ADMIN || !MAIL_FROM) return;
 
   const config = EMAIL_CONFIGS[leadType] || EMAIL_CONFIGS.CONTACT;
-  const adminSubject = config.adminSubject(name || email);
+  const adminSubject = getSubject(config.adminSubject(name || email));
 
   try {
     const result = await client.emails.send({
@@ -63,71 +64,62 @@ async function sendAdminEmail(lead: Lead, client: Resend): Promise<void> {
     });
 
     if (result.error) {
-      console.error('[Mail Utility] Resend error sending Admin Notification email:', result.error);
+      logger.error('[Mail Utility] Resend error sending Admin Notification email:', result.error);
     } else {
-      console.info('[Mail Utility] Admin Notification email sent successfully:', result.data?.id);
+      logger.info('[Mail Utility] Admin Notification email sent successfully:', result.data?.id);
     }
   } catch (error) {
-    console.error('[Mail Utility] Unhandled error sending Admin Notification email:', error);
+    logger.error('[Mail Utility] Unhandled error sending Admin Notification email:', error);
   }
 }
 
-/**
- * Helper to send the User Auto-Responder email.
- */
 async function sendUserEmail(lead: Lead, client: Resend): Promise<void> {
   const { type: leadType, name, email } = lead;
 
   if (!MAIL_FROM) return;
 
   const config = EMAIL_CONFIGS[leadType] || EMAIL_CONFIGS.CONTACT;
-  const userSubject = config.userSubject;
+  const userSubject = getSubject(config.userSubject);
+  
+  // In DEV, send to MAIL_TO_ADMIN instead of the user's email
+  const recipient = env.isProduction ? email : MAIL_TO_ADMIN!;
 
   try {
     const result = await client.emails.send({
       from: MAIL_FROM,
-      to: email,
+      to: recipient,
       subject: userSubject,
       react: <UserAutoResponderEmail leadType={leadType} name={name} />,
     });
 
     if (result.error) {
-      console.error('[Mail Utility] Resend error sending User Auto-Responder email:', result.error);
+      logger.error('[Mail Utility] Resend error sending User Auto-Responder email:', result.error);
     } else {
-      console.info('[Mail Utility] User Auto-Responder email sent successfully:', result.data?.id);
+      logger.info('[Mail Utility] User Auto-Responder email sent successfully:', result.data?.id);
     }
   } catch (error) {
-    console.error('[Mail Utility] Unhandled error sending User Auto-Responder email:', error);
+    logger.error('[Mail Utility] Unhandled error sending User Auto-Responder email:', error);
   }
 }
 
-/**
- * Sends both the Admin Notification and the User Auto-Responder emails in the background.
- * This function fails gracefully and does not throw errors.
- *
- * @param lead The Lead object saved to the database.
- */
 export async function sendLeadEmails(lead: Lead): Promise<void> {
   try {
     if (!resend) {
-      console.warn(
-        '[Mail Utility] RESEND_API_KEY is not defined. Email notifications are skipped.'
-      );
+      logger.warn('[Mail Utility] RESEND_API_KEY is not defined. Email notifications are skipped.');
       return;
     }
 
     if (!MAIL_FROM || !MAIL_TO_ADMIN) {
-      console.warn(
+      logger.warn(
         '[Mail Utility] MAIL_FROM or MAIL_TO_ADMIN environment variables are not configured. Email notifications are skipped.'
       );
       return;
     }
 
-    console.info(`[Mail Utility] Queueing emails for Lead ID: ${lead.id} (${lead.type})`);
+    logger.info(`[Mail Utility] Queueing emails for Lead ID: ${lead.id} (${lead.type})`);
 
-    // Trigger both emails in parallel
     await Promise.allSettled([sendAdminEmail(lead, resend), sendUserEmail(lead, resend)]);
   } catch (error) {
-    console.error('[Mail Utility] Failed to complete sendLeadEmails operation:', error);
+    logger.error('[Mail Utility] Failed to complete sendLeadEmails operation:', error);
   }
 }

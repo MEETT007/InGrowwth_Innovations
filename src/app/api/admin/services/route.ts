@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
 import { readJsonBody } from '@/lib/request-security';
+import { logger } from '@/lib/logger';
 
 // GET /api/admin/services - Fetch all services
 export async function GET() {
@@ -19,7 +20,7 @@ export async function GET() {
     });
     return NextResponse.json({ success: true, data: services });
   } catch (error) {
-    console.error('Error fetching services:', error);
+    logger.error('Error fetching services:', error);
     return NextResponse.json(
       { success: false, message: 'Database error fetching services.' },
       { status: 500 }
@@ -73,7 +74,7 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error('Error creating service:', error);
+    logger.error('Error creating service:', error);
     return NextResponse.json(
       { success: false, message: 'Database error creating service.' },
       { status: 500 }

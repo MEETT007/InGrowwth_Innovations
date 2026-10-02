@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAdminRole, requireAuthAndRole } from '@/lib/auth';
+import { logger } from '@/lib/logger';
 
 export async function GET() {
   try {
@@ -18,7 +19,7 @@ export async function GET() {
 
     return NextResponse.json({ success: true, data: applications });
   } catch (error) {
-    console.error('Error fetching job applications:', error);
+    logger.error('Error fetching job applications:', error);
     return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
   }
 }
@@ -53,7 +54,7 @@ export async function POST(req: Request) {
       message: 'Application submitted successfully.',
     });
   } catch (error) {
-    console.error('Error creating job application:', error);
+    logger.error('Error creating job application:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to submit application.' },
       { status: 500 }

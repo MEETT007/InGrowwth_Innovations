@@ -35,6 +35,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DataTable } from '@/components/ui/data-table';
 import { JobEditor } from './components/JobEditor';
+import { logger } from '@/lib/logger';
 
 interface JobApplication {
   id: string;
@@ -81,7 +82,7 @@ export default function CareersPage() {
         toast.error(res.message || 'Failed to fetch applications.');
       }
     } catch (error) {
-      console.error('Error fetching applications:', error);
+      logger.error('Error fetching applications:', error);
       toast.error('Failed to connect to careers API.');
     } finally {
       setIsLoadingApps(false);
@@ -99,7 +100,7 @@ export default function CareersPage() {
         toast.error(res.message || 'Failed to fetch jobs.');
       }
     } catch (error) {
-      console.error('Error fetching jobs:', error);
+      logger.error('Error fetching jobs:', error);
       toast.error('Failed to connect to jobs API.');
     } finally {
       setIsLoadingJobs(false);
@@ -131,7 +132,7 @@ export default function CareersPage() {
         toast.error(res.message || 'Action failed.', { id: toastId });
       }
     } catch (error) {
-      console.error('Error updating application:', error);
+      logger.error('Error updating application:', error);
       toast.error('Failed to update status.', { id: toastId });
     }
   };
@@ -151,7 +152,7 @@ export default function CareersPage() {
           toast.error(res.message || 'Failed to remove application.', { id: toastId });
         }
       } catch (error) {
-        console.error('Error removing application:', error);
+        logger.error('Error removing application:', error);
         toast.error('An error occurred.', { id: toastId });
       }
     }
@@ -172,7 +173,7 @@ export default function CareersPage() {
           toast.error(res.message || 'Failed to delete job.', { id: toastId });
         }
       } catch (error) {
-        console.error('Error deleting job:', error);
+        logger.error('Error deleting job:', error);
         toast.error('An error occurred.', { id: toastId });
       }
     }

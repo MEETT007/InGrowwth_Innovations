@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { logger } from '@/lib/logger';
 
 export async function GET() {
   let dbStatus = 'DOWN';
@@ -9,7 +10,7 @@ export async function GET() {
     await db.$queryRaw`SELECT 1`;
     dbStatus = 'UP';
   } catch (error: unknown) {
-    console.error('Database health check failed:', error);
+    logger.error('Database health check failed:', error);
   }
 
   const responseBody = {

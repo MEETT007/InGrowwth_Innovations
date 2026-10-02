@@ -23,6 +23,7 @@ import MeetingBooking from './MeetingBooking';
 import HandoffCard from './HandoffCard';
 import ReactMarkdown from 'react-markdown';
 import { useAuth } from '@clerk/nextjs';
+import { logger } from '@/lib/logger';
 
 interface Message {
   id: string;
@@ -84,7 +85,7 @@ export default function ChatWorkspace() {
           }
         }
       } catch (e) {
-        console.error('Failed to load history', e);
+        logger.error('Failed to load history', e);
       }
     };
     fetchHistory();

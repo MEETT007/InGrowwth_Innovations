@@ -3,7 +3,9 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { requireAuthAndRole } from '@/lib/auth';
-import { s3Client, BUCKET_NAME, isS3Configured } from '@/lib/s3';
+import { s3Client, BUCKET_NAME, isS3Configured, getS3KeyPrefix } from '@/lib/s3';
+import { env } from '@/lib/env';
+import { logger } from '@/lib/logger';
 
 // Allowed mime types
 const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
@@ -92,7 +94,8 @@ export async function POST(request: NextRequest) {
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
     const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
     const filename = `${uniqueSuffix}-${sanitizedName}`;
-    const key = `${folder}/${filename}`;
+    const prefix = getS3KeyPrefix();
+    const key = `${prefix}${folder}/${filename}`;
 
     // Read file contents to Buffer
     const arrayBuffer = await file.arrayBuffer();
@@ -107,9 +110,9 @@ export async function POST(request: NextRequest) {
 
     // 6. Handle S3 Upload or Local Fallback
     if (isS3Configured() && s3Client) {
-      console.info(`[Upload API] Uploading ${key} to S3 bucket ${BUCKET_NAME}`);
+      logger.info(`[Upload API] Uploading ${key} to S3 bucket ${BUCKET_NAME}`);
 
-      const region = process.env.AWS_REGION || 'us-east-1';
+      const region = env.AWS_REGION;
       await s3Client.send(
         new PutObjectCommand({
           Bucket: BUCKET_NAME,
@@ -129,7 +132,7 @@ export async function POST(request: NextRequest) {
         filename,
       });
     } else {
-      console.warn(
+      logger.warn(
         `[Upload API] S3 is not configured. Falling back to local storage inside folder: ${folder}`
       );
 
@@ -151,7 +154,7 @@ export async function POST(request: NextRequest) {
       });
     }
   } catch (error) {
-    console.error('[Upload API] Error processing file upload:', error);
+    logger.error('[Upload API] Error processing file upload:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to upload file due to an internal server error.' },
       { status: 500 }

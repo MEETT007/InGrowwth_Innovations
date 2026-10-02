@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { ThumbsUp, ThumbsDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { logger } from '@/lib/logger';
 
 export default function FeedbackControls({ messageId }: { messageId: string }) {
   const [feedback, setFeedback] = useState<'UP' | 'DOWN' | null>(null);
@@ -10,7 +11,7 @@ export default function FeedbackControls({ messageId }: { messageId: string }) {
   const handleFeedback = (type: 'UP' | 'DOWN') => {
     setFeedback(type);
     // In production, dispatch this to the ObservabilityManager for Eval tracking
-    console.log(`[Feedback] Message ${messageId} rated ${type}`);
+    logger.info(`[Feedback] Message ${messageId} rated ${type}`);
   };
 
   return (

@@ -10,6 +10,7 @@ import {
   requireSameOrigin,
 } from '@/lib/request-security';
 import { claimIdempotencyKey } from '@/lib/replay-protection';
+import { logger } from '@/lib/logger';
 
 export async function POST(request: NextRequest) {
   const sameOriginError = requireSameOrigin(request);
@@ -101,7 +102,7 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error('Error creating newsletter subscription:', error);
+    logger.error('Error creating newsletter subscription:', error);
     return NextResponse.json(
       {
         success: false,

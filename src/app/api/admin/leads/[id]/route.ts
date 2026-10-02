@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
 import { LeadStatus } from '@/generated/prisma/client';
 import { readJsonBody } from '@/lib/request-security';
+import { logger } from '@/lib/logger';
 
 interface RouteContext {
   params: Promise<{ id: string }>;
@@ -31,7 +32,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
 
     return NextResponse.json({ success: true, data: lead });
   } catch (error) {
-    console.error(`Error fetching lead ID ${id}:`, error);
+    logger.error(`Error fetching lead ID ${id}:`, error);
     return NextResponse.json(
       { success: false, message: 'Error retrieving lead record.' },
       { status: 500 }
@@ -106,7 +107,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
       data: updatedLead,
     });
   } catch (error) {
-    console.error(`Error updating lead ID ${id}:`, error);
+    logger.error(`Error updating lead ID ${id}:`, error);
     return NextResponse.json(
       { success: false, message: 'Database error updating lead.' },
       { status: 500 }
@@ -143,7 +144,7 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
       message: 'Lead deleted successfully.',
     });
   } catch (error) {
-    console.error(`Error deleting lead ID ${id}:`, error);
+    logger.error(`Error deleting lead ID ${id}:`, error);
     return NextResponse.json(
       { success: false, message: 'Database error deleting lead.' },
       { status: 500 }

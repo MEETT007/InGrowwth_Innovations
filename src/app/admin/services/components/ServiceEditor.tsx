@@ -18,6 +18,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { logger } from '@/lib/logger';
 
 const serviceSchema = z.object({
   title: z.string().min(2, 'Title must be at least 2 characters'),
@@ -128,7 +129,7 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
         toast.error(res.message || 'Action failed.', { id: toastId });
       }
     } catch (error) {
-      console.error('Error saving service:', error);
+      logger.error('Error saving service:', error);
       toast.error('Failed to save service.', { id: toastId });
     } finally {
       setIsSubmitting(false);

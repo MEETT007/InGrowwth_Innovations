@@ -27,6 +27,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { logger } from '@/lib/logger';
 
 const blogSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters'),
@@ -177,7 +178,7 @@ export function BlogEditor({ isOpen, onClose, onSuccess, initialData }: BlogEdit
         toast.error(result.message || 'Upload failed.', { id: toastId });
       }
     } catch (error) {
-      console.error('Error uploading file:', error);
+      logger.error('Error uploading file:', error);
       toast.error('An error occurred during upload.', { id: toastId });
     } finally {
       setIsUploading(false);
@@ -209,7 +210,7 @@ export function BlogEditor({ isOpen, onClose, onSuccess, initialData }: BlogEdit
         toast.error(res.message || 'Action failed.', { id: toastId });
       }
     } catch (error) {
-      console.error('Error saving blog post:', error);
+      logger.error('Error saving blog post:', error);
       toast.error('Failed to save blog post.', { id: toastId });
     } finally {
       setIsSubmitting(false);

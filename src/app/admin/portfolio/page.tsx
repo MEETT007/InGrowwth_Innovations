@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { DataTable } from '@/components/ui/data-table';
 import { PortfolioEditor } from './components/PortfolioEditor';
+import { logger } from '@/lib/logger';
 
 interface PortfolioProject {
   id: string;
@@ -40,7 +41,7 @@ export default function PortfolioIndexPage() {
         toast.error(res.message || 'Failed to fetch projects.');
       }
     } catch (error) {
-      console.error('Error fetching projects:', error);
+      logger.error('Error fetching projects:', error);
       toast.error('Failed to connect to portfolio API.');
     } finally {
       setIsLoading(false);
@@ -67,7 +68,7 @@ export default function PortfolioIndexPage() {
           toast.error(res.message || 'Failed to delete project.', { id: toastId });
         }
       } catch (error) {
-        console.error('Error deleting project:', error);
+        logger.error('Error deleting project:', error);
         toast.error('An error occurred.', { id: toastId });
       }
     }
@@ -87,7 +88,7 @@ export default function PortfolioIndexPage() {
         toast.error(res.message || 'Failed to load project details.', { id: toastId });
       }
     } catch (error) {
-      console.error('Error fetching project details:', error);
+      logger.error('Error fetching project details:', error);
       toast.error('Error loading project details.', { id: toastId });
     }
   };
