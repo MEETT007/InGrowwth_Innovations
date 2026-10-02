@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ProjectsClient from './ProjectsClient';
+import { db } from '@/lib/db';
 
 export const metadata: Metadata = {
   title: 'Our Projects | InGrowwth Innovations',
@@ -13,6 +14,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ProjectsPage() {
-  return <ProjectsClient />;
+export const revalidate = 0;
+
+export default async function ProjectsPage() {
+  const dbProjects = await db.portfolioProject.findMany({
+    orderBy: { createdAt: 'desc' }
+  });
+  
+  return <ProjectsClient initialProjects={dbProjects} />;
 }

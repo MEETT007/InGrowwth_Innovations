@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
 
-// GET /api/admin/blogs - Fetch all blog posts
 export async function GET() {
   const authCheck = await requireAuthAndRole(['admin', 'editor']);
   if (!authCheck.authorized) {
@@ -26,7 +25,6 @@ export async function GET() {
   }
 }
 
-// POST /api/admin/blogs - Create blog post (Admin only)
 export async function POST(request: NextRequest) {
   const authCheck = await requireAdminRole();
   if (!authCheck.authorized) {
@@ -38,7 +36,21 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { title, category, status, tags, thumbnail, content } = body;
+    const { 
+      title, 
+      slug, 
+      shortDescription, 
+      category, 
+      status, 
+      tags, 
+      thumbnail, 
+      content,
+      seoTitle,
+      seoDescription,
+      readTime,
+      authorName,
+      publishDate 
+    } = body;
 
     if (!title || !category || !status || !tags || !content) {
       return NextResponse.json(
@@ -48,7 +60,21 @@ export async function POST(request: NextRequest) {
     }
 
     const blog = await db.blogPost.create({
-      data: { title, category, status, tags, thumbnail: thumbnail || null, content },
+      data: { 
+        title, 
+        slug: slug || undefined, // Prisma will use uuid default if undefined
+        shortDescription,
+        category, 
+        status, 
+        tags, 
+        thumbnail: thumbnail || null, 
+        content,
+        seoTitle,
+        seoDescription,
+        readTime: readTime ? parseInt(readTime) : null,
+        authorName,
+        publishDate: publishDate ? new Date(publishDate) : null
+      },
     });
 
     return NextResponse.json(

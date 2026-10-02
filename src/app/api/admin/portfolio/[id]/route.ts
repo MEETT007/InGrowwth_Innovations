@@ -19,7 +19,12 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
   try {
     const body = await request.json();
-    const { title, client, category, websiteUrl, description, gallery } = body;
+    const { 
+      title, client, category, websiteUrl, description, gallery,
+      coverImage, industry, servicesUsed, technologiesUsed, teamMembers,
+      duration, projectStatus, projectOverview, challenges, solution,
+      features, results, metrics, testimonial, cta, seoTitle, seoDescription
+    } = body;
 
     const existing = await db.portfolioProject.findUnique({ where: { id } });
     if (!existing) {
@@ -38,6 +43,23 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         ...(websiteUrl !== undefined && { websiteUrl: websiteUrl || null }),
         ...(description !== undefined && { description }),
         ...(gallery !== undefined && { gallery: gallery || null }),
+        ...(coverImage !== undefined && { coverImage: coverImage || null }),
+        ...(industry !== undefined && { industry }),
+        ...(servicesUsed !== undefined && { servicesUsed }),
+        ...(technologiesUsed !== undefined && { technologiesUsed }),
+        ...(teamMembers !== undefined && { teamMembers }),
+        ...(duration !== undefined && { duration }),
+        ...(projectStatus !== undefined && { projectStatus }),
+        ...(projectOverview !== undefined && { projectOverview }),
+        ...(challenges !== undefined && { challenges }),
+        ...(solution !== undefined && { solution }),
+        ...(features !== undefined && { features }),
+        ...(results !== undefined && { results }),
+        ...(metrics !== undefined && { metrics }),
+        ...(testimonial !== undefined && { testimonial }),
+        ...(cta !== undefined && { cta }),
+        ...(seoTitle !== undefined && { seoTitle }),
+        ...(seoDescription !== undefined && { seoDescription }),
       },
     });
 

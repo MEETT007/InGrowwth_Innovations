@@ -19,7 +19,21 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
   try {
     const body = await request.json();
-    const { title, category, status, tags, thumbnail, content } = body;
+    const { 
+      title, 
+      slug,
+      shortDescription,
+      category, 
+      status, 
+      tags, 
+      thumbnail, 
+      content,
+      seoTitle,
+      seoDescription,
+      readTime,
+      authorName,
+      publishDate 
+    } = body;
 
     const existing = await db.blogPost.findUnique({ where: { id } });
     if (!existing) {
@@ -33,11 +47,18 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       where: { id },
       data: {
         ...(title !== undefined && { title }),
+        ...(slug !== undefined && { slug: slug || undefined }),
+        ...(shortDescription !== undefined && { shortDescription }),
         ...(category !== undefined && { category }),
         ...(status !== undefined && { status }),
         ...(tags !== undefined && { tags }),
         ...(thumbnail !== undefined && { thumbnail: thumbnail || null }),
         ...(content !== undefined && { content }),
+        ...(seoTitle !== undefined && { seoTitle }),
+        ...(seoDescription !== undefined && { seoDescription }),
+        ...(readTime !== undefined && { readTime: readTime ? parseInt(readTime) : null }),
+        ...(authorName !== undefined && { authorName }),
+        ...(publishDate !== undefined && { publishDate: publishDate ? new Date(publishDate) : null }),
       },
     });
 

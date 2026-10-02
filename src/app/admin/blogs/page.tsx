@@ -1,24 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+import Link from 'next/link';
 import { toast } from 'sonner';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import { Plus, Edit, Trash2, Search, Filter } from 'lucide-react';
+import { format } from 'date-fns';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import {
   Table,
@@ -28,47 +18,20 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
 
-const blogSchema = z.object({
-  id: z.string().optional(),
-  title: z.string().min(5, 'Title must be at least 5 characters'),
-  category: z.string().min(1, 'Category is required'),
-  status: z.enum(['Draft', 'Published']),
-  tags: z.string().min(2, 'At least one tag is required'),
-  thumbnail: z.any().optional(), // Mock file input
-  content: z.string().min(50, 'Content must be at least 50 characters'),
-});
+interface Blog {
+  id: string;
+  title: string;
+  category: string;
+  status: string;
+  tags: string;
+  createdAt: string;
+}
 
-type BlogFormValues = z.infer<typeof blogSchema>;
-
-export default function BlogsPage() {
-  const [blogs, setBlogs] = useState<BlogFormValues[]>([]);
+export default function BlogsIndexPage() {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
-
-  const form = useForm<BlogFormValues>({
-    resolver: zodResolver(blogSchema),
-    defaultValues: {
-      title: '',
-      category: '',
-      status: 'Draft',
-      tags: '',
-      content: '',
-      thumbnail: '',
-    },
-  });
+  const [search, setSearch] = useState('');
 
   const fetchBlogs = async () => {
     setIsLoading(true);
@@ -89,99 +52,11 @@ export default function BlogsPage() {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchBlogs();
-    }, 0);
-    return () => clearTimeout(timer);
+    fetchBlogs();
   }, []);
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    const file = files[0];
-
-    // Client side limit: 5MB
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error('File size exceeds the 5MB limit.');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', file);
-
-    setIsUploading(true);
-    const toastId = toast.loading('Uploading thumbnail image...');
-
-    try {
-      const response = await fetch('/api/upload?folder=blogs', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const result = await response.json();
-      if (result.success && result.url) {
-        form.setValue('thumbnail', result.url);
-        setThumbnailPreview(result.url);
-        toast.success('Thumbnail uploaded successfully!', { id: toastId });
-      } else {
-        toast.error(result.message || 'Upload failed.', { id: toastId });
-      }
-    } catch (error) {
-      console.error('Error uploading file:', error);
-      toast.error('An error occurred during upload.', { id: toastId });
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
-  const onSubmit = async (data: BlogFormValues) => {
-    const toastId = toast.loading(editingId ? 'Updating blog post...' : 'Creating blog post...');
-    try {
-      const url = editingId ? `/api/admin/blogs/${editingId}` : '/api/admin/blogs';
-      const method = editingId ? 'PUT' : 'POST';
-
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...data,
-          thumbnail: data.thumbnail || null,
-        }),
-      });
-      const res = await response.json();
-      if (res.success) {
-        toast.success(res.message, { id: toastId });
-        setIsDialogOpen(false);
-        form.reset();
-        setThumbnailPreview(null);
-        setEditingId(null);
-        fetchBlogs();
-      } else {
-        toast.error(res.message || 'Action failed.', { id: toastId });
-      }
-    } catch (error) {
-      console.error('Error saving blog post:', error);
-      toast.error('Failed to save blog post.', { id: toastId });
-    }
-  };
-
-  const handleEdit = (blog: BlogFormValues) => {
-    setEditingId(blog.id!);
-    form.reset({
-      title: blog.title,
-      category: blog.category,
-      status: blog.status,
-      tags: blog.tags,
-      content: blog.content,
-      thumbnail: blog.thumbnail || '',
-    });
-    setThumbnailPreview(blog.thumbnail || null);
-    setIsDialogOpen(true);
-  };
-
   const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this blog post?')) {
+    if (confirm('Are you sure you want to delete this blog post? This cannot be undone.')) {
       const toastId = toast.loading('Deleting blog post...');
       try {
         const response = await fetch(`/api/admin/blogs/${id}`, {
@@ -201,252 +76,133 @@ export default function BlogsPage() {
     }
   };
 
-  const handleOpenNew = () => {
-    setEditingId(null);
-    form.reset({ title: '', category: '', status: 'Draft', tags: '', content: '', thumbnail: '' });
-    setThumbnailPreview(null);
-  };
+  const filteredBlogs = blogs.filter(
+    (blog) =>
+      blog.title.toLowerCase().includes(search.toLowerCase()) ||
+      blog.category.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex items-center justify-between">
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Blog Posts</h2>
-          <p className="text-muted-foreground mt-1">Manage articles and publications.</p>
+          <p className="text-muted-foreground mt-1">Manage articles, SEO metadata, and publications.</p>
         </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger render={<Button onClick={handleOpenNew} className="shadow-sm" />}>
-            <Plus className="mr-2 h-4 w-4" /> Write Post
-          </DialogTrigger>
-          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>{editingId ? 'Edit Blog Post' : 'Create New Post'}</DialogTitle>
-              <DialogDescription>
-                Fill in the details below to {editingId ? 'update the' : 'create a new'} blog post.
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 py-4">
-              <div className="space-y-2">
-                <Label htmlFor="title">Post Title</Label>
-                <Input
-                  id="title"
-                  placeholder="The Future of Web Development"
-                  className="text-lg font-medium"
-                  {...form.register('title')}
-                />
-                {form.formState.errors.title && (
-                  <p className="text-sm text-destructive">{form.formState.errors.title.message}</p>
-                )}
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div className="space-y-2">
-                  <Label htmlFor="category">Category</Label>
-                  <Controller
-                    control={form.control}
-                    name="category"
-                    render={({ field }) => (
-                      <Select onValueChange={field.onChange} value={field.value}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a category" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Technology">Technology</SelectItem>
-                          <SelectItem value="Marketing">Marketing</SelectItem>
-                          <SelectItem value="Business">Business</SelectItem>
-                          <SelectItem value="Design">Design</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                  {form.formState.errors.category && (
-                    <p className="text-sm text-destructive">
-                      {form.formState.errors.category.message}
-                    </p>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="status">Status</Label>
-                  <Controller
-                    control={form.control}
-                    name="status"
-                    render={({ field }) => (
-                      <Select onValueChange={field.onChange} value={field.value}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Draft">Draft</SelectItem>
-                          <SelectItem value="Published">Published</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                  {form.formState.errors.status && (
-                    <p className="text-sm text-destructive">
-                      {form.formState.errors.status.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div className="space-y-2">
-                  <Label htmlFor="tags">Tags (comma separated)</Label>
-                  <Input
-                    id="tags"
-                    placeholder="react, tailwind, frontend"
-                    {...form.register('tags')}
-                  />
-                  {form.formState.errors.tags && (
-                    <p className="text-sm text-destructive">{form.formState.errors.tags.message}</p>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="thumbnail">Thumbnail Image</Label>
-                  <div className="flex flex-col space-y-3">
-                    {thumbnailPreview && (
-                      <div className="relative w-40 h-24 rounded-lg overflow-hidden border">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={thumbnailPreview}
-                          alt="Thumbnail preview"
-                          className="w-full h-full object-cover"
-                        />
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="icon-xs"
-                          className="absolute top-1 right-1 rounded-full cursor-pointer bg-red-500 hover:bg-red-600 border-none"
-                          onClick={() => {
-                            form.setValue('thumbnail', '');
-                            setThumbnailPreview(null);
-                          }}
-                        >
-                          <Trash2 className="h-3 w-3 text-white" />
-                        </Button>
-                      </div>
-                    )}
-                    <Input
-                      id="thumbnail"
-                      type="file"
-                      className="cursor-pointer"
-                      accept="image/*"
-                      disabled={isUploading}
-                      onChange={handleFileUpload}
-                    />
-                    {isUploading && (
-                      <span className="text-xs text-muted-foreground animate-pulse">
-                        Uploading file to cloud storage...
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="content">Rich Content</Label>
-                {/* Mocking a rich text editor with a textarea for now */}
-                <Textarea
-                  id="content"
-                  placeholder="Write your article content here..."
-                  className="min-h-[300px] font-mono text-sm leading-relaxed"
-                  {...form.register('content')}
-                />
-                {form.formState.errors.content && (
-                  <p className="text-sm text-destructive">
-                    {form.formState.errors.content.message}
-                  </p>
-                )}
-              </div>
-              <DialogFooter className="pt-4 border-t">
-                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
-                  Cancel
-                </Button>
-                <Button type="submit">{editingId ? 'Update Post' : 'Publish Post'}</Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <Button asChild size="lg" className="shadow-md shadow-indigo-500/20 cursor-pointer">
+          <Link href="/admin/blogs/create">
+            <Plus className="mr-2 h-4 w-4" /> Write New Post
+          </Link>
+        </Button>
       </div>
 
-      <Card className="shadow-sm">
+      <Card className="shadow-sm border-border/50 bg-card/60 backdrop-blur-xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl -z-10" />
         <CardHeader className="pb-4">
-          <CardTitle>All Posts</CardTitle>
-          <CardDescription>
-            A list of all blog posts including drafts and published articles.
-          </CardDescription>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <CardTitle>All Posts</CardTitle>
+              <CardDescription>
+                A list of all blog posts including drafts and published articles.
+              </CardDescription>
+            </div>
+            <div className="relative w-full sm:w-72">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search posts..."
+                className="pl-9 bg-background/50"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
-          <div className="rounded-md border">
+          <div className="rounded-xl border border-border/50 overflow-hidden bg-background/50">
             <Table>
-              <TableHeader className="bg-muted/50">
-                <TableRow>
-                  <TableHead className="font-semibold">Title</TableHead>
+              <TableHeader className="bg-muted/30">
+                <TableRow className="hover:bg-transparent">
+                  <TableHead className="font-semibold w-[40%]">Post Details</TableHead>
                   <TableHead className="font-semibold">Category</TableHead>
                   <TableHead className="font-semibold">Status</TableHead>
+                  <TableHead className="font-semibold">Created Date</TableHead>
                   <TableHead className="text-right font-semibold">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {isLoading ? (
-                  [1, 2, 3].map((i) => (
-                    <TableRow key={i} className="animate-pulse">
+                  [1, 2, 3, 4].map((i) => (
+                    <TableRow key={i} className="animate-pulse hover:bg-transparent">
                       <TableCell>
                         <div className="space-y-2">
                           <div className="h-4 w-48 bg-muted rounded" />
                           <div className="h-3 w-32 bg-muted rounded" />
                         </div>
                       </TableCell>
-                      <TableCell>
-                        <div className="h-4 w-20 bg-muted rounded" />
-                      </TableCell>
-                      <TableCell>
-                        <div className="h-6 w-16 bg-muted rounded" />
-                      </TableCell>
+                      <TableCell><div className="h-4 w-20 bg-muted rounded" /></TableCell>
+                      <TableCell><div className="h-6 w-16 bg-muted rounded-full" /></TableCell>
+                      <TableCell><div className="h-4 w-24 bg-muted rounded" /></TableCell>
                       <TableCell className="text-right">
                         <div className="h-8 w-16 bg-muted rounded ml-auto" />
                       </TableCell>
                     </TableRow>
                   ))
-                ) : blogs.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={4} className="text-center py-10 text-muted-foreground">
-                      No posts found. Click &quot;Write Post&quot; to create one.
+                ) : filteredBlogs.length === 0 ? (
+                  <TableRow className="hover:bg-transparent">
+                    <TableCell colSpan={5} className="text-center py-16 text-muted-foreground">
+                      <div className="flex flex-col items-center justify-center space-y-3">
+                        <Filter className="h-10 w-10 text-muted-foreground/30" />
+                        <p className="font-medium text-base">No posts found</p>
+                        <p className="text-sm">We couldn&apos;t find any posts matching your search.</p>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ) : (
-                  blogs.map((blog) => (
-                    <TableRow key={blog.id} className="group">
+                  filteredBlogs.map((blog) => (
+                    <TableRow key={blog.id} className="group hover:bg-muted/30 transition-colors">
                       <TableCell className="font-medium">
-                        <div className="flex flex-col">
-                          <span>{blog.title}</span>
-                          <span className="text-xs text-muted-foreground mt-1 truncate max-w-xs">
+                        <div className="flex flex-col gap-1">
+                          <Link href={`/admin/blogs/edit/${blog.id}`} className="hover:text-indigo-500 transition-colors">
+                            {blog.title}
+                          </Link>
+                          <span className="text-xs text-muted-foreground truncate max-w-xs">
                             {blog.tags}
                           </span>
                         </div>
                       </TableCell>
-                      <TableCell>{blog.category}</TableCell>
                       <TableCell>
-                        <Badge variant={blog.status === 'Published' ? 'default' : 'secondary'}>
+                        <span className="text-sm">{blog.category}</span>
+                      </TableCell>
+                      <TableCell>
+                        <Badge 
+                          variant={blog.status === 'Published' ? 'default' : 'secondary'}
+                          className={blog.status === 'Published' ? 'bg-green-500/10 text-green-500 hover:bg-green-500/20' : ''}
+                        >
                           {blog.status}
                         </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <span className="text-sm text-muted-foreground">
+                          {format(new Date(blog.createdAt), 'MMM d, yyyy')}
+                        </span>
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end space-x-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                           <Button
+                            asChild
                             variant="ghost"
                             size="icon-sm"
-                            onClick={() => handleEdit(blog)}
-                            className="cursor-pointer"
+                            className="cursor-pointer hover:bg-indigo-500/10 hover:text-indigo-500"
                           >
-                            <span className="sr-only">Edit</span>
-                            <Edit className="h-4 w-4" />
+                            <Link href={`/admin/blogs/edit/${blog.id}`}>
+                              <span className="sr-only">Edit</span>
+                              <Edit className="h-4 w-4" />
+                            </Link>
                           </Button>
                           <Button
                             variant="ghost"
                             size="icon-sm"
-                            onClick={() => handleDelete(blog.id!)}
+                            onClick={() => handleDelete(blog.id)}
                             className="cursor-pointer text-destructive hover:text-destructive hover:bg-destructive/10"
                           >
                             <span className="sr-only">Delete</span>

@@ -253,7 +253,7 @@ export default function TeamPage() {
           <DialogTrigger render={<Button onClick={handleOpenNew} className="shadow-sm" />}>
             <UserPlus className="mr-2 h-4 w-4" /> Add Member
           </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-2xl max-h-[85vh] md:max-h-[80vh] overflow-y-auto w-[95vw] p-4 md:p-6 rounded-xl border-white/10 bg-background/95 backdrop-blur-xl">
             <DialogHeader>
               <DialogTitle>{editingId ? 'Edit Team Member' : 'Add New Team Member'}</DialogTitle>
               <DialogDescription>

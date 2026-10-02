@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import AboutClient from './AboutClient';
+import { db } from '@/lib/db';
 
 export const metadata: Metadata = {
   title: 'About Us | InGrowwth Innovations',
@@ -14,6 +15,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AboutPage() {
-  return <AboutClient />;
+export const revalidate = 60; // Revalidate every 60 seconds
+
+export default async function AboutPage() {
+  const team = await db.teamMember.findMany({
+    orderBy: { createdAt: 'asc' },
+  });
+
+  return <AboutClient initialTeam={team} />;
 }

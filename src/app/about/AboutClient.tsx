@@ -8,6 +8,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { AnimatedContainer } from '@/components/shared/AnimatedContainer';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { Button } from '@/components/ui/button';
+import { TeamMember } from '@/generated/prisma/client';
 
 const Linkedin = (props: React.ComponentProps<'svg'>) => (
   <svg
@@ -47,34 +48,11 @@ const values = [
   },
 ];
 
-const team = [
-  {
-    name: 'Meet Trivedi',
-    role: 'Founder & CEO',
-    desc: 'Leading business strategy, client operations, and overall growth to deliver high-impact enterprise solutions.',
-    initials: 'M',
-    gradient: 'from-indigo-600 to-purple-600',
-    linkedin: 'https://linkedin.com',
-  },
-  {
-    name: 'Darshan Dalwadi',
-    role: 'Co-Founder & CTO',
-    desc: 'Lead architect driving technical strategy, cloud infrastructure design, and custom software systems. Passionate about Next.js performance and distributed databases.',
-    initials: 'D',
-    gradient: 'from-purple-600 to-pink-600',
-    linkedin: 'https://linkedin.com',
-  },
-  {
-    name: 'Saurav Patel',
-    role: 'Co-Founder & COO',
-    desc: 'Directing daily business operations, project execution, quality assurance, and developer relations to ensure seamless project delivery.',
-    initials: 'S',
-    gradient: 'from-pink-600 to-rose-600',
-    linkedin: 'https://linkedin.com',
-  },
-];
+interface AboutClientProps {
+  initialTeam: TeamMember[];
+}
 
-export default function AboutClient() {
+export default function AboutClient({ initialTeam }: AboutClientProps) {
   return (
     <div className="flex flex-col min-h-screen relative overflow-hidden bg-background py-12">
       {/* Background glow effects */}
@@ -229,41 +207,76 @@ export default function AboutClient() {
         </AnimatedContainer>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {team.map((member, idx) => (
-            <AnimatedContainer key={member.name} direction="up" delay={0.2 + idx * 0.1}>
-              <Card className="h-full border-border/50 bg-card/60 backdrop-blur-sm relative p-4 flex flex-col justify-between group/member">
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-pink-500/5 opacity-0 group-hover/member:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                <CardHeader className="pb-4 flex flex-col items-center text-center">
-                  {/* Styled Initials Avatar */}
-                  <div
-                    className={`w-20 h-20 rounded-full bg-gradient-to-br ${member.gradient} flex items-center justify-center text-white font-extrabold text-2xl shadow-lg mb-4 group-hover/member:scale-105 transition-transform duration-300`}
-                  >
-                    {member.initials}
-                  </div>
-                  <CardTitle className="text-xl font-bold tracking-tight mb-1">
-                    {member.name}
-                  </CardTitle>
-                  <span className="text-xs font-semibold text-indigo-500 uppercase tracking-wider mb-3">
-                    {member.role}
-                  </span>
-                  <CardDescription className="text-sm text-muted-foreground leading-relaxed">
-                    {member.desc}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-4 border-t border-border/30 flex justify-center">
-                  <Link
-                    href={member.linkedin}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-indigo-500 transition-colors font-medium"
-                  >
-                    <Linkedin className="h-4 w-4 text-[#0A66C2]" />
-                    Connect on LinkedIn
-                  </Link>
-                </CardContent>
-              </Card>
-            </AnimatedContainer>
-          ))}
+          {initialTeam.map((member, idx) => {
+            const initials = member.name
+              ? member.name
+                  .split(' ')
+                  .map((n) => n[0])
+                  .join('')
+                  .substring(0, 2)
+                  .toUpperCase()
+              : 'X';
+            
+            // Generate a deterministic gradient based on name length or index
+            const gradients = [
+              'from-indigo-600 to-purple-600',
+              'from-purple-600 to-pink-600',
+              'from-pink-600 to-rose-600',
+              'from-emerald-500 to-teal-500',
+              'from-blue-500 to-cyan-500',
+            ];
+            const gradient = gradients[idx % gradients.length];
+
+            return (
+              <AnimatedContainer key={member.id || member.name} direction="up" delay={0.2 + idx * 0.1}>
+                <Card className="h-full border-border/50 bg-card/60 backdrop-blur-sm relative p-4 flex flex-col justify-between group/member">
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-pink-500/5 opacity-0 group-hover/member:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  <CardHeader className="pb-4 flex flex-col items-center text-center">
+                    {member.photo ? (
+                      <div className="w-20 h-20 rounded-full overflow-hidden shadow-lg mb-4 group-hover/member:scale-105 transition-transform duration-300">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={member.photo} alt={member.name} className="w-full h-full object-cover" />
+                      </div>
+                    ) : (
+                      <div
+                        className={`w-20 h-20 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-extrabold text-2xl shadow-lg mb-4 group-hover/member:scale-105 transition-transform duration-300`}
+                      >
+                        {initials}
+                      </div>
+                    )}
+                    <CardTitle className="text-xl font-bold tracking-tight mb-1">
+                      {member.name}
+                    </CardTitle>
+                    <span className="text-xs font-semibold text-indigo-500 uppercase tracking-wider mb-3">
+                      {member.role}
+                    </span>
+                    {member.bio && (
+                      <CardDescription className="text-sm text-muted-foreground leading-relaxed">
+                        {member.bio}
+                      </CardDescription>
+                    )}
+                  </CardHeader>
+                  <CardContent className="pt-4 border-t border-border/30 flex justify-center">
+                    {member.linkedin ? (
+                      <Link
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-indigo-500 transition-colors font-medium"
+                      >
+                        <Linkedin className="h-4 w-4 text-[#0A66C2]" />
+                        Connect on LinkedIn
+                      </Link>
+                    ) : (
+                      <div className="flex gap-3 text-muted-foreground">
+                        {/* Placeholder if no linkedin provided but social links exist */}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </AnimatedContainer>
+            );
+          })}
         </div>
       </section>
     </div>
