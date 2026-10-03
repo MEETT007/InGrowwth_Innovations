@@ -94,6 +94,16 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/projects',
+        destination: '/portfolio',
+        permanent: true,
+      },
+      {
+        source: '/case-studies',
+        destination: '/portfolio',
+        permanent: true,
+      },
+      {
         source: '/services/erp-enterprise',
         destination: '/services/erp-enterprise-software',
         permanent: true,

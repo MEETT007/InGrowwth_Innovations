@@ -12,8 +12,7 @@ import { UserButton, useAuth } from '@clerk/nextjs';
 const navLinks = [
   { href: '/about', label: 'About' },
   { href: '/services', label: 'Services' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/case-studies', label: 'Case Studies' },
+  { href: '/portfolio', label: 'Portfolio' },
   { href: '/technologies', label: 'Tech Stack' },
   { href: '/blog', label: 'Blog' },
   { href: '/careers', label: 'Careers' },
@@ -74,7 +73,12 @@ export function Header() {
           {/* Center: Desktop Nav */}
           <nav className="hidden lg:flex items-center justify-center gap-1 flex-1 px-4">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href;
+              const isActive =
+                pathname === link.href ||
+                (link.href === '/portfolio' &&
+                  (pathname.startsWith('/portfolio') ||
+                    pathname.startsWith('/projects') ||
+                    pathname.startsWith('/case-studies')));
               return (
                 <Link
                   key={link.href}
@@ -155,7 +159,12 @@ export function Header() {
               <ThemeToggle />
             </div>
             {navLinks.map((link) => {
-              const isActive = pathname === link.href;
+              const isActive =
+                pathname === link.href ||
+                (link.href === '/portfolio' &&
+                  (pathname.startsWith('/portfolio') ||
+                    pathname.startsWith('/projects') ||
+                    pathname.startsWith('/case-studies')));
               return (
                 <Link
                   key={link.href}

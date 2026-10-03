@@ -411,20 +411,20 @@ export function PortfolioEditor({ isOpen, onClose, onSuccess, initialData }: Por
         <ScrollArea className="flex-1 px-6 py-6 overflow-y-auto">
           <form id="portfolio-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 pb-12">
             <Tabs defaultValue="metadata" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-8 h-auto p-1.5 bg-muted/40 rounded-xl border border-border/50">
-                <TabsTrigger value="metadata" className="py-2.5 text-xs font-semibold data-[state=active]:bg-background data-[state=active]:shadow-sm">
+              <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-8 h-auto p-1.5 bg-slate-900/90 dark:bg-zinc-900/90 rounded-2xl border border-white/10 shadow-inner">
+                <TabsTrigger value="metadata" className="py-2.5 text-xs font-semibold">
                   <Settings className="h-4 w-4 mr-1.5 hidden md:block" /> Details
                 </TabsTrigger>
-                <TabsTrigger value="stack" className="py-2.5 text-xs font-semibold data-[state=active]:bg-background data-[state=active]:shadow-sm">
+                <TabsTrigger value="stack" className="py-2.5 text-xs font-semibold">
                   <Code className="h-4 w-4 mr-1.5 hidden md:block" /> Tech & Team
                 </TabsTrigger>
-                <TabsTrigger value="casestudy" className="py-2.5 text-xs font-semibold data-[state=active]:bg-background data-[state=active]:shadow-sm">
+                <TabsTrigger value="casestudy" className="py-2.5 text-xs font-semibold">
                   <FileText className="h-4 w-4 mr-1.5 hidden md:block" /> Story & Solution
                 </TabsTrigger>
-                <TabsTrigger value="impact" className="py-2.5 text-xs font-semibold data-[state=active]:bg-background data-[state=active]:shadow-sm">
+                <TabsTrigger value="impact" className="py-2.5 text-xs font-semibold">
                   <TrendingUp className="h-4 w-4 mr-1.5 hidden md:block" /> Impact & KPIs
                 </TabsTrigger>
-                <TabsTrigger value="seo" className="py-2.5 text-xs font-semibold data-[state=active]:bg-background data-[state=active]:shadow-sm">
+                <TabsTrigger value="seo" className="py-2.5 text-xs font-semibold">
                   <Globe className="h-4 w-4 mr-1.5 hidden md:block" /> SEO & SERP
                 </TabsTrigger>
               </TabsList>

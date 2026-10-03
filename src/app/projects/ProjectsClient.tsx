@@ -188,8 +188,12 @@ export default function ProjectsClient({
                       ? 0
                       : 40;
 
+                const targetHref = item.isCaseStudy
+                  ? `/case-studies/${item.linkSlug}`
+                  : `/projects/${item.linkSlug}`;
+
                 return (
-                  <Link href={`/projects/${item.linkSlug}?type=${item.isCaseStudy ? 'case-study' : 'project'}`} key={item.id}>
+                  <Link href={targetHref} key={item.id}>
                     <motion.div
                       className="group cursor-pointer"
                       initial={{ opacity: 0, y: 50 }}

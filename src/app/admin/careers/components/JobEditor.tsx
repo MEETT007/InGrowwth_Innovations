@@ -320,7 +320,7 @@ export function JobEditor({ isOpen, onClose, onSuccess, initialData }: JobEditor
 
             {/* Structured Tabs */}
             <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="grid w-full grid-cols-3 mb-6 h-auto p-1 bg-muted/40 rounded-2xl border border-border/50">
+              <TabsList className="grid w-full grid-cols-3 mb-6 h-auto p-1.5 bg-slate-900/90 dark:bg-zinc-900/90 rounded-2xl border border-white/10 shadow-inner">
                 <TabsTrigger value="overview" className="py-2.5 rounded-xl text-xs font-semibold">
                   <FileText className="h-3.5 w-3.5 mr-2" /> 1. Role Overview
                 </TabsTrigger>

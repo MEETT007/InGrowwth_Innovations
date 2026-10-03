@@ -40,7 +40,10 @@ function TabsList({
     <TabsPrimitive.List
       data-slot="tabs-list"
       data-variant={variant}
-      className={cn(tabsListVariants({ variant }), className)}
+      className={cn(
+        'group/tabs-list inline-flex items-center justify-center rounded-2xl p-1.5 bg-slate-900/90 dark:bg-zinc-900/90 border border-white/10 shadow-inner',
+        className
+      )}
       {...props}
     />
   );
@@ -51,10 +54,17 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
     <TabsPrimitive.Tab
       data-slot="tabs-trigger"
       className={cn(
-        "relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-1.5 py-0.5 text-sm font-medium whitespace-nowrap text-foreground/60 transition-all group-data-vertical/tabs:w-full group-data-vertical/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 has-data-[icon=inline-end]:pr-1 has-data-[icon=inline-start]:pl-1 aria-disabled:pointer-events-none aria-disabled:opacity-50 dark:text-muted-foreground dark:hover:text-foreground group-data-[variant=default]/tabs-list:data-active:shadow-sm group-data-[variant=line]/tabs-list:data-active:shadow-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        'group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-active:bg-transparent dark:group-data-[variant=line]/tabs-list:data-active:border-transparent dark:group-data-[variant=line]/tabs-list:data-active:bg-transparent',
-        'data-active:bg-background data-active:text-foreground dark:data-active:border-input dark:data-active:bg-input/30 dark:data-active:text-foreground',
-        'after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-horizontal/tabs:after:inset-x-0 group-data-horizontal/tabs:after:bottom-[-5px] group-data-horizontal/tabs:after:h-0.5 group-data-vertical/tabs:after:inset-y-0 group-data-vertical/tabs:after:-right-1 group-data-vertical/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-active:after:opacity-100',
+        'relative inline-flex h-[calc(100%-2px)] flex-1 items-center justify-center gap-2 rounded-xl border border-transparent px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer select-none',
+        // Inactive state: clearly legible light text, never dim or washed out
+        'text-zinc-300 hover:text-white hover:bg-white/10 dark:text-zinc-200 dark:hover:text-white dark:hover:bg-white/10',
+        // Focus state
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500',
+        // Active states across Base UI (data-selected, aria-selected) and Radix UI (data-[state=active])
+        'data-selected:bg-gradient-to-r data-selected:from-indigo-600 data-selected:to-purple-600 data-selected:text-white data-selected:font-bold data-selected:shadow-md data-selected:shadow-indigo-500/25 data-selected:border-indigo-400/30',
+        'aria-selected:bg-gradient-to-r aria-selected:from-indigo-600 aria-selected:to-purple-600 aria-selected:text-white aria-selected:font-bold aria-selected:shadow-md aria-selected:shadow-indigo-500/25 aria-selected:border-indigo-400/30',
+        'data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-600 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:font-bold data-[state=active]:shadow-md data-[state=active]:shadow-indigo-500/25 data-[state=active]:border-indigo-400/30',
+        'data-active:bg-gradient-to-r data-active:from-indigo-600 data-active:to-purple-600 data-active:text-white data-active:font-bold data-active:shadow-md data-active:shadow-indigo-500/25 data-active:border-indigo-400/30',
+        'disabled:pointer-events-none disabled:opacity-40',
         className
       )}
       {...props}

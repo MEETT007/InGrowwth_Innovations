@@ -20,6 +20,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@clerk/nextjs';
 import { DataTable } from '@/components/ui/data-table';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { LeadDetailsModal } from './components/LeadDetailsModal';
 
 interface Lead {
@@ -254,19 +261,58 @@ export default function AdminLeadsPage() {
         const lead = row.original;
         if (isAdmin) {
           return (
-            <select
-              value={lead.status}
-              disabled={updatingId === lead.id}
-              onClick={(e) => e.stopPropagation()}
-              onChange={(e) =>
-                handleStatusUpdate(lead.id, e.target.value as 'NEW' | 'CONTACTED' | 'CLOSED')
-              }
-              className="bg-background border border-border rounded px-2 py-1 text-xs font-semibold focus:outline-none"
-            >
-              <option value="NEW">NEW</option>
-              <option value="CONTACTED">CONTACTED</option>
-              <option value="CLOSED">CLOSED</option>
-            </select>
+            <div onClick={(e) => e.stopPropagation()} className="w-[145px]">
+              <Select
+                value={lead.status}
+                disabled={updatingId === lead.id}
+                onValueChange={(val) =>
+                  handleStatusUpdate(lead.id, val as 'NEW' | 'CONTACTED' | 'CLOSED')
+                }
+              >
+                <SelectTrigger
+                  className={`h-7 px-2.5 py-1 text-xs font-bold rounded-full border transition-all cursor-pointer ${
+                    lead.status === 'NEW'
+                      ? 'bg-blue-500/10 text-blue-400 border-blue-500/30 hover:bg-blue-500/20 shadow-xs'
+                      : lead.status === 'CONTACTED'
+                      ? 'bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500/20 shadow-xs'
+                      : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20 shadow-xs'
+                  }`}
+                >
+                  <span className="flex items-center gap-1.5 truncate">
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                        lead.status === 'NEW'
+                          ? 'bg-blue-400 animate-pulse'
+                          : lead.status === 'CONTACTED'
+                          ? 'bg-amber-400'
+                          : 'bg-emerald-400'
+                      }`}
+                    />
+                    <SelectValue />
+                  </span>
+                </SelectTrigger>
+                <SelectContent className="bg-slate-950/95 border-white/10 backdrop-blur-xl">
+                  <SelectItem value="NEW" className="text-xs font-semibold text-blue-400 focus:bg-blue-500/15 cursor-pointer">
+                    <span className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+                      NEW (Unreviewed)
+                    </span>
+                  </SelectItem>
+                  <SelectItem value="CONTACTED" className="text-xs font-semibold text-amber-400 focus:bg-amber-500/15 cursor-pointer">
+                    <span className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                      CONTACTED
+                    </span>
+                  </SelectItem>
+                  <SelectItem value="CLOSED" className="text-xs font-semibold text-emerald-400 focus:bg-emerald-500/15 cursor-pointer">
+                    <span className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      CLOSED
+                    </span>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           );
         }
         return getStatusBadge(lead.status);
@@ -323,17 +369,27 @@ export default function AdminLeadsPage() {
     },
   ];
 
+  // Real-time KPI counts from current leads
+  const stats = React.useMemo(() => {
+    const total = leads.length;
+    const newCount = leads.filter((l) => l.status === 'NEW').length;
+    const contactedCount = leads.filter((l) => l.status === 'CONTACTED').length;
+    const closedCount = leads.filter((l) => l.status === 'CLOSED').length;
+    const quoteCount = leads.filter((l) => l.type === 'QUOTE').length;
+    return { total, newCount, contactedCount, closedCount, quoteCount };
+  }, [leads]);
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/80 pb-5">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight text-foreground flex items-center gap-2">
-            <Users className="h-7 w-7 text-primary" />
+            <Users className="h-7 w-7 text-indigo-400" />
             <span>Lead Management CMS</span>
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            View, filter, update status, and manage client inquiries and quote requests.
+            Enterprise inquiry triage. Filter, inspect submissions, and orchestrate customer outreach.
           </p>
         </div>
 
@@ -341,7 +397,7 @@ export default function AdminLeadsPage() {
           onClick={fetchLeads}
           variant="outline"
           size="sm"
-          className="flex items-center gap-2 font-medium"
+          className="flex items-center gap-2 font-medium cursor-pointer rounded-xl bg-background/50 border-white/10 hover:bg-muted/50"
         >
           <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           <span>Refresh</span>
@@ -351,10 +407,10 @@ export default function AdminLeadsPage() {
       {/* Action feedback banner */}
       {feedback && (
         <div
-          className={`p-3 rounded-lg border text-sm flex items-center justify-between ${
+          className={`p-3 rounded-xl border text-sm flex items-center justify-between ${
             feedback.isError
               ? 'bg-destructive/15 text-destructive border-destructive/30'
-              : 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30'
+              : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
           }`}
         >
           <span>{feedback.message}</span>
@@ -369,57 +425,123 @@ export default function AdminLeadsPage() {
         </div>
       )}
 
-      {/* Filter & Search Bar */}
-      <Card className="border-border/80">
-        <CardContent className="p-4 sm:p-6 space-y-4">
+      {/* Executive KPI Ribbon */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <Card className="border border-white/10 bg-card/60 backdrop-blur-xl p-4 space-y-1">
+          <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            Total Leads
+          </div>
+          <div className="text-2xl font-black text-foreground">{stats.total}</div>
+          <div className="text-[11px] text-muted-foreground">{stats.quoteCount} Quote Requests</div>
+        </Card>
+
+        <Card className="border border-blue-500/20 bg-blue-500/5 backdrop-blur-xl p-4 space-y-1">
+          <div className="text-xs font-semibold text-blue-400 uppercase tracking-wider flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+            New / Unreviewed
+          </div>
+          <div className="text-2xl font-black text-blue-400">{stats.newCount}</div>
+          <div className="text-[11px] text-muted-foreground">Action required</div>
+        </Card>
+
+        <Card className="border border-amber-500/20 bg-amber-500/5 backdrop-blur-xl p-4 space-y-1">
+          <div className="text-xs font-semibold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-amber-400" />
+            In Discussion
+          </div>
+          <div className="text-2xl font-black text-amber-400">{stats.contactedCount}</div>
+          <div className="text-[11px] text-muted-foreground">Contacted leads</div>
+        </Card>
+
+        <Card className="border border-emerald-500/20 bg-emerald-500/5 backdrop-blur-xl p-4 space-y-1">
+          <div className="text-xs font-semibold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-400" />
+            Closed / Won
+          </div>
+          <div className="text-2xl font-black text-emerald-400">{stats.closedCount}</div>
+          <div className="text-[11px] text-muted-foreground">Resolved inquiries</div>
+        </Card>
+      </div>
+
+      {/* Filter & Single Search Bar */}
+      <Card className="border border-white/10 bg-card/60 backdrop-blur-xl">
+        <CardContent className="p-4 sm:p-5">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-            {/* Search Input */}
-            <div className="relative w-full md:w-80">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            {/* Unified Search Input */}
+            <div className="relative w-full md:w-96">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Search by name, email, subject..."
+                placeholder="Search leads by name, email, subject..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-background border border-border rounded-lg text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                className="w-full pl-10 pr-4 py-2 bg-background/60 border border-white/10 rounded-xl text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all placeholder:text-muted-foreground shadow-xs"
               />
+              {search && (
+                <button
+                  onClick={() => setSearch('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground cursor-pointer"
+                >
+                  Clear
+                </button>
+              )}
             </div>
 
-            {/* Dropdown Filters */}
+            {/* Professional Select Dropdown Filters */}
             <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-              <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
-                <Filter className="h-3.5 w-3.5" />
-                <span>Type:</span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
+                  <Filter className="h-3.5 w-3.5" /> Type:
+                </span>
+                <Select value={typeFilter} onValueChange={(val) => setTypeFilter(val || 'ALL')}>
+                  <SelectTrigger className="w-[140px] bg-background/60 border-white/10 text-xs font-semibold h-9 rounded-xl">
+                    <SelectValue placeholder="All Types" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-slate-950/95 border-white/10 backdrop-blur-xl">
+                    <SelectItem value="ALL" className="text-xs font-medium cursor-pointer">
+                      All Types
+                    </SelectItem>
+                    <SelectItem value="CONTACT" className="text-xs font-medium cursor-pointer">
+                      Contact Form
+                    </SelectItem>
+                    <SelectItem value="QUOTE" className="text-xs font-medium cursor-pointer">
+                      Quote Request
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-              <select
-                value={typeFilter}
-                onChange={(e) => setTypeFilter(e.target.value)}
-                className="bg-background border border-border rounded-lg text-xs font-medium px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
-              >
-                <option value="ALL">All Types</option>
-                <option value="CONTACT">Contact Form</option>
-                <option value="QUOTE">Quote Request</option>
-              </select>
 
-              <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground ml-2">
-                <span>Status:</span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
+                  <Clock className="h-3.5 w-3.5" /> Status:
+                </span>
+                <Select value={statusFilter} onValueChange={(val) => setStatusFilter(val || 'ALL')}>
+                  <SelectTrigger className="w-[140px] bg-background/60 border-white/10 text-xs font-semibold h-9 rounded-xl">
+                    <SelectValue placeholder="All Statuses" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-slate-950/95 border-white/10 backdrop-blur-xl">
+                    <SelectItem value="ALL" className="text-xs font-medium cursor-pointer">
+                      All Statuses
+                    </SelectItem>
+                    <SelectItem value="NEW" className="text-xs font-medium text-blue-400 cursor-pointer">
+                      New
+                    </SelectItem>
+                    <SelectItem value="CONTACTED" className="text-xs font-medium text-amber-400 cursor-pointer">
+                      Contacted
+                    </SelectItem>
+                    <SelectItem value="CLOSED" className="text-xs font-medium text-emerald-400 cursor-pointer">
+                      Closed
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="bg-background border border-border rounded-lg text-xs font-medium px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
-              >
-                <option value="ALL">All Statuses</option>
-                <option value="NEW">New</option>
-                <option value="CONTACTED">Contacted</option>
-                <option value="CLOSED">Closed</option>
-              </select>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      <Card className="border-border/80">
+      {/* Leads Table Container (Single clean search, no duplicate search bar!) */}
+      <Card className="border border-white/10 bg-card/60 backdrop-blur-xl shadow-xl overflow-hidden">
         <CardHeader className="py-4 px-6 border-b border-border/60">
           <CardTitle className="text-base font-semibold flex items-center justify-between">
             <span>Leads ({leads.length})</span>
@@ -443,8 +565,6 @@ export default function AdminLeadsPage() {
             <DataTable
               columns={columns}
               data={leads}
-              searchKey="name"
-              searchPlaceholder="Search leads..."
               onRowClick={(row) => setSelectedLead(row)}
             />
           )}

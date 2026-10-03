@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import PortfolioClient from '../portfolio/PortfolioClient';
+import PortfolioClient from './PortfolioClient';
 import { db } from '@/lib/db';
 
 export const metadata: Metadata = {
@@ -9,14 +9,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Portfolio & Case Studies | InGrowwth Innovations',
     description:
-      'Selected projects and enterprise case studies showcasing our work in web, mobile, AI/ML, and cloud solutions.',
+      'Explore our comprehensive portfolio and enterprise case studies spanning Cloud, AI/ML, Full-Stack Web, and Mobile solutions.',
     url: 'https://ingrowwthinnovations.com/portfolio',
   },
 };
 
 export const revalidate = 0;
 export const dynamic = 'force-dynamic';
-export default async function ProjectsPage() {
+
+export default async function PortfolioPage() {
   const [dbProjects, dbCaseStudies] = await Promise.all([
     db.portfolioProject.findMany({
       orderBy: { createdAt: 'desc' },
@@ -29,4 +30,3 @@ export default async function ProjectsPage() {
 
   return <PortfolioClient initialProjects={dbProjects} initialCaseStudies={dbCaseStudies} />;
 }
-
