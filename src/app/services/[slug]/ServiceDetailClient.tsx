@@ -46,10 +46,24 @@ import {
   SiOdoo,
   SiPostgresql,
   SiJavascript,
+  SiNextdotjs,
+  SiTypescript,
+  SiTailwindcss,
+  SiKubernetes,
+  SiTerraform,
+  SiMongodb,
+  SiPrisma,
+  SiRedis,
+  SiGraphql,
+  SiDart,
+  SiFastapi,
+  SiGithubactions,
+  SiFramer,
 } from 'react-icons/si';
 import { FaAws } from 'react-icons/fa';
 import { AnimatedContainer } from '@/components/shared/AnimatedContainer';
 import { Button } from '@/components/ui/button';
+import { parseArrayField, parseProcessField } from '@/lib/data-helpers';
 
 interface DBService {
   id: string;
@@ -58,9 +72,9 @@ interface DBService {
   description: string;
   icon: string;
   content: string;
-  features: string[] | null;
-  process: { step: string; details: string }[] | null;
-  techStack: string[] | null;
+  features?: unknown;
+  process?: unknown;
+  techStack?: unknown;
 }
 
 interface ServiceDetailClientProps {
@@ -91,6 +105,10 @@ const IconComponent = ({ name, className }: { name: string; className?: string }
 export default function ServiceDetailClient({ service }: ServiceDetailClientProps) {
   const colorClass = 'bg-indigo-500/10 text-indigo-500';
   const gradient = 'from-indigo-500 via-purple-500 to-pink-500';
+
+  const features = parseArrayField(service.features);
+  const techStack = parseArrayField(service.techStack);
+  const processSteps = parseProcessField(service.process);
 
   return (
     <div className="flex flex-col min-h-screen relative overflow-hidden bg-background py-12">
@@ -239,12 +257,12 @@ export default function ServiceDetailClient({ service }: ServiceDetailClientProp
       </section>
 
       {/* Features Grid */}
-      {service.features && service.features.length > 0 && (
+      {features.length > 0 && (
         <section className="relative z-10 max-w-7xl mx-auto px-6 py-16 w-full">
           <AnimatedContainer direction="up" delay={0.2}>
             <h2 className="text-3xl font-bold mb-10 text-foreground text-center">Key Features</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {service.features.map((feature, idx) => (
+              {features.map((feature, idx) => (
                 <motion.div
                   key={idx}
                   whileHover={{ y: -5 }}
@@ -260,7 +278,7 @@ export default function ServiceDetailClient({ service }: ServiceDetailClientProp
       )}
 
       {/* Development Process */}
-      {service.process && service.process.length > 0 && (
+      {processSteps.length > 0 && (
         <section className="relative z-10 bg-muted/30 py-20 border-y border-border/40 mt-10">
           <div className="max-w-7xl mx-auto px-6 w-full">
             <AnimatedContainer direction="up" delay={0.1}>
@@ -270,7 +288,7 @@ export default function ServiceDetailClient({ service }: ServiceDetailClientProp
                 <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-border -translate-y-1/2 z-0" />
 
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-                  {service.process.map((step, idx) => (
+                  {processSteps.map((step, idx) => (
                     <motion.div
                       key={idx}
                       initial={{ opacity: 0, y: 20 }}
@@ -284,7 +302,7 @@ export default function ServiceDetailClient({ service }: ServiceDetailClientProp
                       </div>
                       <h3 className="text-xl font-bold text-foreground mb-3">{step.step}</h3>
                       <p className="text-sm text-muted-foreground leading-relaxed">
-                        {step.details}
+                        {step.details || 'Systematic execution with continuous quality assurance and team collaboration.'}
                       </p>
                     </motion.div>
                   ))}
@@ -296,7 +314,7 @@ export default function ServiceDetailClient({ service }: ServiceDetailClientProp
       )}
 
       {/* Tech Stack */}
-      {service.techStack && service.techStack.length > 0 && (
+      {techStack.length > 0 && (
         <section className="relative z-10 max-w-7xl mx-auto px-6 py-20 w-full">
           <AnimatedContainer direction="up" delay={0.1}>
             <div className="bg-card/40 backdrop-blur-xl border border-indigo-500/10 rounded-3xl p-10 md:p-16 shadow-2xl relative overflow-hidden">
@@ -307,22 +325,36 @@ export default function ServiceDetailClient({ service }: ServiceDetailClientProp
                   Technologies We Use
                 </h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 justify-center items-center">
-                  {service.techStack.map((tech, idx) => {
+                  {techStack.map((tech, idx) => {
                     const name = tech.toLowerCase();
                     let TechIcon: React.ElementType = TerminalSquare;
 
                     // Direct React Icons mapping
-                    if (name.includes('python')) TechIcon = SiPython;
+                    if (name.includes('next')) TechIcon = SiNextdotjs;
+                    else if (name.includes('react') && !name.includes('native')) TechIcon = SiReact;
+                    else if (name.includes('react') && name.includes('native')) TechIcon = SiReact;
+                    else if (name.includes('typescript') || name === 'ts') TechIcon = SiTypescript;
+                    else if (name.includes('tailwind')) TechIcon = SiTailwindcss;
+                    else if (name.includes('python')) TechIcon = SiPython;
                     else if (name.includes('tensorflow')) TechIcon = SiTensorflow;
                     else if (name.includes('pytorch')) TechIcon = SiPytorch;
-                    else if (name.includes('huggingface')) TechIcon = SiHuggingface;
+                    else if (name.includes('huggingface') || name.includes('hugging')) TechIcon = SiHuggingface;
                     else if (name.includes('docker')) TechIcon = SiDocker;
-                    else if (name.includes('react')) TechIcon = SiReact;
+                    else if (name.includes('kubernetes') || name.includes('k8s')) TechIcon = SiKubernetes;
+                    else if (name.includes('terraform')) TechIcon = SiTerraform;
                     else if (name.includes('flutter')) TechIcon = SiFlutter;
+                    else if (name.includes('dart')) TechIcon = SiDart;
                     else if (name.includes('swift')) TechIcon = SiSwift;
                     else if (name.includes('kotlin')) TechIcon = SiKotlin;
                     else if (name.includes('firebase')) TechIcon = SiFirebase;
                     else if (name.includes('node')) TechIcon = SiNodedotjs;
+                    else if (name.includes('fastapi')) TechIcon = SiFastapi;
+                    else if (name.includes('prisma')) TechIcon = SiPrisma;
+                    else if (name.includes('redis')) TechIcon = SiRedis;
+                    else if (name.includes('mongo')) TechIcon = SiMongodb;
+                    else if (name.includes('graphql')) TechIcon = SiGraphql;
+                    else if (name.includes('github') && name.includes('action')) TechIcon = SiGithubactions;
+                    else if (name.includes('framer')) TechIcon = SiFramer;
                     else if (name.includes('solidity')) TechIcon = SiSolidity;
                     else if (name.includes('ethereum')) TechIcon = SiEthereum;
                     else if (name.includes('rust')) TechIcon = SiRust;
@@ -331,9 +363,8 @@ export default function ServiceDetailClient({ service }: ServiceDetailClientProp
                     else if (name.includes('wireshark')) TechIcon = SiWireshark;
                     else if (name.includes('splunk')) TechIcon = SiSplunk;
                     else if (name.includes('odoo')) TechIcon = SiOdoo;
-                    else if (name.includes('postgre')) TechIcon = SiPostgresql;
-                    else if (name.includes('javascript') || name.includes('js'))
-                      TechIcon = SiJavascript;
+                    else if (name.includes('postgre') || name.includes('postgres')) TechIcon = SiPostgresql;
+                    else if (name.includes('javascript') || name.includes('js')) TechIcon = SiJavascript;
                     else if (name.includes('aws')) TechIcon = FaAws;
 
                     // Fallbacks for missing React Icons
@@ -347,14 +378,13 @@ export default function ServiceDetailClient({ service }: ServiceDetailClientProp
                       name.includes('web3') ||
                       name.includes('sql') ||
                       name.includes('oracle') ||
-                      name.includes('mongo') ||
                       name.includes('database')
                     )
                       TechIcon = Database;
                     else if (name.includes('tableau') || name.includes('powerbi'))
                       TechIcon = BarChartIcon;
                     else if (name.includes('azure') || name.includes('cloud')) TechIcon = Cloud;
-                    else if (name.includes('security') || name.includes('crowdstrike'))
+                    else if (name.includes('security') || name.includes('crowdstrike') || name.includes('snyk') || name.includes('vault') || name.includes('zap') || name.includes('nessus'))
                       TechIcon = Shield;
                     else if (
                       name.includes('onestream') ||

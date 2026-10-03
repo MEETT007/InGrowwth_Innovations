@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
 import { readJsonBody } from '@/lib/request-security';
 import { logger } from '@/lib/logger';
+import { parseArrayField, parseProcessField } from '@/lib/data-helpers';
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -66,9 +67,9 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         ...(description !== undefined && { description }),
         ...(icon !== undefined && { icon }),
         ...(content !== undefined && { content }),
-        ...(features !== undefined && { features }),
-        ...(serviceProcess !== undefined && { process: serviceProcess }),
-        ...(techStack !== undefined && { techStack }),
+        ...(features !== undefined && { features: parseArrayField(features) }),
+        ...(serviceProcess !== undefined && { process: parseProcessField(serviceProcess) }),
+        ...(techStack !== undefined && { techStack: parseArrayField(techStack) }),
         ...(updatedSlug !== undefined && { slug: updatedSlug }),
       },
     });

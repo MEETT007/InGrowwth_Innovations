@@ -18,6 +18,7 @@ import { AnimatedContainer } from '@/components/shared/AnimatedContainer';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { parseArrayField } from '@/lib/data-helpers';
 
 interface DBService {
   id: string;
@@ -26,7 +27,7 @@ interface DBService {
   description: string;
   icon: string;
   body: string;
-  techStack?: string[] | null;
+  techStack?: unknown;
 }
 
 const GRADIENTS = [
@@ -149,21 +150,27 @@ export default function ServicesClient({ initialServices }: { initialServices: D
                       </CardDescription>
 
                       {/* Tech tags */}
-                      <div className="flex flex-wrap gap-1.5">
-                        {(service.techStack || []).slice(0, 4).map((t) => (
-                          <span
-                            key={t}
-                            className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted/60 border border-border/40 text-muted-foreground"
-                          >
-                            {t}
-                          </span>
-                        ))}
-                        {service.techStack && service.techStack.length > 4 && (
-                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted/60 border border-border/40 text-muted-foreground">
-                            +{service.techStack.length - 4} more
-                          </span>
-                        )}
-                      </div>
+                      {(() => {
+                        const tags = parseArrayField(service.techStack);
+                        if (tags.length === 0) return null;
+                        return (
+                          <div className="flex flex-wrap gap-1.5">
+                            {tags.slice(0, 4).map((t) => (
+                              <span
+                                key={t}
+                                className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted/60 border border-border/40 text-muted-foreground"
+                              >
+                                {t}
+                              </span>
+                            ))}
+                            {tags.length > 4 && (
+                              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted/60 border border-border/40 text-muted-foreground">
+                                +{tags.length - 4} more
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })()}
 
                       {/* Learn More CTA */}
                       <div className="flex items-center gap-1.5 text-sm font-semibold text-indigo-500 opacity-0 group-hover/card:opacity-100 transition-all duration-300 -translate-y-1 group-hover/card:translate-y-0">

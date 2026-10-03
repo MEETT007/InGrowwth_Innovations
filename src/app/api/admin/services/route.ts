@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { requireAuthAndRole, requireAdminRole } from '@/lib/auth';
 import { readJsonBody } from '@/lib/request-security';
 import { logger } from '@/lib/logger';
+import { parseArrayField, parseProcessField } from '@/lib/data-helpers';
 
 // GET /api/admin/services - Fetch all services
 export async function GET() {
@@ -68,15 +69,19 @@ export async function POST(request: NextRequest) {
       counter++;
     }
 
+    const normalizedFeatures = parseArrayField(features);
+    const normalizedProcess = parseProcessField(serviceProcess);
+    const normalizedTechStack = parseArrayField(techStack);
+
     const service = await db.service.create({
       data: { 
         title, 
         description, 
         icon, 
         content,
-        features: features || [],
-        process: serviceProcess || [],
-        techStack: techStack || [],
+        features: normalizedFeatures,
+        process: normalizedProcess,
+        techStack: normalizedTechStack,
         slug: uniqueSlug,
       },
     });

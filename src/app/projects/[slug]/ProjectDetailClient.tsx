@@ -14,6 +14,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { AnimatedContainer } from '@/components/shared/AnimatedContainer';
+import { parseArrayField } from '@/lib/data-helpers';
 
 interface ProjectDetailClientProps {
   data: {
@@ -46,15 +47,8 @@ export default function ProjectDetailClient({ data }: ProjectDetailClientProps) 
   const coverImage = galleryArray.length > 0 ? galleryArray[0] : null;
   const gradient = 'from-indigo-500 to-purple-500';
 
-  let parsedFeatures: string[] = [];
-  try {
-    if (features) parsedFeatures = JSON.parse(features);
-  } catch {}
-
-  let parsedTech: string[] = [];
-  try {
-    if (technologiesUsed) parsedTech = JSON.parse(technologiesUsed);
-  } catch {}
+  const parsedFeatures = parseArrayField(features);
+  const parsedTech = parseArrayField(technologiesUsed);
 
   return (
     <div className="flex flex-col min-h-screen relative overflow-hidden bg-background py-12">

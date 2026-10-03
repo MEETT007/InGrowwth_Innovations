@@ -451,6 +451,25 @@ export function PortfolioEditor({ isOpen, onClose, onSuccess, initialData }: Por
                       className="bg-background"
                       {...form.register('technologiesUsed')}
                     />
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {['React', 'Next.js', 'TypeScript', 'Node.js', 'Python', 'Tailwind CSS', 'AWS', 'Docker', 'PostgreSQL', 'Flutter', 'Prisma', 'MongoDB'].map((tech) => (
+                        <button
+                          type="button"
+                          key={tech}
+                          onClick={() => {
+                            const current = form.getValues('technologiesUsed') || '';
+                            const items = current.split(',').map((s: string) => s.trim()).filter(Boolean);
+                            if (!items.some((t: string) => t.toLowerCase() === tech.toLowerCase())) {
+                              items.push(tech);
+                              form.setValue('technologiesUsed', items.join(', '));
+                            }
+                          }}
+                          className="text-[11px] px-2.5 py-0.5 rounded-full border border-border/60 bg-muted/40 hover:bg-muted text-foreground hover:border-indigo-500/40 transition-colors cursor-pointer"
+                        >
+                          + {tech}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                   <div className="space-y-2 md:col-span-2">
                     <Label>Services Provided (Comma separated)</Label>
@@ -497,6 +516,15 @@ export function PortfolioEditor({ isOpen, onClose, onSuccess, initialData }: Por
                       placeholder="How did we solve it..."
                       className="bg-background min-h-[100px]"
                       {...form.register('solution')}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Key Features / Capabilities (Comma or Newline separated)</Label>
+                    <Textarea
+                      placeholder="e.g. Real-time analytics dashboard, Automated payment processing, Role-based user authentication..."
+                      className="bg-background min-h-[100px]"
+                      {...form.register('features')}
                     />
                   </div>
 
