@@ -42,7 +42,7 @@ export default function ProjectDetailClient({ data }: ProjectDetailClientProps) 
     technologiesUsed,
   } = data;
 
-  const galleryArray = data.gallery ? data.gallery.split(',') : [];
+  const galleryArray = data.gallery ? data.gallery.split(',').map(s => s.trim()).filter(Boolean) : [];
   const coverImage = galleryArray.length > 0 ? galleryArray[0] : null;
   const gradient = 'from-indigo-500 to-purple-500';
 

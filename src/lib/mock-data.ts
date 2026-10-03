@@ -679,7 +679,7 @@ export const mockBlogPosts: BlogPost[] = [
     publishDate: '2026-06-28',
     category: 'Technology',
     thumbnail:
-      'https://images.unsplash.com/photo-1639762681485-074b7f4fc250?auto=format&fit=crop&q=80&w=800&h=400',
+      'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80',
   },
 ];
 

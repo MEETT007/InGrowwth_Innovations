@@ -73,17 +73,19 @@ export async function POST(request: NextRequest) {
       status,
     } = body;
 
-    if (!title || !slug) {
+    if (!title) {
       return NextResponse.json(
-        { success: false, message: 'Title and Slug are required.' },
+        { success: false, message: 'Title is required.' },
         { status: 400 }
       );
     }
 
+    const generatedSlug = slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+
     const caseStudy = await db.caseStudy.create({
       data: {
         title,
-        slug,
+        slug: generatedSlug,
         heroBanner,
         coverImage,
         clientName,

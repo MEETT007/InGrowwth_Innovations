@@ -17,12 +17,12 @@ import { logger } from '@/lib/logger';
 
 const footerLinks = {
   services: [
+    { href: '/services/web-development', label: 'Web Development' },
     { href: '/services/mobile-app-development', label: 'Mobile App Development' },
-    { href: '/services/blockchain-solutions', label: 'Blockchain Solutions' },
-    { href: '/services/cybersecurity-services', label: 'Cybersecurity Services' },
-    { href: '/services/erp-solutions', label: 'ERP Solutions' },
-    { href: '/services/epm-financial-solutions', label: 'EPM - Financial Solutions' },
-    { href: '/services/ai-ml-solutions', label: 'AI & Machine Learning' },
+    { href: '/services/cloud-&-devops-solutions', label: 'Cloud & DevOps' },
+    { href: '/services/erp-enterprise-software', label: 'ERP Solutions' },
+    { href: '/services/onestream-epm', label: 'OneStream EPM' },
+    { href: '/services/ai-&-machine-learning', label: 'AI & Machine Learning' },
   ],
   company: [
     { href: '/about', label: 'About Us' },

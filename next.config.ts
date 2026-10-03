@@ -13,6 +13,26 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'i.pravatar.cc',
       },
+      // AWS S3 - used by upload API for blog thumbnails, portfolio images, etc.
+      {
+        protocol: 'https',
+        hostname: '**.amazonaws.com',
+      },
+      // Cloudflare R2 or custom S3-compatible storage
+      {
+        protocol: 'https',
+        hostname: '**.r2.cloudflarestorage.com',
+      },
+      // Cloudinary (if used)
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+      // Allow any https image source for maximum flexibility with external content
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
     ],
   },
   async headers() {

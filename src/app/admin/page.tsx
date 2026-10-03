@@ -136,7 +136,7 @@ export default async function AdminDashboardPage() {
       db.lead.count(),
       db.lead.count({ where: { type: 'CONTACT' } }),
       db.lead.count({ where: { type: 'QUOTE' } }),
-      db.lead.count({ where: { type: 'NEWSLETTER' } }),
+      db.newsletterSubscriber.count(),
       db.lead.count({ where: { status: 'NEW' } }),
     ]);
 

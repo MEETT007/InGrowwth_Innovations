@@ -17,9 +17,15 @@ export const metadata: Metadata = {
 export const revalidate = 0;
 export const dynamic = 'force-dynamic';
 export default async function ProjectsPage() {
-  const dbProjects = await db.portfolioProject.findMany({
-    orderBy: { createdAt: 'desc' },
-  });
+  const [dbProjects, dbCaseStudies] = await Promise.all([
+    db.portfolioProject.findMany({
+      orderBy: { createdAt: 'desc' },
+    }),
+    db.caseStudy.findMany({
+      where: { status: 'PUBLISHED' },
+      orderBy: { createdAt: 'desc' },
+    })
+  ]);
 
-  return <ProjectsClient initialProjects={dbProjects} />;
+  return <ProjectsClient initialProjects={dbProjects} initialCaseStudies={dbCaseStudies} />;
 }

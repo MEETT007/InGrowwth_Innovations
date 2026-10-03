@@ -8,6 +8,35 @@ interface RouteParams {
   params: Promise<{ id: string }>;
 }
 
+// GET /api/admin/portfolio/[id] - Fetch a single portfolio project by ID (Admin & Editor)
+export async function GET(request: NextRequest, { params }: RouteParams) {
+  const { id } = await params;
+  const authCheck = await requireAuthAndRole(['admin', 'editor']);
+  if (!authCheck.authorized) {
+    return NextResponse.json(
+      { success: false, message: authCheck.error },
+      { status: authCheck.status || 401 }
+    );
+  }
+
+  try {
+    const project = await db.portfolioProject.findUnique({ where: { id } });
+    if (!project) {
+      return NextResponse.json(
+        { success: false, message: 'Portfolio project not found.' },
+        { status: 404 }
+      );
+    }
+    return NextResponse.json({ success: true, data: project });
+  } catch (error) {
+    logger.error('Error fetching portfolio project:', error);
+    return NextResponse.json(
+      { success: false, message: 'Database error fetching portfolio project.' },
+      { status: 500 }
+    );
+  }
+}
+
 // PUT /api/admin/portfolio/[id] - Update portfolio project (Admin & Editor)
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   const { id } = await params;

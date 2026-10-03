@@ -4,8 +4,10 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, Search } from 'lucide-react';
+import { ArrowRight, Sparkles, Search, Briefcase, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 interface DBPortfolioProject {
   id: string;
@@ -16,43 +18,86 @@ interface DBPortfolioProject {
   websiteUrl: string | null;
   description: string;
   gallery: string | null;
+  coverImage: string | null;
+  createdAt: Date;
+}
+
+interface DBCaseStudy {
+  id: string;
+  slug: string;
+  title: string;
+  clientName: string | null;
+  industry: string | null;
+  problemStatement: string | null;
+  coverImage: string | null;
+  heroBanner: string | null;
+  createdAt: Date;
 }
 
 export default function ProjectsClient({
   initialProjects,
+  initialCaseStudies,
 }: {
   initialProjects: DBPortfolioProject[];
+  initialCaseStudies: DBCaseStudy[];
 }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState<'All' | 'Projects' | 'Case Studies'>('All');
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   // Map DB portfolio projects to frontend format
-  const projects = useMemo(() => {
-    return initialProjects
-      .map((p) => {
-        const galleryArray = p.gallery ? p.gallery.split(',') : [];
-        const coverImage =
-          galleryArray.length > 0 ? galleryArray[0] : '/assets/images/placeholder.jpg';
+  const combinedItems = useMemo(() => {
+    const mappedProjects = initialProjects.map((p) => {
+      const galleryArray = p.gallery ? p.gallery.split(',').map((u) => u.trim()) : [];
+      const coverImage = p.coverImage || (galleryArray.length > 0 ? galleryArray[0] : '/placeholder.png');
+      return {
+        id: p.id,
+        isCaseStudy: false,
+        title: p.title,
+        description: p.description,
+        category: p.category,
+        coverImage,
+        linkSlug: p.slug || p.id,
+        date: p.createdAt,
+      };
+    });
 
-        return {
-          ...p,
-          linkSlug: p.slug || p.id,
-          coverImage,
-        };
-      })
-      .filter((p) => {
-        const q = searchQuery.toLowerCase();
-        return (
-          !q ||
-          (p.title && p.title.toLowerCase().includes(q)) ||
-          (p.description && p.description.toLowerCase().includes(q))
-        );
-      });
-  }, [initialProjects, searchQuery]);
+    const mappedCaseStudies = initialCaseStudies.map((cs) => {
+      return {
+        id: cs.id,
+        isCaseStudy: true,
+        title: cs.title,
+        description: cs.problemStatement || 'Read our in-depth case study.',
+        category: cs.industry || 'Case Study',
+        coverImage: cs.coverImage || cs.heroBanner || '/placeholder.png',
+        linkSlug: cs.slug,
+        date: cs.createdAt,
+      };
+    });
+
+    const all = [...mappedProjects, ...mappedCaseStudies];
+    // Sort by date descending
+    all.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    return all.filter((item) => {
+      const q = searchQuery.toLowerCase();
+      const matchesSearch =
+        !q ||
+        (item.title && item.title.toLowerCase().includes(q)) ||
+        (item.description && item.description.toLowerCase().includes(q));
+
+      const matchesTab = 
+        activeTab === 'All' ||
+        (activeTab === 'Projects' && !item.isCaseStudy) ||
+        (activeTab === 'Case Studies' && item.isCaseStudy);
+
+      return matchesSearch && matchesTab;
+    });
+  }, [initialProjects, initialCaseStudies, searchQuery, activeTab]);
 
   return (
     <div className="flex flex-col min-h-screen relative overflow-hidden bg-background py-12">
-      {/* Background glow effects - Stitch MCP inspired */}
+      {/* Background glow effects */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-pink-500/10 blur-[120px] pointer-events-none" />
 
@@ -84,34 +129,53 @@ export default function ProjectsClient({
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-12"
         >
-          Browse our curated gallery of successful projects, spanning web development, mobile apps,
+          Browse our curated gallery of successful projects and in-depth case studies, spanning web development, mobile apps,
           and scalable digital solutions.
         </motion.p>
 
-        <div className="relative max-w-md mx-auto">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-muted-foreground" />
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4 max-w-2xl mx-auto mb-8">
+          <div className="flex bg-muted/50 p-1 rounded-full backdrop-blur-sm">
+            {(['All', 'Projects', 'Case Studies'] as const).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={cn(
+                  'px-6 py-2 rounded-full text-sm font-medium transition-all duration-300',
+                  activeTab === tab 
+                    ? 'bg-background shadow-sm text-foreground' 
+                    : 'text-muted-foreground hover:text-foreground hover:bg-background/50'
+                )}
+              >
+                {tab}
+              </button>
+            ))}
           </div>
-          <input
-            type="text"
-            placeholder="Search our portfolio..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-11 pr-4 py-3 bg-background/50 border border-border/60 rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all text-foreground placeholder:text-muted-foreground shadow-sm backdrop-blur-sm"
-          />
+          
+          <div className="relative w-full md:w-64">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 bg-background/50 border border-border/60 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all text-foreground placeholder:text-muted-foreground shadow-sm backdrop-blur-sm"
+            />
+          </div>
         </div>
       </section>
 
-      {/* 21st MCP Inspired 3D Portfolio Gallery */}
-      <section className="relative z-10 w-full mt-12 pb-24">
-        {projects.length === 0 ? (
+      {/* Gallery */}
+      <section className="relative z-10 w-full mt-4 pb-24">
+        {combinedItems.length === 0 ? (
           <div className="text-center py-20 text-muted-foreground">
-            No projects found matching your search.
+            No items found matching your search.
           </div>
         ) : (
           <div className="max-w-[1400px] mx-auto px-4 overflow-hidden relative">
             <div className="flex flex-wrap justify-center gap-8 md:gap-12 items-center">
-              {projects.map((project, index) => {
+              {combinedItems.map((item, index) => {
                 const isHovered = hoveredIndex === index;
                 const isOtherHovered = hoveredIndex !== null && hoveredIndex !== index;
 
@@ -125,12 +189,12 @@ export default function ProjectsClient({
                       : 40;
 
                 return (
-                  <Link href={`/projects/${project.linkSlug}`} key={project.id}>
+                  <Link href={`/projects/${item.linkSlug}?type=${item.isCaseStudy ? 'case-study' : 'project'}`} key={item.id}>
                     <motion.div
                       className="group cursor-pointer"
                       initial={{ opacity: 0, y: 50 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      transition={{ duration: 0.5, delay: index * 0.05 }}
                       onHoverStart={() => setHoveredIndex(index)}
                       onHoverEnd={() => setHoveredIndex(null)}
                     >
@@ -149,26 +213,38 @@ export default function ProjectsClient({
                       >
                         <div className="relative aspect-[4/3] w-full overflow-hidden">
                           <Image
-                            src={project.coverImage || '/placeholder.png'}
-                            alt={project.title}
+                            src={item.coverImage || '/placeholder.png'}
+                            alt={item.title}
                             fill
                             className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80" />
 
+                          <div className="absolute top-4 right-4 z-20">
+                            {item.isCaseStudy ? (
+                              <Badge className="bg-indigo-500/80 hover:bg-indigo-500 backdrop-blur-sm text-white border-transparent">
+                                <FileText className="w-3 h-3 mr-1" /> Case Study
+                              </Badge>
+                            ) : (
+                              <Badge className="bg-pink-500/80 hover:bg-pink-500 backdrop-blur-sm text-white border-transparent">
+                                <Briefcase className="w-3 h-3 mr-1" /> Project
+                              </Badge>
+                            )}
+                          </div>
+
                           <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                             <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-white text-xs font-medium mb-3">
-                              {project.category}
+                              {item.category}
                             </span>
                             <h3 className="text-2xl font-bold text-white mb-2 leading-tight">
-                              {project.title}
+                              {item.title}
                             </h3>
                             <p className="text-gray-300 text-sm line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                              {project.description}
+                              {item.description}
                             </p>
 
                             <div className="flex items-center text-indigo-400 text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200">
-                              View Case Study <ArrowRight className="ml-2 w-4 h-4" />
+                              {item.isCaseStudy ? 'Read Case Study' : 'View Project'} <ArrowRight className="ml-2 w-4 h-4" />
                             </div>
                           </div>
                         </div>

@@ -113,10 +113,8 @@ export function NewsletterEditor({ initialData }: { initialData?: any }) {
     <div className="max-w-5xl mx-auto pb-24">
       <div className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50 p-4 mb-8 -mx-4 sm:-mx-8 px-4 sm:px-8 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" asChild className="rounded-full">
-            <Link href="/admin/newsletter">
-              <ArrowLeft className="h-5 w-5" />
-            </Link>
+          <Button variant="ghost" size="icon" render={<Link href="/admin/newsletter" />} className="rounded-full">
+            <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>
             <h1 className="font-semibold text-lg">Email Builder</h1>

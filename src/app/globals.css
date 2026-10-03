@@ -140,7 +140,7 @@
     @apply border-border outline-ring/50;
   }
   html {
-    @apply font-sans scroll-smooth antialiased;
+    @apply font-sans antialiased;
     text-rendering: optimizeLegibility;
   }
   body {

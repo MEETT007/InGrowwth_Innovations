@@ -61,7 +61,7 @@ export default function BlogClient({ initialPosts }: { initialPosts: DBBlogPost[
         }),
         featured: idx === 0, // make the first post featured
         thumbnail:
-          p.thumbnail || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80',
+          (p.thumbnail && p.thumbnail.trim().length > 0) ? p.thumbnail : 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80',
         gradient: GRADIENTS[idx % GRADIENTS.length],
       };
     });

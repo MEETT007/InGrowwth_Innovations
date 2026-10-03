@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rate-limit';
 import { NewsletterSchema } from '@/schemas/lead';
-import { sendLeadEmails } from '@/lib/mail';
+import { sendNewsletterWelcomeEmail } from '@/lib/mail';
 import {
   getClientIp,
   getIdempotencyKey,
@@ -65,14 +65,28 @@ export async function POST(request: NextRequest) {
     }
 
     // 3. Check if already subscribed
-    const existing = await db.lead.findFirst({
+    const existing = await db.newsletterSubscriber.findUnique({
       where: {
         email,
-        type: 'NEWSLETTER',
       },
     });
 
     if (existing) {
+      if (existing.status !== 'ACTIVE') {
+        // Reactivate subscription if it was unsubscribed
+        await db.newsletterSubscriber.update({
+          where: { email },
+          data: { status: 'ACTIVE' },
+        });
+        void sendNewsletterWelcomeEmail(email);
+        return NextResponse.json(
+          {
+            success: true,
+            message: 'Welcome back! You have re-subscribed to our newsletter.',
+          },
+          { status: 200 }
+        );
+      }
       return NextResponse.json(
         {
           success: true,
@@ -83,16 +97,15 @@ export async function POST(request: NextRequest) {
     }
 
     // 4. Database Insertion
-    const lead = await db.lead.create({
+    await db.newsletterSubscriber.create({
       data: {
-        type: 'NEWSLETTER',
-        status: 'NEW',
         email,
+        status: 'ACTIVE',
       },
     });
 
-    // Trigger Resend email notification in the background (non-blocking, errors handled gracefully)
-    void sendLeadEmails(lead);
+    // Trigger Resend email notification in the background
+    void sendNewsletterWelcomeEmail(email);
 
     return NextResponse.json(
       {

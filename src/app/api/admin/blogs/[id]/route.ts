@@ -8,6 +8,35 @@ interface RouteParams {
   params: Promise<{ id: string }>;
 }
 
+// GET /api/admin/blogs/[id] - Fetch a single blog post by ID (Admin & Editor)
+export async function GET(request: NextRequest, { params }: RouteParams) {
+  const { id } = await params;
+  const authCheck = await requireAuthAndRole(['admin', 'editor']);
+  if (!authCheck.authorized) {
+    return NextResponse.json(
+      { success: false, message: authCheck.error },
+      { status: authCheck.status || 401 }
+    );
+  }
+
+  try {
+    const blog = await db.blogPost.findUnique({ where: { id } });
+    if (!blog) {
+      return NextResponse.json(
+        { success: false, message: 'Blog post not found.' },
+        { status: 404 }
+      );
+    }
+    return NextResponse.json({ success: true, data: blog });
+  } catch (error) {
+    logger.error('Error fetching blog post:', error);
+    return NextResponse.json(
+      { success: false, message: 'Database error fetching blog post.' },
+      { status: 500 }
+    );
+  }
+}
+
 // PUT /api/admin/blogs/[id] - Update blog post (Admin & Editor)
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   const { id } = await params;

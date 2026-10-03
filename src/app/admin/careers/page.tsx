@@ -445,17 +445,15 @@ export default function CareersPage() {
 
                     {app.resumeUrl && (
                       <Button
-                        asChild
+                        render={<a href={app.resumeUrl} target="_blank" rel="noreferrer" />}
                         variant="outline"
                         className="flex-1 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border-indigo-500/30 h-10 group/btn"
                       >
-                        <a href={app.resumeUrl} target="_blank" rel="noreferrer">
-                          <span className="flex items-center justify-center">
-                            <FileText className="h-4 w-4 mr-2 group-hover/btn:scale-110 transition-transform" />
-                            Resume
-                            <ExternalLink className="h-3 w-3 ml-1 opacity-50" />
-                          </span>
-                        </a>
+                        <span className="flex items-center justify-center">
+                          <FileText className="h-4 w-4 mr-2 group-hover/btn:scale-110 transition-transform" />
+                          Resume
+                          <ExternalLink className="h-3 w-3 ml-1 opacity-50" />
+                        </span>
                       </Button>
                     )}
                   </CardFooter>

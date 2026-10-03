@@ -3,6 +3,7 @@ import { Resend } from 'resend';
 import { Lead } from '@/generated/prisma/client';
 import { AdminNotificationEmail } from '@/components/emails/admin-notification';
 import { UserAutoResponderEmail } from '@/components/emails/user-auto-responder';
+import { NewsletterCampaignEmail } from '@/components/emails/newsletter-campaign';
 import { env } from '@/lib/env';
 import { logger } from '@/lib/logger';
 
@@ -81,8 +82,7 @@ async function sendUserEmail(lead: Lead, client: Resend): Promise<void> {
   const config = EMAIL_CONFIGS[leadType] || EMAIL_CONFIGS.CONTACT;
   const userSubject = getSubject(config.userSubject);
   
-  // In DEV, send to MAIL_TO_ADMIN instead of the user's email
-  const recipient = env.isProduction ? email : MAIL_TO_ADMIN!;
+  const recipient = email;
 
   try {
     const result = await client.emails.send({
@@ -123,3 +123,55 @@ export async function sendLeadEmails(lead: Lead): Promise<void> {
     logger.error('[Mail Utility] Failed to complete sendLeadEmails operation:', error);
   }
 }
+
+export async function sendNewsletterWelcomeEmail(email: string): Promise<void> {
+  try {
+    if (!resend || !MAIL_FROM) return;
+
+    const subject = getSubject('Welcome to the InGrowwth Innovations Newsletter!');
+    const recipient = email;
+
+    const result = await resend.emails.send({
+      from: MAIL_FROM,
+      to: recipient,
+      subject,
+      react: <UserAutoResponderEmail leadType="NEWSLETTER" />,
+    });
+
+    if (result.error) {
+      logger.error('[Mail Utility] Error sending newsletter welcome email:', result.error);
+    } else {
+      logger.info('[Mail Utility] Newsletter welcome email sent successfully');
+    }
+  } catch (error) {
+    logger.error('[Mail Utility] Failed to send newsletter welcome email:', error);
+  }
+}
+
+export async function sendNewsletterCampaignEmail(
+  email: string,
+  subject: string,
+  content: string,
+  campaignLink?: string
+): Promise<void> {
+  try {
+    if (!resend || !MAIL_FROM) return;
+
+    const finalSubject = getSubject(subject);
+    const recipient = email;
+
+    const result = await resend.emails.send({
+      from: MAIL_FROM,
+      to: recipient,
+      subject: finalSubject,
+      react: <NewsletterCampaignEmail subject={subject} content={content} subscriberEmail={email} campaignLink={campaignLink} />,
+    });
+
+    if (result.error) {
+      logger.error(`[Mail Utility] Error sending campaign email to ${email}:`, result.error);
+    }
+  } catch (error) {
+    logger.error(`[Mail Utility] Failed to send campaign email to ${email}:`, error);
+  }
+}
+

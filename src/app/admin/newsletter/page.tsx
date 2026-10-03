@@ -135,10 +135,8 @@ export default function NewsletterIndexPage() {
           <h2 className="text-3xl font-bold tracking-tight">Newsletter & Campaigns</h2>
           <p className="text-muted-foreground mt-1">Manage email marketing and subscriber lists.</p>
         </div>
-        <Button asChild size="lg" className="shadow-md shadow-indigo-500/20 cursor-pointer">
-          <Link href="/admin/newsletter/create">
-            <Plus className="mr-2 h-4 w-4" /> Create Campaign
-          </Link>
+        <Button render={<Link href="/admin/newsletter/create" />} size="lg" className="shadow-md shadow-indigo-500/20 cursor-pointer">
+          <Plus className="mr-2 h-4 w-4" /> Create Campaign
         </Button>
       </div>
 
@@ -250,10 +248,8 @@ export default function NewsletterIndexPage() {
                                   <Send className="h-3 w-3 mr-1" /> Send
                                 </Button>
                               )}
-                              <Button asChild variant="ghost" size="icon-sm">
-                                <Link href={`/admin/newsletter/edit/${c.id}`}>
-                                  <Edit className="h-4 w-4" />
-                                </Link>
+                              <Button render={<Link href={`/admin/newsletter/edit/${c.id}`} />} variant="ghost" size="icon-sm">
+                                <Edit className="h-4 w-4" />
                               </Button>
                               <Button
                                 variant="ghost"

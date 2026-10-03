@@ -24,7 +24,7 @@ import { LeadDetailsModal } from './components/LeadDetailsModal';
 
 interface Lead {
   id: string;
-  type: 'CONTACT' | 'QUOTE' | 'NEWSLETTER';
+  type: 'CONTACT' | 'QUOTE';
   status: 'NEW' | 'CONTACTED' | 'CLOSED';
   email: string;
   name?: string | null;
@@ -215,12 +215,7 @@ export default function AdminLeadsPage() {
             <FileText className="h-3 w-3" /> Quote
           </span>
         );
-      case 'NEWSLETTER':
-        return (
-          <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
-            <Users className="h-3 w-3" /> Newsletter
-          </span>
-        );
+
       default:
         return <span className="text-xs">{type}</span>;
     }
@@ -404,7 +399,6 @@ export default function AdminLeadsPage() {
                 <option value="ALL">All Types</option>
                 <option value="CONTACT">Contact Form</option>
                 <option value="QUOTE">Quote Request</option>
-                <option value="NEWSLETTER">Newsletter</option>
               </select>
 
               <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground ml-2">

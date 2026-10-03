@@ -65,10 +65,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const generatedSlug = slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+
     const blog = await db.blogPost.create({
       data: {
         title,
-        slug: slug || undefined, // Prisma will use uuid default if undefined
+        slug: generatedSlug,
         shortDescription,
         category,
         status,

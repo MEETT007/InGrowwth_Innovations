@@ -8,6 +8,35 @@ interface RouteParams {
   params: Promise<{ id: string }>;
 }
 
+// GET /api/admin/case-studies/[id] - Fetch a single case study by ID (Admin & Editor)
+export async function GET(request: NextRequest, { params }: RouteParams) {
+  const { id } = await params;
+  const authCheck = await requireAuthAndRole(['admin', 'editor']);
+  if (!authCheck.authorized) {
+    return NextResponse.json(
+      { success: false, message: authCheck.error },
+      { status: authCheck.status || 401 }
+    );
+  }
+
+  try {
+    const caseStudy = await db.caseStudy.findUnique({ where: { id } });
+    if (!caseStudy) {
+      return NextResponse.json(
+        { success: false, message: 'Case study not found.' },
+        { status: 404 }
+      );
+    }
+    return NextResponse.json({ success: true, data: caseStudy });
+  } catch (error) {
+    logger.error('Error fetching case study:', error);
+    return NextResponse.json(
+      { success: false, message: 'Database error fetching case study.' },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   const { id } = await params;
   const authCheck = await requireAuthAndRole(['admin', 'editor']);

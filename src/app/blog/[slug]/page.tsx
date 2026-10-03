@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { db } from '@/lib/db';
 import BlogDetailClient from './BlogDetailClient';
@@ -13,9 +13,15 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;
-  const post = await db.blogPost.findUnique({
+  let post = await db.blogPost.findUnique({
     where: { slug: resolvedParams.slug },
   });
+
+  if (!post) {
+    post = await db.blogPost.findUnique({
+      where: { id: resolvedParams.slug },
+    });
+  }
 
   if (!post) {
     return {
@@ -56,9 +62,30 @@ export default async function BlogPostPage({ params }: Props) {
   const resolvedParams = await params;
   const nonce = (await headers()).get('x-nonce') || undefined;
 
-  const post = await db.blogPost.findUnique({
+  let post = await db.blogPost.findUnique({
     where: { slug: resolvedParams.slug },
   });
+
+  if (!post) {
+    post = await db.blogPost.findUnique({
+      where: { id: resolvedParams.slug },
+    });
+
+    if (post) {
+      const generatedSlug = post.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+      if (generatedSlug && generatedSlug !== post.slug) {
+        try {
+          await db.blogPost.update({
+            where: { id: post.id },
+            data: { slug: generatedSlug }
+          });
+          redirect(`/blog/${generatedSlug}`);
+        } catch (e) {
+          // Ignore error if slug exists
+        }
+      }
+    }
+  }
 
   if (!post) {
     notFound();

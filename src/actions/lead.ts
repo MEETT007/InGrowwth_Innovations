@@ -10,7 +10,7 @@ import {
   QuoteInput,
   NewsletterInput,
 } from '@/schemas/lead';
-import { sendLeadEmails } from '@/lib/mail';
+import { sendLeadEmails, sendNewsletterWelcomeEmail } from '@/lib/mail';
 import { headers } from 'next/headers';
 import { isValidIdempotencyKey } from '@/lib/request-security';
 import { claimIdempotencyKey } from '@/lib/replay-protection';
@@ -229,14 +229,24 @@ export async function subscribeNewsletterAction(rawInput: NewsletterInput, idemp
     }
 
     // Check if already subscribed
-    const existing = await db.lead.findFirst({
+    const existing = await db.newsletterSubscriber.findUnique({
       where: {
         email,
-        type: 'NEWSLETTER',
       },
     });
 
     if (existing) {
+      if (existing.status !== 'ACTIVE') {
+        await db.newsletterSubscriber.update({
+          where: { email },
+          data: { status: 'ACTIVE' },
+        });
+        void sendNewsletterWelcomeEmail(email);
+        return {
+          success: true,
+          message: 'Welcome back! You have re-subscribed to our newsletter.',
+        };
+      }
       return {
         success: true,
         message: 'You are already subscribed to our newsletter!',
@@ -244,16 +254,15 @@ export async function subscribeNewsletterAction(rawInput: NewsletterInput, idemp
     }
 
     // Database Insertion
-    const lead = await db.lead.create({
+    await db.newsletterSubscriber.create({
       data: {
-        type: 'NEWSLETTER',
-        status: 'NEW',
         email,
+        status: 'ACTIVE',
       },
     });
 
-    // Trigger Resend email notification in the background (non-blocking, errors handled gracefully)
-    void sendLeadEmails(lead);
+    // Trigger Resend email notification in the background
+    void sendNewsletterWelcomeEmail(email);
 
     return {
       success: true,

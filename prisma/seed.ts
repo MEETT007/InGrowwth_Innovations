@@ -30,6 +30,7 @@ async function main() {
     if (!existing) {
       await prisma.service.create({
         data: {
+          slug: s.slug,
           title: s.title,
           description: s.shortDesc,
           icon: iconMap[s.slug] || 'Code',
@@ -94,6 +95,7 @@ async function main() {
     if (!existing) {
       await prisma.portfolioProject.create({
         data: {
+          slug: p.slug,
           title: p.title,
           client: 'InGrowwth Client', // fallback
           category: p.category,
