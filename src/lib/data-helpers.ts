@@ -236,3 +236,130 @@ export const POPULAR_FEATURE_SUGGESTIONS = [
   '24/7 Real-Time System Monitoring & Health Alerts',
   'Enterprise Data Encryption & SOC 2 Compliance',
 ];
+
+export interface MetricItem {
+  value: string;
+  label: string;
+  [key: string]: string;
+}
+
+export function parseMetricsField(val: unknown): MetricItem[] {
+  if (!val) return [];
+
+  if (Array.isArray(val)) {
+    return val
+      .map((item) => {
+        if (typeof item === 'object' && item !== null) {
+          const rec = item as Record<string, unknown>;
+          return {
+            value: String(rec.value || rec.metric || rec.stat || '').trim(),
+            label: String(rec.label || rec.name || rec.title || rec.desc || '').trim(),
+          };
+        }
+        if (typeof item === 'string') {
+          const parts = item.split(':');
+          if (parts.length >= 2) {
+            return { value: parts[0].trim(), label: parts[1].trim() };
+          }
+          return { value: item.trim(), label: 'Impact Metric' };
+        }
+        return null;
+      })
+      .filter((m): m is MetricItem => m !== null && Boolean(m.value || m.label));
+  }
+
+  if (typeof val === 'string') {
+    const trimmed = val.trim();
+    if (!trimmed) return [];
+    if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (Array.isArray(parsed)) return parseMetricsField(parsed);
+      } catch {}
+    }
+    // Delimited string like "+240% Growth, 99.99% Uptime"
+    return trimmed
+      .split(/[,;\n]+/)
+      .map((part) => {
+        const p = part.trim();
+        if (!p) return null;
+        const colon = p.indexOf(':');
+        if (colon > 0) {
+          return { value: p.substring(0, colon).trim(), label: p.substring(colon + 1).trim() };
+        }
+        const space = p.indexOf(' ');
+        if (space > 0 && /^[+\-0-9<>$%]+/.test(p)) {
+          return { value: p.substring(0, space).trim(), label: p.substring(space + 1).trim() };
+        }
+        return { value: p, label: 'Impact' };
+      })
+      .filter((m): m is MetricItem => m !== null && Boolean(m.value));
+  }
+
+  return [];
+}
+
+export interface TestimonialData {
+  quote: string;
+  author?: string;
+  role?: string;
+  company?: string;
+}
+
+export function parseTestimonialField(val: unknown): TestimonialData | null {
+  if (!val) return null;
+
+  if (typeof val === 'object' && !Array.isArray(val)) {
+    const rec = val as Record<string, unknown>;
+    const quote = String(rec.quote || rec.text || rec.comment || '').trim();
+    if (!quote) return null;
+    return {
+      quote,
+      author: rec.author ? String(rec.author).trim() : undefined,
+      role: rec.role ? String(rec.role).trim() : undefined,
+      company: rec.company ? String(rec.company).trim() : undefined,
+    };
+  }
+
+  if (typeof val === 'string') {
+    const trimmed = val.trim();
+    if (!trimmed) return null;
+    if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        return parseTestimonialField(parsed);
+      } catch {}
+    }
+    // Plain string format like: "Working with InGrowwth was great! - John Doe, CTO"
+    const dashIdx = trimmed.lastIndexOf(' - ');
+    if (dashIdx > 0) {
+      const quote = trimmed.substring(0, dashIdx).trim().replace(/^["']|["']$/g, '');
+      const authorPart = trimmed.substring(dashIdx + 3).trim();
+      const commaIdx = authorPart.indexOf(',');
+      if (commaIdx > 0) {
+        return {
+          quote,
+          author: authorPart.substring(0, commaIdx).trim(),
+          role: authorPart.substring(commaIdx + 1).trim(),
+        };
+      }
+      return { quote, author: authorPart };
+    }
+    return { quote: trimmed.replace(/^["']|["']$/g, '') };
+  }
+
+  return null;
+}
+
+export const POPULAR_SERVICES_SUGGESTIONS = [
+  'Custom Web Application',
+  'Mobile App Development',
+  'Cloud Architecture & DevOps',
+  'UI/UX Design & System',
+  'API & Systems Integration',
+  'AI / ML Model Deployment',
+  'Cybersecurity Hardening',
+  'ERP Customization',
+  'Performance Optimization',
+];
+

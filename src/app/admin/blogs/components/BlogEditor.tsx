@@ -28,6 +28,21 @@ import {
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { logger } from '@/lib/logger';
+import { Plus, X, Tag as TagIcon } from 'lucide-react';
+import { parseArrayField } from '@/lib/data-helpers';
+
+const POPULAR_BLOG_TAGS = [
+  'Next.js',
+  'TypeScript',
+  'AI & ML',
+  'Cloud Architecture',
+  'DevOps',
+  'Cybersecurity',
+  'System Design',
+  'Full-Stack',
+  'Tailwind CSS',
+  'PostgreSQL',
+];
 
 const blogSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters'),
@@ -59,6 +74,8 @@ export function BlogEditor({ isOpen, onClose, onSuccess, initialData }: BlogEdit
   const [isUploading, setIsUploading] = useState(false);
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [tagList, setTagList] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState('');
 
   const form = useForm<BlogFormValues>({
     resolver: zodResolver(blogSchema),
@@ -101,12 +118,13 @@ export function BlogEditor({ isOpen, onClose, onSuccess, initialData }: BlogEdit
             : '',
         });
         setThumbnailPreview(initialData.thumbnail || null);
+        setTagList(parseArrayField(initialData.tags));
       } else {
         form.reset({
           title: '',
           slug: '',
           shortDescription: '',
-          category: '',
+          category: 'Technology',
           status: 'Draft',
           tags: '',
           content: '',
@@ -118,6 +136,7 @@ export function BlogEditor({ isOpen, onClose, onSuccess, initialData }: BlogEdit
           publishDate: '',
         });
         setThumbnailPreview(null);
+        setTagList(['Next.js', 'Engineering', 'Cloud Architecture']);
       }
     }
   }, [initialData, isOpen, form]);
@@ -146,6 +165,22 @@ export function BlogEditor({ isOpen, onClose, onSuccess, initialData }: BlogEdit
       form.setValue('readTime', readTime.toString(), { shouldValidate: true });
     }
   }, [content, form]);
+
+  const addTag = (tag: string) => {
+    const trimmed = tag.trim();
+    if (trimmed && !tagList.includes(trimmed)) {
+      const next = [...tagList, trimmed];
+      setTagList(next);
+      form.setValue('tags', next.join(', '), { shouldValidate: true });
+      setTagInput('');
+    }
+  };
+
+  const removeTag = (index: number) => {
+    const next = tagList.filter((_, i) => i !== index);
+    setTagList(next);
+    form.setValue('tags', next.join(', '), { shouldValidate: true });
+  };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -191,6 +226,11 @@ export function BlogEditor({ isOpen, onClose, onSuccess, initialData }: BlogEdit
       initialData?.id ? 'Updating blog post...' : 'Publishing blog post...'
     );
 
+    const payload = {
+      ...data,
+      tags: tagList.length > 0 ? tagList.join(', ') : data.tags || 'Engineering',
+    };
+
     try {
       const url = initialData?.id ? `/api/admin/blogs/${initialData.id}` : '/api/admin/blogs';
       const method = initialData?.id ? 'PUT' : 'POST';
@@ -198,7 +238,7 @@ export function BlogEditor({ isOpen, onClose, onSuccess, initialData }: BlogEdit
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
 
       const res = await response.json();
@@ -412,18 +452,83 @@ export function BlogEditor({ isOpen, onClose, onSuccess, initialData }: BlogEdit
                     )}
                   </div>
 
-                  <div className="space-y-2">
-                    <Label>Tags (Comma separated)</Label>
-                    <Input
-                      placeholder="e.g. Nextjs, Tailwind, React"
-                      className="bg-muted/50 border-none"
-                      {...form.register('tags')}
-                    />
-                    {form.formState.errors.tags && (
-                      <p className="text-xs text-destructive">
-                        {form.formState.errors.tags.message}
-                      </p>
-                    )}
+                  {/* Interactive Tag Chips */}
+                  <div className="space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-xs font-semibold flex items-center gap-1.5">
+                        <TagIcon className="w-3.5 h-3.5 text-indigo-400" /> Article Tags
+                      </Label>
+                      <span className="text-[11px] text-muted-foreground">{tagList.length} tags</span>
+                    </div>
+
+                    {/* Tag Pills */}
+                    <div className="flex flex-wrap gap-1.5 p-2 rounded-xl bg-muted/40 border border-border/40 min-h-[38px]">
+                      {tagList.length > 0 ? (
+                        tagList.map((tag, i) => (
+                          <span
+                            key={i}
+                            className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-medium"
+                          >
+                            {tag}
+                            <button
+                              type="button"
+                              onClick={() => removeTag(i)}
+                              className="hover:text-red-400 transition-colors"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-xs text-muted-foreground p-1">
+                          No tags added. Type or click below.
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Custom Tag Input */}
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Add tag..."
+                        value={tagInput}
+                        onChange={(e) => setTagInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            addTag(tagInput);
+                          }
+                        }}
+                        className="bg-muted/50 border-none text-xs h-8"
+                      />
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => addTag(tagInput)}
+                        className="h-8 text-xs shrink-0"
+                      >
+                        <Plus className="w-3.5 h-3.5 mr-1" /> Add
+                      </Button>
+                    </div>
+
+                    {/* Popular Tags */}
+                    <div className="flex flex-wrap gap-1 pt-1">
+                      {POPULAR_BLOG_TAGS.map((t) => (
+                        <button
+                          key={t}
+                          type="button"
+                          onClick={() => addTag(t)}
+                          className={`text-[10px] px-2 py-0.5 rounded border transition-colors ${
+                            tagList.includes(t)
+                              ? 'bg-indigo-600 text-white border-indigo-600'
+                              : 'bg-muted/30 text-muted-foreground border-border/40 hover:text-foreground'
+                          }`}
+                        >
+                          {tagList.includes(t) ? '✓ ' : '+ '}
+                          {t}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
                   <div className="space-y-2">
