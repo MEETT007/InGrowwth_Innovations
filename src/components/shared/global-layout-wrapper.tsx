@@ -12,7 +12,7 @@ export function GlobalLayoutWrapper({ children }: { children: React.ReactNode })
   const isAppRoute = pathname?.startsWith('/chat') || pathname?.startsWith('/admin');
 
   if (isAppRoute) {
-    return <main className="flex-grow w-full h-screen overflow-hidden">{children}</main>;
+    return <div className="flex-1 w-full h-screen overflow-hidden flex flex-col">{children}</div>;
   }
 
   return (
