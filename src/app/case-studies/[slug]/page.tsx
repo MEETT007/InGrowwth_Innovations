@@ -8,11 +8,19 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;
-  const study = await db.caseStudy.findUnique({
+  let study = await db.caseStudy.findUnique({
     where: { slug: resolvedParams.slug },
   });
+  if (!study) {
+    study = await db.caseStudy.findUnique({
+      where: { id: resolvedParams.slug },
+    });
+  }
 
   if (!study) {
     return {
@@ -37,15 +45,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export const revalidate = 60;
-
 export default async function CaseStudyDetailPage({ params }: Props) {
   const resolvedParams = await params;
-  const study = await db.caseStudy.findUnique({
+  let study = await db.caseStudy.findUnique({
     where: { slug: resolvedParams.slug },
   });
 
-  if (!study || study.status !== 'PUBLISHED') {
+  if (!study) {
+    study = await db.caseStudy.findUnique({
+      where: { id: resolvedParams.slug },
+    });
+  }
+
+  if (!study) {
     notFound();
   }
 

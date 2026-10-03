@@ -86,14 +86,14 @@ export default function CaseStudyDetailClient({ data }: CaseStudyDetailClientPro
 
       {/* Floating Back Button */}
       <div className="fixed top-24 left-6 md:left-12 z-50">
-        <Link href="/case-studies">
+        <Link href="/portfolio">
           <motion.div
             whileHover={{ scale: 1.05, x: -5 }}
             whileTap={{ scale: 0.95 }}
             className="flex items-center gap-2 bg-background/80 backdrop-blur-md border border-border/60 shadow-lg px-4 py-2.5 rounded-full text-sm font-semibold text-foreground transition-colors hover:bg-muted/80"
           >
             <ArrowLeft className="h-4 w-4 text-indigo-500" />
-            All Case Studies
+            Back to Portfolio
           </motion.div>
         </Link>
       </div>

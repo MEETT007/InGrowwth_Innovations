@@ -97,7 +97,7 @@ export default function ProjectDetailClient({ data }: ProjectDetailClientProps) 
 
       {/* Floating Back Button - Magnetic effect */}
       <div className="fixed top-24 left-6 md:left-12 z-50">
-        <Link href="/projects">
+        <Link href="/portfolio">
           <motion.div
             whileHover={{ scale: 1.05, x: -5 }}
             whileTap={{ scale: 0.95 }}

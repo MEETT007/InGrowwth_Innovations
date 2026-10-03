@@ -15,7 +15,8 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 60; // Revalidate every 60 seconds
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AboutPage() {
   const team = await db.teamMember.findMany({

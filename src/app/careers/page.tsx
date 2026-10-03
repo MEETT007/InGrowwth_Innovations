@@ -4,7 +4,7 @@ import { Job } from '@/generated/prisma/client';
 import CareersClient from './CareersClient';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 60; // Revalidate every 60 seconds
+export const revalidate = 0;
 
 export default async function CareersPage() {
   const jobs = await db.job.findMany({

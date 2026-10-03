@@ -30,6 +30,12 @@ export default async function CaseStudiesPage() {
     }),
   ]);
 
-  return <PortfolioClient initialProjects={dbProjects} initialCaseStudies={dbCaseStudies} />;
+  return (
+    <PortfolioClient
+      initialProjects={dbProjects}
+      initialCaseStudies={dbCaseStudies}
+      defaultTab="Case Studies"
+    />
+  );
 }
 

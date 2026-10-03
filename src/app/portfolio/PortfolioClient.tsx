@@ -29,7 +29,11 @@ interface DBPortfolioProject {
   category: string;
   websiteUrl: string | null;
   description: string;
+  technologiesUsed?: string | null;
   technologies?: string | null;
+  metrics?: string | null;
+  industry?: string | null;
+  duration?: string | null;
   gallery: string | null;
   coverImage: string | null;
   createdAt: Date;
@@ -45,6 +49,7 @@ interface DBCaseStudy {
   executiveSummary?: string | null;
   metrics?: string | null;
   tags?: string | null;
+  technologies?: string | null;
   coverImage: string | null;
   heroBanner: string | null;
   createdAt: Date;
@@ -53,12 +58,14 @@ interface DBCaseStudy {
 export default function PortfolioClient({
   initialProjects,
   initialCaseStudies,
+  defaultTab = 'All',
 }: {
   initialProjects: DBPortfolioProject[];
   initialCaseStudies: DBCaseStudy[];
+  defaultTab?: 'All' | 'Case Studies' | 'Projects';
 }) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState<'All' | 'Case Studies' | 'Projects'>('All');
+  const [activeTab, setActiveTab] = useState<'All' | 'Case Studies' | 'Projects'>(defaultTab);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -79,7 +86,8 @@ export default function PortfolioClient({
     const mappedProjects = initialProjects.map((p) => {
       const galleryArray = p.gallery ? p.gallery.split(',').map((u) => u.trim()) : [];
       const coverImage = p.coverImage || (galleryArray.length > 0 ? galleryArray[0] : '/placeholder.png');
-      const techStack = parseArrayField(p.technologies);
+      const techStack = parseArrayField(p.technologiesUsed || p.technologies);
+      const metricsList = parseMetricsField(p.metrics);
 
       return {
         id: p.id,
@@ -94,7 +102,7 @@ export default function PortfolioClient({
         websiteUrl: p.websiteUrl,
         date: p.createdAt,
         techStack,
-        metrics: [] as Array<{ label: string; value: string }>,
+        metrics: metricsList,
       };
     });
 
@@ -374,8 +382,8 @@ export default function PortfolioClient({
                       </p>
                     </div>
 
-                    {/* Highlight Metrics (For Case Studies) */}
-                    {isCaseStudy && item.metrics && item.metrics.length > 0 && (
+                    {/* Highlight Metrics (If available) */}
+                    {item.metrics && item.metrics.length > 0 && (
                       <div className="grid grid-cols-2 gap-2 pt-2 border-t border-border/40">
                         {item.metrics.slice(0, 2).map((m, mIdx) => (
                           <div key={mIdx} className="p-2 rounded-xl bg-muted/40 border border-border/30">
@@ -390,8 +398,8 @@ export default function PortfolioClient({
                       </div>
                     )}
 
-                    {/* Tech Stack Tags (For Projects) */}
-                    {!isCaseStudy && item.techStack && item.techStack.length > 0 && (
+                    {/* Tech Stack Tags (If available) */}
+                    {item.techStack && item.techStack.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 pt-2">
                         {item.techStack.slice(0, 4).map((tech, tIdx) => (
                           <span
