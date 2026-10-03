@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { Resend } from 'resend';
-import { Lead } from '@/generated/prisma/client';
+import { Lead, JobApplication } from '@/generated/prisma/client';
 import { AdminNotificationEmail } from '@/components/emails/admin-notification';
 import { UserAutoResponderEmail } from '@/components/emails/user-auto-responder';
 import { NewsletterCampaignEmail } from '@/components/emails/newsletter-campaign';
+import { CareerApplicationAdminEmail } from '@/components/emails/CareerApplicationAdminEmail';
+import { CareerApplicationConfirmationEmail } from '@/components/emails/CareerApplicationConfirmationEmail';
+import { LeadReplyEmail } from '@/components/emails/LeadReplyEmail';
 import { env } from '@/lib/env';
 import { logger } from '@/lib/logger';
 
@@ -44,6 +47,7 @@ async function sendAdminEmail(lead: Lead, client: Resend): Promise<void> {
     const result = await client.emails.send({
       from: MAIL_FROM,
       to: MAIL_TO_ADMIN,
+      reply_to: email,
       subject: adminSubject,
       react: (
         <AdminNotificationEmail
@@ -148,6 +152,36 @@ export async function sendNewsletterWelcomeEmail(email: string): Promise<void> {
   }
 }
 
+export async function sendNewsletterAdminEmail(email: string): Promise<void> {
+  try {
+    if (!resend || !MAIL_FROM || !MAIL_TO_ADMIN) return;
+
+    const subject = getSubject(`New Newsletter Subscription: ${email}`);
+
+    const result = await resend.emails.send({
+      from: MAIL_FROM,
+      to: MAIL_TO_ADMIN,
+      reply_to: email,
+      subject,
+      html: `
+        <div style="font-family: sans-serif; padding: 20px;">
+          <h2>New Newsletter Subscriber!</h2>
+          <p>A new user has subscribed to the InGrowwth Innovations newsletter.</p>
+          <p><strong>Email:</strong> ${email}</p>
+        </div>
+      `,
+    });
+
+    if (result.error) {
+      logger.error('[Mail Utility] Error sending newsletter admin email:', result.error);
+    } else {
+      logger.info('[Mail Utility] Newsletter admin email sent successfully');
+    }
+  } catch (error) {
+    logger.error('[Mail Utility] Failed to send newsletter admin email:', error);
+  }
+}
+
 export async function sendNewsletterCampaignEmail(
   email: string,
   subject: string,
@@ -175,3 +209,92 @@ export async function sendNewsletterCampaignEmail(
   }
 }
 
+export async function sendApplicationAdminEmail(application: JobApplication): Promise<void> {
+  try {
+    if (!resend || !MAIL_FROM || !MAIL_TO_ADMIN) return;
+
+    const adminSubject = getSubject(`New Job Application: ${application.candidateName} for ${application.roleAppliedFor}`);
+
+    const result = await resend.emails.send({
+      from: MAIL_FROM,
+      to: MAIL_TO_ADMIN,
+      reply_to: application.email,
+      subject: adminSubject,
+      react: (
+        <CareerApplicationAdminEmail
+          applicationId={application.id}
+          candidateName={application.candidateName}
+          email={application.email}
+          phone={application.phone}
+          roleAppliedFor={application.roleAppliedFor}
+          coverLetter={application.coverLetter}
+          resumeUrl={application.resumeUrl}
+          createdAt={application.createdAt?.toISOString() || new Date().toISOString()}
+        />
+      ),
+    });
+
+    if (result.error) {
+      logger.error('[Mail Utility] Resend error sending App Admin email:', result.error);
+    } else {
+      logger.info('[Mail Utility] App Admin email sent successfully');
+    }
+  } catch (error) {
+    logger.error('[Mail Utility] Unhandled error sending App Admin email:', error);
+  }
+}
+
+export async function sendApplicationConfirmationEmail(application: JobApplication): Promise<void> {
+  try {
+    if (!resend || !MAIL_FROM) return;
+
+    const subject = getSubject(`Application Received: ${application.roleAppliedFor} at InGrowwth Innovations`);
+
+    const result = await resend.emails.send({
+      from: MAIL_FROM,
+      to: application.email,
+      subject,
+      react: (
+        <CareerApplicationConfirmationEmail
+          candidateName={application.candidateName}
+          roleAppliedFor={application.roleAppliedFor}
+        />
+      ),
+    });
+
+    if (result.error) {
+      logger.error('[Mail Utility] Resend error sending App Confirmation email:', result.error);
+    } else {
+      logger.info('[Mail Utility] App Confirmation email sent successfully');
+    }
+  } catch (error) {
+    logger.error('[Mail Utility] Unhandled error sending App Confirmation email:', error);
+  }
+}
+
+export async function sendAdminReplyEmail(
+  recipientEmail: string,
+  subject: string,
+  message: string
+): Promise<void> {
+  try {
+    if (!resend || !MAIL_FROM) return;
+
+    const result = await resend.emails.send({
+      from: MAIL_FROM,
+      to: recipientEmail,
+      subject: subject,
+      react: <LeadReplyEmail subject={subject} message={message} />,
+    });
+
+    if (result.error) {
+      logger.error('[Mail Utility] Resend error sending Admin Reply email:', result.error);
+      throw new Error(result.error.message);
+    } else {
+      logger.info('[Mail Utility] Admin Reply email sent successfully');
+    }
+  } catch (error) {
+    logger.error('[Mail Utility] Unhandled error sending Admin Reply email:', error);
+    throw error;
+  }
+}

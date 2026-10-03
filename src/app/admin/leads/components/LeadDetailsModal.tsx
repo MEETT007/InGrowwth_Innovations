@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Clock, AlertCircle, CheckCircle2, Mail, FileText, Users } from 'lucide-react';
 import {
   Dialog,
@@ -19,6 +19,50 @@ export function LeadDetailsModal({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   lead: any;
 }) {
+  const [isReplying, setIsReplying] = useState(false);
+  const [replySubject, setReplySubject] = useState('');
+  const [replyMessage, setReplyMessage] = useState('');
+  const [replyingStatus, setReplyingStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [replyError, setReplyError] = useState('');
+
+  // Reset state when lead changes
+  React.useEffect(() => {
+    if (lead) {
+      setReplySubject(`Re: ${lead.subject || 'Your Inquiry'}`);
+      setReplyMessage('');
+      setIsReplying(false);
+      setReplyingStatus('idle');
+    }
+  }, [lead]);
+
+  const handleReplySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setReplyingStatus('loading');
+    setReplyError('');
+    
+    try {
+      const res = await fetch('/api/admin/reply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          leadId: lead.id,
+          recipientEmail: lead.email,
+          subject: replySubject,
+          message: replyMessage,
+        }),
+      });
+      
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed to send reply');
+      
+      setReplyingStatus('success');
+      setTimeout(() => setIsReplying(false), 2000);
+    } catch (err: any) {
+      setReplyingStatus('error');
+      setReplyError(err.message || 'Error sending reply');
+    }
+  };
+
   if (!lead) return null;
 
   const getStatusBadge = (status: string) => {
@@ -142,6 +186,70 @@ export function LeadDetailsModal({
                   {lead.projectDetails}
                 </div>
               </div>
+            )}
+
+            {!isReplying ? (
+              <div className="pt-4 flex justify-end">
+                <button 
+                  onClick={() => setIsReplying(true)}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium"
+                >
+                  Reply to Lead
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleReplySubmit} className="mt-6 border-t border-border/60 pt-4 space-y-4">
+                <h4 className="font-semibold text-foreground">Reply via Email</h4>
+                {replyingStatus === 'error' && <p className="text-destructive text-sm">{replyError}</p>}
+                {replyingStatus === 'success' && <p className="text-emerald-600 text-sm">Reply sent successfully!</p>}
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">To</label>
+                  <input type="text" value={lead.email} disabled className="w-full bg-muted border border-border rounded-md px-3 py-2 text-sm text-muted-foreground cursor-not-allowed" />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Subject</label>
+                  <input 
+                    type="text" 
+                    value={replySubject} 
+                    onChange={(e) => setReplySubject(e.target.value)}
+                    required
+                    disabled={replyingStatus === 'loading'}
+                    className="w-full bg-background border border-border rounded-md px-3 py-2 text-sm text-foreground focus:ring-1 focus:ring-primary outline-none" 
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Message</label>
+                  <textarea 
+                    value={replyMessage}
+                    onChange={(e) => setReplyMessage(e.target.value)}
+                    required
+                    rows={5}
+                    disabled={replyingStatus === 'loading'}
+                    className="w-full bg-background border border-border rounded-md px-3 py-2 text-sm text-foreground focus:ring-1 focus:ring-primary outline-none resize-y" 
+                  />
+                </div>
+
+                <div className="flex justify-end gap-2 pt-2">
+                  <button 
+                    type="button" 
+                    onClick={() => setIsReplying(false)}
+                    disabled={replyingStatus === 'loading'}
+                    className="px-4 py-2 rounded-md text-sm font-medium border border-border hover:bg-muted"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit"
+                    disabled={replyingStatus === 'loading'}
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium disabled:opacity-50"
+                  >
+                    {replyingStatus === 'loading' ? 'Sending...' : 'Send Reply'}
+                  </button>
+                </div>
+              </form>
             )}
 
             <div className="pt-3 border-t border-border/60 flex items-center justify-between text-[11px] text-muted-foreground">

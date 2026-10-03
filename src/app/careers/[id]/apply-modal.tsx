@@ -17,11 +17,51 @@ import { Label } from '@/components/ui/label';
 
 export function ApplyModal({ jobTitle }: { jobTitle: string }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // In a real app, send data to the server here
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    setError('');
+
+    const form = e.currentTarget;
+    const formData = new FormData();
+    formData.append('candidateName', (form.elements.namedItem('name') as HTMLInputElement).value);
+    formData.append('email', (form.elements.namedItem('email') as HTMLInputElement).value);
+    formData.append('roleAppliedFor', jobTitle);
+    
+    const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value;
+    if (message) formData.append('coverLetter', message);
+
+    const fileInput = form.elements.namedItem('resume') as HTMLInputElement;
+    if (fileInput.files?.[0]) {
+      formData.append('resume', fileInput.files[0]);
+    }
+
+    // Generate a simple idempotency key
+    const idempotencyKey = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+    try {
+      const res = await fetch('/api/careers/apply', {
+        method: 'POST',
+        headers: {
+          'Idempotency-Key': idempotencyKey,
+        },
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || 'Failed to submit application');
+      }
+
+      setIsSubmitted(true);
+    } catch (err: any) {
+      setError(err.message || 'An error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -39,34 +79,39 @@ export function ApplyModal({ jobTitle }: { jobTitle: string }) {
 
         {!isSubmitted ? (
           <form onSubmit={handleSubmit} className="space-y-4 py-4">
+            {error && <div className="text-sm font-medium text-destructive">{error}</div>}
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
-              <Input id="name" required placeholder="John Doe" />
+              <Input id="name" name="name" required placeholder="John Doe" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email Address</Label>
-              <Input id="email" type="email" required placeholder="john@example.com" />
+              <Input id="email" name="email" type="email" required placeholder="john@example.com" />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="resume">Resume / Portfolio Link</Label>
+              <Label htmlFor="resume">Resume (PDF, DOC)</Label>
               <Input
                 id="resume"
-                type="url"
+                name="resume"
+                type="file"
+                accept=".pdf,.doc,.docx"
                 required
-                placeholder="https://linkedin.com/in/johndoe"
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="message">Cover Letter (Optional)</Label>
               <textarea
                 id="message"
+                name="message"
                 className="flex min-h-[100px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Tell us why you are a great fit for this role..."
               />
             </div>
             <DialogFooter className="pt-4">
-              <DialogClose render={<Button type="button" variant="outline" />}>Cancel</DialogClose>
-              <Button type="submit">Submit Application</Button>
+              <DialogClose render={<Button type="button" variant="outline" disabled={isSubmitting} />}>Cancel</DialogClose>
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? 'Submitting...' : 'Submit Application'}
+              </Button>
             </DialogFooter>
           </form>
         ) : (

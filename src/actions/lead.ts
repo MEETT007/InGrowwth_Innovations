@@ -10,7 +10,7 @@ import {
   QuoteInput,
   NewsletterInput,
 } from '@/schemas/lead';
-import { sendLeadEmails, sendNewsletterWelcomeEmail } from '@/lib/mail';
+import { sendLeadEmails, sendNewsletterWelcomeEmail, sendNewsletterAdminEmail } from '@/lib/mail';
 import { headers } from 'next/headers';
 import { isValidIdempotencyKey } from '@/lib/request-security';
 import { claimIdempotencyKey } from '@/lib/replay-protection';
@@ -242,6 +242,7 @@ export async function subscribeNewsletterAction(rawInput: NewsletterInput, idemp
           data: { status: 'ACTIVE' },
         });
         void sendNewsletterWelcomeEmail(email);
+        void sendNewsletterAdminEmail(email);
         return {
           success: true,
           message: 'Welcome back! You have re-subscribed to our newsletter.',
@@ -263,6 +264,7 @@ export async function subscribeNewsletterAction(rawInput: NewsletterInput, idemp
 
     // Trigger Resend email notification in the background
     void sendNewsletterWelcomeEmail(email);
+    void sendNewsletterAdminEmail(email);
 
     return {
       success: true,
