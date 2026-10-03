@@ -30,7 +30,14 @@ export const QuoteSchema = z.object({
     .string()
     .min(10, { message: 'Project details must be at least 10 characters.' })
     .max(5000, { message: 'Project details must be less than 5000 characters.' }),
-  fileUrl: z.string().max(2_048).url({ message: 'Invalid file URL.' }).optional().or(z.literal('')),
+  fileUrl: z
+    .string()
+    .max(2_048)
+    .refine((val) => !val || val.startsWith('/') || /^https?:\/\//i.test(val), {
+      message: 'Invalid file URL or uploaded path.',
+    })
+    .optional()
+    .or(z.literal('')),
 });
 
 export const NewsletterSchema = z.object({
