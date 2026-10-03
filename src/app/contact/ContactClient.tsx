@@ -523,9 +523,9 @@ export default function ContactClient() {
             </div>
 
             {/* Forms Card */}
-            <Card className="border-border/60 bg-card/75 backdrop-blur-xl shadow-2xl rounded-3xl overflow-hidden relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-pink-500/5 pointer-events-none" />
-              <CardContent className="p-6 sm:p-10 relative z-10">
+            <Card className="border-border/60 bg-card/75 backdrop-blur-xl shadow-2xl rounded-3xl overflow-visible relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-pink-500/5 pointer-events-none rounded-3xl" />
+              <CardContent className="p-6 sm:p-10 relative z-10 overflow-visible">
                 <AnimatePresence mode="wait">
                   {submitSuccess ? (
                     <motion.div
@@ -728,7 +728,7 @@ export default function ContactClient() {
                         </div>
 
                         {/* CUSTOM LUXURY SERVICE DROPDOWN */}
-                        <div className="space-y-2" ref={serviceRef}>
+                        <div className={`space-y-2 relative ${isServiceOpen ? 'z-40' : 'z-20'}`} ref={serviceRef}>
                           <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center justify-between">
                             <span>Target Service <span className="text-destructive">*</span></span>
                             {selectedServiceObj && (
@@ -779,54 +779,64 @@ export default function ContactClient() {
                             <AnimatePresence>
                               {isServiceOpen && (
                                 <motion.div
-                                  initial={{ opacity: 0, y: 8, scale: 0.98 }}
-                                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                                  exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                                  transition={{ duration: 0.15 }}
-                                  className="absolute top-full left-0 right-0 mt-2 z-50 p-2 rounded-2xl bg-popover/95 backdrop-blur-2xl border border-border/80 shadow-2xl max-h-80 overflow-y-auto space-y-1"
+                                  initial={{ opacity: 0, y: 6 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: 6 }}
+                                  transition={{ duration: 0.12 }}
+                                  className="absolute top-full left-0 right-0 mt-2 z-50 rounded-2xl bg-popover/98 backdrop-blur-2xl border border-border/80 shadow-2xl overflow-hidden"
                                 >
-                                  {SERVICE_OPTIONS.map((svc) => {
-                                    const isSelected = quoteForm.watch('service') === svc.id;
-                                    const SvcIcon = svc.icon;
-                                    return (
-                                      <div
-                                        key={svc.id}
-                                        onClick={() => {
-                                          quoteForm.setValue('service', svc.id, { shouldValidate: true });
-                                          setIsServiceOpen(false);
-                                        }}
-                                        className={`flex items-center justify-between p-2.5 rounded-xl cursor-pointer transition-colors ${
-                                          isSelected
-                                            ? 'bg-indigo-500/10 border border-indigo-500/30'
-                                            : 'hover:bg-accent/60 border border-transparent'
-                                        }`}
-                                      >
-                                        <div className="flex items-center gap-3 min-w-0 pr-2">
-                                          <div className={`p-2 rounded-lg border shrink-0 ${svc.color}`}>
-                                            <SvcIcon className="h-4 w-4" />
-                                          </div>
-                                          <div className="min-w-0">
-                                            <div className="flex items-center gap-2">
-                                              <span className="text-sm font-semibold text-foreground truncate">
-                                                {svc.title}
-                                              </span>
-                                              {svc.badge && (
-                                                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono">
-                                                  {svc.badge}
-                                                </span>
-                                              )}
+                                  <div
+                                    className="p-2 max-h-64 overflow-y-auto overscroll-contain space-y-1 touch-pan-y [scrollbar-width:thin] [scrollbar-color:hsl(var(--muted-foreground)/0.3)_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-muted-foreground/30 hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/50"
+                                    onWheel={(e) => {
+                                      e.stopPropagation();
+                                    }}
+                                    onTouchMove={(e) => {
+                                      e.stopPropagation();
+                                    }}
+                                  >
+                                    {SERVICE_OPTIONS.map((svc) => {
+                                      const isSelected = quoteForm.watch('service') === svc.id;
+                                      const SvcIcon = svc.icon;
+                                      return (
+                                        <div
+                                          key={svc.id}
+                                          onClick={() => {
+                                            quoteForm.setValue('service', svc.id, { shouldValidate: true });
+                                            setIsServiceOpen(false);
+                                          }}
+                                          className={`flex items-center justify-between p-2.5 rounded-xl cursor-pointer transition-colors ${
+                                            isSelected
+                                              ? 'bg-indigo-500/10 border border-indigo-500/30'
+                                              : 'hover:bg-accent/60 border border-transparent'
+                                          }`}
+                                        >
+                                          <div className="flex items-center gap-3 min-w-0 pr-2">
+                                            <div className={`p-2 rounded-lg border shrink-0 ${svc.color}`}>
+                                              <SvcIcon className="h-4 w-4" />
                                             </div>
-                                            <p className="text-xs text-muted-foreground truncate">
-                                              {svc.subtitle}
-                                            </p>
+                                            <div className="min-w-0">
+                                              <div className="flex items-center gap-2">
+                                                <span className="text-sm font-semibold text-foreground truncate">
+                                                  {svc.title}
+                                                </span>
+                                                {svc.badge && (
+                                                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono">
+                                                    {svc.badge}
+                                                  </span>
+                                                )}
+                                              </div>
+                                              <p className="text-xs text-muted-foreground truncate">
+                                                {svc.subtitle}
+                                              </p>
+                                            </div>
                                           </div>
+                                          {isSelected && (
+                                            <Check className="h-4 w-4 text-indigo-400 shrink-0" />
+                                          )}
                                         </div>
-                                        {isSelected && (
-                                          <Check className="h-4 w-4 text-indigo-400 shrink-0" />
-                                        )}
-                                      </div>
-                                    );
-                                  })}
+                                      );
+                                    })}
+                                  </div>
                                 </motion.div>
                               )}
                             </AnimatePresence>
@@ -842,7 +852,7 @@ export default function ContactClient() {
                       {/* Budget & Timeline Dropdowns with segmented pills */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {/* BUDGET SELECTOR */}
-                        <div className="space-y-2" ref={budgetRef}>
+                        <div className={`space-y-2 relative ${isBudgetOpen ? 'z-30' : 'z-10'}`} ref={budgetRef}>
                           <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                             Estimated Budget Range <span className="text-destructive">*</span>
                           </Label>
@@ -888,48 +898,58 @@ export default function ContactClient() {
                             <AnimatePresence>
                               {isBudgetOpen && (
                                 <motion.div
-                                  initial={{ opacity: 0, y: 8, scale: 0.98 }}
-                                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                                  exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                                  transition={{ duration: 0.15 }}
-                                  className="absolute top-full left-0 right-0 mt-2 z-50 p-2 rounded-2xl bg-popover/95 backdrop-blur-2xl border border-border/80 shadow-2xl space-y-1"
+                                  initial={{ opacity: 0, y: 6 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: 6 }}
+                                  transition={{ duration: 0.12 }}
+                                  className="absolute top-full left-0 right-0 mt-2 z-50 rounded-2xl bg-popover/98 backdrop-blur-2xl border border-border/80 shadow-2xl overflow-hidden"
                                 >
-                                  {BUDGET_OPTIONS.map((b) => {
-                                    const isSelected = quoteForm.watch('budget') === b.value;
-                                    return (
-                                      <div
-                                        key={b.value}
-                                        onClick={() => {
-                                          quoteForm.setValue('budget', b.value, { shouldValidate: true });
-                                          setIsBudgetOpen(false);
-                                        }}
-                                        className={`flex items-center justify-between p-2.5 rounded-xl cursor-pointer transition-colors ${
-                                          isSelected
-                                            ? 'bg-indigo-500/10 border border-indigo-500/30'
-                                            : 'hover:bg-accent/60 border border-transparent'
-                                        }`}
-                                      >
-                                        <div className="min-w-0 pr-2">
-                                          <div className="flex items-center gap-2">
-                                            <span className="text-sm font-bold text-foreground">
-                                              {b.label}
-                                            </span>
-                                            {b.popular && (
-                                              <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono">
-                                                Most Common
+                                  <div
+                                    className="p-2 max-h-60 overflow-y-auto overscroll-contain space-y-1 touch-pan-y [scrollbar-width:thin] [scrollbar-color:hsl(var(--muted-foreground)/0.3)_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-muted-foreground/30 hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/50"
+                                    onWheel={(e) => {
+                                      e.stopPropagation();
+                                    }}
+                                    onTouchMove={(e) => {
+                                      e.stopPropagation();
+                                    }}
+                                  >
+                                    {BUDGET_OPTIONS.map((b) => {
+                                      const isSelected = quoteForm.watch('budget') === b.value;
+                                      return (
+                                        <div
+                                          key={b.value}
+                                          onClick={() => {
+                                            quoteForm.setValue('budget', b.value, { shouldValidate: true });
+                                            setIsBudgetOpen(false);
+                                          }}
+                                          className={`flex items-center justify-between p-2.5 rounded-xl cursor-pointer transition-colors ${
+                                            isSelected
+                                              ? 'bg-indigo-500/10 border border-indigo-500/30'
+                                              : 'hover:bg-accent/60 border border-transparent'
+                                          }`}
+                                        >
+                                          <div className="min-w-0 pr-2">
+                                            <div className="flex items-center gap-2">
+                                              <span className="text-sm font-bold text-foreground">
+                                                {b.label}
                                               </span>
-                                            )}
+                                              {b.popular && (
+                                                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono">
+                                                  Most Common
+                                                </span>
+                                              )}
+                                            </div>
+                                            <p className="text-xs text-muted-foreground">
+                                              {b.description}
+                                            </p>
                                           </div>
-                                          <p className="text-xs text-muted-foreground">
-                                            {b.description}
-                                          </p>
+                                          {isSelected && (
+                                            <Check className="h-4 w-4 text-indigo-400 shrink-0" />
+                                          )}
                                         </div>
-                                        {isSelected && (
-                                          <Check className="h-4 w-4 text-indigo-400 shrink-0" />
-                                        )}
-                                      </div>
-                                    );
-                                  })}
+                                      );
+                                    })}
+                                  </div>
                                 </motion.div>
                               )}
                             </AnimatePresence>
@@ -964,7 +984,7 @@ export default function ContactClient() {
                         </div>
 
                         {/* TIMELINE SELECTOR */}
-                        <div className="space-y-2" ref={timelineRef}>
+                        <div className={`space-y-2 relative ${isTimelineOpen ? 'z-30' : 'z-10'}`} ref={timelineRef}>
                           <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                             Estimated Timeline <span className="text-destructive">*</span>
                           </Label>
@@ -1008,48 +1028,58 @@ export default function ContactClient() {
                             <AnimatePresence>
                               {isTimelineOpen && (
                                 <motion.div
-                                  initial={{ opacity: 0, y: 8, scale: 0.98 }}
-                                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                                  exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                                  transition={{ duration: 0.15 }}
-                                  className="absolute top-full left-0 right-0 mt-2 z-50 p-2 rounded-2xl bg-popover/95 backdrop-blur-2xl border border-border/80 shadow-2xl space-y-1"
+                                  initial={{ opacity: 0, y: 6 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: 6 }}
+                                  transition={{ duration: 0.12 }}
+                                  className="absolute top-full left-0 right-0 mt-2 z-50 rounded-2xl bg-popover/98 backdrop-blur-2xl border border-border/80 shadow-2xl overflow-hidden"
                                 >
-                                  {TIMELINE_OPTIONS.map((t) => {
-                                    const isSelected = quoteForm.watch('timeline') === t.value;
-                                    return (
-                                      <div
-                                        key={t.value}
-                                        onClick={() => {
-                                          quoteForm.setValue('timeline', t.value, { shouldValidate: true });
-                                          setIsTimelineOpen(false);
-                                        }}
-                                        className={`flex items-center justify-between p-2.5 rounded-xl cursor-pointer transition-colors ${
-                                          isSelected
-                                            ? 'bg-indigo-500/10 border border-indigo-500/30'
-                                            : 'hover:bg-accent/60 border border-transparent'
-                                        }`}
-                                      >
-                                        <div className="min-w-0 pr-2">
-                                          <div className="flex items-center gap-2">
-                                            <span className="text-sm font-bold text-foreground">
-                                              {t.label}
-                                            </span>
-                                            {t.badge && (
-                                              <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 font-mono">
-                                                {t.badge}
+                                  <div
+                                    className="p-2 max-h-60 overflow-y-auto overscroll-contain space-y-1 touch-pan-y [scrollbar-width:thin] [scrollbar-color:hsl(var(--muted-foreground)/0.3)_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-muted-foreground/30 hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/50"
+                                    onWheel={(e) => {
+                                      e.stopPropagation();
+                                    }}
+                                    onTouchMove={(e) => {
+                                      e.stopPropagation();
+                                    }}
+                                  >
+                                    {TIMELINE_OPTIONS.map((t) => {
+                                      const isSelected = quoteForm.watch('timeline') === t.value;
+                                      return (
+                                        <div
+                                          key={t.value}
+                                          onClick={() => {
+                                            quoteForm.setValue('timeline', t.value, { shouldValidate: true });
+                                            setIsTimelineOpen(false);
+                                          }}
+                                          className={`flex items-center justify-between p-2.5 rounded-xl cursor-pointer transition-colors ${
+                                            isSelected
+                                              ? 'bg-indigo-500/10 border border-indigo-500/30'
+                                              : 'hover:bg-accent/60 border border-transparent'
+                                          }`}
+                                        >
+                                          <div className="min-w-0 pr-2">
+                                            <div className="flex items-center gap-2">
+                                              <span className="text-sm font-bold text-foreground">
+                                                {t.label}
                                               </span>
-                                            )}
+                                              {t.badge && (
+                                                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 font-mono">
+                                                  {t.badge}
+                                                </span>
+                                              )}
+                                            </div>
+                                            <p className="text-xs text-muted-foreground">
+                                              {t.description}
+                                            </p>
                                           </div>
-                                          <p className="text-xs text-muted-foreground">
-                                            {t.description}
-                                          </p>
+                                          {isSelected && (
+                                            <Check className="h-4 w-4 text-indigo-400 shrink-0" />
+                                          )}
                                         </div>
-                                        {isSelected && (
-                                          <Check className="h-4 w-4 text-indigo-400 shrink-0" />
-                                        )}
-                                      </div>
-                                    );
-                                  })}
+                                      );
+                                    })}
+                                  </div>
                                 </motion.div>
                               )}
                             </AnimatePresence>
