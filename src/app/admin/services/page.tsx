@@ -13,6 +13,7 @@ import { logger } from '@/lib/logger';
 
 interface Service {
   id: string;
+  slug?: string;
   title: string;
   description: string;
   icon: string;
@@ -87,9 +88,14 @@ export default function ServicesPage() {
       accessorKey: 'title',
       header: 'Service Title',
       cell: ({ row }) => (
-        <span className="font-medium hover:text-indigo-500 transition-colors">
-          {row.original.title}
-        </span>
+        <div className="flex flex-col">
+          <span className="font-medium hover:text-indigo-500 transition-colors">
+            {row.original.title}
+          </span>
+          <span className="text-xs text-muted-foreground font-mono">
+            /services/{row.original.slug || row.original.id}
+          </span>
+        </div>
       ),
     },
     {

@@ -22,6 +22,7 @@ import { logger } from '@/lib/logger';
 
 const serviceSchema = z.object({
   title: z.string().min(2, 'Title must be at least 2 characters'),
+  slug: z.string().optional(),
   description: z.string().min(10, 'Description must be at least 10 characters'),
   icon: z.string().min(2, 'Icon identifier is required'),
   content: z.string().min(20, 'Content must be at least 20 characters'),
@@ -47,6 +48,7 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
     resolver: zodResolver(serviceSchema),
     defaultValues: {
       title: '',
+      slug: '',
       description: '',
       icon: '',
       content: '',
@@ -61,6 +63,7 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
       if (initialData) {
         form.reset({
           title: initialData.title || '',
+          slug: initialData.slug || '',
           description: initialData.description || '',
           icon: initialData.icon || '',
           content: initialData.content || '',
@@ -71,6 +74,7 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
       } else {
         form.reset({
           title: '',
+          slug: '',
           description: '',
           icon: '',
           content: '',
@@ -103,6 +107,7 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
 
       const payload = {
         title: data.title,
+        slug: data.slug || undefined,
         description: data.description,
         icon: data.icon,
         content: data.content,
@@ -166,7 +171,7 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6 pb-12"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div className="space-y-2">
                 <Label htmlFor="title">Title</Label>
                 <Input
@@ -174,10 +179,32 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
                   placeholder="e.g., Web Development"
                   className="bg-background"
                   {...form.register('title')}
+                  onChange={(e) => {
+                    form.setValue('title', e.target.value);
+                    if (!initialData?.id) {
+                      form.setValue(
+                        'slug',
+                        e.target.value
+                          .toLowerCase()
+                          .replace(/[^a-z0-9]+/g, '-')
+                          .replace(/(^-|-$)+/g, '')
+                      );
+                    }
+                  }}
                 />
                 {form.formState.errors.title && (
                   <p className="text-sm text-destructive">{form.formState.errors.title.message}</p>
                 )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="slug">Slug (URL path)</Label>
+                <Input
+                  id="slug"
+                  placeholder="e.g., web-development"
+                  className="bg-background font-mono text-sm"
+                  {...form.register('slug')}
+                />
+                <p className="text-[11px] text-muted-foreground">Auto-generated if left empty.</p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="icon">Icon Name (Lucide)</Label>

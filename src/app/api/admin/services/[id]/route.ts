@@ -25,11 +25,38 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     const // eslint-disable-next-line @typescript-eslint/no-explicit-any
       body = parsedBody.data as any;
-    const { title, description, icon, content, features, process: serviceProcess, techStack } = body;
+    const { title, description, icon, content, features, process: serviceProcess, techStack, slug: customSlug } = body;
 
     const existing = await db.service.findUnique({ where: { id } });
     if (!existing) {
       return NextResponse.json({ success: false, message: 'Service not found.' }, { status: 404 });
+    }
+
+    let updatedSlug: string | undefined = undefined;
+    if (customSlug !== undefined || title !== undefined) {
+      const candidate = customSlug !== undefined ? customSlug : title;
+      let baseSlug = String(candidate)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)+/g, '');
+
+      if (!baseSlug && existing.slug) {
+        baseSlug = existing.slug;
+      } else if (!baseSlug) {
+        baseSlug = 'service';
+      }
+
+      if (baseSlug !== existing.slug) {
+        let uniqueSlug = baseSlug;
+        let counter = 1;
+        while (true) {
+          const conflict = await db.service.findUnique({ where: { slug: uniqueSlug } });
+          if (!conflict || conflict.id === id) break;
+          uniqueSlug = `${baseSlug}-${counter}`;
+          counter++;
+        }
+        updatedSlug = uniqueSlug;
+      }
     }
 
     const updated = await db.service.update({
@@ -42,6 +69,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         ...(features !== undefined && { features }),
         ...(serviceProcess !== undefined && { process: serviceProcess }),
         ...(techStack !== undefined && { techStack }),
+        ...(updatedSlug !== undefined && { slug: updatedSlug }),
       },
     });
 

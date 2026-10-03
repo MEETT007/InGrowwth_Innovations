@@ -56,6 +56,50 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/services/cloud-&-devops-solutions',
+        destination: '/services/cloud-devops-solutions',
+        permanent: true,
+      },
+      {
+        source: '/services/ai-&-machine-learning',
+        destination: '/services/ai-machine-learning',
+        permanent: true,
+      },
+      {
+        source: '/services/ai/ml',
+        destination: '/services/ai-machine-learning',
+        permanent: true,
+      },
+      {
+        source: '/services/ai-ml',
+        destination: '/services/ai-machine-learning',
+        permanent: true,
+      },
+      {
+        source: '/services/cloud-devops',
+        destination: '/services/cloud-devops-solutions',
+        permanent: true,
+      },
+      {
+        source: '/services/cloud/devops',
+        destination: '/services/cloud-devops-solutions',
+        permanent: true,
+      },
+      {
+        source: '/services/mobile-apps',
+        destination: '/services/mobile-app-development',
+        permanent: true,
+      },
+      {
+        source: '/services/erp-enterprise',
+        destination: '/services/erp-enterprise-software',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

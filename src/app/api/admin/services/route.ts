@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 
     const // eslint-disable-next-line @typescript-eslint/no-explicit-any
       body = parsedBody.data as any;
-    const { title, description, icon, content, features, process: serviceProcess, techStack } = body;
+    const { title, description, icon, content, features, process: serviceProcess, techStack, slug: customSlug } = body;
 
     if (!title || !description || !icon || !content) {
       return NextResponse.json(
@@ -53,8 +53,20 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Generate slug from title
-    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+    // Generate clean URL-safe slug from customSlug or title
+    const rawSlugCandidate = customSlug || title;
+    let baseSlug = String(rawSlugCandidate)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)+/g, '');
+    if (!baseSlug) baseSlug = 'service';
+
+    let uniqueSlug = baseSlug;
+    let counter = 1;
+    while (await db.service.findUnique({ where: { slug: uniqueSlug } })) {
+      uniqueSlug = `${baseSlug}-${counter}`;
+      counter++;
+    }
 
     const service = await db.service.create({
       data: { 
@@ -65,7 +77,7 @@ export async function POST(request: NextRequest) {
         features: features || [],
         process: serviceProcess || [],
         techStack: techStack || [],
-        slug 
+        slug: uniqueSlug,
       },
     });
 

@@ -19,10 +19,10 @@ const footerLinks = {
   services: [
     { href: '/services/web-development', label: 'Web Development' },
     { href: '/services/mobile-app-development', label: 'Mobile App Development' },
-    { href: '/services/cloud-&-devops-solutions', label: 'Cloud & DevOps' },
+    { href: '/services/cloud-devops-solutions', label: 'Cloud & DevOps' },
     { href: '/services/erp-enterprise-software', label: 'ERP Solutions' },
     { href: '/services/onestream-epm', label: 'OneStream EPM' },
-    { href: '/services/ai-&-machine-learning', label: 'AI & Machine Learning' },
+    { href: '/services/ai-machine-learning', label: 'AI & Machine Learning' },
   ],
   company: [
     { href: '/about', label: 'About Us' },
