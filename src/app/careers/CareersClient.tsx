@@ -14,10 +14,14 @@ import {
   Briefcase,
   ChevronDown,
   Clock,
+  Sparkles,
 } from 'lucide-react';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { Job } from '@/generated/prisma/client';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { ApplyModal } from './[id]/apply-modal';
 
 const PERKS = [
   {
@@ -308,6 +312,48 @@ export default function CareersClient({ groupedJobs }: CareersClientProps) {
           })}
         </div>
       </section>
+
+      {/* Spontaneous Application Section (MNC Standard: "Don't see your role?") */}
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-50px' }}
+        transition={{ duration: 0.6 }}
+        className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10 border border-white/10 dark:border-white/5 p-8 md:p-12 shadow-2xl backdrop-blur-xl flex flex-col md:flex-row items-center justify-between gap-8 mb-8"
+      >
+        <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+          <Sparkles className="w-48 h-48 text-indigo-400 rotate-12" />
+        </div>
+
+        <div className="relative z-10 space-y-3 text-center md:text-left max-w-xl">
+          <Badge className="bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800">
+            Future Opportunities
+          </Badge>
+          <h3 className="text-3xl md:text-4xl font-black tracking-tight text-foreground">
+            Don&apos;t see the right role for you?
+          </h3>
+          <p className="text-muted-foreground text-base leading-relaxed">
+            We are always seeking exceptional talent in AI, software engineering, cloud architecture, and product design. Submit your resume, and our recruitment team will reach out when a matching role opens.
+          </p>
+        </div>
+
+        <div className="relative z-10 shrink-0">
+          <ApplyModal
+            jobTitle="General Application / Future Opportunities"
+            department="All Departments"
+            location="Remote / Hybrid"
+            trigger={
+              <Button
+                size="lg"
+                className="rounded-2xl px-8 py-6 text-base font-semibold shadow-xl shadow-indigo-500/25 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white cursor-pointer"
+              >
+                Send Us Your Resume
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            }
+          />
+        </div>
+      </motion.section>
     </main>
   );
 }

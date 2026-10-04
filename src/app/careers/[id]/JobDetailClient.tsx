@@ -3,22 +3,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, MapPin, Clock, Building, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, MapPin, Clock, Building, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
 import { Job } from '@/generated/prisma/client';
-import { cn } from '@/lib/utils';
+import { ApplyModal } from './apply-modal';
 
 interface JobDetailClientProps {
   job: Job;
@@ -117,7 +106,7 @@ export default function JobDetailClient({ job, parsedRequirements }: JobDetailCl
               </div>
               About the Role
             </h2>
-            <p className="text-muted-foreground leading-relaxed text-lg">{job.description}</p>
+            <p className="text-muted-foreground leading-relaxed text-lg whitespace-pre-line">{job.description}</p>
           </motion.section>
 
           <motion.section variants={itemVariants}>
@@ -159,9 +148,39 @@ export default function JobDetailClient({ job, parsedRequirements }: JobDetailCl
               ))}
             </ul>
           </motion.section>
+
+          {/* Bottom Call to Action Card for mobile / end-of-page */}
+          <motion.section
+            variants={itemVariants}
+            className="p-8 rounded-3xl bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10 border border-indigo-500/20 backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-6"
+          >
+            <div className="space-y-1 text-center sm:text-left">
+              <h3 className="text-xl font-bold text-foreground flex items-center gap-2 justify-center sm:justify-start">
+                <Sparkles className="w-5 h-5 text-indigo-500" />
+                Ready to make an impact?
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                Join our engineering & design team to shape the digital future.
+              </p>
+            </div>
+            <ApplyModal
+              jobTitle={job.title}
+              department={job.department}
+              location={job.location}
+              trigger={
+                <Button
+                  size="lg"
+                  className="rounded-2xl px-7 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-semibold shadow-lg shadow-indigo-500/25 shrink-0"
+                >
+                  Apply Now
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              }
+            />
+          </motion.section>
         </motion.div>
 
-        {/* Sidebar / Apply */}
+        {/* Sidebar / Sticky Apply */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -169,7 +188,7 @@ export default function JobDetailClient({ job, parsedRequirements }: JobDetailCl
           className="flex flex-col gap-6"
         >
           <div className="bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl p-8 rounded-[2rem] border border-border/50 shadow-2xl sticky top-28 flex flex-col gap-6 relative group overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
             <div className="relative z-10 flex flex-col gap-2">
               <h3 className="text-2xl font-bold bg-gradient-to-br from-foreground to-foreground/80 bg-clip-text text-transparent">
@@ -181,99 +200,35 @@ export default function JobDetailClient({ job, parsedRequirements }: JobDetailCl
             </div>
 
             <div className="relative z-10">
-              <Dialog>
-                <DialogTrigger
-                  render={
-                    <Button
-                      className="w-full text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl py-6 cursor-pointer"
-                      size="lg"
-                    >
-                      Apply Now
-                    </Button>
-                  }
-                />
-                <DialogContent className="sm:max-w-[500px] bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl border-border/50 rounded-3xl p-8">
-                  <DialogHeader className="mb-4">
-                    <DialogTitle className="text-3xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
-                      Apply for {job.title}
-                    </DialogTitle>
-                    <DialogDescription className="text-base text-muted-foreground mt-2">
-                      Fill out the form below to submit your application.
-                    </DialogDescription>
-                  </DialogHeader>
+              <ApplyModal
+                jobTitle={job.title}
+                department={job.department}
+                location={job.location}
+                trigger={
+                  <Button
+                    className="w-full text-base font-semibold shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white rounded-xl py-6 cursor-pointer"
+                    size="lg"
+                  >
+                    Apply Now
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                }
+              />
+            </div>
 
-                  <form className="flex flex-col gap-5">
-                    <div className="grid grid-cols-2 gap-5">
-                      <div className="flex flex-col gap-2">
-                        <Label htmlFor="first-name" className="text-sm font-medium">
-                          First Name
-                        </Label>
-                        <Input
-                          id="first-name"
-                          placeholder="Jane"
-                          required
-                          className="bg-background/50 rounded-xl"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        <Label htmlFor="last-name" className="text-sm font-medium">
-                          Last Name
-                        </Label>
-                        <Input
-                          id="last-name"
-                          placeholder="Doe"
-                          required
-                          className="bg-background/50 rounded-xl"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      <Label htmlFor="email" className="text-sm font-medium">
-                        Email Address
-                      </Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="jane@example.com"
-                        required
-                        className="bg-background/50 rounded-xl"
-                      />
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      <Label htmlFor="portfolio" className="text-sm font-medium">
-                        LinkedIn / Portfolio URL
-                      </Label>
-                      <Input
-                        id="portfolio"
-                        type="url"
-                        placeholder="https://linkedin.com/in/jane"
-                        required
-                        className="bg-background/50 rounded-xl"
-                      />
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      <Label htmlFor="cover-letter" className="text-sm font-medium">
-                        Cover Letter / Note (Optional)
-                      </Label>
-                      <Textarea
-                        id="cover-letter"
-                        placeholder="Tell us why you're a great fit..."
-                        className="min-h-[120px] bg-background/50 rounded-xl resize-none"
-                      />
-                    </div>
-
-                    <Button
-                      type="submit"
-                      className="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl py-6 font-semibold"
-                    >
-                      Submit Application
-                    </Button>
-                  </form>
-                </DialogContent>
-              </Dialog>
+            <div className="relative z-10 pt-2 border-t border-border/40 text-xs text-muted-foreground space-y-2">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                <span>Quick application (2 mins)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                <span>PDF resume submission</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                <span>Direct review by hiring lead</span>
+              </div>
             </div>
           </div>
         </motion.div>

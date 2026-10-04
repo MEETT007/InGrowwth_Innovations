@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { Resend } from 'resend';
+import nodemailer, { type Transporter } from 'nodemailer';
+import { render } from '@react-email/components';
 import { Lead, JobApplication } from '@/generated/prisma/client';
 import { AdminNotificationEmail } from '@/components/emails/admin-notification';
 import { UserAutoResponderEmail } from '@/components/emails/user-auto-responder';
@@ -10,11 +12,13 @@ import { LeadReplyEmail } from '@/components/emails/LeadReplyEmail';
 import { env } from '@/lib/env';
 import { logger } from '@/lib/logger';
 
+export type EmailProviderType = 'resend' | 'smtp' | 'ethereal';
+
 const resendApiKey = env.RESEND_API_KEY;
 const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 const MAIL_FROM = env.MAIL_FROM;
-const MAIL_TO_ADMIN = env.MAIL_TO_ADMIN;
+const MAIL_TO_ADMIN = env.MAIL_TO_ADMIN || 'admin@ingrowwth.com';
 
 const EMAIL_CONFIGS = {
   QUOTE: {
@@ -35,94 +39,222 @@ function getSubject(baseSubject: string) {
   return env.isProduction ? baseSubject : `[DEV] ${baseSubject}`;
 }
 
-async function sendAdminEmail(lead: Lead, client: Resend): Promise<void> {
-  const { type: leadType, name, email, subject, message, id } = lead;
+export function getActiveEmailProvider(): EmailProviderType {
+  if (env.EMAIL_PROVIDER) {
+    return env.EMAIL_PROVIDER;
+  }
+  if (env.SMTP_USER && env.SMTP_PASS) {
+    return 'smtp';
+  }
+  if (env.isProduction && env.RESEND_API_KEY) {
+    return 'resend';
+  }
+  // In development, default to ethereal for instant zero-configuration testing
+  return 'ethereal';
+}
 
-  if (!MAIL_TO_ADMIN || !MAIL_FROM) return;
+let smtpTransporter: Transporter | null = null;
+let etherealTransporter: Transporter | null = null;
+
+async function getTransporter(provider: 'smtp' | 'ethereal'): Promise<{
+  transporter: Transporter;
+  isEthereal: boolean;
+}> {
+  if (provider === 'smtp') {
+    if (!smtpTransporter) {
+      const port = env.SMTP_PORT || (env.SMTP_SECURE ? 465 : 587);
+      smtpTransporter = nodemailer.createTransport({
+        host: env.SMTP_HOST || 'smtp.gmail.com',
+        port,
+        secure: env.SMTP_SECURE ?? (port === 465),
+        auth: {
+          user: env.SMTP_USER,
+          pass: env.SMTP_PASS,
+        },
+      });
+    }
+    return { transporter: smtpTransporter, isEthereal: false };
+  }
+
+  // Ethereal test provider
+  if (!etherealTransporter) {
+    const testAccount = await nodemailer.createTestAccount();
+    etherealTransporter = nodemailer.createTransport({
+      host: testAccount.smtp.host,
+      port: testAccount.smtp.port,
+      secure: testAccount.smtp.secure,
+      auth: {
+        user: testAccount.user,
+        pass: testAccount.pass,
+      },
+    });
+    logger.info(`[Mail Utility] Created Ethereal test inbox: ${testAccount.user}`);
+  }
+
+  return { transporter: etherealTransporter, isEthereal: true };
+}
+
+export interface DispatchEmailOptions {
+  from?: string;
+  to: string | string[];
+  replyTo?: string;
+  subject: string;
+  react?: React.ReactElement;
+  html?: string;
+}
+
+export interface DispatchEmailResult {
+  success: boolean;
+  provider: EmailProviderType;
+  messageId?: string;
+  previewUrl?: string | false;
+  error?: unknown;
+}
+
+/**
+ * Universal email dispatcher: routes to Resend, SMTP (e.g. Gmail), or Ethereal (dev preview).
+ */
+export async function dispatchEmail(options: DispatchEmailOptions): Promise<DispatchEmailResult> {
+  const provider = getActiveEmailProvider();
+  const defaultSender =
+    MAIL_FROM ||
+    (provider === 'smtp' && env.SMTP_USER
+      ? `InGrowwth Innovations <${env.SMTP_USER}>`
+      : 'InGrowwth Innovations <onboarding@resend.dev>');
+  const from = options.from || defaultSender;
+
+  // 1. Resend API
+  if (provider === 'resend') {
+    if (!resend) {
+      logger.warn('[Mail Utility] Resend client not initialized (missing RESEND_API_KEY). Email skipped.');
+      return { success: false, provider, error: new Error('Missing RESEND_API_KEY') };
+    }
+
+    try {
+      const result = options.react
+        ? await resend.emails.send({
+            from,
+            to: options.to,
+            replyTo: options.replyTo,
+            subject: options.subject,
+            react: options.react,
+          })
+        : await resend.emails.send({
+            from,
+            to: options.to,
+            replyTo: options.replyTo,
+            subject: options.subject,
+            html: options.html || '',
+          });
+
+      if (result.error) {
+        logger.error('[Mail Utility] Resend error:', result.error);
+        return { success: false, provider, error: result.error };
+      }
+
+      logger.info('[Mail Utility] Resend email dispatched successfully:', result.data?.id);
+      return { success: true, provider, messageId: result.data?.id };
+    } catch (err) {
+      logger.error('[Mail Utility] Resend exception:', err);
+      return { success: false, provider, error: err };
+    }
+  }
+
+  // 2. Nodemailer (SMTP / Ethereal)
+  try {
+    const { transporter, isEthereal } = await getTransporter(provider);
+
+    let html = options.html;
+    if (!html && options.react) {
+      html = await render(options.react);
+    }
+
+    const sender = isEthereal
+      ? 'InGrowwth Innovations (Dev) <preview@ethereal.email>'
+      : from;
+
+    const info = await transporter.sendMail({
+      from: sender,
+      to: options.to,
+      replyTo: options.replyTo,
+      subject: options.subject,
+      html: html || '',
+    });
+
+    let previewUrl: string | false = false;
+    if (isEthereal) {
+      previewUrl = nodemailer.getTestMessageUrl(info);
+      console.log('\n================== [DEVELOPMENT EMAIL DISPATCHED] ==================');
+      console.log(`📬 Provider : Ethereal (Zero-Config Dev Inbox)`);
+      console.log(`📨 To       : ${Array.isArray(options.to) ? options.to.join(', ') : options.to}`);
+      console.log(`📝 Subject  : ${options.subject}`);
+      if (previewUrl) {
+        console.log(`🔗 PREVIEW  : ${previewUrl}`);
+      }
+      console.log('====================================================================\n');
+      logger.info(`[Mail Utility] Ethereal preview available at: ${previewUrl}`);
+    } else {
+      logger.info(`[Mail Utility] SMTP email sent successfully! MessageId: ${info.messageId}`);
+    }
+
+    return {
+      success: true,
+      provider,
+      messageId: info.messageId,
+      previewUrl,
+    };
+  } catch (error) {
+    logger.error(`[Mail Utility] Error dispatching email via ${provider}:`, error);
+    return { success: false, provider, error };
+  }
+}
+
+async function sendAdminEmail(lead: Lead): Promise<void> {
+  const { type: leadType, name, email, subject, message, id } = lead;
 
   const config = EMAIL_CONFIGS[leadType] || EMAIL_CONFIGS.CONTACT;
   const adminSubject = getSubject(config.adminSubject(name || email));
 
-  try {
-    const result = await client.emails.send({
-      from: MAIL_FROM,
-      to: MAIL_TO_ADMIN,
-      reply_to: email,
-      subject: adminSubject,
-      react: (
-        <AdminNotificationEmail
-          leadType={leadType}
-          leadId={id}
-          name={name}
-          email={email}
-          phone={lead.phone}
-          subject={subject}
-          message={message}
-          service={lead.service}
-          budget={lead.budget}
-          timeline={lead.timeline}
-          projectDetails={lead.projectDetails}
-          fileUrl={lead.fileUrl}
-          createdAt={lead.createdAt?.toISOString()}
-        />
-      ),
-    });
-
-    if (result.error) {
-      logger.error('[Mail Utility] Resend error sending Admin Notification email:', result.error);
-    } else {
-      logger.info('[Mail Utility] Admin Notification email sent successfully:', result.data?.id);
-    }
-  } catch (error) {
-    logger.error('[Mail Utility] Unhandled error sending Admin Notification email:', error);
-  }
+  await dispatchEmail({
+    to: MAIL_TO_ADMIN,
+    replyTo: email,
+    subject: adminSubject,
+    react: (
+      <AdminNotificationEmail
+        leadType={leadType}
+        leadId={id}
+        name={name}
+        email={email}
+        phone={lead.phone}
+        subject={subject}
+        message={message}
+        service={lead.service}
+        budget={lead.budget}
+        timeline={lead.timeline}
+        projectDetails={lead.projectDetails}
+        fileUrl={lead.fileUrl}
+        createdAt={lead.createdAt?.toISOString()}
+      />
+    ),
+  });
 }
 
-async function sendUserEmail(lead: Lead, client: Resend): Promise<void> {
+async function sendUserEmail(lead: Lead): Promise<void> {
   const { type: leadType, name, email } = lead;
-
-  if (!MAIL_FROM) return;
-
   const config = EMAIL_CONFIGS[leadType] || EMAIL_CONFIGS.CONTACT;
   const userSubject = getSubject(config.userSubject);
-  
-  const recipient = email;
 
-  try {
-    const result = await client.emails.send({
-      from: MAIL_FROM,
-      to: recipient,
-      subject: userSubject,
-      react: <UserAutoResponderEmail leadType={leadType} name={name} />,
-    });
-
-    if (result.error) {
-      logger.error('[Mail Utility] Resend error sending User Auto-Responder email:', result.error);
-    } else {
-      logger.info('[Mail Utility] User Auto-Responder email sent successfully:', result.data?.id);
-    }
-  } catch (error) {
-    logger.error('[Mail Utility] Unhandled error sending User Auto-Responder email:', error);
-  }
+  await dispatchEmail({
+    to: email,
+    subject: userSubject,
+    react: <UserAutoResponderEmail leadType={leadType} name={name} />,
+  });
 }
 
 export async function sendLeadEmails(lead: Lead): Promise<void> {
   try {
-    if (!resend) {
-      logger.warn('[Mail Utility] RESEND_API_KEY is not defined. Email notifications are skipped.');
-      return;
-    }
-
-    if (!MAIL_FROM || !MAIL_TO_ADMIN) {
-      logger.warn(
-        '[Mail Utility] MAIL_FROM or MAIL_TO_ADMIN environment variables are not configured. Email notifications are skipped.'
-      );
-      return;
-    }
-
     logger.info(`[Mail Utility] Queueing emails for Lead ID: ${lead.id} (${lead.type})`);
-
-    await Promise.allSettled([sendAdminEmail(lead, resend), sendUserEmail(lead, resend)]);
+    await Promise.allSettled([sendAdminEmail(lead), sendUserEmail(lead)]);
   } catch (error) {
     logger.error('[Mail Utility] Failed to complete sendLeadEmails operation:', error);
   }
@@ -130,23 +262,12 @@ export async function sendLeadEmails(lead: Lead): Promise<void> {
 
 export async function sendNewsletterWelcomeEmail(email: string): Promise<void> {
   try {
-    if (!resend || !MAIL_FROM) return;
-
     const subject = getSubject('Welcome to the InGrowwth Innovations Newsletter!');
-    const recipient = email;
-
-    const result = await resend.emails.send({
-      from: MAIL_FROM,
-      to: recipient,
+    await dispatchEmail({
+      to: email,
       subject,
       react: <UserAutoResponderEmail leadType="NEWSLETTER" />,
     });
-
-    if (result.error) {
-      logger.error('[Mail Utility] Error sending newsletter welcome email:', result.error);
-    } else {
-      logger.info('[Mail Utility] Newsletter welcome email sent successfully');
-    }
   } catch (error) {
     logger.error('[Mail Utility] Failed to send newsletter welcome email:', error);
   }
@@ -154,14 +275,10 @@ export async function sendNewsletterWelcomeEmail(email: string): Promise<void> {
 
 export async function sendNewsletterAdminEmail(email: string): Promise<void> {
   try {
-    if (!resend || !MAIL_FROM || !MAIL_TO_ADMIN) return;
-
     const subject = getSubject(`New Newsletter Subscription: ${email}`);
-
-    const result = await resend.emails.send({
-      from: MAIL_FROM,
+    await dispatchEmail({
       to: MAIL_TO_ADMIN,
-      reply_to: email,
+      replyTo: email,
       subject,
       html: `
         <div style="font-family: sans-serif; padding: 20px;">
@@ -171,12 +288,6 @@ export async function sendNewsletterAdminEmail(email: string): Promise<void> {
         </div>
       `,
     });
-
-    if (result.error) {
-      logger.error('[Mail Utility] Error sending newsletter admin email:', result.error);
-    } else {
-      logger.info('[Mail Utility] Newsletter admin email sent successfully');
-    }
   } catch (error) {
     logger.error('[Mail Utility] Failed to send newsletter admin email:', error);
   }
@@ -189,36 +300,52 @@ export async function sendNewsletterCampaignEmail(
   campaignLink?: string
 ): Promise<void> {
   try {
-    if (!resend || !MAIL_FROM) return;
-
     const finalSubject = getSubject(subject);
-    const recipient = email;
-
-    const result = await resend.emails.send({
-      from: MAIL_FROM,
-      to: recipient,
+    await dispatchEmail({
+      to: email,
       subject: finalSubject,
-      react: <NewsletterCampaignEmail subject={subject} content={content} subscriberEmail={email} campaignLink={campaignLink} />,
+      react: (
+        <NewsletterCampaignEmail
+          subject={subject}
+          content={content}
+          subscriberEmail={email}
+          campaignLink={campaignLink}
+        />
+      ),
     });
-
-    if (result.error) {
-      logger.error(`[Mail Utility] Error sending campaign email to ${email}:`, result.error);
-    }
   } catch (error) {
     logger.error(`[Mail Utility] Failed to send campaign email to ${email}:`, error);
   }
 }
 
-export async function sendApplicationAdminEmail(application: JobApplication): Promise<void> {
+export async function sendApplicationAdminEmail(
+  application: JobApplication,
+  linkedInUrl?: string | null
+): Promise<void> {
   try {
-    if (!resend || !MAIL_FROM || !MAIL_TO_ADMIN) return;
+    const adminSubject = getSubject(
+      `New Job Application: ${application.candidateName} for ${application.roleAppliedFor}`
+    );
 
-    const adminSubject = getSubject(`New Job Application: ${application.candidateName} for ${application.roleAppliedFor}`);
+    const baseUrl = (env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000').replace(/\/$/, '');
+    const absoluteResumeUrl = application.resumeUrl
+      ? application.resumeUrl.startsWith('http')
+        ? application.resumeUrl
+        : `${baseUrl}${application.resumeUrl}`
+      : null;
 
-    const result = await resend.emails.send({
-      from: MAIL_FROM,
+    // If linkedInUrl was not passed directly, try extracting it from coverLetter
+    let resolvedLinkedIn = linkedInUrl;
+    if (!resolvedLinkedIn && application.coverLetter) {
+      const match = application.coverLetter.match(/LinkedIn:\s*([^\s\n]+)/i);
+      if (match && match[1]) {
+        resolvedLinkedIn = match[1];
+      }
+    }
+
+    await dispatchEmail({
       to: MAIL_TO_ADMIN,
-      reply_to: application.email,
+      replyTo: application.email,
       subject: adminSubject,
       react: (
         <CareerApplicationAdminEmail
@@ -227,18 +354,13 @@ export async function sendApplicationAdminEmail(application: JobApplication): Pr
           email={application.email}
           phone={application.phone}
           roleAppliedFor={application.roleAppliedFor}
+          linkedInUrl={resolvedLinkedIn}
           coverLetter={application.coverLetter}
-          resumeUrl={application.resumeUrl}
+          resumeUrl={absoluteResumeUrl}
           createdAt={application.createdAt?.toISOString() || new Date().toISOString()}
         />
       ),
     });
-
-    if (result.error) {
-      logger.error('[Mail Utility] Resend error sending App Admin email:', result.error);
-    } else {
-      logger.info('[Mail Utility] App Admin email sent successfully');
-    }
   } catch (error) {
     logger.error('[Mail Utility] Unhandled error sending App Admin email:', error);
   }
@@ -246,12 +368,11 @@ export async function sendApplicationAdminEmail(application: JobApplication): Pr
 
 export async function sendApplicationConfirmationEmail(application: JobApplication): Promise<void> {
   try {
-    if (!resend || !MAIL_FROM) return;
+    const subject = getSubject(
+      `Application Received: ${application.roleAppliedFor} at InGrowwth Innovations`
+    );
 
-    const subject = getSubject(`Application Received: ${application.roleAppliedFor} at InGrowwth Innovations`);
-
-    const result = await resend.emails.send({
-      from: MAIL_FROM,
+    await dispatchEmail({
       to: application.email,
       subject,
       react: (
@@ -261,12 +382,6 @@ export async function sendApplicationConfirmationEmail(application: JobApplicati
         />
       ),
     });
-
-    if (result.error) {
-      logger.error('[Mail Utility] Resend error sending App Confirmation email:', result.error);
-    } else {
-      logger.info('[Mail Utility] App Confirmation email sent successfully');
-    }
   } catch (error) {
     logger.error('[Mail Utility] Unhandled error sending App Confirmation email:', error);
   }
@@ -278,20 +393,14 @@ export async function sendAdminReplyEmail(
   message: string
 ): Promise<void> {
   try {
-    if (!resend || !MAIL_FROM) return;
-
-    const result = await resend.emails.send({
-      from: MAIL_FROM,
+    const result = await dispatchEmail({
       to: recipientEmail,
-      subject: subject,
+      subject,
       react: <LeadReplyEmail subject={subject} message={message} />,
     });
 
-    if (result.error) {
-      logger.error('[Mail Utility] Resend error sending Admin Reply email:', result.error);
-      throw new Error(result.error.message);
-    } else {
-      logger.info('[Mail Utility] Admin Reply email sent successfully');
+    if (!result.success) {
+      throw new Error(String(result.error || 'Failed to dispatch email'));
     }
   } catch (error) {
     logger.error('[Mail Utility] Unhandled error sending Admin Reply email:', error);

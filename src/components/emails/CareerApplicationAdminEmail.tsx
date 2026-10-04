@@ -18,6 +18,7 @@ interface CareerApplicationAdminEmailProps {
   email: string;
   phone?: string | null;
   roleAppliedFor: string;
+  linkedInUrl?: string | null;
   coverLetter?: string | null;
   resumeUrl?: string | null;
   createdAt: string;
@@ -29,6 +30,7 @@ export const CareerApplicationAdminEmail = ({
   email,
   phone,
   roleAppliedFor,
+  linkedInUrl,
   coverLetter,
   resumeUrl,
   createdAt,
@@ -82,12 +84,22 @@ export const CareerApplicationAdminEmail = ({
                       <td style={tdValue}>{phone}</td>
                     </tr>
                   )}
+                  {linkedInUrl && (
+                    <tr>
+                      <td style={tdLabel}>LinkedIn</td>
+                      <td style={tdValue}>
+                        <Link href={linkedInUrl} style={link} target="_blank" rel="noopener noreferrer">
+                          View LinkedIn Profile
+                        </Link>
+                      </td>
+                    </tr>
+                  )}
                   {resumeUrl && (
                     <tr>
                       <td style={tdLabel}>Resume</td>
                       <td style={tdValue}>
                         <Link href={resumeUrl} style={link} target="_blank" rel="noopener noreferrer">
-                          View Resume
+                          View Resume (PDF)
                         </Link>
                       </td>
                     </tr>
