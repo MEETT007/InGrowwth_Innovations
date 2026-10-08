@@ -50,7 +50,7 @@
     "@types/react-dom": "^19",
     "cheerio": "^1.2.0",
     "eslint": "^9",
-    "eslint-config-next": "16.2.10",
+    "eslint-config-next": "16.3.8",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "prettier": "^3.9.5",
