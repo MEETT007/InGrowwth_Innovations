@@ -95,14 +95,16 @@ model Service {
   title       String
   description String
   icon        String
-  content     String @default("")
+  content     String   @default("")
   features    Json?
   process     Json?
   techStack   Json?
+  isExpertise Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@index([slug])
+  @@index([isExpertise])
   @@index([createdAt])
   @@map("services")
 }

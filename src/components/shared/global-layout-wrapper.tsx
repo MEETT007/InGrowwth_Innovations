@@ -2,10 +2,15 @@
 
 import { usePathname } from 'next/navigation';
 import { Header } from './header';
-import { Footer } from './footer';
+import { Footer, type FooterServiceLink } from './footer';
 import { SmoothScroller } from '../smooth-scroller';
 
-export function GlobalLayoutWrapper({ children }: { children: React.ReactNode }) {
+interface GlobalLayoutWrapperProps {
+  children: React.ReactNode;
+  initialServices?: FooterServiceLink[];
+}
+
+export function GlobalLayoutWrapper({ children, initialServices }: GlobalLayoutWrapperProps) {
   const pathname = usePathname();
 
   // Hide global Header and Footer on /chat to give it a full-screen app experience
@@ -19,7 +24,7 @@ export function GlobalLayoutWrapper({ children }: { children: React.ReactNode })
     <SmoothScroller>
       <Header />
       <main className="flex-grow">{children}</main>
-      <Footer />
+      <Footer initialServices={initialServices} />
     </SmoothScroller>
   );
 }

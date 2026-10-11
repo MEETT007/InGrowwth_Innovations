@@ -47,6 +47,7 @@ const serviceSchema = z.object({
   description: z.string().min(10, 'Description must be at least 10 characters'),
   icon: z.string().min(2, 'Icon identifier is required'),
   content: z.string().min(20, 'Content must be at least 20 characters'),
+  isExpertise: z.boolean(),
 });
 
 type ServiceFormValues = z.infer<typeof serviceSchema>;
@@ -78,6 +79,7 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
       description: '',
       icon: '',
       content: '',
+      isExpertise: false,
     },
   });
 
@@ -90,7 +92,9 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
           description: initialData.description || '',
           icon: initialData.icon || '',
           content: initialData.content || '',
+          isExpertise: Boolean(initialData.isExpertise),
         });
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setFeaturesList(parseArrayField(initialData.features));
         setTechStackList(parseArrayField(initialData.techStack));
         setProcessList(parseProcessField(initialData.process));
@@ -101,6 +105,7 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
           description: '',
           icon: '',
           content: '',
+          isExpertise: false,
         });
         setFeaturesList([]);
         setTechStackList([]);
@@ -215,6 +220,7 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
         description: data.description,
         icon: data.icon,
         content: data.content,
+        isExpertise: data.isExpertise,
         features: featuresList,
         techStack: techStackList,
         process: processList,
@@ -325,6 +331,31 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
                   <p className="text-sm text-destructive">{form.formState.errors.icon.message}</p>
                 )}
               </div>
+            </div>
+
+            {/* Core Expertise Showcase Option */}
+            <div className="rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4 flex items-start justify-between gap-4 transition-all hover:border-indigo-500/40">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-indigo-500" />
+                  <Label
+                    htmlFor="isExpertise"
+                    className="font-semibold text-foreground cursor-pointer"
+                  >
+                    Showcase in Core Expertise Section (Homepage)
+                  </Label>
+                </div>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Feature this service among the 3 spotlight cards in the &quot;Our Core Expertise /
+                  Top Services&quot; section on the homepage.
+                </p>
+              </div>
+              <input
+                id="isExpertise"
+                type="checkbox"
+                className="w-5 h-5 rounded border-border text-indigo-600 focus:ring-indigo-500 cursor-pointer mt-0.5 accent-indigo-600"
+                {...form.register('isExpertise')}
+              />
             </div>
 
             <div className="space-y-2">
@@ -520,7 +551,8 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
               {/* Quick Pick Popular Tech Tags */}
               <div className="space-y-1.5">
                 <span className="text-[11px] font-medium text-muted-foreground flex items-center gap-1">
-                  <Sparkles className="h-3 w-3 text-indigo-400" /> Click to Toggle Popular Technologies:
+                  <Sparkles className="h-3 w-3 text-indigo-400" /> Click to Toggle Popular
+                  Technologies:
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {POPULAR_TECH_TAGS.map((tech) => {
@@ -580,7 +612,8 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
               </div>
 
               <p className="text-xs text-muted-foreground">
-                Each step renders sequentially with step numbers and details on the public service page.
+                Each step renders sequentially with step numbers and details on the public service
+                page.
               </p>
 
               {/* Step Cards List */}
@@ -641,9 +674,7 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
                           <Input
                             placeholder="e.g., Discovery & Technical Scoping"
                             value={step.step}
-                            onChange={(e) =>
-                              handleUpdateProcessStep(idx, 'step', e.target.value)
-                            }
+                            onChange={(e) => handleUpdateProcessStep(idx, 'step', e.target.value)}
                             className="bg-muted/30"
                           />
                         </div>
@@ -666,7 +697,8 @@ export function ServiceEditor({ isOpen, onClose, onSuccess, initialData }: Servi
                 </div>
               ) : (
                 <div className="text-center py-6 px-4 border border-dashed border-border/60 rounded-xl text-xs text-muted-foreground">
-                  No process steps added yet. Click &quot;Add Step&quot; or &quot;Reset to 5-Step Best Practice&quot;.
+                  No process steps added yet. Click &quot;Add Step&quot; or &quot;Reset to 5-Step
+                  Best Practice&quot;.
                 </div>
               )}
             </div>

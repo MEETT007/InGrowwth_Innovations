@@ -26,7 +26,17 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     const // eslint-disable-next-line @typescript-eslint/no-explicit-any
       body = parsedBody.data as any;
-    const { title, description, icon, content, features, process: serviceProcess, techStack, slug: customSlug } = body;
+    const {
+      title,
+      description,
+      icon,
+      content,
+      features,
+      process: serviceProcess,
+      techStack,
+      slug: customSlug,
+      isExpertise,
+    } = body;
 
     const existing = await db.service.findUnique({ where: { id } });
     if (!existing) {
@@ -71,6 +81,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         ...(serviceProcess !== undefined && { process: parseProcessField(serviceProcess) }),
         ...(techStack !== undefined && { techStack: parseArrayField(techStack) }),
         ...(updatedSlug !== undefined && { slug: updatedSlug }),
+        ...(isExpertise !== undefined && { isExpertise: Boolean(isExpertise) }),
       },
     });
 

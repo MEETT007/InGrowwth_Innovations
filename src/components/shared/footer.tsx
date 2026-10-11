@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -15,15 +15,17 @@ import { Button } from '@/components/ui/button';
 import { subscribeNewsletterAction } from '@/actions/lead';
 import { logger } from '@/lib/logger';
 
+export interface FooterServiceLink {
+  id?: string;
+  href: string;
+  label: string;
+}
+
+interface FooterProps {
+  initialServices?: FooterServiceLink[];
+}
+
 const footerLinks = {
-  services: [
-    { href: '/services/web-development', label: 'Web Development' },
-    { href: '/services/mobile-app-development', label: 'Mobile App Development' },
-    { href: '/services/cloud-devops-solutions', label: 'Cloud & DevOps' },
-    { href: '/services/erp-enterprise-software', label: 'ERP Solutions' },
-    { href: '/services/onestream-epm', label: 'OneStream EPM' },
-    { href: '/services/ai-machine-learning', label: 'AI & Machine Learning' },
-  ],
   company: [
     { href: '/about', label: 'About Us' },
     { href: '/portfolio', label: 'Portfolio & Case Studies' },
@@ -33,11 +35,36 @@ const footerLinks = {
   ],
 };
 
-export function Footer() {
+export function Footer({ initialServices }: FooterProps = {}) {
   const pathname = usePathname();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ success: boolean; message: string } | null>(null);
+  const [services, setServices] = useState<FooterServiceLink[]>(initialServices || []);
+  const [loadingServices, setLoadingServices] = useState(!initialServices);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch('/api/services')
+      .then((res) => res.json())
+      .then((res) => {
+        if (isMounted && res.success && Array.isArray(res.data)) {
+          setServices(res.data);
+        }
+      })
+      .catch((err) => {
+        logger.error('Failed to load services in footer:', err);
+      })
+      .finally(() => {
+        if (isMounted) {
+          setLoadingServices(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -150,19 +177,51 @@ export function Footer() {
             <h4 className="text-xs font-bold text-foreground uppercase tracking-widest mb-4">
               Services
             </h4>
-            <ul className="flex flex-col gap-2.5">
-              {footerLinks.services.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5 group"
-                  >
-                    <ChevronRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-indigo-500" />
-                    <span className="-ml-4 group-hover:ml-0 transition-all">{link.label}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            {loadingServices && services.length === 0 ? (
+              <ul className="flex flex-col gap-2.5">
+                {[1, 2, 3, 4].map((i) => (
+                  <li key={i} className="h-4 w-3/4 rounded bg-muted/40 animate-pulse" />
+                ))}
+              </ul>
+            ) : services.length > 0 ? (
+              <ul className="flex flex-col gap-2.5">
+                {services.slice(0, 6).map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5 group"
+                    >
+                      <ChevronRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-indigo-500" />
+                      <span className="-ml-4 group-hover:ml-0 transition-all">{link.label}</span>
+                    </Link>
+                  </li>
+                ))}
+                {services.length > 6 && (
+                  <li className="pt-1">
+                    <Link
+                      href="/services"
+                      className="text-xs text-indigo-500 hover:text-indigo-400 font-medium transition-colors inline-flex items-center gap-1 group"
+                    >
+                      <span>View All Services</span>
+                      <ChevronRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                    </Link>
+                  </li>
+                )}
+              </ul>
+            ) : (
+              <div className="flex flex-col gap-2.5">
+                <p className="text-xs text-muted-foreground/70 italic">
+                  No services currently listed.
+                </p>
+                <Link
+                  href="/services"
+                  className="text-xs text-indigo-500 hover:text-indigo-400 font-medium transition-colors inline-flex items-center gap-1 group w-fit"
+                >
+                  <span>Explore Services</span>
+                  <ChevronRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Quick Links - Company */}

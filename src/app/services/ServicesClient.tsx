@@ -114,76 +114,100 @@ export default function ServicesClient({ initialServices }: { initialServices: D
           />
         </AnimatedContainer>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {initialServices.map((service, idx) => {
-            const gradient = GRADIENTS[idx % GRADIENTS.length];
-            const colorClass = COLOR_CLASSES[idx % COLOR_CLASSES.length];
-            return (
-              <AnimatedContainer key={service.id} direction="up" delay={0.15 + idx * 0.08}>
-                <Link
-                  href={`/services/${service.slug || service.id}`}
-                  className="block h-full group/card"
-                >
-                  <Card className="h-full border-border/50 bg-card/60 backdrop-blur-sm relative overflow-hidden flex flex-col cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1">
-                    {/* Hover gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-pink-500/5 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none" />
+        {initialServices.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16 px-4 text-center border border-dashed border-border/60 rounded-2xl bg-card/30">
+            <div className="p-3.5 rounded-2xl bg-indigo-500/10 text-indigo-500 mb-4 ring-1 ring-indigo-500/20">
+              <Layers className="w-8 h-8 opacity-80" />
+            </div>
+            <h3 className="text-xl font-bold text-foreground mb-2">
+              No Services Currently Available
+            </h3>
+            <p className="text-sm text-muted-foreground max-w-md mb-6 leading-relaxed">
+              We are currently updating our portfolio of service offerings. Please reach out to our
+              team directly for tailored engineering solutions.
+            </p>
+            <Button
+              render={<Link href="/contact" />}
+              nativeButton={false}
+              size="sm"
+              variant="gradient"
+              className="cursor-pointer"
+            >
+              Contact Us Directly
+            </Button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {initialServices.map((service, idx) => {
+              const gradient = GRADIENTS[idx % GRADIENTS.length];
+              const colorClass = COLOR_CLASSES[idx % COLOR_CLASSES.length];
+              return (
+                <AnimatedContainer key={service.id} direction="up" delay={0.15 + idx * 0.08}>
+                  <Link
+                    href={`/services/${service.slug || service.id}`}
+                    className="block h-full group/card"
+                  >
+                    <Card className="h-full border-border/50 bg-card/60 backdrop-blur-sm relative overflow-hidden flex flex-col cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1">
+                      {/* Hover gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-pink-500/5 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                    {/* Top accent line */}
-                    <div
-                      className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${gradient} opacity-0 group-hover/card:opacity-100 transition-opacity duration-300`}
-                    />
-
-                    <CardHeader className="pb-3">
+                      {/* Top accent line */}
                       <div
-                        className={`p-3 w-fit rounded-xl ${colorClass} mb-3 group-hover/card:scale-110 transition-transform duration-300`}
-                      >
-                        <IconComponent name={service.icon} />
-                      </div>
-                      <CardTitle className="text-xl font-bold tracking-tight">
-                        {service.title}
-                      </CardTitle>
-                    </CardHeader>
+                        className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${gradient} opacity-0 group-hover/card:opacity-100 transition-opacity duration-300`}
+                      />
 
-                    <CardContent className="flex flex-col flex-grow gap-4">
-                      <CardDescription className="text-sm text-muted-foreground leading-relaxed flex-grow">
-                        {service.description}
-                      </CardDescription>
+                      <CardHeader className="pb-3">
+                        <div
+                          className={`p-3 w-fit rounded-xl ${colorClass} mb-3 group-hover/card:scale-110 transition-transform duration-300`}
+                        >
+                          <IconComponent name={service.icon} />
+                        </div>
+                        <CardTitle className="text-xl font-bold tracking-tight">
+                          {service.title}
+                        </CardTitle>
+                      </CardHeader>
 
-                      {/* Tech tags */}
-                      {(() => {
-                        const tags = parseArrayField(service.techStack);
-                        if (tags.length === 0) return null;
-                        return (
-                          <div className="flex flex-wrap gap-1.5">
-                            {tags.slice(0, 4).map((t) => (
-                              <span
-                                key={t}
-                                className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted/60 border border-border/40 text-muted-foreground"
-                              >
-                                {t}
-                              </span>
-                            ))}
-                            {tags.length > 4 && (
-                              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted/60 border border-border/40 text-muted-foreground">
-                                +{tags.length - 4} more
-                              </span>
-                            )}
-                          </div>
-                        );
-                      })()}
+                      <CardContent className="flex flex-col flex-grow gap-4">
+                        <CardDescription className="text-sm text-muted-foreground leading-relaxed flex-grow">
+                          {service.description}
+                        </CardDescription>
 
-                      {/* Learn More CTA */}
-                      <div className="flex items-center gap-1.5 text-sm font-semibold text-indigo-500 opacity-0 group-hover/card:opacity-100 transition-all duration-300 -translate-y-1 group-hover/card:translate-y-0">
-                        Learn More
-                        <ArrowRight className="h-4 w-4 transition-transform group-hover/card:translate-x-1" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-              </AnimatedContainer>
-            );
-          })}
-        </div>
+                        {/* Tech tags */}
+                        {(() => {
+                          const tags = parseArrayField(service.techStack);
+                          if (tags.length === 0) return null;
+                          return (
+                            <div className="flex flex-wrap gap-1.5">
+                              {tags.slice(0, 4).map((t) => (
+                                <span
+                                  key={t}
+                                  className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted/60 border border-border/40 text-muted-foreground"
+                                >
+                                  {t}
+                                </span>
+                              ))}
+                              {tags.length > 4 && (
+                                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted/60 border border-border/40 text-muted-foreground">
+                                  +{tags.length - 4} more
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })()}
+
+                        {/* Learn More CTA */}
+                        <div className="flex items-center gap-1.5 text-sm font-semibold text-indigo-500 opacity-0 group-hover/card:opacity-100 transition-all duration-300 -translate-y-1 group-hover/card:translate-y-0">
+                          Learn More
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover/card:translate-x-1" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </AnimatedContainer>
+              );
+            })}
+          </div>
+        )}
       </section>
 
       {/* CTA Banner */}

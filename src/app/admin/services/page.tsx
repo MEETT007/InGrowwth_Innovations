@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import { Plus, Edit, Trash2, Sparkles } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
@@ -18,6 +18,7 @@ interface Service {
   description: string;
   icon: string;
   content: string;
+  isExpertise?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   features: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -56,6 +57,35 @@ export default function ServicesPage() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchServices();
   }, []);
+
+  const handleToggleExpertise = async (service: Service) => {
+    const nextState = !service.isExpertise;
+    const toastId = toast.loading(
+      nextState ? 'Adding to Core Expertise...' : 'Removing from Core Expertise...'
+    );
+    try {
+      const response = await fetch(`/api/admin/services/${service.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isExpertise: nextState }),
+      });
+      const res = await response.json();
+      if (res.success) {
+        toast.success(
+          nextState
+            ? `"${service.title}" will now be showcased in Core Expertise on the homepage!`
+            : `"${service.title}" removed from Core Expertise.`,
+          { id: toastId }
+        );
+        fetchServices();
+      } else {
+        toast.error(res.message || 'Failed to update service.', { id: toastId });
+      }
+    } catch (error) {
+      logger.error('Error toggling expertise:', error);
+      toast.error('An error occurred.', { id: toastId });
+    }
+  };
 
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this service?')) {
@@ -119,6 +149,37 @@ export default function ServicesPage() {
       ),
     },
     {
+      accessorKey: 'isExpertise',
+      header: 'Core Expertise (Home)',
+      cell: ({ row }) => {
+        const isFeatured = !!row.original.isExpertise;
+        return (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleToggleExpertise(row.original);
+            }}
+            title={
+              isFeatured
+                ? 'Click to remove from Homepage spotlight'
+                : 'Click to showcase on Homepage'
+            }
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-all cursor-pointer border ${
+              isFeatured
+                ? 'bg-indigo-500/15 text-indigo-400 border-indigo-500/30 hover:bg-indigo-500/25 shadow-sm shadow-indigo-500/10'
+                : 'bg-muted/40 text-muted-foreground border-border/50 hover:bg-muted hover:text-foreground'
+            }`}
+          >
+            <Sparkles
+              className={`w-3.5 h-3.5 ${isFeatured ? 'text-indigo-400 fill-indigo-400' : 'opacity-40'}`}
+            />
+            <span>{isFeatured ? 'Featured' : 'Standard'}</span>
+          </button>
+        );
+      },
+    },
+    {
       id: 'actions',
       header: () => <div className="text-right">Actions</div>,
       cell: ({ row }) => {
@@ -175,10 +236,23 @@ export default function ServicesPage() {
 
       <Card className="shadow-sm">
         <CardHeader className="pb-4">
-          <CardTitle>Active Services</CardTitle>
-          <CardDescription>
-            A list of all services currently displayed on the frontend.
-          </CardDescription>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <CardTitle>Active Services</CardTitle>
+              <CardDescription>
+                A list of all services currently displayed on the frontend.
+              </CardDescription>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-medium flex items-center gap-1.5 shadow-xs">
+                <Sparkles className="w-3.5 h-3.5 text-indigo-400 fill-indigo-400" />
+                <span>
+                  Homepage Core Expertise: {services.filter((s) => s.isExpertise).length} / 3
+                  featured
+                </span>
+              </span>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="rounded-md border p-1">

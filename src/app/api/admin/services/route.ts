@@ -45,7 +45,17 @@ export async function POST(request: NextRequest) {
 
     const // eslint-disable-next-line @typescript-eslint/no-explicit-any
       body = parsedBody.data as any;
-    const { title, description, icon, content, features, process: serviceProcess, techStack, slug: customSlug } = body;
+    const {
+      title,
+      description,
+      icon,
+      content,
+      features,
+      process: serviceProcess,
+      techStack,
+      slug: customSlug,
+      isExpertise,
+    } = body;
 
     if (!title || !description || !icon || !content) {
       return NextResponse.json(
@@ -53,7 +63,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     // Generate clean URL-safe slug from customSlug or title
     const rawSlugCandidate = customSlug || title;
     let baseSlug = String(rawSlugCandidate)
@@ -74,15 +84,16 @@ export async function POST(request: NextRequest) {
     const normalizedTechStack = parseArrayField(techStack);
 
     const service = await db.service.create({
-      data: { 
-        title, 
-        description, 
-        icon, 
+      data: {
+        title,
+        description,
+        icon,
         content,
         features: normalizedFeatures,
         process: normalizedProcess,
         techStack: normalizedTechStack,
         slug: uniqueSlug,
+        isExpertise: Boolean(isExpertise),
       },
     });
 

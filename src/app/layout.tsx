@@ -5,6 +5,8 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { GlobalLayoutWrapper } from '@/components/shared/global-layout-wrapper';
 import { ClerkProvider } from '@clerk/nextjs';
 import { env } from '@/lib/env';
+import { db } from '@/lib/db';
+import { logger } from '@/lib/logger';
 
 // A request-specific CSP nonce is generated in proxy.ts, so pages must render per request.
 export const dynamic = 'force-dynamic';
@@ -40,11 +42,31 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let initialServices: Array<{ id: string; href: string; label: string }> = [];
+  try {
+    const services = await db.service.findMany({
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 6,
+    });
+    initialServices = services.map((s) => ({
+      id: s.id,
+      label: s.title,
+      href: `/services/${s.slug || s.id}`,
+    }));
+  } catch (error) {
+    logger.error('Error prefetching services in RootLayout:', error);
+  }
+
   return (
     <ClerkProvider>
       <html
@@ -67,7 +89,7 @@ export default function RootLayout({
                 DEV ENVIRONMENT
               </div>
             )}
-            <GlobalLayoutWrapper>{children}</GlobalLayoutWrapper>
+            <GlobalLayoutWrapper initialServices={initialServices}>{children}</GlobalLayoutWrapper>
           </ThemeProvider>
         </body>
       </html>
