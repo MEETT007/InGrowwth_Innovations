@@ -1,5 +1,7 @@
 {
   "git": {
     "deploymentEnabled": false
-  }
+  },
+  "framework": "nextjs",
+  "buildCommand": "npm run build:vercel"
 }
