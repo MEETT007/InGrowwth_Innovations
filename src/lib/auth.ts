@@ -41,7 +41,7 @@ export async function getAuthUserRole(): Promise<{
     } else if (email === 'sauravp3011@gmail.com' || email === 'sauravpankajkumarpatel@gmail.com') {
       jobTitle = 'COO and Co-Founder';
       role = 'admin';
-    } else if (email === 'dalwadidarshan1010@gmail.com') {
+    } else if (email === 'dalwadidarshan1010@gmail.com' || email === 'nairobi10nairobi@gmail.com') {
       jobTitle = 'CTO and Co-Founder';
       role = 'admin';
     }
