@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { put } from '@vercel/blob';
 import { requireAuthAndRole } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 
 // Allowed mime types
-const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 
 // Allowed target folders for upload organization
 const ALLOWED_FOLDERS = [
@@ -14,15 +13,13 @@ const ALLOWED_FOLDERS = [
   'newsletter',
   'portfolio',
   'team',
-  'quotes',
-  'resumes',
   'general',
 ] as const;
 
 type AllowedFolder = (typeof ALLOWED_FOLDERS)[number];
 
-// Max file size: 5MB
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+// Leave room for multipart overhead below Vercel's 4.4MB request limit.
+const MAX_FILE_SIZE = 4 * 1024 * 1024;
 const MAX_MULTIPART_REQUEST_SIZE = MAX_FILE_SIZE + 64 * 1024;
 
 function hasExpectedFileSignature(file: File, buffer: Buffer): boolean {
@@ -40,7 +37,7 @@ function hasExpectedFileSignature(file: File, buffer: Buffer): boolean {
       buffer.subarray(8, 12).equals(Buffer.from('WEBP'))
     );
   }
-  return file.type === 'application/pdf' && buffer.subarray(0, 5).equals(Buffer.from('%PDF-'));
+  return false;
 }
 
 export async function POST(request: NextRequest) {
@@ -60,7 +57,7 @@ export async function POST(request: NextRequest) {
     contentLength > MAX_MULTIPART_REQUEST_SIZE
   ) {
     return NextResponse.json(
-      { success: false, message: 'Upload request exceeds the 5MB limit.' },
+      { success: false, message: 'Upload request exceeds the 4MB limit.' },
       { status: 413 }
     );
   }
@@ -68,16 +65,16 @@ export async function POST(request: NextRequest) {
   try {
     // 2. Parse Multipart Form Data
     const formData = await request.formData();
-    const file = formData.get('file') as File | null;
+    const file = formData.get('file');
 
-    if (!file) {
+    if (!(file instanceof File) || file.size === 0) {
       return NextResponse.json({ success: false, message: 'No file provided.' }, { status: 400 });
     }
 
     // 3. Validate File Size
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
-        { success: false, message: 'File size exceeds the 5MB limit.' },
+        { success: false, message: 'File size exceeds the 4MB limit.' },
         { status: 400 }
       );
     }
@@ -87,7 +84,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Invalid file type. Only JPEG, PNG, WEBP, and PDF are allowed.',
+          message: 'Invalid file type. Only JPEG, PNG, and WEBP are allowed.',
         },
         { status: 400 }
       );
@@ -116,15 +113,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 6. Save directly to public/uploads/[folder]/
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads', folder);
-    await fs.mkdir(uploadDir, { recursive: true });
-
-    const filePath = path.join(uploadDir, filename);
-    await fs.writeFile(filePath, buffer);
-
-    const fileUrl = `/uploads/${folder}/${filename}`;
-    logger.info(`[Upload API] Successfully saved file locally at: ${fileUrl}`);
+    // Public editorial images must survive server restarts and redeployments.
+    const blob = await put(`uploads/${folder}/${filename}`, buffer, {
+      access: 'public',
+      contentType: file.type,
+      addRandomSuffix: true,
+    });
+    const fileUrl = blob.url;
+    logger.info('[Upload API] Image saved to persistent storage.');
 
     return NextResponse.json({
       success: true,
