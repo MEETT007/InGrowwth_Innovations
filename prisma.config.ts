@@ -33,7 +33,7 @@ try {
     const urlObj = new URL(dbUrl);
     console.log(`🔌 Database Host: ${urlObj.host}`);
   }
-} catch (e) {
+} catch {
   // Ignore malformed URL errors here
 }
 

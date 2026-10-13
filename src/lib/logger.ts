@@ -1,13 +1,13 @@
 import { env } from './env';
 
 export const logger = {
-  debug: (...args: any[]) => log('DEBUG', ...args),
-  info: (...args: any[]) => log('INFO', ...args),
-  warn: (...args: any[]) => log('WARN', ...args),
-  error: (...args: any[]) => log('ERROR', ...args),
+  debug: (...args: unknown[]) => log('DEBUG', ...args),
+  info: (...args: unknown[]) => log('INFO', ...args),
+  warn: (...args: unknown[]) => log('WARN', ...args),
+  error: (...args: unknown[]) => log('ERROR', ...args),
 };
 
-function log(level: string, ...args: any[]) {
+function log(level: string, ...args: unknown[]) {
   const isServer = typeof window === 'undefined';
   const isEnabled = isServer ? env.LOG_ENABLED : env.NEXT_PUBLIC_LOG_ENABLED;
 
@@ -17,7 +17,7 @@ function log(level: string, ...args: any[]) {
   const envPrefix = env.APP_ENV ? `[${env.APP_ENV.toUpperCase()}]` : '[CLIENT]';
 
   // Filtering out secrets: a simple string replacer for the args
-  const safeArgs = args.map(arg => {
+  const safeArgs = args.map((arg) => {
     if (typeof arg === 'string') {
       return sanitize(arg);
     }
@@ -36,9 +36,10 @@ function log(level: string, ...args: any[]) {
 }
 
 function sanitize(str: string): string {
-  return str.replace(/(sk_[a-zA-Z0-9_]{10,})/g, '[REDACTED_SECRET]')
-            .replace(/(pk_[a-zA-Z0-9_]{10,})/g, '[REDACTED_PUBLISHABLE_KEY]')
-            .replace(/(re_[a-zA-Z0-9_]{10,})/g, '[REDACTED_API_KEY]')
-            .replace(/(password["']?\s*:\s*["'])([^"']+)(["'])/gi, '$1[REDACTED]$3')
-            .replace(/(token["']?\s*:\s*["'])([^"']+)(["'])/gi, '$1[REDACTED]$3');
+  return str
+    .replace(/(sk_[a-zA-Z0-9_]{10,})/g, '[REDACTED_SECRET]')
+    .replace(/(pk_[a-zA-Z0-9_]{10,})/g, '[REDACTED_PUBLISHABLE_KEY]')
+    .replace(/(re_[a-zA-Z0-9_]{10,})/g, '[REDACTED_API_KEY]')
+    .replace(/(password["']?\s*:\s*["'])([^"']+)(["'])/gi, '$1[REDACTED]$3')
+    .replace(/(token["']?\s*:\s*["'])([^"']+)(["'])/gi, '$1[REDACTED]$3');
 }

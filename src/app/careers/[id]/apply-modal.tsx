@@ -6,7 +6,6 @@ import {
   Dialog,
   DialogTrigger,
   DialogContent,
-  DialogHeader,
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
@@ -85,7 +84,9 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
 
   // MNC Scroll & Section Quick-Jump Architecture
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [activeSection, setActiveSection] = useState<'personal' | 'profiles' | 'experience' | 'resume' | 'cover'>('personal');
+  const [activeSection, setActiveSection] = useState<
+    'personal' | 'profiles' | 'experience' | 'resume' | 'cover'
+  >('personal');
   const [isScrolledTop, setIsScrolledTop] = useState(false);
   const [canScrollMore, setCanScrollMore] = useState(true);
 
@@ -253,7 +254,9 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
       return;
     }
     if (!linkedInUrl.toLowerCase().includes('linkedin.com')) {
-      setErrorMessage('Please provide a valid LinkedIn profile URL (e.g. https://linkedin.com/in/yourname).');
+      setErrorMessage(
+        'Please provide a valid LinkedIn profile URL (e.g. https://linkedin.com/in/yourname).'
+      );
       return;
     }
 
@@ -305,7 +308,9 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        throw new Error(data.message || 'Failed to submit application. Please check your inputs and try again.');
+        throw new Error(
+          data.message || 'Failed to submit application. Please check your inputs and try again.'
+        );
       }
 
       setIsSuccess(true);
@@ -324,7 +329,11 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
       <DialogTrigger
         render={
           trigger ? (
-            React.isValidElement(trigger) ? trigger : <span>{trigger}</span>
+            React.isValidElement(trigger) ? (
+              trigger
+            ) : (
+              <span>{trigger}</span>
+            )
           ) : (
             <Button
               className="w-full text-base font-semibold shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white rounded-2xl py-6 cursor-pointer"
@@ -489,7 +498,10 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
-                        <Label htmlFor="candidateName" className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                        <Label
+                          htmlFor="candidateName"
+                          className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5"
+                        >
                           <User className="w-3.5 h-3.5 text-indigo-500" />
                           Full Legal Name <span className="text-destructive">*</span>
                         </Label>
@@ -504,7 +516,10 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                       </div>
 
                       <div className="space-y-1.5">
-                        <Label htmlFor="email" className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                        <Label
+                          htmlFor="email"
+                          className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5"
+                        >
                           <Mail className="w-3.5 h-3.5 text-indigo-500" />
                           Primary Email Address <span className="text-destructive">*</span>
                         </Label>
@@ -520,9 +535,13 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                       </div>
 
                       <div className="space-y-1.5">
-                        <Label htmlFor="phone" className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                        <Label
+                          htmlFor="phone"
+                          className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5"
+                        >
                           <Phone className="w-3.5 h-3.5 text-pink-500" />
-                          Phone Number (with Country Code) <span className="text-destructive">*</span>
+                          Phone Number (with Country Code){' '}
+                          <span className="text-destructive">*</span>
                         </Label>
                         <Input
                           id="phone"
@@ -536,9 +555,13 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                       </div>
 
                       <div className="space-y-1.5">
-                        <Label htmlFor="currentLocation" className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                        <Label
+                          htmlFor="currentLocation"
+                          className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5"
+                        >
                           <MapPin className="w-3.5 h-3.5 text-amber-500" />
-                          Current Location (City, Country) <span className="text-destructive">*</span>
+                          Current Location (City, Country){' '}
+                          <span className="text-destructive">*</span>
                         </Label>
                         <Input
                           id="currentLocation"
@@ -563,7 +586,10 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                           Professional Profiles & Work Samples
                         </h4>
                       </div>
-                      <Badge variant="outline" className="text-[11px] border-blue-500/30 text-blue-600 dark:text-blue-400">
+                      <Badge
+                        variant="outline"
+                        className="text-[11px] border-blue-500/30 text-blue-600 dark:text-blue-400"
+                      >
                         LinkedIn Required
                       </Badge>
                     </div>
@@ -571,7 +597,10 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                     <div className="space-y-3.5">
                       <div className="space-y-1.5">
                         <div className="flex items-center justify-between">
-                          <Label htmlFor="linkedInUrl" className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+                          <Label
+                            htmlFor="linkedInUrl"
+                            className="text-xs font-semibold text-foreground flex items-center gap-1.5"
+                          >
                             <FaLinkedin className="w-4 h-4 text-[#0077b5]" />
                             LinkedIn Profile URL <span className="text-destructive">*</span>
                           </Label>
@@ -592,7 +621,10 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-1.5">
-                          <Label htmlFor="githubUrl" className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                          <Label
+                            htmlFor="githubUrl"
+                            className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5"
+                          >
                             <FaGithub className="w-4 h-4 text-foreground" />
                             GitHub Profile (Optional)
                           </Label>
@@ -607,7 +639,10 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                         </div>
 
                         <div className="space-y-1.5">
-                          <Label htmlFor="portfolioUrl" className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                          <Label
+                            htmlFor="portfolioUrl"
+                            className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5"
+                          >
                             <Globe className="w-4 h-4 text-emerald-500" />
                             Portfolio / Personal Site (Optional)
                           </Label>
@@ -637,7 +672,10 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
-                        <Label htmlFor="experienceYears" className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                        <Label
+                          htmlFor="experienceYears"
+                          className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5"
+                        >
                           <Briefcase className="w-3.5 h-3.5 text-indigo-500" />
                           Total Relevant Experience <span className="text-destructive">*</span>
                         </Label>
@@ -656,9 +694,13 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                       </div>
 
                       <div className="space-y-1.5">
-                        <Label htmlFor="noticePeriod" className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                        <Label
+                          htmlFor="noticePeriod"
+                          className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5"
+                        >
                           <Calendar className="w-3.5 h-3.5 text-amber-500" />
-                          Notice Period / Earliest Join Date <span className="text-destructive">*</span>
+                          Notice Period / Earliest Join Date{' '}
+                          <span className="text-destructive">*</span>
                         </Label>
                         <select
                           id="noticePeriod"
@@ -675,7 +717,10 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                       </div>
 
                       <div className="space-y-1.5">
-                        <Label htmlFor="currentCompany" className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                        <Label
+                          htmlFor="currentCompany"
+                          className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5"
+                        >
                           <Building className="w-3.5 h-3.5 text-blue-500" />
                           Current / Most Recent Organization (Optional)
                         </Label>
@@ -689,7 +734,10 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                       </div>
 
                       <div className="space-y-1.5">
-                        <Label htmlFor="expectedSalary" className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                        <Label
+                          htmlFor="expectedSalary"
+                          className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5"
+                        >
                           <DollarSign className="w-3.5 h-3.5 text-emerald-500" />
                           Expected Annual CTC / Compensation (Optional)
                         </Label>
@@ -715,7 +763,10 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                           Resume / Curriculum Vitae
                         </h4>
                       </div>
-                      <Badge variant="outline" className="text-[11px] font-semibold border-red-500/30 text-red-600 dark:text-red-400">
+                      <Badge
+                        variant="outline"
+                        className="text-[11px] font-semibold border-red-500/30 text-red-600 dark:text-red-400"
+                      >
                         PDF Strictly Required (Max 10MB)
                       </Badge>
                     </div>
@@ -827,7 +878,9 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                         onClick={() => setShowCoverLetter(!showCoverLetter)}
                         className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1 cursor-pointer"
                       >
-                        <span>{showCoverLetter ? '− Hide Field' : '+ Add Cover Note (Optional)'}</span>
+                        <span>
+                          {showCoverLetter ? '− Hide Field' : '+ Add Cover Note (Optional)'}
+                        </span>
                       </button>
                     </div>
 
@@ -867,7 +920,9 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                         className="mt-0.5 rounded border-border text-indigo-600 focus:ring-indigo-500 w-4 h-4 cursor-pointer shrink-0"
                       />
                       <span>
-                        I certify that all information submitted is true, complete, and accurate. I authorize InGrowwth Innovations to process my candidate data in compliance with recruitment privacy guidelines.
+                        I certify that all information submitted is true, complete, and accurate. I
+                        authorize InGrowwth Innovations to process my candidate data in compliance
+                        with recruitment privacy guidelines.
                       </span>
                     </label>
                   </div>
@@ -945,8 +1000,9 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                   Application Received! 🎉
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Thank you, <strong className="text-foreground">{candidateName}</strong>! Your application for{' '}
-                  <strong className="text-foreground">{jobTitle}</strong> has been logged into our candidate database.
+                  Thank you, <strong className="text-foreground">{candidateName}</strong>! Your
+                  application for <strong className="text-foreground">{jobTitle}</strong> has been
+                  logged into our candidate database.
                 </p>
                 <p className="text-xs text-muted-foreground pt-1">
                   A confirmation email has been dispatched to{' '}
@@ -966,7 +1022,8 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                       1
                     </div>
                     <span>
-                      <strong>Candidate & Profile Review:</strong> Our technical recruiting team reviews your resume and LinkedIn within 48 hours.
+                      <strong>Candidate & Profile Review:</strong> Our technical recruiting team
+                      reviews your resume and LinkedIn within 48 hours.
                     </span>
                   </div>
                   <div className="flex items-start gap-2.5">
@@ -974,7 +1031,8 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                       2
                     </div>
                     <span>
-                      <strong>Initial Screening:</strong> Qualified candidates receive an invitation for an introductory video call.
+                      <strong>Initial Screening:</strong> Qualified candidates receive an invitation
+                      for an introductory video call.
                     </span>
                   </div>
                   <div className="flex items-start gap-2.5">
@@ -982,7 +1040,8 @@ export function ApplyModal({ jobTitle, department, location, trigger }: ApplyMod
                       3
                     </div>
                     <span>
-                      <strong>Technical Discussion:</strong> Collaborative technical architecture and system design interview.
+                      <strong>Technical Discussion:</strong> Collaborative technical architecture
+                      and system design interview.
                     </span>
                   </div>
                 </div>

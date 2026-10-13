@@ -72,15 +72,18 @@ export default async function BlogPostPage({ params }: Props) {
     });
 
     if (post) {
-      const generatedSlug = post.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+      const generatedSlug = post.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)+/g, '');
       if (generatedSlug && generatedSlug !== post.slug) {
         try {
           await db.blogPost.update({
             where: { id: post.id },
-            data: { slug: generatedSlug }
+            data: { slug: generatedSlug },
           });
           redirect(`/blog/${generatedSlug}`);
-        } catch (e) {
+        } catch {
           // Ignore error if slug exists
         }
       }

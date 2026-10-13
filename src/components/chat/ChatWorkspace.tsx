@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import {
-  Send,
   Bot,
   User,
   Plus,
@@ -14,9 +13,8 @@ import {
   BookOpen,
   Code,
   PenTool,
-  GripHorizontal,
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import InteractiveMessage from './InteractiveMessage';
 import FeedbackControls from './FeedbackControls';
 import MeetingBooking from './MeetingBooking';
@@ -175,7 +173,7 @@ export default function ChatWorkspace() {
         newMsgs[newMsgs.length - 1].isStreaming = false;
         return newMsgs;
       });
-    } catch (error) {
+    } catch {
       setMessages((prev) => [
         ...prev,
         {

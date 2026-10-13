@@ -105,7 +105,10 @@ export default function SettingsPage() {
                 <Sparkles className="w-3.5 h-3.5 animate-pulse" />
                 Administrative Control Suite
               </span>
-              <Badge variant="outline" className="text-[11px] font-mono border-white/10 text-muted-foreground">
+              <Badge
+                variant="outline"
+                className="text-[11px] font-mono border-white/10 text-muted-foreground"
+              >
                 v2.6 Enterprise
               </Badge>
             </div>
@@ -116,7 +119,8 @@ export default function SettingsPage() {
               <SettingsIcon className="h-7 w-7 text-indigo-400 animate-spin [animation-duration:12s]" />
             </h1>
             <p className="text-sm sm:text-base text-muted-foreground max-w-2xl leading-relaxed">
-              Configure corporate credentials, identity tokens, notification triggers, and real-time infrastructure telemetry for InGrowwth Innovations.
+              Configure corporate credentials, identity tokens, notification triggers, and real-time
+              infrastructure telemetry for InGrowwth Innovations.
             </p>
           </div>
 
@@ -148,23 +152,38 @@ export default function SettingsPage() {
       <Tabs defaultValue="brand" className="w-full space-y-6">
         <div className="overflow-x-auto pb-1">
           <TabsList className="h-auto p-1.5 bg-slate-950/80 border border-white/10 rounded-2xl flex flex-wrap gap-1 w-full max-w-4xl">
-            <TabsTrigger value="brand" className="gap-2 py-2.5 px-4 text-xs font-semibold rounded-xl">
+            <TabsTrigger
+              value="brand"
+              className="gap-2 py-2.5 px-4 text-xs font-semibold rounded-xl"
+            >
               <Building2 className="w-4 h-4 text-indigo-400" />
               <span>Brand Profile</span>
             </TabsTrigger>
-            <TabsTrigger value="account" className="gap-2 py-2.5 px-4 text-xs font-semibold rounded-xl">
+            <TabsTrigger
+              value="account"
+              className="gap-2 py-2.5 px-4 text-xs font-semibold rounded-xl"
+            >
               <Lock className="w-4 h-4 text-purple-400" />
               <span>Account & Security</span>
             </TabsTrigger>
-            <TabsTrigger value="notifications" className="gap-2 py-2.5 px-4 text-xs font-semibold rounded-xl">
+            <TabsTrigger
+              value="notifications"
+              className="gap-2 py-2.5 px-4 text-xs font-semibold rounded-xl"
+            >
               <Bell className="w-4 h-4 text-pink-400" />
               <span>Alert Preferences</span>
             </TabsTrigger>
-            <TabsTrigger value="infrastructure" className="gap-2 py-2.5 px-4 text-xs font-semibold rounded-xl">
+            <TabsTrigger
+              value="infrastructure"
+              className="gap-2 py-2.5 px-4 text-xs font-semibold rounded-xl"
+            >
               <Cpu className="w-4 h-4 text-emerald-400" />
               <span>Cloud Telemetry</span>
             </TabsTrigger>
-            <TabsTrigger value="rbac" className="gap-2 py-2.5 px-4 text-xs font-semibold rounded-xl">
+            <TabsTrigger
+              value="rbac"
+              className="gap-2 py-2.5 px-4 text-xs font-semibold rounded-xl"
+            >
               <Users className="w-4 h-4 text-amber-400" />
               <span>RBAC Matrix</span>
             </TabsTrigger>
@@ -182,7 +201,8 @@ export default function SettingsPage() {
                     <span>Corporate Identity & Metadata</span>
                   </CardTitle>
                   <CardDescription className="text-xs text-muted-foreground mt-1">
-                    Public business entity details rendered across communications, client quotes, and footer links.
+                    Public business entity details rendered across communications, client quotes,
+                    and footer links.
                   </CardDescription>
                 </div>
                 <Badge className="bg-indigo-500/10 text-indigo-400 border-indigo-500/20 text-xs">
@@ -244,7 +264,9 @@ export default function SettingsPage() {
                     </Label>
                     <Input
                       value={brandData.corporatePhone}
-                      onChange={(e) => setBrandData({ ...brandData, corporatePhone: e.target.value })}
+                      onChange={(e) =>
+                        setBrandData({ ...brandData, corporatePhone: e.target.value })
+                      }
                       className="bg-muted/30 border-white/10 rounded-xl focus:border-indigo-500 h-11 text-sm font-medium"
                     />
                   </div>
@@ -273,7 +295,9 @@ export default function SettingsPage() {
                       </Label>
                       <Input
                         value={brandData.linkedinUrl}
-                        onChange={(e) => setBrandData({ ...brandData, linkedinUrl: e.target.value })}
+                        onChange={(e) =>
+                          setBrandData({ ...brandData, linkedinUrl: e.target.value })
+                        }
                         className="bg-muted/30 border-white/10 rounded-xl focus:border-indigo-500 h-10 text-xs font-mono"
                       />
                     </div>
@@ -332,7 +356,10 @@ export default function SettingsPage() {
               <CardContent className="p-5 space-y-4 text-xs">
                 <div className="flex items-center justify-between p-3 rounded-xl bg-muted/20 border border-border/30">
                   <span className="text-muted-foreground">Identity Auth Provider</span>
-                  <Badge variant="outline" className="border-indigo-500/30 text-indigo-400 font-mono">
+                  <Badge
+                    variant="outline"
+                    className="border-indigo-500/30 text-indigo-400 font-mono"
+                  >
                     Clerk Core SSO
                   </Badge>
                 </div>
@@ -380,7 +407,7 @@ export default function SettingsPage() {
                         'bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl shadow-md transition-all',
                       badge: 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30',
                     },
-                  } as any
+                  } as React.ComponentProps<typeof UserProfile>['appearance']
                 }
               />
             </div>
@@ -416,7 +443,8 @@ export default function SettingsPage() {
                       <span>Instant Inbound Contact Alert</span>
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      Dispatches an immediate notification email whenever a prospect submits the website contact form.
+                      Dispatches an immediate notification email whenever a prospect submits the
+                      website contact form.
                     </p>
                   </div>
                   <Button
@@ -441,7 +469,8 @@ export default function SettingsPage() {
                       <span>High-Intent Enterprise Quote Alerts</span>
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      Prioritizes scope & budget proposal inquiries with urgent executive notifications.
+                      Prioritizes scope & budget proposal inquiries with urgent executive
+                      notifications.
                     </p>
                   </div>
                   <Button
@@ -466,7 +495,8 @@ export default function SettingsPage() {
                       <span>Weekly Audience & Newsletter Digest</span>
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      Receives a weekly executive recap detailing newly subscribed emails and newsletter delivery metrics.
+                      Receives a weekly executive recap detailing newly subscribed emails and
+                      newsletter delivery metrics.
                     </p>
                   </div>
                   <Button
@@ -491,7 +521,8 @@ export default function SettingsPage() {
                       <span>Administrative Login Security Alerts</span>
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      Alerts administrators if a successful login occurs from an unfamiliar geographic region or device.
+                      Alerts administrators if a successful login occurs from an unfamiliar
+                      geographic region or device.
                     </p>
                   </div>
                   <Button
@@ -540,13 +571,18 @@ export default function SettingsPage() {
                 </div>
                 <div className="flex items-center justify-between py-1.5 border-b border-border/20">
                   <span className="text-muted-foreground">SSL Verification Mode</span>
-                  <Badge variant="outline" className="text-[10px] border-emerald-500/30 text-emerald-400">
+                  <Badge
+                    variant="outline"
+                    className="text-[10px] border-emerald-500/30 text-emerald-400"
+                  >
                     require
                   </Badge>
                 </div>
                 <div className="flex items-center justify-between py-1.5">
                   <span className="text-muted-foreground">Prisma Client Version</span>
-                  <span className="font-mono text-foreground font-semibold">v7.8.0 / pg-adapter</span>
+                  <span className="font-mono text-foreground font-semibold">
+                    v7.8.0 / pg-adapter
+                  </span>
                 </div>
               </CardContent>
             </Card>
@@ -568,7 +604,9 @@ export default function SettingsPage() {
               <CardContent className="p-5 space-y-3 text-xs">
                 <div className="flex items-center justify-between py-1.5 border-b border-border/20">
                   <span className="text-muted-foreground">Verified Dispatch Domain</span>
-                  <span className="font-mono text-foreground font-semibold">ingrowwthinnovations.com</span>
+                  <span className="font-mono text-foreground font-semibold">
+                    ingrowwthinnovations.com
+                  </span>
                 </div>
                 <div className="flex items-center justify-between py-1.5 border-b border-border/20">
                   <span className="text-muted-foreground">DKIM & SPF Records</span>
@@ -606,7 +644,10 @@ export default function SettingsPage() {
                 </div>
                 <div className="flex items-center justify-between py-1.5 border-b border-border/20">
                   <span className="text-muted-foreground">CORS Policy</span>
-                  <Badge variant="outline" className="text-[10px] border-indigo-500/30 text-indigo-400">
+                  <Badge
+                    variant="outline"
+                    className="text-[10px] border-indigo-500/30 text-indigo-400"
+                  >
                     Restricted Admin
                   </Badge>
                 </div>
@@ -634,7 +675,9 @@ export default function SettingsPage() {
               <CardContent className="p-5 space-y-3 text-xs">
                 <div className="flex items-center justify-between py-1.5 border-b border-border/20">
                   <span className="text-muted-foreground">Framework Version</span>
-                  <span className="font-mono text-foreground font-semibold">Next.js 16.2 (Turbo)</span>
+                  <span className="font-mono text-foreground font-semibold">
+                    Next.js 16.2 (Turbo)
+                  </span>
                 </div>
                 <div className="flex items-center justify-between py-1.5 border-b border-border/20">
                   <span className="text-muted-foreground">React Server Components</span>
@@ -680,9 +723,13 @@ export default function SettingsPage() {
                         Super Administrator
                       </td>
                       <td className="py-4 px-6 text-muted-foreground">Full Platform Authority</td>
-                      <td className="py-4 px-6 text-emerald-400 font-semibold">Read, Write, Export</td>
+                      <td className="py-4 px-6 text-emerald-400 font-semibold">
+                        Read, Write, Export
+                      </td>
                       <td className="py-4 px-6 text-emerald-400 font-semibold">Publish & Delete</td>
-                      <td className="py-4 px-6 text-emerald-400 font-semibold">Full Configuration</td>
+                      <td className="py-4 px-6 text-emerald-400 font-semibold">
+                        Full Configuration
+                      </td>
                     </tr>
                     <tr className="hover:bg-muted/20 transition-colors">
                       <td className="py-4 px-6 font-bold text-foreground flex items-center gap-2">
@@ -690,8 +737,12 @@ export default function SettingsPage() {
                         Executive Editor
                       </td>
                       <td className="py-4 px-6 text-muted-foreground">Content & Publishing Hub</td>
-                      <td className="py-4 px-6 text-indigo-400 font-semibold">Read & Status Update</td>
-                      <td className="py-4 px-6 text-emerald-400 font-semibold">Draft, Edit, Publish</td>
+                      <td className="py-4 px-6 text-indigo-400 font-semibold">
+                        Read & Status Update
+                      </td>
+                      <td className="py-4 px-6 text-emerald-400 font-semibold">
+                        Draft, Edit, Publish
+                      </td>
                       <td className="py-4 px-6 text-muted-foreground font-semibold">Read Only</td>
                     </tr>
                     <tr className="hover:bg-muted/20 transition-colors">

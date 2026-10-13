@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Code2, Users, AlertTriangle } from 'lucide-react';
+import { Clock, Code2, AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export function TimelineCard({ min, max }: { min: number; max: number }) {

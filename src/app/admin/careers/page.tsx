@@ -110,7 +110,6 @@ export default function CareersPage() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchApplications();
-
     fetchJobs();
   }, []);
 

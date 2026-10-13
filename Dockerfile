@@ -14,6 +14,9 @@ COPY . .
 # Set environment to production
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/ingrowwth_db?schema=public"
+ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_ZGVzdGluZWQtZG9nLTEyLmNsZXJrLmFjY291bnRzLmRldiQ"
+ENV CLERK_SECRET_KEY="sk_test_s4Tld4bYLYK7lXsK6qMljzLeeyBh2r5unTQ8eSVhiU"
 
 # Build the Next.js application
 RUN npm run build

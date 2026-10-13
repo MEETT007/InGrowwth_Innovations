@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { db } from '@/lib/db';
+import type { CaseStudy } from '@/generated/prisma/client';
 import ProjectDetailClient from './ProjectDetailClient';
 
 interface Props {
@@ -46,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-function mapCaseStudyToProject(caseStudy: any) {
+function mapCaseStudyToProject(caseStudy: CaseStudy) {
   return {
     title: caseStudy.title,
     client: caseStudy.clientName || 'Confidential',
@@ -76,15 +77,18 @@ export default async function ProjectDetailPage({ params }: Props) {
   // Fallback for backwards compatibility with UUIDs in the URL
   const portfolioById = await db.portfolioProject.findUnique({ where: { id: slug } });
   if (portfolioById) {
-    const generatedSlug = portfolioById.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+    const generatedSlug = portfolioById.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)+/g, '');
     if (generatedSlug && generatedSlug !== portfolioById.slug) {
       try {
         await db.portfolioProject.update({
           where: { id: portfolioById.id },
-          data: { slug: generatedSlug }
+          data: { slug: generatedSlug },
         });
         redirect(`/projects/${generatedSlug}`);
-      } catch (e) {
+      } catch {
         // Ignore error if slug already exists, just render
       }
     }
@@ -93,15 +97,18 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   const caseStudyById = await db.caseStudy.findUnique({ where: { id: slug } });
   if (caseStudyById) {
-    const generatedSlug = caseStudyById.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+    const generatedSlug = caseStudyById.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)+/g, '');
     if (generatedSlug && generatedSlug !== caseStudyById.slug) {
       try {
         await db.caseStudy.update({
           where: { id: caseStudyById.id },
-          data: { slug: generatedSlug }
+          data: { slug: generatedSlug },
         });
         redirect(`/projects/${generatedSlug}`);
-      } catch (e) {
+      } catch {
         // Ignore error
       }
     }

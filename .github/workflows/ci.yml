@@ -20,6 +20,12 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  NEXT_TELEMETRY_DISABLED: 1
+  DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/ingrowwth_db?schema=public'
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: 'pk_test_ZGVzdGluZWQtZG9nLTEyLmNsZXJrLmFjY291bnRzLmRldiQ'
+  CLERK_SECRET_KEY: 'sk_test_s4Tld4bYLYK7lXsK6qMljzLeeyBh2r5unTQ8eSVhiU'
+
 jobs:
   lint-and-typecheck:
     name: Lint & Type Check

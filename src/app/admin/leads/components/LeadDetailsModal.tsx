@@ -22,12 +22,15 @@ export function LeadDetailsModal({
   const [isReplying, setIsReplying] = useState(false);
   const [replySubject, setReplySubject] = useState('');
   const [replyMessage, setReplyMessage] = useState('');
-  const [replyingStatus, setReplyingStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [replyingStatus, setReplyingStatus] = useState<'idle' | 'loading' | 'success' | 'error'>(
+    'idle'
+  );
   const [replyError, setReplyError] = useState('');
 
   // Reset state when lead changes
   React.useEffect(() => {
     if (lead) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setReplySubject(`Re: ${lead.subject || 'Your Inquiry'}`);
       setReplyMessage('');
       setIsReplying(false);
@@ -39,7 +42,7 @@ export function LeadDetailsModal({
     e.preventDefault();
     setReplyingStatus('loading');
     setReplyError('');
-    
+
     try {
       const res = await fetch('/api/admin/reply', {
         method: 'POST',
@@ -51,15 +54,15 @@ export function LeadDetailsModal({
           message: replyMessage,
         }),
       });
-      
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to send reply');
-      
+
       setReplyingStatus('success');
       setTimeout(() => setIsReplying(false), 2000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setReplyingStatus('error');
-      setReplyError(err.message || 'Error sending reply');
+      setReplyError(err instanceof Error ? err.message : 'Error sending reply');
     }
   };
 
@@ -190,7 +193,7 @@ export function LeadDetailsModal({
 
             {!isReplying ? (
               <div className="pt-4 flex justify-end">
-                <button 
+                <button
                   onClick={() => setIsReplying(true)}
                   className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium"
                 >
@@ -198,50 +201,62 @@ export function LeadDetailsModal({
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleReplySubmit} className="mt-6 border-t border-border/60 pt-4 space-y-4">
+              <form
+                onSubmit={handleReplySubmit}
+                className="mt-6 border-t border-border/60 pt-4 space-y-4"
+              >
                 <h4 className="font-semibold text-foreground">Reply via Email</h4>
-                {replyingStatus === 'error' && <p className="text-destructive text-sm">{replyError}</p>}
-                {replyingStatus === 'success' && <p className="text-emerald-600 text-sm">Reply sent successfully!</p>}
-                
+                {replyingStatus === 'error' && (
+                  <p className="text-destructive text-sm">{replyError}</p>
+                )}
+                {replyingStatus === 'success' && (
+                  <p className="text-emerald-600 text-sm">Reply sent successfully!</p>
+                )}
+
                 <div className="space-y-2">
                   <label className="text-sm font-medium">To</label>
-                  <input type="text" value={lead.email} disabled className="w-full bg-muted border border-border rounded-md px-3 py-2 text-sm text-muted-foreground cursor-not-allowed" />
+                  <input
+                    type="text"
+                    value={lead.email}
+                    disabled
+                    className="w-full bg-muted border border-border rounded-md px-3 py-2 text-sm text-muted-foreground cursor-not-allowed"
+                  />
                 </div>
-                
+
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Subject</label>
-                  <input 
-                    type="text" 
-                    value={replySubject} 
+                  <input
+                    type="text"
+                    value={replySubject}
                     onChange={(e) => setReplySubject(e.target.value)}
                     required
                     disabled={replyingStatus === 'loading'}
-                    className="w-full bg-background border border-border rounded-md px-3 py-2 text-sm text-foreground focus:ring-1 focus:ring-primary outline-none" 
+                    className="w-full bg-background border border-border rounded-md px-3 py-2 text-sm text-foreground focus:ring-1 focus:ring-primary outline-none"
                   />
                 </div>
-                
+
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Message</label>
-                  <textarea 
+                  <textarea
                     value={replyMessage}
                     onChange={(e) => setReplyMessage(e.target.value)}
                     required
                     rows={5}
                     disabled={replyingStatus === 'loading'}
-                    className="w-full bg-background border border-border rounded-md px-3 py-2 text-sm text-foreground focus:ring-1 focus:ring-primary outline-none resize-y" 
+                    className="w-full bg-background border border-border rounded-md px-3 py-2 text-sm text-foreground focus:ring-1 focus:ring-primary outline-none resize-y"
                   />
                 </div>
 
                 <div className="flex justify-end gap-2 pt-2">
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     onClick={() => setIsReplying(false)}
                     disabled={replyingStatus === 'loading'}
                     className="px-4 py-2 rounded-md text-sm font-medium border border-border hover:bg-muted"
                   >
                     Cancel
                   </button>
-                  <button 
+                  <button
                     type="submit"
                     disabled={replyingStatus === 'loading'}
                     className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium disabled:opacity-50"

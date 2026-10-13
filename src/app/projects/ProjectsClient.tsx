@@ -7,7 +7,6 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Search, Briefcase, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 
 interface DBPortfolioProject {
   id: string;
@@ -49,7 +48,8 @@ export default function ProjectsClient({
   const combinedItems = useMemo(() => {
     const mappedProjects = initialProjects.map((p) => {
       const galleryArray = p.gallery ? p.gallery.split(',').map((u) => u.trim()) : [];
-      const coverImage = p.coverImage || (galleryArray.length > 0 ? galleryArray[0] : '/placeholder.png');
+      const coverImage =
+        p.coverImage || (galleryArray.length > 0 ? galleryArray[0] : '/placeholder.png');
       return {
         id: p.id,
         isCaseStudy: false,
@@ -86,7 +86,7 @@ export default function ProjectsClient({
         (item.title && item.title.toLowerCase().includes(q)) ||
         (item.description && item.description.toLowerCase().includes(q));
 
-      const matchesTab = 
+      const matchesTab =
         activeTab === 'All' ||
         (activeTab === 'Projects' && !item.isCaseStudy) ||
         (activeTab === 'Case Studies' && item.isCaseStudy);
@@ -129,8 +129,8 @@ export default function ProjectsClient({
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-12"
         >
-          Browse our curated gallery of successful projects and in-depth case studies, spanning web development, mobile apps,
-          and scalable digital solutions.
+          Browse our curated gallery of successful projects and in-depth case studies, spanning web
+          development, mobile apps, and scalable digital solutions.
         </motion.p>
 
         <div className="flex flex-col md:flex-row justify-center items-center gap-4 max-w-2xl mx-auto mb-8">
@@ -141,8 +141,8 @@ export default function ProjectsClient({
                 onClick={() => setActiveTab(tab)}
                 className={cn(
                   'px-6 py-2 rounded-full text-sm font-medium transition-all duration-300',
-                  activeTab === tab 
-                    ? 'bg-background shadow-sm text-foreground' 
+                  activeTab === tab
+                    ? 'bg-background shadow-sm text-foreground'
                     : 'text-muted-foreground hover:text-foreground hover:bg-background/50'
                 )}
               >
@@ -150,7 +150,7 @@ export default function ProjectsClient({
               </button>
             ))}
           </div>
-          
+
           <div className="relative w-full md:w-64">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search className="h-4 w-4 text-muted-foreground" />
@@ -248,7 +248,8 @@ export default function ProjectsClient({
                             </p>
 
                             <div className="flex items-center text-indigo-400 text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200">
-                              {item.isCaseStudy ? 'Read Case Study' : 'View Project'} <ArrowRight className="ml-2 w-4 h-4" />
+                              {item.isCaseStudy ? 'Read Case Study' : 'View Project'}{' '}
+                              <ArrowRight className="ml-2 w-4 h-4" />
                             </div>
                           </div>
                         </div>

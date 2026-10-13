@@ -3,19 +3,8 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  ArrowRight,
-  Sparkles,
-  Search,
-  Briefcase,
-  FileText,
-  TrendingUp,
-  Layers,
-  ChevronRight,
-  ExternalLink,
-  Code2,
-} from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Sparkles, Search, Briefcase, FileText, Layers } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -67,7 +56,6 @@ export default function PortfolioClient({
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'All' | 'Case Studies' | 'Projects'>(defaultTab);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   // Collect unique categories across both projects & case studies
   const categories = useMemo(() => {
@@ -85,7 +73,8 @@ export default function PortfolioClient({
   const combinedItems = useMemo(() => {
     const mappedProjects = initialProjects.map((p) => {
       const galleryArray = p.gallery ? p.gallery.split(',').map((u) => u.trim()) : [];
-      const coverImage = p.coverImage || (galleryArray.length > 0 ? galleryArray[0] : '/placeholder.png');
+      const coverImage =
+        p.coverImage || (galleryArray.length > 0 ? galleryArray[0] : '/placeholder.png');
       const techStack = parseArrayField(p.technologiesUsed || p.technologies);
       const metricsList = parseMetricsField(p.metrics);
 
@@ -115,7 +104,10 @@ export default function PortfolioClient({
         isCaseStudy: true,
         title: cs.title,
         client: cs.clientName || 'Enterprise Partner',
-        description: cs.problemStatement || cs.executiveSummary || 'Deep-dive architectural transformation and business impact analysis.',
+        description:
+          cs.problemStatement ||
+          cs.executiveSummary ||
+          'Deep-dive architectural transformation and business impact analysis.',
         category: cs.industry || 'Enterprise Transformation',
         coverImage: cs.coverImage || cs.heroBanner || '/placeholder.png',
         linkSlug: cs.slug,
@@ -204,13 +196,17 @@ export default function PortfolioClient({
             <div className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
               {initialProjects.length}+
             </div>
-            <div className="text-xs text-muted-foreground font-semibold mt-1">Delivered Projects</div>
+            <div className="text-xs text-muted-foreground font-semibold mt-1">
+              Delivered Projects
+            </div>
           </div>
           <div className="text-center p-3">
             <div className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
               {initialCaseStudies.length}
             </div>
-            <div className="text-xs text-muted-foreground font-semibold mt-1">Published Case Studies</div>
+            <div className="text-xs text-muted-foreground font-semibold mt-1">
+              Published Case Studies
+            </div>
           </div>
           <div className="text-center p-3">
             <div className="text-2xl sm:text-3xl font-black text-emerald-500 dark:text-emerald-400">
@@ -222,7 +218,9 @@ export default function PortfolioClient({
             <div className="text-2xl sm:text-3xl font-black text-indigo-500 dark:text-indigo-400">
               Global
             </div>
-            <div className="text-xs text-muted-foreground font-semibold mt-1">Cross-Border Scale</div>
+            <div className="text-xs text-muted-foreground font-semibold mt-1">
+              Cross-Border Scale
+            </div>
           </div>
         </motion.div>
 
@@ -249,8 +247,8 @@ export default function PortfolioClient({
                   {tab === 'All'
                     ? initialProjects.length + initialCaseStudies.length
                     : tab === 'Case Studies'
-                    ? initialCaseStudies.length
-                    : initialProjects.length}
+                      ? initialCaseStudies.length
+                      : initialProjects.length}
                 </span>
               </button>
             ))}
@@ -295,7 +293,9 @@ export default function PortfolioClient({
         {combinedItems.length === 0 ? (
           <div className="text-center py-20 bg-card/20 rounded-3xl border border-dashed border-border/60 max-w-xl mx-auto p-8">
             <Layers className="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-foreground mb-1">No matching deliverables found</h3>
+            <h3 className="text-lg font-bold text-foreground mb-1">
+              No matching deliverables found
+            </h3>
             <p className="text-sm text-muted-foreground mb-6">
               Try adjusting your search terms or selecting a different category filter.
             </p>
@@ -386,7 +386,10 @@ export default function PortfolioClient({
                     {item.metrics && item.metrics.length > 0 && (
                       <div className="grid grid-cols-2 gap-2 pt-2 border-t border-border/40">
                         {item.metrics.slice(0, 2).map((m, mIdx) => (
-                          <div key={mIdx} className="p-2 rounded-xl bg-muted/40 border border-border/30">
+                          <div
+                            key={mIdx}
+                            className="p-2 rounded-xl bg-muted/40 border border-border/30"
+                          >
                             <div className="text-base font-extrabold text-indigo-400">
                               {m.value}
                             </div>
@@ -423,7 +426,9 @@ export default function PortfolioClient({
                             : 'bg-purple-500/10 text-purple-400 hover:bg-purple-500 hover:text-white border border-purple-500/20'
                         )}
                       >
-                        <span>{isCaseStudy ? 'Read Enterprise Case Study' : 'Explore Project Details'}</span>
+                        <span>
+                          {isCaseStudy ? 'Read Enterprise Case Study' : 'Explore Project Details'}
+                        </span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                       </Link>
                     </div>

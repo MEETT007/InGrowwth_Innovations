@@ -3,10 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import {
   ArrowRight,
-  TrendingUp,
   Building2,
   Sparkles,
   Layers,
@@ -32,9 +30,7 @@ export default function CaseStudiesClient({ initialCaseStudies }: CaseStudiesCli
     'All',
     ...Array.from(
       new Set(
-        initialCaseStudies
-          .map((cs) => cs.industry)
-          .filter((ind): ind is string => Boolean(ind))
+        initialCaseStudies.map((cs) => cs.industry).filter((ind): ind is string => Boolean(ind))
       )
     ),
   ];
@@ -47,7 +43,8 @@ export default function CaseStudiesClient({ initialCaseStudies }: CaseStudiesCli
       !searchQuery.trim() ||
       cs.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (cs.clientName && cs.clientName.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (cs.problemStatement && cs.problemStatement.toLowerCase().includes(searchQuery.toLowerCase()));
+      (cs.problemStatement &&
+        cs.problemStatement.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesIndustry && matchesSearch;
   });
 
@@ -74,7 +71,8 @@ export default function CaseStudiesClient({ initialCaseStudies }: CaseStudiesCli
             </span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground mt-6 max-w-2xl mx-auto leading-relaxed">
-            Examine in-depth technical architectures, operational KPIs, and enterprise outcomes engineered by InGrowwth Innovations.
+            Examine in-depth technical architectures, operational KPIs, and enterprise outcomes
+            engineered by InGrowwth Innovations.
           </p>
         </AnimatedContainer>
 
@@ -132,7 +130,10 @@ export default function CaseStudiesClient({ initialCaseStudies }: CaseStudiesCli
                       </span>
                     )}
                     <span className="text-xs text-muted-foreground">
-                      Client: <strong className="text-foreground">{featuredStudy.clientName || 'Confidential'}</strong>
+                      Client:{' '}
+                      <strong className="text-foreground">
+                        {featuredStudy.clientName || 'Confidential'}
+                      </strong>
                     </span>
                   </div>
 
@@ -207,7 +208,8 @@ export default function CaseStudiesClient({ initialCaseStudies }: CaseStudiesCli
             <FileText className="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-foreground">No Case Studies Found</h3>
             <p className="text-sm text-muted-foreground mt-2">
-              No published case studies match your current filter criteria. Check back soon as new enterprise studies are published regularly.
+              No published case studies match your current filter criteria. Check back soon as new
+              enterprise studies are published regularly.
             </p>
           </div>
         ) : (
@@ -331,7 +333,8 @@ export default function CaseStudiesClient({ initialCaseStudies }: CaseStudiesCli
                 Engineered for High-Stakes Complexity.
               </h2>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                Connect with our principal architects to review your system topology, audit bottlenecks, and map out your modernization roadmap.
+                Connect with our principal architects to review your system topology, audit
+                bottlenecks, and map out your modernization roadmap.
               </p>
             </div>
             <Link

@@ -52,8 +52,8 @@ const campaignSchema = z.object({
   content: z.string().min(20, 'Content must be at least 20 characters'),
   ctaText: z.string().optional(),
   ctaUrl: z.string().optional(),
-  targetAudience: z.string().default('ALL_SUBSCRIBERS'),
-  status: z.string().default('DRAFT'),
+  targetAudience: z.string(),
+  status: z.string(),
   scheduledFor: z.string().optional(),
 });
 
@@ -106,7 +106,7 @@ export function NewsletterCampaignModal({
   const [bannerPreview, setBannerPreview] = useState<string | null>(null);
 
   const form = useForm<CampaignFormValues>({
-    resolver: zodResolver(campaignSchema) as any,
+    resolver: zodResolver(campaignSchema),
     defaultValues: {
       subject: '',
       preheader: '',
@@ -198,7 +198,7 @@ export function NewsletterCampaignModal({
     }
   };
 
-  const applyTemplate = (tmpl: typeof QUICK_TEMPLATES[0]) => {
+  const applyTemplate = (tmpl: (typeof QUICK_TEMPLATES)[0]) => {
     form.setValue('subject', tmpl.subject, { shouldValidate: true });
     form.setValue('preheader', tmpl.preheader);
     form.setValue('content', tmpl.content, { shouldValidate: true });
@@ -443,7 +443,9 @@ export function NewsletterCampaignModal({
                   {...form.register('content')}
                 />
                 {form.formState.errors.content && (
-                  <p className="text-xs text-destructive">{form.formState.errors.content.message}</p>
+                  <p className="text-xs text-destructive">
+                    {form.formState.errors.content.message}
+                  </p>
                 )}
               </div>
 
@@ -522,7 +524,10 @@ export function NewsletterCampaignModal({
             <TabsContent value="preview" className="space-y-4">
               <div className="flex items-center justify-between pb-2 border-b border-border/40">
                 <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="text-xs font-mono bg-indigo-500/10 text-indigo-400 border-indigo-500/20">
+                  <Badge
+                    variant="outline"
+                    className="text-xs font-mono bg-indigo-500/10 text-indigo-400 border-indigo-500/20"
+                  >
                     Live Client Simulator
                   </Badge>
                   <span className="text-xs text-muted-foreground">
@@ -573,9 +578,7 @@ export function NewsletterCampaignModal({
                       {watchedSubject || 'No Subject Provided'}
                     </div>
                     {watchedPreheader && (
-                      <div className="text-zinc-500 text-[11px] truncate">
-                        {watchedPreheader}
-                      </div>
+                      <div className="text-zinc-500 text-[11px] truncate">{watchedPreheader}</div>
                     )}
                   </div>
 
@@ -625,8 +628,12 @@ export function NewsletterCampaignModal({
 
                     {/* Footer */}
                     <div className="pt-6 border-t border-white/10 text-center text-[10px] text-zinc-500 space-y-1">
-                      <p>© {new Date().getFullYear()} InGrowwth Innovations. All rights reserved.</p>
-                      <p>You received this email because you subscribed to our engineering updates.</p>
+                      <p>
+                        © {new Date().getFullYear()} InGrowwth Innovations. All rights reserved.
+                      </p>
+                      <p>
+                        You received this email because you subscribed to our engineering updates.
+                      </p>
                       <p className="text-zinc-400 underline cursor-pointer">Unsubscribe</p>
                     </div>
                   </div>

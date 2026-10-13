@@ -17,17 +17,12 @@ import {
   CheckCircle2,
   ShieldAlert,
   ArrowRight,
-  Layers,
   ArrowRightLeft,
   FileText,
 } from 'lucide-react';
 import { CaseStudy } from '@/generated/prisma/client';
 import { AnimatedContainer } from '@/components/shared/AnimatedContainer';
-import {
-  parseArrayField,
-  parseMetricsField,
-  parseTestimonialField,
-} from '@/lib/data-helpers';
+import { parseArrayField, parseMetricsField, parseTestimonialField } from '@/lib/data-helpers';
 
 interface CaseStudyDetailClientProps {
   data: CaseStudy;
@@ -42,12 +37,9 @@ export default function CaseStudyDetailClient({ data }: CaseStudyDetailClientPro
     problemStatement,
     businessChallenges,
     objectives,
-    research,
     strategy,
     solution,
     architecture,
-    designProcess,
-    developmentJourney,
     technologies,
     beforeVsAfter,
     kpis,
@@ -130,12 +122,16 @@ export default function CaseStudyDetailClient({ data }: CaseStudyDetailClientPro
               </h1>
               <p className="text-lg text-muted-foreground mt-4 font-medium flex items-center gap-2">
                 <span className="w-8 h-[1px] bg-border/80 block"></span>
-                Client: <span className="text-foreground font-semibold">{clientName || 'Confidential Enterprise'}</span>
+                Client:{' '}
+                <span className="text-foreground font-semibold">
+                  {clientName || 'Confidential Enterprise'}
+                </span>
               </p>
             </div>
 
             <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-              {problemStatement || 'Enterprise technical transformation study by InGrowwth Innovations.'}
+              {problemStatement ||
+                'Enterprise technical transformation study by InGrowwth Innovations.'}
             </p>
 
             {/* Action buttons */}
@@ -179,7 +175,9 @@ export default function CaseStudyDetailClient({ data }: CaseStudyDetailClientPro
                   />
                 </div>
               ) : (
-                <div className={`w-full h-full rounded-[2rem] bg-gradient-to-br ${gradient} opacity-20`} />
+                <div
+                  className={`w-full h-full rounded-[2rem] bg-gradient-to-br ${gradient} opacity-20`}
+                />
               )}
             </div>
           </motion.div>
@@ -267,7 +265,9 @@ export default function CaseStudyDetailClient({ data }: CaseStudyDetailClientPro
 
                 {strategy && (
                   <div className="p-7 rounded-2xl border border-border/60 bg-card/40 backdrop-blur-sm">
-                    <h3 className="text-lg font-bold text-foreground mb-3">Architectural Strategy</h3>
+                    <h3 className="text-lg font-bold text-foreground mb-3">
+                      Architectural Strategy
+                    </h3>
                     <p className="text-muted-foreground whitespace-pre-line leading-relaxed text-base">
                       {strategy}
                     </p>
@@ -276,7 +276,9 @@ export default function CaseStudyDetailClient({ data }: CaseStudyDetailClientPro
 
                 {solution && (
                   <div className="p-7 rounded-2xl border border-emerald-500/20 bg-emerald-950/10 backdrop-blur-sm">
-                    <h3 className="text-lg font-bold text-emerald-200 mb-3">The Delivered Solution</h3>
+                    <h3 className="text-lg font-bold text-emerald-200 mb-3">
+                      The Delivered Solution
+                    </h3>
                     <p className="text-muted-foreground whitespace-pre-line leading-relaxed text-base">
                       {solution}
                     </p>
@@ -313,7 +315,9 @@ export default function CaseStudyDetailClient({ data }: CaseStudyDetailClientPro
                   <div className="w-10 h-10 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-400">
                     <ArrowRightLeft className="w-5 h-5" />
                   </div>
-                  <h2 className="text-3xl font-bold text-foreground">Transformation Impact: Before vs After</h2>
+                  <h2 className="text-3xl font-bold text-foreground">
+                    Transformation Impact: Before vs After
+                  </h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -356,7 +360,9 @@ export default function CaseStudyDetailClient({ data }: CaseStudyDetailClientPro
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {results && (
                     <div className="p-7 rounded-2xl border border-border/60 bg-card/40 backdrop-blur-sm">
-                      <h3 className="text-base font-bold text-foreground mb-2">Operational Outcomes</h3>
+                      <h3 className="text-base font-bold text-foreground mb-2">
+                        Operational Outcomes
+                      </h3>
                       <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">
                         {results}
                       </p>
@@ -364,7 +370,9 @@ export default function CaseStudyDetailClient({ data }: CaseStudyDetailClientPro
                   )}
                   {roi && (
                     <div className="p-7 rounded-2xl border border-emerald-500/30 bg-emerald-950/10 backdrop-blur-sm">
-                      <h3 className="text-base font-bold text-emerald-300 mb-2">Financial & Resource ROI</h3>
+                      <h3 className="text-base font-bold text-emerald-300 mb-2">
+                        Financial & Resource ROI
+                      </h3>
                       <p className="text-sm text-emerald-200/90 whitespace-pre-line leading-relaxed">
                         {roi}
                       </p>
@@ -430,7 +438,9 @@ export default function CaseStudyDetailClient({ data }: CaseStudyDetailClientPro
                     ))}
                   </div>
                 ) : (
-                  <p className="text-muted-foreground text-xs mb-6">Technologies details on file.</p>
+                  <p className="text-muted-foreground text-xs mb-6">
+                    Technologies details on file.
+                  </p>
                 )}
 
                 <hr className="border-border/60 my-5" />
@@ -438,7 +448,9 @@ export default function CaseStudyDetailClient({ data }: CaseStudyDetailClientPro
                 <ul className="space-y-4 text-sm">
                   <li className="flex justify-between items-center">
                     <span className="text-muted-foreground">Client</span>
-                    <span className="font-semibold text-foreground text-right">{clientName || 'Confidential'}</span>
+                    <span className="font-semibold text-foreground text-right">
+                      {clientName || 'Confidential'}
+                    </span>
                   </li>
                   {industry && (
                     <li className="flex justify-between items-center">
@@ -448,7 +460,9 @@ export default function CaseStudyDetailClient({ data }: CaseStudyDetailClientPro
                   )}
                   <li className="flex justify-between items-center">
                     <span className="text-muted-foreground">Engagement</span>
-                    <span className="font-semibold text-foreground text-right">Enterprise Engineering</span>
+                    <span className="font-semibold text-foreground text-right">
+                      Enterprise Engineering
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -462,7 +476,9 @@ export default function CaseStudyDetailClient({ data }: CaseStudyDetailClientPro
                     </div>
                     <div>
                       <h4 className="text-sm font-bold text-foreground">Executive Whitepaper</h4>
-                      <p className="text-xs text-muted-foreground">Download PDF version for offline review</p>
+                      <p className="text-xs text-muted-foreground">
+                        Download PDF version for offline review
+                      </p>
                     </div>
                   </div>
                   <a
@@ -478,9 +494,12 @@ export default function CaseStudyDetailClient({ data }: CaseStudyDetailClientPro
 
               {/* Consultation Card */}
               <div className="rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-indigo-950/40 via-card/70 to-background p-7 backdrop-blur-xl shadow-xl">
-                <h4 className="text-base font-bold text-foreground mb-2">Facing Similar Scalability Roadblocks?</h4>
+                <h4 className="text-base font-bold text-foreground mb-2">
+                  Facing Similar Scalability Roadblocks?
+                </h4>
                 <p className="text-xs text-muted-foreground mb-5 leading-relaxed">
-                  Our principal enterprise architects can evaluate your existing infrastructure and formulate a bespoke migration plan.
+                  Our principal enterprise architects can evaluate your existing infrastructure and
+                  formulate a bespoke migration plan.
                 </p>
                 <Link
                   href="/contact"

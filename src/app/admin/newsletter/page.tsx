@@ -101,6 +101,7 @@ export default function NewsletterIndexPage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchCampaigns();
     fetchSubscribers();
   }, []);
@@ -190,12 +191,16 @@ export default function NewsletterIndexPage() {
               <Mail className="h-7 w-7 text-indigo-400" />
               <span>Newsletter & Campaigns</span>
             </h1>
-            <Badge variant="outline" className="bg-indigo-500/10 text-indigo-400 border-indigo-500/20 text-xs">
+            <Badge
+              variant="outline"
+              className="bg-indigo-500/10 text-indigo-400 border-indigo-500/20 text-xs"
+            >
               Broadcast Studio
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground mt-1">
-            Orchestrate email newsletters, design branded broadcasts, and monitor subscriber engagement.
+            Orchestrate email newsletters, design branded broadcasts, and monitor subscriber
+            engagement.
           </p>
         </div>
 
@@ -209,7 +214,9 @@ export default function NewsletterIndexPage() {
             size="sm"
             className="rounded-xl border-white/10 bg-background/50 hover:bg-muted/50 cursor-pointer"
           >
-            <RefreshCw className={`h-4 w-4 ${isLoadingCampaigns || isLoadingSubs ? 'animate-spin' : ''}`} />
+            <RefreshCw
+              className={`h-4 w-4 ${isLoadingCampaigns || isLoadingSubs ? 'animate-spin' : ''}`}
+            />
           </Button>
 
           <Button
@@ -309,16 +316,24 @@ export default function NewsletterIndexPage() {
                   <TableBody>
                     {isLoadingCampaigns ? (
                       <TableRow>
-                        <TableCell colSpan={4} className="text-center py-12 text-muted-foreground animate-pulse">
+                        <TableCell
+                          colSpan={4}
+                          className="text-center py-12 text-muted-foreground animate-pulse"
+                        >
                           Loading campaigns...
                         </TableCell>
                       </TableRow>
                     ) : filteredCampaigns.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={4} className="text-center py-16 text-muted-foreground space-y-2">
+                        <TableCell
+                          colSpan={4}
+                          className="text-center py-16 text-muted-foreground space-y-2"
+                        >
                           <Mail className="w-8 h-8 mx-auto text-muted-foreground/40 mb-2" />
                           <p className="font-medium text-foreground">No campaigns found</p>
-                          <p className="text-xs text-muted-foreground">Click &quot;Add New Campaign&quot; above to create your first broadcast.</p>
+                          <p className="text-xs text-muted-foreground">
+                            Click &quot;Add New Campaign&quot; above to create your first broadcast.
+                          </p>
                         </TableCell>
                       </TableRow>
                     ) : (
@@ -330,7 +345,8 @@ export default function NewsletterIndexPage() {
                           <TableRow key={c.id} className="hover:bg-muted/30 transition-colors">
                             <TableCell className="py-4">
                               <div className="space-y-1">
-                                <div className="font-bold text-foreground hover:text-indigo-400 transition-colors cursor-pointer"
+                                <div
+                                  className="font-bold text-foreground hover:text-indigo-400 transition-colors cursor-pointer"
                                   onClick={() => {
                                     setSelectedCampaign(c);
                                     setIsCampaignModalOpen(true);
@@ -353,8 +369,8 @@ export default function NewsletterIndexPage() {
                                   isSent
                                     ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
                                     : isScheduled
-                                    ? 'bg-amber-500/10 text-amber-400 border-amber-500/30'
-                                    : 'bg-slate-500/10 text-slate-300 border-slate-500/30'
+                                      ? 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+                                      : 'bg-slate-500/10 text-slate-300 border-slate-500/30'
                                 }`}
                               >
                                 {c.status}
@@ -365,8 +381,8 @@ export default function NewsletterIndexPage() {
                               {isSent
                                 ? `Sent: ${format(new Date(c.sentAt || c.createdAt), 'MMM d, yyyy')}`
                                 : isScheduled && c.scheduledFor
-                                ? `Scheduled: ${format(new Date(c.scheduledFor), 'MMM d, yyyy')}`
-                                : `Created: ${format(new Date(c.createdAt), 'MMM d, yyyy')}`}
+                                  ? `Scheduled: ${format(new Date(c.scheduledFor), 'MMM d, yyyy')}`
+                                  : `Created: ${format(new Date(c.createdAt), 'MMM d, yyyy')}`}
                             </TableCell>
 
                             <TableCell className="text-right">
@@ -437,7 +453,10 @@ export default function NewsletterIndexPage() {
                   <TableBody>
                     {isLoadingSubs ? (
                       <TableRow>
-                        <TableCell colSpan={5} className="text-center py-12 text-muted-foreground animate-pulse">
+                        <TableCell
+                          colSpan={5}
+                          className="text-center py-12 text-muted-foreground animate-pulse"
+                        >
                           Loading subscribers...
                         </TableCell>
                       </TableRow>

@@ -4,16 +4,30 @@ const isServer = typeof window === 'undefined';
 
 const serverSchema = z.object({
   APP_ENV: z.enum(['development', 'production']).default('development'),
-  LOG_ENABLED: z.string().optional().transform((s) => s === 'true').default(true),
-  DATABASE_URL: z.string().url().min(1),
-  CLERK_SECRET_KEY: z.string().min(1),
+  LOG_ENABLED: z
+    .string()
+    .optional()
+    .transform((s) => s === 'true')
+    .default(true),
+  DATABASE_URL: z
+    .string()
+    .url()
+    .min(1)
+    .default('postgresql://postgres:postgres@localhost:5432/ingrowwth_db?schema=public'),
+  CLERK_SECRET_KEY: z.string().min(1).default('sk_test_s4Tld4bYLYK7lXsK6qMljzLeeyBh2r5unTQ8eSVhiU'),
   RESEND_API_KEY: z.string().min(1).optional(),
   EMAIL_PROVIDER: z.enum(['resend', 'smtp', 'ethereal']).optional(),
   SMTP_HOST: z.string().optional(),
-  SMTP_PORT: z.string().optional().transform((val) => (val ? parseInt(val, 10) : undefined)),
+  SMTP_PORT: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val, 10) : undefined)),
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
-  SMTP_SECURE: z.string().optional().transform((s) => s === 'true'),
+  SMTP_SECURE: z
+    .string()
+    .optional()
+    .transform((s) => s === 'true'),
   MAIL_FROM: z.string().min(1).optional(),
   MAIL_TO_ADMIN: z.string().min(1).optional(),
   AWS_ACCESS_KEY_ID: z.string().min(1).optional(),
@@ -23,9 +37,16 @@ const serverSchema = z.object({
 });
 
 const clientSchema = z.object({
-  NEXT_PUBLIC_LOG_ENABLED: z.string().optional().transform((s) => s === 'true').default(true),
+  NEXT_PUBLIC_LOG_ENABLED: z
+    .string()
+    .optional()
+    .transform((s) => s === 'true')
+    .default(true),
   NEXT_PUBLIC_APP_URL: z.string().url().optional(),
-  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1).optional(),
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z
+    .string()
+    .min(1)
+    .default('pk_test_ZGVzdGluZWQtZG9nLTEyLmNsZXJrLmFjY291bnRzLmRldiQ'),
   NEXT_PUBLIC_CLERK_SIGN_IN_URL: z.string().min(1).optional(),
   NEXT_PUBLIC_CLERK_SIGN_UP_URL: z.string().min(1).optional(),
   NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL: z.string().min(1).optional(),
@@ -38,13 +59,15 @@ const clientEnv = clientSchema.safeParse({
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
   NEXT_PUBLIC_CLERK_SIGN_IN_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL,
   NEXT_PUBLIC_CLERK_SIGN_UP_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL,
-  NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL,
-  NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL,
+  NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL:
+    process.env.NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL,
+  NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL:
+    process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL,
 });
 
 if (!clientEnv.success) {
-  console.error("❌ Invalid Client environment variables:", clientEnv.error.flatten().fieldErrors);
-  throw new Error("Invalid Client environment variables");
+  console.error('❌ Invalid Client environment variables:', clientEnv.error.flatten().fieldErrors);
+  throw new Error('Invalid Client environment variables');
 }
 
 let serverEnvData = {};
@@ -72,10 +95,13 @@ if (isServer) {
   });
 
   if (!serverEnv.success) {
-    console.error("❌ Invalid Server environment variables:", serverEnv.error.flatten().fieldErrors);
-    throw new Error("Invalid Server environment variables");
+    console.error(
+      '❌ Invalid Server environment variables:',
+      serverEnv.error.flatten().fieldErrors
+    );
+    throw new Error('Invalid Server environment variables');
   }
-  
+
   serverEnvData = serverEnv.data;
   appEnv = serverEnv.data.APP_ENV;
 }

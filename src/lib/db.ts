@@ -1,4 +1,4 @@
-import { PrismaClient } from '../generated/prisma/client';
+import { PrismaClient, Prisma } from '../generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import pg from 'pg';
 import { env } from './env';
@@ -7,7 +7,7 @@ const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefi
 
 let prismaInstance: PrismaClient;
 
-const logOption = env.LOG_ENABLED ? ['query', 'info', 'warn', 'error'] as any : [];
+const logOption: Prisma.LogLevel[] = env.LOG_ENABLED ? ['query', 'info', 'warn', 'error'] : [];
 
 if (env.isProduction) {
   const pool = new pg.Pool({ connectionString: env.DATABASE_URL });
