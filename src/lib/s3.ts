@@ -1,3 +1,7 @@
+/**
+ * @deprecated Storage architecture has been transitioned to local folder storage (public/uploads/)
+ * with URLs persisted directly in Neon PostgreSQL. AWS S3 and CloudFront dependencies are no longer used.
+ */
 import { S3Client } from '@aws-sdk/client-s3';
 import { env } from './env';
 

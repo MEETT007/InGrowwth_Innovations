@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
-import { s3Client, BUCKET_NAME, isS3Configured, getS3KeyPrefix } from '@/lib/s3';
-import { env } from '@/lib/env';
 import { logger } from '@/lib/logger';
 import { rateLimit } from '@/lib/rate-limit';
 import { getClientIp, requireSameOrigin } from '@/lib/request-security';
@@ -36,7 +33,10 @@ export async function POST(request: NextRequest) {
   const rateLimitResult = await rateLimit(ip, 10, 600000, 'quote_upload');
   if (!rateLimitResult.success) {
     return NextResponse.json(
-      { success: false, message: 'Upload limit reached. Please wait before uploading another file.' },
+      {
+        success: false,
+        message: 'Upload limit reached. Please wait before uploading another file.',
+      },
       { status: 429 }
     );
   }
@@ -72,7 +72,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Invalid file format. Please upload a PDF, Word document, spreadsheet, or image.',
+          message:
+            'Invalid file format. Please upload a PDF, Word document, spreadsheet, or image.',
         },
         { status: 400 }
       );
@@ -82,51 +83,27 @@ export async function POST(request: NextRequest) {
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
     const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
     const filename = `${uniqueSuffix}-${sanitizedName}`;
-    const prefix = getS3KeyPrefix();
-    const key = `${prefix}${folder}/${filename}`;
 
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    if (isS3Configured() && s3Client) {
-      logger.info(`[Quote Upload] Uploading ${key} to S3 bucket ${BUCKET_NAME}`);
-      const region = env.AWS_REGION;
-      await s3Client.send(
-        new PutObjectCommand({
-          Bucket: BUCKET_NAME,
-          Key: key,
-          Body: buffer,
-          ContentType: file.type,
-        })
-      );
+    // Save directly to public/uploads/quotes/ folder
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads', folder);
+    await fs.mkdir(uploadDir, { recursive: true });
 
-      const s3Url = `https://${BUCKET_NAME}.s3.${region}.amazonaws.com/${key}`;
+    const filePath = path.join(uploadDir, filename);
+    await fs.writeFile(filePath, buffer);
 
-      return NextResponse.json({
-        success: true,
-        message: 'Requirements document uploaded successfully.',
-        url: s3Url,
-        filename: file.name,
-        size: file.size,
-      });
-    } else {
-      logger.info(`[Quote Upload] S3 not configured. Storing in local folder: ${folder}`);
-      const uploadDir = path.join(process.cwd(), 'public', 'uploads', folder);
-      await fs.mkdir(uploadDir, { recursive: true });
+    const localUrl = `/uploads/${folder}/${filename}`;
+    logger.info(`[Quote Upload] Requirements file stored in folder: ${localUrl}`);
 
-      const filePath = path.join(uploadDir, filename);
-      await fs.writeFile(filePath, buffer);
-
-      const localUrl = `/uploads/${folder}/${filename}`;
-
-      return NextResponse.json({
-        success: true,
-        message: 'Requirements document uploaded successfully.',
-        url: localUrl,
-        filename: file.name,
-        size: file.size,
-      });
-    }
+    return NextResponse.json({
+      success: true,
+      message: 'Requirements document uploaded successfully.',
+      url: localUrl,
+      filename: file.name,
+      size: file.size,
+    });
   } catch (error) {
     logger.error('[Quote Upload] Error processing upload:', error);
     return NextResponse.json(

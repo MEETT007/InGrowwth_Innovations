@@ -191,6 +191,25 @@ export function LeadDetailsModal({
               </div>
             )}
 
+            {lead.fileUrl && (
+              <div>
+                <label className="text-muted-foreground font-medium block">
+                  Requirements / RFP Attachment
+                </label>
+                <div className="mt-1.5">
+                  <a
+                    href={lead.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-2 rounded-lg bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
+                  >
+                    <FileText className="h-4 w-4" />
+                    <span>View / Download Attachment</span>
+                  </a>
+                </div>
+              </div>
+            )}
+
             {!isReplying ? (
               <div className="pt-4 flex justify-end">
                 <button

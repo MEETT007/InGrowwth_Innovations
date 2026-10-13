@@ -1,22 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { requireAuthAndRole } from '@/lib/auth';
-import { s3Client, BUCKET_NAME, isS3Configured, getS3KeyPrefix } from '@/lib/s3';
-import { env } from '@/lib/env';
 import { logger } from '@/lib/logger';
 
 // Allowed mime types
 const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+
+// Allowed target folders for upload organization
+const ALLOWED_FOLDERS = [
+  'blogs',
+  'casestudies',
+  'newsletter',
+  'portfolio',
+  'team',
+  'quotes',
+  'resumes',
+  'general',
+] as const;
+
+type AllowedFolder = (typeof ALLOWED_FOLDERS)[number];
 
 // Max file size: 5MB
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const MAX_MULTIPART_REQUEST_SIZE = MAX_FILE_SIZE + 64 * 1024;
 
 function hasExpectedFileSignature(file: File, buffer: Buffer): boolean {
-  if (file.type === 'image/jpeg')
+  if (file.type === 'image/jpeg') {
     return buffer.subarray(0, 3).equals(Buffer.from([0xff, 0xd8, 0xff]));
+  }
   if (file.type === 'image/png') {
     return buffer
       .subarray(0, 8)
@@ -81,21 +93,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 5. Parse folder query parameter and validate
+    // 5. Parse folder query parameter and categorize
     const { searchParams } = new URL(request.url);
-    const folderParam = searchParams.get('folder') || '';
-    const folder = ['blogs', 'casestudies', 'newsletter', 'portfolio', 'team', 'resumes'].includes(
-      folderParam
-    )
-      ? folderParam
+    const folderParam = searchParams.get('folder')?.toLowerCase() || '';
+    const folder: AllowedFolder = ALLOWED_FOLDERS.includes(folderParam as AllowedFolder)
+      ? (folderParam as AllowedFolder)
       : 'general';
 
     // Generate sanitized unique filename
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
     const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
     const filename = `${uniqueSuffix}-${sanitizedName}`;
-    const prefix = getS3KeyPrefix();
-    const key = `${prefix}${folder}/${filename}`;
 
     // Read file contents to Buffer
     const arrayBuffer = await file.arrayBuffer();
@@ -108,51 +116,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 6. Handle S3 Upload or Local Fallback
-    if (isS3Configured() && s3Client) {
-      logger.info(`[Upload API] Uploading ${key} to S3 bucket ${BUCKET_NAME}`);
+    // 6. Save directly to public/uploads/[folder]/
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads', folder);
+    await fs.mkdir(uploadDir, { recursive: true });
 
-      const region = env.AWS_REGION;
-      await s3Client.send(
-        new PutObjectCommand({
-          Bucket: BUCKET_NAME,
-          Key: key,
-          Body: buffer,
-          ContentType: file.type,
-          // AWS recommends avoiding ACLs ('public-read') and using Bucket Policies instead
-        })
-      );
+    const filePath = path.join(uploadDir, filename);
+    await fs.writeFile(filePath, buffer);
 
-      const s3Url = `https://${BUCKET_NAME}.s3.${region}.amazonaws.com/${key}`;
+    const fileUrl = `/uploads/${folder}/${filename}`;
+    logger.info(`[Upload API] Successfully saved file locally at: ${fileUrl}`);
 
-      return NextResponse.json({
-        success: true,
-        message: 'File uploaded successfully to S3.',
-        url: s3Url,
-        filename,
-      });
-    } else {
-      logger.warn(
-        `[Upload API] S3 is not configured. Falling back to local storage inside folder: ${folder}`
-      );
-
-      const uploadDir = path.join(process.cwd(), 'public', 'uploads', folder);
-
-      // Ensure the directory exists
-      await fs.mkdir(uploadDir, { recursive: true });
-
-      const filePath = path.join(uploadDir, filename);
-      await fs.writeFile(filePath, buffer);
-
-      const localUrl = `/uploads/${folder}/${filename}`;
-
-      return NextResponse.json({
-        success: true,
-        message: 'File saved locally (fallback mode).',
-        url: localUrl,
-        filename,
-      });
-    }
+    return NextResponse.json({
+      success: true,
+      message: 'File uploaded successfully.',
+      url: fileUrl,
+      filename,
+    });
   } catch (error) {
     logger.error('[Upload API] Error processing file upload:', error);
     return NextResponse.json(

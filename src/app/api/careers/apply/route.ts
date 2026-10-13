@@ -2,17 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rate-limit';
 import { sendApplicationAdminEmail, sendApplicationConfirmationEmail } from '@/lib/mail';
-import {
-  getClientIp,
-  getIdempotencyKey,
-  requireSameOrigin,
-} from '@/lib/request-security';
+import { getClientIp, getIdempotencyKey, requireSameOrigin } from '@/lib/request-security';
 import { claimIdempotencyKey } from '@/lib/replay-protection';
 import { logger } from '@/lib/logger';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
-import { s3Client, BUCKET_NAME, isS3Configured, getS3KeyPrefix } from '@/lib/s3';
 import { env } from '@/lib/env';
 
 // PDF MIME types and maximum file size (10 MB)
@@ -30,7 +24,9 @@ export async function POST(request: NextRequest) {
   const sameOriginError = requireSameOrigin(request);
   if (sameOriginError) return sameOriginError;
 
-  const idempotencyKey = getIdempotencyKey(request) || `app-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+  const idempotencyKey =
+    getIdempotencyKey(request) ||
+    `app-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
 
   const ip = getClientIp(request);
 
@@ -39,7 +35,10 @@ export async function POST(request: NextRequest) {
   const rateLimitResult = await rateLimit(ip, maxAttempts, 60000, 'careers_apply');
   if (!rateLimitResult.success) {
     return NextResponse.json(
-      { success: false, message: 'Too many application attempts. Please wait a minute before trying again.' },
+      {
+        success: false,
+        message: 'Too many application attempts. Please wait a minute before trying again.',
+      },
       { status: 429 }
     );
   }
@@ -51,7 +50,7 @@ export async function POST(request: NextRequest) {
     const email = (formData.get('email') as string)?.trim().toLowerCase();
     const phone = (formData.get('phone') as string)?.trim() || null;
     const roleAppliedFor = (formData.get('roleAppliedFor') as string)?.trim();
-    
+
     // Professional profiles
     const linkedInUrl = (formData.get('linkedInUrl') as string)?.trim();
     const githubUrl = (formData.get('githubUrl') as string)?.trim() || null;
@@ -107,7 +106,11 @@ export async function POST(request: NextRequest) {
 
     if (!linkedInUrl.toLowerCase().includes('linkedin.com')) {
       return NextResponse.json(
-        { success: false, message: 'Please provide a valid LinkedIn profile URL (e.g., https://linkedin.com/in/yourname).' },
+        {
+          success: false,
+          message:
+            'Please provide a valid LinkedIn profile URL (e.g., https://linkedin.com/in/yourname).',
+        },
         { status: 400 }
       );
     }
@@ -132,7 +135,10 @@ export async function POST(request: NextRequest) {
 
     if (!hasPdfExtension && !hasPdfMime) {
       return NextResponse.json(
-        { success: false, message: 'Invalid file format. Please upload your resume strictly as a PDF (.pdf).' },
+        {
+          success: false,
+          message: 'Invalid file format. Please upload your resume strictly as a PDF (.pdf).',
+        },
         { status: 400 }
       );
     }
@@ -150,7 +156,9 @@ export async function POST(request: NextRequest) {
       expectedSalary ? `• Expected CTC: ${expectedSalary}` : null,
       '',
       userCoverLetter ? `=== COVER LETTER / NOTE ===\n${userCoverLetter}` : null,
-    ].filter(Boolean).join('\n');
+    ]
+      .filter(Boolean)
+      .join('\n');
 
     // Replay / Idempotency protection
     if (!(await claimIdempotencyKey('careers_apply', idempotencyKey))) {
@@ -160,36 +168,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let resumeUrl: string | null = null;
-
-    // 5. Process Resume Upload
+    // 5. Process Resume Upload (stored in public/uploads/resumes/ folder)
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
     const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
     const filename = `${uniqueSuffix}-${sanitizedName}`;
-    const prefix = getS3KeyPrefix();
-    const key = `${prefix}resumes/${filename}`;
 
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    if (isS3Configured() && s3Client) {
-      const region = env.AWS_REGION;
-      await s3Client.send(
-        new PutObjectCommand({
-          Bucket: BUCKET_NAME,
-          Key: key,
-          Body: buffer,
-          ContentType: 'application/pdf',
-        })
-      );
-      resumeUrl = `https://${BUCKET_NAME}.s3.${region}.amazonaws.com/${key}`;
-    } else {
-      const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'resumes');
-      await fs.mkdir(uploadDir, { recursive: true });
-      const filePath = path.join(uploadDir, filename);
-      await fs.writeFile(filePath, buffer);
-      resumeUrl = `/uploads/resumes/${filename}`;
-    }
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'resumes');
+    await fs.mkdir(uploadDir, { recursive: true });
+    const filePath = path.join(uploadDir, filename);
+    await fs.writeFile(filePath, buffer);
+
+    const resumeUrl = `/uploads/resumes/${filename}`;
+    logger.info(`[Careers API] Resume saved to disk at: ${resumeUrl}`);
 
     // 6. Save Application in Database
     const application = await db.jobApplication.create({
@@ -233,7 +226,11 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     logger.error('Error submitting job application:', error);
     return NextResponse.json(
-      { success: false, message: 'An unexpected error occurred while processing your application. Please try again.' },
+      {
+        success: false,
+        message:
+          'An unexpected error occurred while processing your application. Please try again.',
+      },
       { status: 500 }
     );
   }

@@ -66,7 +66,7 @@ async function getTransporter(provider: 'smtp' | 'ethereal'): Promise<{
       smtpTransporter = nodemailer.createTransport({
         host: env.SMTP_HOST || 'smtp.gmail.com',
         port,
-        secure: env.SMTP_SECURE ?? (port === 465),
+        secure: env.SMTP_SECURE ?? port === 465,
         auth: {
           user: env.SMTP_USER,
           pass: env.SMTP_PASS,
@@ -126,7 +126,9 @@ export async function dispatchEmail(options: DispatchEmailOptions): Promise<Disp
   // 1. Resend API
   if (provider === 'resend') {
     if (!resend) {
-      logger.warn('[Mail Utility] Resend client not initialized (missing RESEND_API_KEY). Email skipped.');
+      logger.warn(
+        '[Mail Utility] Resend client not initialized (missing RESEND_API_KEY). Email skipped.'
+      );
       return { success: false, provider, error: new Error('Missing RESEND_API_KEY') };
     }
 
@@ -169,9 +171,7 @@ export async function dispatchEmail(options: DispatchEmailOptions): Promise<Disp
       html = await render(options.react);
     }
 
-    const sender = isEthereal
-      ? 'InGrowwth Innovations (Dev) <preview@ethereal.email>'
-      : from;
+    const sender = isEthereal ? 'InGrowwth Innovations (Dev) <preview@ethereal.email>' : from;
 
     const info = await transporter.sendMail({
       from: sender,
@@ -186,7 +186,9 @@ export async function dispatchEmail(options: DispatchEmailOptions): Promise<Disp
       previewUrl = nodemailer.getTestMessageUrl(info);
       console.log('\n================== [DEVELOPMENT EMAIL DISPATCHED] ==================');
       console.log(`📬 Provider : Ethereal (Zero-Config Dev Inbox)`);
-      console.log(`📨 To       : ${Array.isArray(options.to) ? options.to.join(', ') : options.to}`);
+      console.log(
+        `📨 To       : ${Array.isArray(options.to) ? options.to.join(', ') : options.to}`
+      );
       console.log(`📝 Subject  : ${options.subject}`);
       if (previewUrl) {
         console.log(`🔗 PREVIEW  : ${previewUrl}`);
@@ -215,6 +217,13 @@ async function sendAdminEmail(lead: Lead): Promise<void> {
   const config = EMAIL_CONFIGS[leadType] || EMAIL_CONFIGS.CONTACT;
   const adminSubject = getSubject(config.adminSubject(name || email));
 
+  const baseUrl = (env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000').replace(/\/$/, '');
+  const absoluteFileUrl = lead.fileUrl
+    ? lead.fileUrl.startsWith('http')
+      ? lead.fileUrl
+      : `${baseUrl}${lead.fileUrl}`
+    : undefined;
+
   await dispatchEmail({
     to: MAIL_TO_ADMIN,
     replyTo: email,
@@ -232,7 +241,7 @@ async function sendAdminEmail(lead: Lead): Promise<void> {
         budget={lead.budget}
         timeline={lead.timeline}
         projectDetails={lead.projectDetails}
-        fileUrl={lead.fileUrl}
+        fileUrl={absoluteFileUrl}
         createdAt={lead.createdAt?.toISOString()}
       />
     ),
