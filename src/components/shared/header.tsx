@@ -3,11 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight, LayoutDashboard, Box } from 'lucide-react';
+import { Menu, X, ArrowRight, Box } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './theme-toggle';
 import { Button } from '@/components/ui/button';
-import { UserButton, useAuth } from '@clerk/nextjs';
 
 const navLinks = [
   { href: '/about', label: 'About' },
@@ -23,7 +22,6 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const { isSignedIn } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -106,16 +104,6 @@ export function Header() {
           <div className="flex items-center gap-2 shrink-0">
             <div className="hidden md:flex items-center gap-2 mr-2">
               <ThemeToggle />
-              {isSignedIn && (
-                <Link
-                  href="/admin"
-                  className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border hover:bg-muted text-sm font-medium transition-colors"
-                >
-                  <LayoutDashboard className="w-4 h-4" />
-                  Admin
-                </Link>
-              )}
-              {isSignedIn && <UserButton />}
             </div>
 
             {/* AI Consultant Link disabled / commented out */}
@@ -181,15 +169,6 @@ export function Header() {
             })}
 
             <div className="pt-2 mt-2 border-t border-border/40 flex flex-col gap-2">
-              {isSignedIn && (
-                <Link
-                  href="/admin"
-                  className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-muted text-sm font-medium text-foreground"
-                >
-                  <LayoutDashboard className="w-4 h-4" />
-                  Admin Dashboard
-                </Link>
-              )}
               <Button
                 render={<Link href="/contact?type=quote" />}
                 nativeButton={false}
