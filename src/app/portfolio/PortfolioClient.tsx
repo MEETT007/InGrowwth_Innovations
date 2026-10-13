@@ -74,7 +74,7 @@ export default function PortfolioClient({
     const mappedProjects = initialProjects.map((p) => {
       const galleryArray = p.gallery ? p.gallery.split(',').map((u) => u.trim()) : [];
       const coverImage =
-        p.coverImage || (galleryArray.length > 0 ? galleryArray[0] : '/placeholder.png');
+        p.coverImage || (galleryArray.length > 0 ? galleryArray[0] : '/placeholder.svg');
       const techStack = parseArrayField(p.technologiesUsed || p.technologies);
       const metricsList = parseMetricsField(p.metrics);
 
@@ -109,7 +109,7 @@ export default function PortfolioClient({
           cs.executiveSummary ||
           'Deep-dive architectural transformation and business impact analysis.',
         category: cs.industry || 'Enterprise Transformation',
-        coverImage: cs.coverImage || cs.heroBanner || '/placeholder.png',
+        coverImage: cs.coverImage || cs.heroBanner || '/placeholder.svg',
         linkSlug: cs.slug,
         href: `/case-studies/${cs.slug}`,
         websiteUrl: null,
@@ -328,7 +328,7 @@ export default function PortfolioClient({
                   {/* Card Visual / Thumbnail */}
                   <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted/40">
                     <Image
-                      src={item.coverImage || '/placeholder.png'}
+                      src={item.coverImage || '/placeholder.svg'}
                       alt={item.title}
                       fill
                       className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"

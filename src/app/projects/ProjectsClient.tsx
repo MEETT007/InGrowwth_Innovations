@@ -49,7 +49,7 @@ export default function ProjectsClient({
     const mappedProjects = initialProjects.map((p) => {
       const galleryArray = p.gallery ? p.gallery.split(',').map((u) => u.trim()) : [];
       const coverImage =
-        p.coverImage || (galleryArray.length > 0 ? galleryArray[0] : '/placeholder.png');
+        p.coverImage || (galleryArray.length > 0 ? galleryArray[0] : '/placeholder.svg');
       return {
         id: p.id,
         isCaseStudy: false,
@@ -69,7 +69,7 @@ export default function ProjectsClient({
         title: cs.title,
         description: cs.problemStatement || 'Read our in-depth case study.',
         category: cs.industry || 'Case Study',
-        coverImage: cs.coverImage || cs.heroBanner || '/placeholder.png',
+        coverImage: cs.coverImage || cs.heroBanner || '/placeholder.svg',
         linkSlug: cs.slug,
         date: cs.createdAt,
       };
@@ -217,7 +217,7 @@ export default function ProjectsClient({
                       >
                         <div className="relative aspect-[4/3] w-full overflow-hidden">
                           <Image
-                            src={item.coverImage || '/placeholder.png'}
+                            src={item.coverImage || '/placeholder.svg'}
                             alt={item.title}
                             fill
                             className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"

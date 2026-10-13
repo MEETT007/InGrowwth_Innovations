@@ -41,6 +41,7 @@ interface ProjectDetailClientProps {
     features?: string | null;
     technologiesUsed?: string | null;
     gallery?: string | null;
+    coverImage?: string | null;
     challenges?: string | null;
     solution?: string | null;
     results?: string | null;
@@ -78,7 +79,7 @@ export default function ProjectDetailClient({ data }: ProjectDetailClientProps) 
   const galleryArray = data.gallery
     ? data.gallery.split(',').map((s) => s.trim()).filter(Boolean)
     : [];
-  const coverImage = galleryArray.length > 0 ? galleryArray[0] : null;
+  const coverImage = data.coverImage || galleryArray[0] || null;
   const gradient = 'from-indigo-500 via-purple-500 to-pink-500';
 
   const parsedFeatures = parseArrayField(features);
@@ -353,7 +354,7 @@ export default function ProjectDetailClient({ data }: ProjectDetailClientProps) 
           )}
 
           {/* Screenshots Gallery */}
-          {galleryArray.length > 1 && (
+          {galleryArray.length > 0 && (
             <AnimatedContainer direction="up" delay={0.45}>
               <h2 className="text-3xl font-bold text-foreground mb-8">Visual Gallery</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
