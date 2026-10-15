@@ -22,7 +22,7 @@
     "@clerk/themes": "^2.4.57",
     "@hookform/resolvers": "^5.4.0",
     "@langchain/core": "^1.2.4",
-    "@langchain/langgraph": "^1.4.8",
+    "@langchain/langgraph": "^1.4.21",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "@radix-ui/react-scroll-area": "^1.2.18",
